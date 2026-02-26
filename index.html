@@ -21,6 +21,7 @@
       --shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
       --radius: 12px;
       --radius-sm: 8px;
+      --unit-suffix-width: 6.25rem;
     }
 
     * {
@@ -250,6 +251,31 @@
     input:focus, select:focus {
       border-color: var(--accent);
       box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.25);
+    }
+
+    .input-with-unit {
+      position: relative;
+    }
+
+    .input-with-unit input {
+      width: 100%;
+      padding-right: calc(var(--unit-suffix-width) + 0.8rem);
+    }
+
+    .unit-suffix {
+      position: absolute;
+      right: 0.4rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: var(--unit-suffix-width);
+      padding: 0.1rem 0.25rem 0.1rem 0.35rem;
+      border-left: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.76rem;
+      line-height: 1.2;
+      text-align: center;
+      white-space: nowrap;
+      pointer-events: none;
     }
 
     input[type="number"] {
@@ -643,11 +669,14 @@
             <section class="quick-fields">
               <div class="field" data-field="monthlyKwh">
                 <div class="field-label-row">
-                  <label for="monthlyKwh">Stromverbrauch pro Monat (kWh)<span class="sr-only"> (Pflichtfeld)</span></label>
+                  <label for="monthlyKwh">Stromverbrauch pro Monat<span class="sr-only"> (Pflichtfeld)</span></label>
                   <button type="button" class="info-trigger" aria-label="Info zu Stromverbrauch pro Monat" aria-describedby="tooltip-monthlyKwh">i</button>
                   <div class="field-tooltip" id="tooltip-monthlyKwh" role="tooltip">Das ist dein durchschnittlicher Stromverbrauch pro Monat. Wenn du nur den Jahreswert kennst, teile ihn durch 12.</div>
                 </div>
-                <input id="monthlyKwh" name="monthlyKwh" type="number" min="0" step="0.01" inputmode="decimal">
+                <div class="input-with-unit">
+                  <input id="monthlyKwh" name="monthlyKwh" type="number" min="0" step="0.01" inputmode="decimal">
+                  <span class="unit-suffix" aria-hidden="true">kWh</span>
+                </div>
                 <div class="error-msg" id="error-monthlyKwh"></div>
               </div>
 
@@ -667,11 +696,14 @@
 
               <div class="field" data-field="vzevEnergyRpKwh">
                 <div class="field-label-row">
-                  <label for="vzevEnergyRpKwh">vZEV Energiepreis (Rp/kWh)<span class="sr-only"> (Pflichtfeld)</span></label>
+                  <label for="vzevEnergyRpKwh">vZEV Energiepreis<span class="sr-only"> (Pflichtfeld)</span></label>
                   <button type="button" class="info-trigger" aria-label="Info zum vZEV Energiepreis" aria-describedby="tooltip-vzevEnergyRpKwh">i</button>
                   <div class="field-tooltip" id="tooltip-vzevEnergyRpKwh" role="tooltip">Das ist der Preis pro kWh für Strom aus dem vZEV.</div>
                 </div>
-                <input id="vzevEnergyRpKwh" name="vzevEnergyRpKwh" type="number" min="0" step="0.01" inputmode="decimal">
+                <div class="input-with-unit">
+                  <input id="vzevEnergyRpKwh" name="vzevEnergyRpKwh" type="number" min="0" step="0.01" inputmode="decimal">
+                  <span class="unit-suffix" aria-hidden="true">Rp/kWh</span>
+                </div>
                 <div class="error-msg" id="error-vzevEnergyRpKwh"></div>
               </div>
             </section>
@@ -681,51 +713,66 @@
               <div class="advanced-grid">
                 <div class="field" data-field="energyRpKwh">
                   <div class="field-label-row">
-                    <label for="energyRpKwh">Energiepreis (Rp/kWh)</label>
+                    <label for="energyRpKwh">Energiepreis</label>
                     <button type="button" class="info-trigger" aria-label="Info zum Energiepreis" aria-describedby="tooltip-energyRpKwh">i</button>
                     <div class="field-tooltip" id="tooltip-energyRpKwh" role="tooltip">Das ist der Preis pro kWh für normalen Strom ohne Netznutzungsgebühren.</div>
                   </div>
-                  <input id="energyRpKwh" name="energyRpKwh" type="number" min="0" step="0.01" inputmode="decimal">
+                  <div class="input-with-unit">
+                    <input id="energyRpKwh" name="energyRpKwh" type="number" min="0" step="0.01" inputmode="decimal">
+                    <span class="unit-suffix" aria-hidden="true">Rp/kWh</span>
+                  </div>
                   <div class="error-msg" id="error-energyRpKwh"></div>
                 </div>
 
                 <div class="field" data-field="gridRpKwh">
                   <div class="field-label-row">
-                    <label for="gridRpKwh">Netznutzungsgebühren (Rp/kWh)</label>
+                    <label for="gridRpKwh">Netznutzungsgebühren</label>
                     <button type="button" class="info-trigger" aria-label="Info zu Netznutzungsgebühren" aria-describedby="tooltip-gridRpKwh">i</button>
                     <div class="field-tooltip" id="tooltip-gridRpKwh" role="tooltip">Das ist die Netznutzungsgebühr pro kWh. Für direkt genutzten vZEV-Solarstrom fällt dieser Anteil nicht an.</div>
                   </div>
-                  <input id="gridRpKwh" name="gridRpKwh" type="number" min="0" step="0.01" inputmode="decimal">
+                  <div class="input-with-unit">
+                    <input id="gridRpKwh" name="gridRpKwh" type="number" min="0" step="0.01" inputmode="decimal">
+                    <span class="unit-suffix" aria-hidden="true">Rp/kWh</span>
+                  </div>
                   <div class="error-msg" id="error-gridRpKwh"></div>
                 </div>
 
                 <div class="field" data-field="baseFeeChfMonth">
                   <div class="field-label-row">
-                    <label for="baseFeeChfMonth">Grundpreis (CHF/Monat)</label>
+                    <label for="baseFeeChfMonth">Grundpreis</label>
                     <button type="button" class="info-trigger" aria-label="Info zum Grundpreis" aria-describedby="tooltip-baseFeeChfMonth">i</button>
                     <div class="field-tooltip" id="tooltip-baseFeeChfMonth" role="tooltip">Das ist ein fixer monatlicher Grundpreis unabhängig vom Verbrauch.</div>
                   </div>
-                  <input id="baseFeeChfMonth" name="baseFeeChfMonth" type="number" min="0" step="0.01" inputmode="decimal">
+                  <div class="input-with-unit">
+                    <input id="baseFeeChfMonth" name="baseFeeChfMonth" type="number" min="0" step="0.01" inputmode="decimal">
+                    <span class="unit-suffix" aria-hidden="true">CHF/Monat</span>
+                  </div>
                   <div class="error-msg" id="error-baseFeeChfMonth"></div>
                 </div>
 
                 <div class="field" data-field="meteringFeeChfMonth">
                   <div class="field-label-row">
-                    <label for="meteringFeeChfMonth">Messentgelte (CHF/Monat)</label>
+                    <label for="meteringFeeChfMonth">Messentgelte</label>
                     <button type="button" class="info-trigger" aria-label="Info zu Messentgelten" aria-describedby="tooltip-meteringFeeChfMonth">i</button>
                     <div class="field-tooltip" id="tooltip-meteringFeeChfMonth" role="tooltip">Das sind die Messentgelte des Energieversorgers pro Monat.</div>
                   </div>
-                  <input id="meteringFeeChfMonth" name="meteringFeeChfMonth" type="number" min="0" step="0.01" inputmode="decimal">
+                  <div class="input-with-unit">
+                    <input id="meteringFeeChfMonth" name="meteringFeeChfMonth" type="number" min="0" step="0.01" inputmode="decimal">
+                    <span class="unit-suffix" aria-hidden="true">CHF/Monat</span>
+                  </div>
                   <div class="error-msg" id="error-meteringFeeChfMonth"></div>
                 </div>
 
                 <div class="field" data-field="vzevFeeChfMonth">
                   <div class="field-label-row">
-                    <label for="vzevFeeChfMonth">vZEV Gebühr des Energieversorgers (CHF/Monat)</label>
+                    <label for="vzevFeeChfMonth">vZEV Gebühr des Energieversorgers</label>
                     <button type="button" class="info-trigger" aria-label="Info zur vZEV Gebühr" aria-describedby="tooltip-vzevFeeChfMonth">i</button>
                     <div class="field-tooltip" id="tooltip-vzevFeeChfMonth" role="tooltip">Das ist eine zusätzliche monatliche vZEV-Gebühr des Energieversorgers.</div>
                   </div>
-                  <input id="vzevFeeChfMonth" name="vzevFeeChfMonth" type="number" min="0" step="0.01" inputmode="decimal">
+                  <div class="input-with-unit">
+                    <input id="vzevFeeChfMonth" name="vzevFeeChfMonth" type="number" min="0" step="0.01" inputmode="decimal">
+                    <span class="unit-suffix" aria-hidden="true">CHF/Monat</span>
+                  </div>
                   <div class="error-msg" id="error-vzevFeeChfMonth"></div>
                 </div>
               </div>
