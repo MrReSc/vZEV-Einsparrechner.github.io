@@ -1222,7 +1222,7 @@
      * @returns {string}
      */
     function formatChf(value) {
-      return formatted = chfFormatter.format(round2(value));
+      return chfFormatter.format(roundToFiveRappen(value));
     }
 
     /**
@@ -1237,8 +1237,8 @@
      * @param {number} value
      * @returns {number}
      */
-    function round2(value) {
-      return Math.round((value + Number.EPSILON) * 100) / 100;
+    function roundToFiveRappen(value) {
+      return Math.round((value + Number.EPSILON) * 20) / 20;
     }
 
     function handleReset() {
