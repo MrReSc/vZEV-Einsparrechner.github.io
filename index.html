@@ -811,11 +811,6 @@
      */
 
     const STORAGE_KEY = "vzevcalc.state.v1";
-    const LEGACY_PROFILE_MAP = Object.freeze({
-      low: "day_low",
-      medium: "day_high",
-      high: "day_high"
-    });
     const USAGE_PROFILE_DAY_SHARE = Object.freeze({
       day_high: 0.7,
       house_empty: 0.5,
@@ -935,18 +930,6 @@
      */
     function sanitizeState(candidate) {
       const input = candidate && typeof candidate === "object" ? candidate : {};
-      let resolvedUsageProfile = normalizeUsageProfile(input.usageProfile, "");
-      if (!resolvedUsageProfile) {
-        if (typeof input.shiftPercent !== "undefined") {
-          const legacyShiftPercent = normalizeNumber(input.shiftPercent, NaN);
-          if (Number.isFinite(legacyShiftPercent)) {
-            resolvedUsageProfile = legacyShiftPercent >= 50 ? "day_high" : "day_low";
-          }
-        }
-        if (!resolvedUsageProfile && input.profile && LEGACY_PROFILE_MAP[input.profile]) {
-          resolvedUsageProfile = LEGACY_PROFILE_MAP[input.profile];
-        }
-      }
       return {
         energyRpKwh: normalizeNumber(input.energyRpKwh, DEFAULT_STATE.energyRpKwh),
         gridRpKwh: normalizeNumber(input.gridRpKwh, DEFAULT_STATE.gridRpKwh),
@@ -955,7 +938,7 @@
         meteringFeeChfMonth: normalizeNumber(input.meteringFeeChfMonth, DEFAULT_STATE.meteringFeeChfMonth),
         vzevEnergyRpKwh: normalizeNumber(input.vzevEnergyRpKwh, DEFAULT_STATE.vzevEnergyRpKwh),
         vzevFeeChfMonth: normalizeNumber(input.vzevFeeChfMonth, DEFAULT_STATE.vzevFeeChfMonth),
-        usageProfile: normalizeUsageProfile(resolvedUsageProfile, DEFAULT_STATE.usageProfile)
+        usageProfile: normalizeUsageProfile(input.usageProfile, DEFAULT_STATE.usageProfile)
       };
     }
 
