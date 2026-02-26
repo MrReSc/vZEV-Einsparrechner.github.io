@@ -1,0 +1,1185 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>vZEV Einsparrechner</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="shortcut icon" type="image/svg+xml" href="favicon.svg">
+  <style>
+    :root {
+      --bg: #1e1e1e;
+      --panel: #252526;
+      --panel-2: #2d2d30;
+      --border: #3c3c3c;
+      --text: #d4d4d4;
+      --text-muted: #9da1a6;
+      --accent: #007acc;
+      --positive: #4ec9b0;
+      --negative: #f48771;
+      --warning: #d7ba7d;
+      --shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      background: radial-gradient(circle at top right, #253654 0%, var(--bg) 45%, #171717 100%);
+      color: var(--text);
+      font-family: "Segoe UI", "Noto Sans", "Helvetica Neue", sans-serif;
+      line-height: 1.4;
+    }
+
+    .container {
+      width: min(1100px, 100% - 2rem);
+      margin: 2rem auto 3rem;
+    }
+
+    .header {
+      margin-bottom: 1.2rem;
+    }
+
+    .header h1 {
+      margin: 0 0 0.25rem;
+      font-size: clamp(1.35rem, 1.1rem + 1.2vw, 2rem);
+      font-weight: 650;
+      letter-spacing: 0.2px;
+    }
+
+    .header p {
+      margin: 0;
+      color: var(--text-muted);
+    }
+
+    .header .disclaimer-note {
+      margin-top: 0.6rem;
+      padding: 0.65rem 0.75rem;
+      border: 1px solid #2f4f68;
+      border-radius: var(--radius-sm);
+      background: #1c2a36;
+      color: #d3e4f3;
+      font-weight: 560;
+      line-height: 1.4;
+    }
+
+    .layout {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: 1fr;
+    }
+
+    .card {
+      background: linear-gradient(180deg, var(--panel) 0%, #232325 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .card h2 {
+      margin: 0;
+      font-size: 1.05rem;
+      font-weight: 650;
+    }
+
+    .card-header {
+      padding: 0.95rem 1rem;
+      background: var(--panel-2);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .card-body {
+      padding: 1rem;
+    }
+
+    form {
+      display: grid;
+      gap: 0.85rem;
+    }
+
+    .field {
+      display: grid;
+      gap: 0.35rem;
+      position: relative;
+    }
+
+    .quick-fields {
+      display: grid;
+      gap: 0.85rem;
+      margin-bottom: 0.95rem;
+      padding: 0.8rem;
+      border: 1px solid #36516f;
+      border-left: 3px solid #3b6f93;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(180deg, #1f2630 0%, #1f1f22 100%);
+    }
+
+    .required-mark {
+      color: #8ec5f5;
+      font-weight: 700;
+      margin-left: 0.1rem;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .field-label-row {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      position: relative;
+    }
+
+    .field label {
+      font-size: 0.93rem;
+      font-weight: 540;
+    }
+
+    .field-label-row label {
+      margin: 0;
+    }
+
+    .info-trigger {
+      width: 1.2rem;
+      height: 1.2rem;
+      min-width: 1.2rem;
+      padding: 0;
+      border-radius: 999px;
+      border-color: #4f5a66;
+      background: #1f2730;
+      color: #c9def0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.73rem;
+      font-weight: 700;
+      line-height: 1;
+      transform: translateY(1px);
+    }
+
+    .info-trigger:hover {
+      border-color: #5e7ea3;
+      background: #273749;
+    }
+
+    .info-trigger:focus-visible {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.25);
+    }
+
+    .field-tooltip {
+      position: absolute;
+      top: calc(100% + 0.2rem);
+      right: 0;
+      width: min(320px, calc(100vw - 4rem));
+      padding: 0.58rem 0.65rem;
+      border: 1px solid #36516f;
+      border-radius: var(--radius-sm);
+      background: #12202d;
+      color: #d9eaf7;
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.4);
+      font-size: 0.78rem;
+      line-height: 1.35;
+      z-index: 30;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-0.12rem);
+      transition: opacity 120ms ease, transform 120ms ease, visibility 120ms ease;
+      pointer-events: none;
+    }
+
+    .field-tooltip::before {
+      content: "";
+      position: absolute;
+      top: -6px;
+      right: 0.72rem;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-bottom: 6px solid #36516f;
+    }
+
+    .field-tooltip::after {
+      content: "";
+      position: absolute;
+      top: -5px;
+      right: 0.78rem;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-bottom: 5px solid #12202d;
+    }
+
+    .info-trigger:is(:hover, :focus-visible, :active) + .field-tooltip,
+    .field-label-row:focus-within .field-tooltip {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    input, select, button {
+      font: inherit;
+    }
+
+    input, select {
+      appearance: none;
+      border: 1px solid var(--border);
+      background: #1c1c1f;
+      color: var(--text);
+      border-radius: var(--radius-sm);
+      padding: 0.58rem 0.65rem;
+      outline: none;
+      transition: border-color 120ms ease, box-shadow 120ms ease;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.25);
+    }
+
+    .field.invalid input,
+    .field.invalid select {
+      border-color: var(--negative);
+      box-shadow: 0 0 0 2px rgba(244, 135, 113, 0.2);
+    }
+
+    details.advanced {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: #1f1f22;
+      padding: 0.2rem 0.65rem 0.65rem;
+    }
+
+    details.advanced > summary {
+      cursor: pointer;
+      color: var(--text);
+      font-size: 0.9rem;
+      font-weight: 620;
+      padding: 0.45rem 0.1rem;
+      user-select: none;
+      list-style: none;
+      outline: none;
+    }
+
+    details.advanced > summary::-webkit-details-marker {
+      display: none;
+    }
+
+    details.advanced > summary::before {
+      content: "▸";
+      margin-right: 0.45rem;
+      color: var(--accent);
+      display: inline-block;
+      transition: transform 120ms ease;
+    }
+
+    details.advanced[open] > summary::before {
+      transform: rotate(90deg);
+    }
+
+    .advanced-grid {
+      display: grid;
+      gap: 0.85rem;
+      padding-top: 0.25rem;
+    }
+
+    .error-msg {
+      min-height: 1rem;
+      font-size: 0.77rem;
+      color: var(--negative);
+    }
+
+    .actions {
+      display: flex;
+      gap: 0.6rem;
+      margin-top: 0.25rem;
+    }
+
+    button {
+      border: 1px solid transparent;
+      border-radius: var(--radius-sm);
+      padding: 0.58rem 0.85rem;
+      cursor: pointer;
+      transition: background-color 120ms ease, border-color 120ms ease;
+    }
+
+    .ghost-btn {
+      background: transparent;
+      color: var(--text);
+      border-color: var(--border);
+    }
+
+    .ghost-btn:hover {
+      border-color: #5a5a5a;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .meta-note {
+      margin-top: 0.55rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .status {
+      border: 1px solid #5d4a2a;
+      background: rgba(215, 186, 125, 0.14);
+      color: var(--warning);
+      border-radius: var(--radius-sm);
+      padding: 0.55rem 0.65rem;
+      margin-bottom: 0.75rem;
+      font-size: 0.86rem;
+    }
+
+    .status.hidden {
+      display: none;
+    }
+
+    .summary {
+      display: grid;
+      gap: 0.65rem;
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+      margin-bottom: 1rem;
+    }
+
+    .summary-item {
+      border: 1px solid #3f4350;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(180deg, #252b34 0%, #1f232b 100%);
+      padding: 0.8rem;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
+
+    .summary-item .label {
+      font-size: 0.78rem;
+      color: #a7bed8;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .summary-item .value {
+      margin-top: 0.2rem;
+      font-size: clamp(1.25rem, 1rem + 0.9vw, 1.8rem);
+      font-weight: 560;
+      letter-spacing: 0.1px;
+    }
+
+    .summary-item.primary {
+      border-color: #3b6f93;
+      background: linear-gradient(180deg, #1f3344 0%, #1b2d3c 100%);
+    }
+
+    .summary-item.primary .label {
+      color: #b9d9f5;
+    }
+
+    .summary-item.primary .value {
+      font-weight: 700;
+    }
+
+    .value.positive {
+      color: var(--positive);
+    }
+
+    .value.negative {
+      color: var(--negative);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: #1f1f22;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 650px;
+    }
+
+    th, td {
+      padding: 0.57rem 0.62rem;
+      text-align: right;
+      border-bottom: 1px solid #313135;
+      font-size: 0.88rem;
+      white-space: nowrap;
+    }
+
+    th:first-child,
+    td:first-child {
+      text-align: left;
+    }
+
+    thead th {
+      background: #242428;
+      color: #c6c6c6;
+      font-weight: 600;
+      position: sticky;
+      top: 0;
+    }
+
+    tbody tr:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    tr.total-row td {
+      font-weight: 650;
+      background: #28282c;
+      border-bottom: none;
+    }
+
+    td.saving.pos {
+      color: var(--positive);
+      font-weight: 600;
+    }
+
+    td.saving.neg {
+      color: var(--negative);
+      font-weight: 600;
+    }
+
+    .monthly-table {
+      margin-bottom: 1rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: #1f1f22;
+      padding: 0.2rem 0.65rem 0.65rem;
+    }
+
+    .monthly-table > summary {
+      cursor: pointer;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      font-weight: 630;
+      padding: 0.45rem 0.1rem;
+      user-select: none;
+      list-style: none;
+      outline: none;
+    }
+
+    .monthly-table > summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .monthly-table > summary::before {
+      content: "▸";
+      margin-right: 0.45rem;
+      color: var(--accent);
+      display: inline-block;
+      transition: transform 120ms ease;
+    }
+
+    .monthly-table[open] > summary::before {
+      transform: rotate(90deg);
+    }
+
+    .monthly-table .table-wrap {
+      margin-top: 0.15rem;
+    }
+
+    .assumptions {
+      margin-top: 1rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: #1f1f22;
+      padding: 0.2rem 0.65rem 0.65rem;
+    }
+
+    .assumptions > summary {
+      cursor: pointer;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      font-weight: 630;
+      padding: 0.45rem 0.1rem;
+      user-select: none;
+      list-style: none;
+      outline: none;
+    }
+
+    .assumptions > summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .assumptions > summary::before {
+      content: "▸";
+      margin-right: 0.45rem;
+      color: var(--accent);
+      display: inline-block;
+      transition: transform 120ms ease;
+    }
+
+    .assumptions[open] > summary::before {
+      transform: rotate(90deg);
+    }
+
+    .assumptions ul {
+      margin: 0.15rem 0 0;
+      padding-left: 1.1rem;
+    }
+
+    .assumptions li {
+      margin-bottom: 0.28rem;
+      font-size: 0.86rem;
+      color: #c6c6c6;
+    }
+
+    @media (min-width: 860px) {
+      .layout {
+        grid-template-columns: 360px 1fr;
+        align-items: stretch;
+      }
+
+      .card {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .card-body {
+        flex: 1;
+      }
+
+      .summary {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 460px) {
+      .field-tooltip {
+        right: auto;
+        left: 0;
+        width: min(290px, calc(100vw - 3.2rem));
+      }
+
+      .field-tooltip::before {
+        left: 0.72rem;
+        right: auto;
+      }
+
+      .field-tooltip::after {
+        left: 0.78rem;
+        right: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <header class="header">
+      <h1>vZEV Einsparrechner</h1>
+      <p>Monatliche und jährliche Kostenschätzung mit und ohne vZEV-Strom bei gleichem Monatsverbrauch.</p>
+      <p class="disclaimer-note">Diese Berechnung ist eine einfache Orientierung. Die tatsächliche Einsparung hängt vom Nutzungsverhalten ab und kann abweichen.</p>
+    </header>
+
+    <section class="layout">
+      <article class="card">
+        <div class="card-header">
+          <h2>Eingaben</h2>
+        </div>
+        <div class="card-body">
+          <form id="calcForm" novalidate>
+            <section class="quick-fields">
+              <div class="field" data-field="monthlyKwh">
+                <div class="field-label-row">
+                  <label for="monthlyKwh">Stromverbrauch pro Monat (kWh)<span class="required-mark" aria-hidden="true">*</span><span class="sr-only"> (Pflichtfeld)</span></label>
+                  <button type="button" class="info-trigger" aria-label="Info zu Stromverbrauch pro Monat" aria-describedby="tooltip-monthlyKwh">i</button>
+                  <div class="field-tooltip" id="tooltip-monthlyKwh" role="tooltip">Das ist dein durchschnittlicher Stromverbrauch pro Monat. Wenn du nur den Jahreswert kennst, teile ihn durch 12.</div>
+                </div>
+                <input id="monthlyKwh" name="monthlyKwh" type="number" min="0" step="0.01" inputmode="decimal">
+                <div class="error-msg" id="error-monthlyKwh"></div>
+              </div>
+
+              <div class="field" data-field="usageProfile">
+                <div class="field-label-row">
+                  <label for="usageProfile">Wie oft kannst du tagsüber Solarstrom direkt nutzen?<span class="required-mark" aria-hidden="true">*</span><span class="sr-only"> (Pflichtfeld)</span></label>
+                  <button type="button" class="info-trigger" aria-label="Info zum Nutzungsprofil" aria-describedby="tooltip-usageProfile">i</button>
+                  <div class="field-tooltip" id="tooltip-usageProfile" role="tooltip">Häufig zu Hause bedeutet, dass du zum Beispiel wäschst, kochst, den Tumbler nutzt oder das E-Auto lädst, solange es hell ist. Meist leer bedeutet, dass du meistens nicht zu Hause bist und tagsüber keine grossen Verbraucher laufen. Selten tagsüber bedeutet, dass du tagsüber nicht zu Hause bist und grosse Verbraucher eher ausserhalb der hellen Stunden laufen.</div>
+                </div>
+                <select id="usageProfile" name="usageProfile">
+                  <option value="day_high">Häufig tagsüber zu Hause</option>
+                  <option value="house_empty">Meist nicht zu Hause</option>
+                  <option value="day_low">Tagsüber nicht zu Hause</option>
+                </select>
+                <div class="error-msg" id="error-usageProfile"></div>
+              </div>
+
+              <div class="field" data-field="vzevEnergyRpKwh">
+                <div class="field-label-row">
+                  <label for="vzevEnergyRpKwh">vZEV Energiepreis (Rp/kWh)<span class="required-mark" aria-hidden="true">*</span><span class="sr-only"> (Pflichtfeld)</span></label>
+                  <button type="button" class="info-trigger" aria-label="Info zum vZEV Energiepreis" aria-describedby="tooltip-vzevEnergyRpKwh">i</button>
+                  <div class="field-tooltip" id="tooltip-vzevEnergyRpKwh" role="tooltip">Das ist der Preis pro kWh für Strom aus dem vZEV.</div>
+                </div>
+                <input id="vzevEnergyRpKwh" name="vzevEnergyRpKwh" type="number" min="0" step="0.01" inputmode="decimal">
+                <div class="error-msg" id="error-vzevEnergyRpKwh"></div>
+              </div>
+            </section>
+
+            <details class="advanced" id="advancedInputs">
+              <summary>Weitere Tarife und Fixkosten</summary>
+              <div class="advanced-grid">
+                <div class="field" data-field="energyRpKwh">
+                  <div class="field-label-row">
+                    <label for="energyRpKwh">Energiepreis (Rp/kWh)</label>
+                    <button type="button" class="info-trigger" aria-label="Info zum Energiepreis" aria-describedby="tooltip-energyRpKwh">i</button>
+                    <div class="field-tooltip" id="tooltip-energyRpKwh" role="tooltip">Das ist der Preis pro kWh für normalen Strom ohne Netznutzungsgebühren.</div>
+                  </div>
+                  <input id="energyRpKwh" name="energyRpKwh" type="number" min="0" step="0.01" inputmode="decimal">
+                  <div class="error-msg" id="error-energyRpKwh"></div>
+                </div>
+
+                <div class="field" data-field="gridRpKwh">
+                  <div class="field-label-row">
+                    <label for="gridRpKwh">Netznutzungsgebühren (Rp/kWh)</label>
+                    <button type="button" class="info-trigger" aria-label="Info zu Netznutzungsgebühren" aria-describedby="tooltip-gridRpKwh">i</button>
+                    <div class="field-tooltip" id="tooltip-gridRpKwh" role="tooltip">Das ist die Netznutzungsgebühr pro kWh. Für direkt genutzten vZEV-Solarstrom fällt dieser Anteil nicht an.</div>
+                  </div>
+                  <input id="gridRpKwh" name="gridRpKwh" type="number" min="0" step="0.01" inputmode="decimal">
+                  <div class="error-msg" id="error-gridRpKwh"></div>
+                </div>
+
+                <div class="field" data-field="baseFeeChfMonth">
+                  <div class="field-label-row">
+                    <label for="baseFeeChfMonth">Grundpreis (CHF/Monat)</label>
+                    <button type="button" class="info-trigger" aria-label="Info zum Grundpreis" aria-describedby="tooltip-baseFeeChfMonth">i</button>
+                    <div class="field-tooltip" id="tooltip-baseFeeChfMonth" role="tooltip">Das ist ein fixer monatlicher Grundpreis unabhängig vom Verbrauch.</div>
+                  </div>
+                  <input id="baseFeeChfMonth" name="baseFeeChfMonth" type="number" min="0" step="0.01" inputmode="decimal">
+                  <div class="error-msg" id="error-baseFeeChfMonth"></div>
+                </div>
+
+                <div class="field" data-field="meteringFeeChfMonth">
+                  <div class="field-label-row">
+                    <label for="meteringFeeChfMonth">Messentgelte (CHF/Monat)</label>
+                    <button type="button" class="info-trigger" aria-label="Info zu Messentgelten" aria-describedby="tooltip-meteringFeeChfMonth">i</button>
+                    <div class="field-tooltip" id="tooltip-meteringFeeChfMonth" role="tooltip">Das sind die Messentgelte des Energieversorgers pro Monat.</div>
+                  </div>
+                  <input id="meteringFeeChfMonth" name="meteringFeeChfMonth" type="number" min="0" step="0.01" inputmode="decimal">
+                  <div class="error-msg" id="error-meteringFeeChfMonth"></div>
+                </div>
+
+                <div class="field" data-field="vzevFeeChfMonth">
+                  <div class="field-label-row">
+                    <label for="vzevFeeChfMonth">vZEV Gebühr des Energieversorgers (CHF/Monat)</label>
+                    <button type="button" class="info-trigger" aria-label="Info zur vZEV Gebühr" aria-describedby="tooltip-vzevFeeChfMonth">i</button>
+                    <div class="field-tooltip" id="tooltip-vzevFeeChfMonth" role="tooltip">Das ist eine zusätzliche monatliche vZEV-Gebühr des Energieversorgers.</div>
+                  </div>
+                  <input id="vzevFeeChfMonth" name="vzevFeeChfMonth" type="number" min="0" step="0.01" inputmode="decimal">
+                  <div class="error-msg" id="error-vzevFeeChfMonth"></div>
+                </div>
+              </div>
+            </details>
+
+            <div class="actions">
+              <button type="button" class="ghost-btn" id="resetBtn">Zurücksetzen</button>
+            </div>
+            <div class="meta-note">Eingaben werden nur lokal im Browser gespeichert.</div>
+          </form>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-header">
+          <h2>Ergebnisse</h2>
+        </div>
+        <div class="card-body">
+          <div id="validationStatus" class="status hidden"></div>
+
+          <div class="summary">
+            <div class="summary-item">
+              <div class="label">Jahreskosten ohne vZEV</div>
+              <div class="value" id="yearBaseline">-</div>
+            </div>
+            <div class="summary-item">
+              <div class="label">Jahreskosten mit vZEV</div>
+              <div class="value" id="yearVzev">-</div>
+            </div>
+            <div class="summary-item primary">
+              <div class="label">Jährliche Einsparung</div>
+              <div class="value" id="yearSaving">-</div>
+            </div>
+          </div>
+
+          <details class="monthly-table">
+            <summary>Monatliche Übersicht</summary>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Monat</th>
+                    <th>Solaranteil</th>
+                    <th>Ohne vZEV</th>
+                    <th>Mit vZEV</th>
+                    <th>Einsparung</th>
+                  </tr>
+                </thead>
+                <tbody id="resultsBody"></tbody>
+              </table>
+            </div>
+          </details>
+
+          <details class="assumptions">
+            <summary>Annahmen</summary>
+            <ul>
+              <li>Der Monatsverbrauch ist in allen 12 Monaten gleich.</li>
+              <li>Solarstrom ist von März bis November verfügbar. Von Dezember bis Februar gibt es keinen Solarstrom.</li>
+              <li>Der Solaranteil in Solar-Monaten beträgt je nach Profil 70 Prozent, 50 Prozent oder 30 Prozent.</li>
+              <li>Der monatliche Grundpreis gilt in beiden Szenarien mit und ohne vZEV.</li>
+              <li>Die monatlichen Messentgelte gelten in beiden Szenarien mit und ohne vZEV.</li>
+              <li>Reststrom wird mit Normaltarif und Netznutzung berechnet.</li>
+            </ul>
+          </details>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script>
+    /**
+     * @typedef {Object} InputState
+     * @property {number} energyRpKwh
+     * @property {number} gridRpKwh
+     * @property {number} monthlyKwh
+     * @property {number} baseFeeChfMonth
+     * @property {number} meteringFeeChfMonth
+     * @property {number} vzevEnergyRpKwh
+     * @property {number} vzevFeeChfMonth
+     * @property {"day_high" | "house_empty" | "day_low"} usageProfile
+     */
+
+    /**
+     * @typedef {Object} MonthResult
+     * @property {string} monthKey
+     * @property {number} solarShare
+     * @property {number} baselineChf
+     * @property {number} vzevChf
+     * @property {number} savingChf
+     */
+
+    const STORAGE_KEY = "vzevcalc.state.v1";
+    const LEGACY_PROFILE_MAP = Object.freeze({
+      low: "day_low",
+      medium: "day_high",
+      high: "day_high"
+    });
+    const USAGE_PROFILE_DAY_SHARE = Object.freeze({
+      day_high: 0.7,
+      house_empty: 0.5,
+      day_low: 0.3
+    });
+
+    const MONTHS = Object.freeze([
+      { key: "jan", label: "Januar" },
+      { key: "feb", label: "Februar" },
+      { key: "mar", label: "März" },
+      { key: "apr", label: "April" },
+      { key: "may", label: "Mai" },
+      { key: "jun", label: "Juni" },
+      { key: "jul", label: "Juli" },
+      { key: "aug", label: "August" },
+      { key: "sep", label: "September" },
+      { key: "oct", label: "Oktober" },
+      { key: "nov", label: "November" },
+      { key: "dec", label: "Dezember" }
+    ]);
+
+    /** @type {InputState} */
+    const DEFAULT_STATE = Object.freeze({
+      energyRpKwh: 12.9,
+      gridRpKwh: 12.86,
+      monthlyKwh: 250,
+      baseFeeChfMonth: 10,
+      meteringFeeChfMonth: 4,
+      vzevEnergyRpKwh: 15,
+      vzevFeeChfMonth: 3,
+      usageProfile: "day_high"
+    });
+
+    const chfFormatter = new Intl.NumberFormat("de-CH", {
+      style: "currency",
+      currency: "CHF",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+
+    const percentFormatter = new Intl.NumberFormat("de-CH", {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    });
+
+    const form = document.getElementById("calcForm");
+    const resetBtn = document.getElementById("resetBtn");
+    const resultsBody = document.getElementById("resultsBody");
+    const yearBaseline = document.getElementById("yearBaseline");
+    const yearVzev = document.getElementById("yearVzev");
+    const yearSaving = document.getElementById("yearSaving");
+    const validationStatus = document.getElementById("validationStatus");
+    const advancedInputs = document.getElementById("advancedInputs");
+
+    const numericFieldIds = [
+      "energyRpKwh",
+      "gridRpKwh",
+      "monthlyKwh",
+      "baseFeeChfMonth",
+      "meteringFeeChfMonth",
+      "vzevEnergyRpKwh",
+      "vzevFeeChfMonth"
+    ];
+    const advancedFieldIds = [
+      "energyRpKwh",
+      "gridRpKwh",
+      "baseFeeChfMonth",
+      "meteringFeeChfMonth",
+      "vzevFeeChfMonth"
+    ];
+
+    initialize();
+
+    function initialize() {
+      const initialState = loadState();
+      writeStateToForm(initialState);
+      renderFromForm();
+
+      form.addEventListener("input", renderFromForm);
+      form.addEventListener("change", renderFromForm);
+
+      resetBtn.addEventListener("click", handleReset);
+    }
+
+    /**
+     * @returns {InputState}
+     */
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) {
+          return { ...DEFAULT_STATE };
+        }
+
+        const parsed = JSON.parse(raw);
+        return sanitizeState(parsed);
+      } catch (_error) {
+        return { ...DEFAULT_STATE };
+      }
+    }
+
+    /**
+     * @param {InputState} state
+     */
+    function saveState(state) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (_error) {
+        // Ignore storage failures (private mode or blocked localStorage).
+      }
+    }
+
+    /**
+     * @param {unknown} candidate
+     * @returns {InputState}
+     */
+    function sanitizeState(candidate) {
+      const input = candidate && typeof candidate === "object" ? candidate : {};
+      let resolvedUsageProfile = normalizeUsageProfile(input.usageProfile, "");
+      if (!resolvedUsageProfile) {
+        if (typeof input.shiftPercent !== "undefined") {
+          const legacyShiftPercent = normalizeNumber(input.shiftPercent, NaN);
+          if (Number.isFinite(legacyShiftPercent)) {
+            resolvedUsageProfile = legacyShiftPercent >= 50 ? "day_high" : "day_low";
+          }
+        }
+        if (!resolvedUsageProfile && input.profile && LEGACY_PROFILE_MAP[input.profile]) {
+          resolvedUsageProfile = LEGACY_PROFILE_MAP[input.profile];
+        }
+      }
+      return {
+        energyRpKwh: normalizeNumber(input.energyRpKwh, DEFAULT_STATE.energyRpKwh),
+        gridRpKwh: normalizeNumber(input.gridRpKwh, DEFAULT_STATE.gridRpKwh),
+        monthlyKwh: normalizeNumber(input.monthlyKwh, DEFAULT_STATE.monthlyKwh),
+        baseFeeChfMonth: normalizeNumber(input.baseFeeChfMonth, DEFAULT_STATE.baseFeeChfMonth),
+        meteringFeeChfMonth: normalizeNumber(input.meteringFeeChfMonth, DEFAULT_STATE.meteringFeeChfMonth),
+        vzevEnergyRpKwh: normalizeNumber(input.vzevEnergyRpKwh, DEFAULT_STATE.vzevEnergyRpKwh),
+        vzevFeeChfMonth: normalizeNumber(input.vzevFeeChfMonth, DEFAULT_STATE.vzevFeeChfMonth),
+        usageProfile: normalizeUsageProfile(resolvedUsageProfile, DEFAULT_STATE.usageProfile)
+      };
+    }
+
+    /**
+     * @param {unknown} value
+     * @param {number} fallback
+     * @returns {number}
+     */
+    function normalizeNumber(value, fallback) {
+      const numeric = Number(value);
+      return Number.isFinite(numeric) && numeric >= 0 ? numeric : fallback;
+    }
+
+    /**
+     * @param {unknown} value
+     * @param {"day_high" | "house_empty" | "day_low" | ""} fallback
+     * @returns {"day_high" | "house_empty" | "day_low" | ""}
+     */
+    function normalizeUsageProfile(value, fallback) {
+      return Object.prototype.hasOwnProperty.call(USAGE_PROFILE_DAY_SHARE, value) ? value : fallback;
+    }
+
+    /**
+     * @param {InputState} state
+     */
+    function writeStateToForm(state) {
+      form.energyRpKwh.value = state.energyRpKwh;
+      form.gridRpKwh.value = state.gridRpKwh;
+      form.monthlyKwh.value = state.monthlyKwh;
+      form.baseFeeChfMonth.value = state.baseFeeChfMonth;
+      form.meteringFeeChfMonth.value = state.meteringFeeChfMonth;
+      form.vzevEnergyRpKwh.value = state.vzevEnergyRpKwh;
+      form.vzevFeeChfMonth.value = state.vzevFeeChfMonth;
+      form.usageProfile.value = state.usageProfile;
+    }
+
+    /**
+     * @returns {InputState}
+     */
+    function readStateFromForm() {
+      return {
+        energyRpKwh: Number(form.energyRpKwh.value),
+        gridRpKwh: Number(form.gridRpKwh.value),
+        monthlyKwh: Number(form.monthlyKwh.value),
+        baseFeeChfMonth: Number(form.baseFeeChfMonth.value),
+        meteringFeeChfMonth: Number(form.meteringFeeChfMonth.value),
+        vzevEnergyRpKwh: Number(form.vzevEnergyRpKwh.value),
+        vzevFeeChfMonth: Number(form.vzevFeeChfMonth.value),
+        usageProfile: form.usageProfile.value
+      };
+    }
+
+    function renderFromForm() {
+      const state = readStateFromForm();
+      const errors = validateState(state);
+      applyValidation(errors);
+
+      if (Object.keys(errors).length > 0) {
+        renderInvalid();
+        return;
+      }
+
+      saveState(state);
+      const yearResult = calculateYear(state);
+      renderResults(yearResult);
+    }
+
+    /**
+     * @param {InputState} state
+     * @returns {Record<string, string>}
+     */
+    function validateState(state) {
+      const errors = {};
+
+      for (const fieldId of numericFieldIds) {
+        const value = state[fieldId];
+        if (!Number.isFinite(value) || value < 0) {
+          errors[fieldId] = "Bitte eine gültige Zahl ab 0 eingeben.";
+        }
+      }
+
+      if (!Object.prototype.hasOwnProperty.call(USAGE_PROFILE_DAY_SHARE, state.usageProfile)) {
+        errors.usageProfile = "Bitte ein gültiges Nutzungsprofil auswählen.";
+      }
+
+      return errors;
+    }
+
+    /**
+     * @param {number} monthIndex
+     * @param {"day_high" | "house_empty" | "day_low"} usageProfile
+     * @returns {number}
+     */
+    function calculateSolarShare(monthIndex, usageProfile) {
+      if (!isSolarMonth(monthIndex)) {
+        return 0;
+      }
+
+      return USAGE_PROFILE_DAY_SHARE[usageProfile] ?? USAGE_PROFILE_DAY_SHARE[DEFAULT_STATE.usageProfile];
+    }
+
+    /**
+     * @param {Record<string, string>} errors
+     */
+    function applyValidation(errors) {
+      const hasAdvancedError = advancedFieldIds.some(function (fieldId) {
+        return Boolean(errors[fieldId]);
+      });
+      if (hasAdvancedError && advancedInputs) {
+        advancedInputs.open = true;
+      }
+
+      const fields = form.querySelectorAll(".field");
+      fields.forEach(function (field) {
+        const key = field.getAttribute("data-field");
+        const msg = errors[key] || "";
+        field.classList.toggle("invalid", Boolean(msg));
+        const errorEl = document.getElementById("error-" + key);
+        if (errorEl) {
+          errorEl.textContent = msg;
+        }
+      });
+    }
+
+    function renderInvalid() {
+      validationStatus.classList.remove("hidden");
+      validationStatus.textContent = "Bitte prüfe alle Eingaben. Die Berechnung erscheint erst mit gültigen Werten.";
+
+      yearBaseline.textContent = "-";
+      yearVzev.textContent = "-";
+      yearSaving.textContent = "-";
+      yearSaving.classList.remove("positive", "negative");
+      resultsBody.innerHTML = "";
+    }
+
+    /**
+     * @param {InputState} state
+     * @param {number} monthIndex
+     * @returns {MonthResult}
+     */
+    function calculateMonth(state, monthIndex) {
+      const month = MONTHS[monthIndex];
+      const baselineRateChfPerKwh = (state.energyRpKwh + state.gridRpKwh) / 100;
+      const solarShare = calculateSolarShare(monthIndex, state.usageProfile);
+      const solarKwh = state.monthlyKwh * solarShare;
+      const restKwh = state.monthlyKwh - solarKwh;
+
+      const baselineChf =
+        state.monthlyKwh * baselineRateChfPerKwh +
+        state.baseFeeChfMonth +
+        state.meteringFeeChfMonth;
+      const vzevChf =
+        solarKwh * (state.vzevEnergyRpKwh / 100) +
+        restKwh * baselineRateChfPerKwh +
+        state.baseFeeChfMonth +
+        state.meteringFeeChfMonth +
+        state.vzevFeeChfMonth;
+      const savingChf = baselineChf - vzevChf;
+
+      return {
+        monthKey: month.key,
+        solarShare: solarShare,
+        baselineChf: baselineChf,
+        vzevChf: vzevChf,
+        savingChf: savingChf
+      };
+    }
+
+    /**
+     * @param {InputState} state
+     */
+    function calculateYear(state) {
+      const months = MONTHS.map(function (_month, index) {
+        return calculateMonth(state, index);
+      });
+
+      const totals = months.reduce(
+        function (acc, month) {
+          acc.baselineChf += month.baselineChf;
+          acc.vzevChf += month.vzevChf;
+          acc.savingChf += month.savingChf;
+          return acc;
+        },
+        { baselineChf: 0, vzevChf: 0, savingChf: 0 }
+      );
+
+      return { months: months, totals: totals };
+    }
+
+    /**
+     * @param {{ months: MonthResult[], totals: { baselineChf: number, vzevChf: number, savingChf: number } }} results
+     */
+    function renderResults(results) {
+      validationStatus.classList.add("hidden");
+      validationStatus.textContent = "";
+
+      const rows = results.months
+        .map(function (month, index) {
+          const savingClass = month.savingChf >= 0 ? "pos" : "neg";
+          const monthLabel = MONTHS[index].label;
+          const solarLabel = percentFormatter.format(month.solarShare * 100) + "%";
+
+          return (
+            "<tr>" +
+            "<td>" + monthLabel + "</td>" +
+            "<td>" + solarLabel + "</td>" +
+            "<td>" + formatChf(month.baselineChf) + "</td>" +
+            "<td>" + formatChf(month.vzevChf) + "</td>" +
+            "<td class='saving " + savingClass + "'>" + formatChf(month.savingChf) + "</td>" +
+            "</tr>"
+          );
+        })
+        .join("");
+
+      const totalSavingClass = results.totals.savingChf >= 0 ? "pos" : "neg";
+      resultsBody.innerHTML =
+        rows +
+        "<tr class='total-row'>" +
+        "<td>Total</td>" +
+        "<td>-</td>" +
+        "<td>" + formatChf(results.totals.baselineChf) + "</td>" +
+        "<td>" + formatChf(results.totals.vzevChf) + "</td>" +
+        "<td class='saving " + totalSavingClass + "'>" + formatChf(results.totals.savingChf) + "</td>" +
+        "</tr>";
+
+      yearBaseline.textContent = formatChf(results.totals.baselineChf);
+      yearVzev.textContent = formatChf(results.totals.vzevChf);
+      yearSaving.textContent = formatChf(results.totals.savingChf);
+      yearSaving.classList.toggle("positive", results.totals.savingChf >= 0);
+      yearSaving.classList.toggle("negative", results.totals.savingChf < 0);
+    }
+
+    /**
+     * @param {number} value
+     * @returns {string}
+     */
+    function formatChf(value) {
+      return formatted = chfFormatter.format(round2(value));
+    }
+
+    /**
+     * @param {number} monthIndex
+     * @returns {boolean}
+     */
+    function isSolarMonth(monthIndex) {
+      return monthIndex >= 2 && monthIndex <= 10;
+    }
+
+    /**
+     * @param {number} value
+     * @returns {number}
+     */
+    function round2(value) {
+      return Math.round((value + Number.EPSILON) * 100) / 100;
+    }
+
+    function handleReset() {
+      try {
+        localStorage.removeItem(STORAGE_KEY);
+      } catch (_error) {
+        // Ignore storage errors.
+      }
+
+      writeStateToForm({ ...DEFAULT_STATE });
+      renderFromForm();
+    }
+  </script>
+</body>
+</html>
