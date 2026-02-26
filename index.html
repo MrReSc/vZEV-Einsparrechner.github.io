@@ -152,27 +152,30 @@
     }
 
     .info-trigger {
-      width: 1.2rem;
-      height: 1.2rem;
-      min-width: 1.2rem;
+      width: 1.35rem;
+      height: 1.35rem;
+      min-width: 1.35rem;
       margin-left: auto;
       padding: 0;
       border-radius: 999px;
-      border-color: #4f5a66;
-      background: #1f2730;
-      color: #c9def0;
+      border-color: #6b88a8;
+      background: #294158;
+      color: #eef6ff;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.73rem;
-      font-weight: 700;
+      font-size: 0.82rem;
+      font-weight: 760;
       line-height: 1;
       transform: translateY(1px);
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05), 0 2px 7px rgba(0, 0, 0, 0.35);
+      transition: background-color 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
     }
 
     .info-trigger:hover {
-      border-color: #5e7ea3;
-      background: #273749;
+      border-color: #8fb5dc;
+      background: #35597a;
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08), 0 3px 9px rgba(0, 0, 0, 0.4);
     }
 
     .info-trigger:focus-visible {
@@ -186,14 +189,14 @@
       top: calc(100% + 0.2rem);
       right: 0;
       width: min(320px, calc(100vw - 4rem));
-      padding: 0.58rem 0.65rem;
+      padding: 0.72rem 0.8rem;
       border: 1px solid #36516f;
       border-radius: var(--radius-sm);
       background: #12202d;
       color: #d9eaf7;
       box-shadow: 0 10px 22px rgba(0, 0, 0, 0.4);
-      font-size: 0.78rem;
-      line-height: 1.35;
+      font-size: 0.9rem;
+      line-height: 1.45;
       z-index: 30;
       opacity: 0;
       visibility: hidden;
@@ -639,14 +642,14 @@
 
               <div class="field" data-field="usageProfile">
                 <div class="field-label-row">
-                  <label for="usageProfile">Wie oft kannst du tagsüber Solarstrom direkt nutzen?<span class="sr-only"> (Pflichtfeld)</span></label>
-                  <button type="button" class="info-trigger" aria-label="Info zum Nutzungsprofil" aria-describedby="tooltip-usageProfile">i</button>
-                  <div class="field-tooltip" id="tooltip-usageProfile" role="tooltip">Häufig zu Hause bedeutet, dass du zum Beispiel wäschst, kochst, den Tumbler nutzt oder das E-Auto lädst, solange es hell ist. Meist leer bedeutet, dass du meistens nicht zu Hause bist und tagsüber keine grossen Verbraucher laufen. Selten tagsüber bedeutet, dass du tagsüber nicht zu Hause bist und grosse Verbraucher eher ausserhalb der hellen Stunden laufen.</div>
+                  <label for="usageProfile">Wie oft bist du tagsüber zu Hause?<span class="sr-only"> (Pflichtfeld)</span></label>
+                  <button type="button" class="info-trigger" aria-label="Info zur Tagesanwesenheit" aria-describedby="tooltip-usageProfile">i</button>
+                  <div class="field-tooltip" id="tooltip-usageProfile" role="tooltip">Wenn du tagsüber oft zu Hause bist, kannst du grosse Verbraucher wie Waschmaschine, Tumbler, Kochen oder E-Auto-Laden gezielt mit Solarstrom abdecken. Bei &bdquo;Wenig&ldquo; gelingt das nur teilweise, weil Lasten häufiger ausserhalb der Sonnenstunden laufen. Bei &bdquo;Fast nie&ldquo; ist der direkte Solarstromverbrauch am kleinsten und das Einsparpotenzial entsprechend tiefer.</div>
                 </div>
                 <select id="usageProfile" name="usageProfile">
-                  <option value="day_high">Häufig tagsüber zu Hause</option>
-                  <option value="house_empty">Meist nicht zu Hause</option>
-                  <option value="day_low">Tagsüber nicht zu Hause</option>
+                  <option value="day_high">Fast immer</option>
+                  <option value="house_empty">Wenig</option>
+                  <option value="day_low">Fast nie</option>
                 </select>
                 <div class="error-msg" id="error-usageProfile"></div>
               </div>
