@@ -21,7 +21,11 @@
       --pv-soft: #dbe6cf;
       --positive: #4f7138;
       --negative: #a8503a;
-      --warning: #8a6a20;
+      --warning: #4d6f98;
+      --neutral-border: #9eb8d8;
+      --neutral-bg-top: #edf5ff;
+      --neutral-bg-bottom: #dfeafa;
+      --neutral-text: #2f4d6f;
       --shadow: 0 10px 30px rgba(74, 65, 40, 0.12);
       --shadow-soft: 0 3px 12px rgba(74, 65, 40, 0.1);
       --radius: 13px;
@@ -532,13 +536,43 @@
     }
 
     .summary-item.primary {
-      border-color: #b7c59f;
-      background: linear-gradient(180deg, #edf5e3 0%, #dfeacc 100%);
+      border-color: var(--neutral-border);
+      background: linear-gradient(180deg, var(--neutral-bg-top) 0%, var(--neutral-bg-bottom) 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65), 0 6px 16px rgba(77, 111, 152, 0.14);
+    }
+
+    .summary-item.primary.positive {
+      border-color: #9bb884;
+      background: linear-gradient(180deg, #eef7e4 0%, #e0edcf 100%);
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65), 0 6px 16px rgba(95, 127, 69, 0.14);
     }
 
+    .summary-item.primary.negative {
+      border-color: #d3a395;
+      background: linear-gradient(180deg, #fff3ef 0%, #f9e2db 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65), 0 6px 16px rgba(168, 80, 58, 0.12);
+    }
+
+    .summary-item.primary.neutral {
+      border-color: var(--neutral-border);
+      background: linear-gradient(180deg, var(--neutral-bg-top) 0%, var(--neutral-bg-bottom) 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65), 0 6px 16px rgba(77, 111, 152, 0.14);
+    }
+
     .summary-item.primary .label {
-      color: #3f5730;
+      color: #5c644f;
+    }
+
+    .summary-item.primary.positive .label {
+      color: #2e4322;
+    }
+
+    .summary-item.primary.negative .label {
+      color: #6a2f20;
+    }
+
+    .summary-item.primary.neutral .label {
+      color: var(--neutral-text);
     }
 
     .summary-item.primary .value {
@@ -553,13 +587,17 @@
       color: var(--negative);
     }
 
+    .value.neutral {
+      color: var(--warning);
+    }
+
     .result-conclusion {
       margin: 0 0 0.75rem;
       padding: 0.72rem 0.78rem;
-      border: 1px solid #cbbd9b;
+      border: 1px solid var(--neutral-border);
       border-radius: var(--radius-sm);
-      background: linear-gradient(180deg, #fff8ea 0%, #f9f0dc 100%);
-      color: #3f3a2a;
+      background: linear-gradient(180deg, var(--neutral-bg-top) 0%, var(--neutral-bg-bottom) 100%);
+      color: var(--neutral-text);
       font-size: clamp(0.94rem, 0.88rem + 0.42vw, 1.1rem);
       font-weight: 570;
       line-height: 1.35;
@@ -585,9 +623,9 @@
     }
 
     .result-conclusion.neutral {
-      border-color: #cbbd9b;
-      background: linear-gradient(180deg, #fff8ea 0%, #f9f0dc 100%);
-      color: #3f3a2a;
+      border-color: var(--neutral-border);
+      background: linear-gradient(180deg, var(--neutral-bg-top) 0%, var(--neutral-bg-bottom) 100%);
+      color: var(--neutral-text);
     }
 
     .table-wrap {
@@ -868,7 +906,7 @@
               <div class="label">Jahreskosten mit vZEV</div>
               <div class="value" id="yearVzev">-</div>
             </div>
-            <div class="summary-item primary">
+            <div class="summary-item primary neutral">
               <div class="label">Jährliche Einsparung</div>
               <div class="value" id="yearSaving">-</div>
             </div>
@@ -986,6 +1024,7 @@
     const yearBaseline = document.getElementById("yearBaseline");
     const yearVzev = document.getElementById("yearVzev");
     const yearSaving = document.getElementById("yearSaving");
+    const yearSavingItem = yearSaving ? yearSaving.closest(".summary-item") : null;
     const resultConclusion = document.getElementById("resultConclusion");
     const validationStatus = document.getElementById("validationStatus");
     const advancedInputs = document.getElementById("advancedInputs");
@@ -1238,7 +1277,11 @@
       yearBaseline.textContent = "-";
       yearVzev.textContent = "-";
       yearSaving.textContent = "-";
-      yearSaving.classList.remove("positive", "negative");
+      yearSaving.classList.remove("positive", "negative", "neutral");
+      if (yearSavingItem) {
+        yearSavingItem.classList.remove("positive", "negative");
+        yearSavingItem.classList.add("neutral");
+      }
       resultConclusion.textContent =
         "Bitte gib gültige Werte ein. Dann siehst du hier kurz erklärt, was dein Ergebnis bedeutet.";
       resultConclusion.classList.remove("positive", "negative");
@@ -1338,11 +1381,14 @@
 
       yearBaseline.textContent = formatChf(results.totals.baselineChf);
       yearVzev.textContent = formatChf(results.totals.vzevChf);
-      yearSaving.textContent = formatChf(results.totals.savingChf);
-      yearSaving.classList.toggle("positive", results.totals.savingChf >= 0);
-      yearSaving.classList.toggle("negative", results.totals.savingChf < 0);
-
       const conclusion = getConclusion(results.totals.savingChf);
+      yearSaving.textContent = formatChf(results.totals.savingChf);
+      yearSaving.classList.remove("positive", "negative", "neutral");
+      yearSaving.classList.add(conclusion.tone);
+      if (yearSavingItem) {
+        yearSavingItem.classList.remove("positive", "negative", "neutral");
+        yearSavingItem.classList.add(conclusion.tone);
+      }
       resultConclusion.innerHTML = conclusion.text;
       resultConclusion.classList.remove("positive", "negative", "neutral");
       resultConclusion.classList.add(conclusion.tone);
