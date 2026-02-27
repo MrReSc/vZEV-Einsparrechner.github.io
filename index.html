@@ -1356,10 +1356,10 @@
       if (savingChf > 10) {
         return {
           text:
-            "Mit deinen Angaben ist vZEV günstiger. Du sparst pro Jahr etwa <span class='conclusion-amount'>" +
+            "Mit deinen Angaben ist ein Beitritt in den vZEV sinnvoll. Du sparst pro Jahr etwa <span class='conclusion-amount'>" +
             formatChf(savingChf) +
             "</span>" +
-            " gegenüber normalem Strom. Du sparst Geld, hilfst der Umwelt und dem Stromnetz, wenn du deinen Verbrauch stärker mit Solarstrom deckst. Der PV-Betreiber kann seine Anlage so schneller amortisieren. Win-win-win!",
+            " wenn du Solarstrom beziehst. So sparst du Geld, entlastest die Umwelt und das Stromnetz und hilfst den Solaranlagenbetreibern, die Solaranlagen schneller zu amortisieren. Damit gibt es nur Gewinner, nämlich dich, die Nachbarschaft, die Solaranlagenbetreiber und die Umwelt.",
           tone: "positive"
         };
       }
@@ -1367,7 +1367,7 @@
       if (savingChf < -10) {
         return {
           text:
-            "Mit deinen Angaben ist vZEV teurer. Du zahlst pro Jahr etwa <span class='conclusion-amount'>" +
+            "Mit deinen Angaben wird deine Stromrechnung teurer, wenn du dem vZEV beitrittst. Du zahlst pro Jahr etwa <span class='conclusion-amount'>" +
             formatChf(Math.abs(savingChf)) +
             "</span>" +
             " mehr als ohne vZEV.",
@@ -1380,7 +1380,7 @@
           "Mit deinen Angaben sind die Kosten fast gleich. Der Unterschied liegt bei rund <span class='conclusion-amount'>" +
           formatChf(Math.abs(savingChf)) +
           "</span>" +
-          " pro Jahr. Du hilfst aber dem PV-Betreiber, seine Anlage schneller zu amortisieren.",
+          " pro Jahr. Ein Beitritt in den vZEV macht trotzdem Sinn. Du hilfst, dass sich die Solaranlagen schneller amortisieren. Die Betreiber machen damit den vZEV möglich, der anderen Nachbarn günstigen und umweltfreundlichen Strom liefert.",
         tone: "neutral"
       };
     }
