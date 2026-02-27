@@ -389,7 +389,8 @@
 
     details.advanced,
     .monthly-table,
-    .assumptions {
+    .assumptions,
+    .calculation-details {
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
       background: linear-gradient(180deg, #fff9ef 0%, #f9f3e5 100%);
@@ -398,7 +399,8 @@
 
     details.advanced > summary,
     .monthly-table > summary,
-    .assumptions > summary {
+    .assumptions > summary,
+    .calculation-details > summary {
       cursor: pointer;
       color: #505942;
       font-size: 0.92rem;
@@ -412,13 +414,15 @@
 
     details.advanced > summary::-webkit-details-marker,
     .monthly-table > summary::-webkit-details-marker,
-    .assumptions > summary::-webkit-details-marker {
+    .assumptions > summary::-webkit-details-marker,
+    .calculation-details > summary::-webkit-details-marker {
       display: none;
     }
 
     details.advanced > summary::before,
     .monthly-table > summary::before,
-    .assumptions > summary::before {
+    .assumptions > summary::before,
+    .calculation-details > summary::before {
       content: "▸";
       margin-right: 0.45rem;
       color: var(--accent);
@@ -428,13 +432,15 @@
 
     details.advanced[open] > summary::before,
     .monthly-table[open] > summary::before,
-    .assumptions[open] > summary::before {
+    .assumptions[open] > summary::before,
+    .calculation-details[open] > summary::before {
       transform: rotate(90deg);
     }
 
     details.advanced > summary:hover,
     .monthly-table > summary:hover,
-    .assumptions > summary:hover {
+    .assumptions > summary:hover,
+    .calculation-details > summary:hover {
       color: #3d452f;
     }
 
@@ -697,16 +703,70 @@
       margin-top: 0.75rem;
     }
 
-    .assumptions ul {
+    .calculation-details {
+      margin-top: 0.75rem;
+    }
+
+    .assumptions ul,
+    .calculation-details ul {
       margin: 0.2rem 0 0;
       padding-left: 1.12rem;
     }
 
-    .assumptions li {
+    .assumptions li,
+    .calculation-details li {
       margin-bottom: 0.22rem;
       font-size: 0.81rem;
       color: #4d5746;
       line-height: 1.35;
+    }
+
+    .calculation-details .calc-intro {
+      margin: 0.24rem 0 0.55rem;
+      font-size: 0.82rem;
+      color: #495342;
+      line-height: 1.4;
+    }
+
+    .calculation-details .calc-steps {
+      margin: 0;
+      padding-left: 1.2rem;
+      display: grid;
+      gap: 0.4rem;
+    }
+
+    .calculation-details .calc-step {
+      margin: 0;
+      color: #4d5746;
+      font-size: 0.82rem;
+      line-height: 1.35;
+    }
+
+    .calculation-details .calc-step-title {
+      display: block;
+      margin-bottom: 0.12rem;
+      color: #36402f;
+      font-size: 0.83rem;
+      font-weight: 670;
+    }
+
+    .calculation-details .calc-note {
+      margin-top: 0.1rem;
+      color: #4c5646;
+    }
+
+    .calculation-details .formula {
+      display: block;
+      margin-top: 0.14rem;
+      padding: 0.25rem 0.36rem;
+      border: 1px solid #d8ccb5;
+      border-radius: 6px;
+      background: #fffdf7;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+      font-family: "SFMono-Regular", "Consolas", "Liberation Mono", monospace;
+      font-size: 0.77rem;
+      line-height: 1.35;
+      color: #394131;
     }
 
     @media (min-width: 860px) {
@@ -944,6 +1004,44 @@
               <li>Die monatlichen Messentgelte gelten in beiden Szenarien mit und ohne vZEV.</li>
               <li>Reststrom wird mit Normaltarif und Netznutzung berechnet.</li>
             </ul>
+          </details>
+
+          <details class="calculation-details">
+            <summary>Berechnung im Detail</summary>
+            <p class="calc-intro">So wird mit deinen Eingaben gerechnet, in derselben Reihenfolge wie im Code:</p>
+            <ol class="calc-steps">
+              <li class="calc-step">
+                <strong class="calc-step-title">Tarifbasis</strong>
+                <code class="formula">Normaltarif (CHF/kWh) = (Energiepreis + Netznutzungsgebühren) / 100</code>
+              </li>
+              <li class="calc-step">
+                <strong class="calc-step-title">Solaranteil je Monat</strong>
+                <div class="calc-note">Dezember bis Februar gilt kein Solarstrom.</div>
+                <code class="formula">Solaranteil = 0 (Dez-Feb), sonst 70 % / 50 % / 30 % je Profil</code>
+              </li>
+              <li class="calc-step">
+                <strong class="calc-step-title">Energiemengen</strong>
+                <code class="formula">Solar-kWh = Monatsverbrauch * Solaranteil</code>
+                <code class="formula">Rest-kWh = Monatsverbrauch - Solar-kWh</code>
+              </li>
+              <li class="calc-step">
+                <strong class="calc-step-title">Monatskosten ohne vZEV</strong>
+                <code class="formula">Ohne vZEV = Monatsverbrauch * Normaltarif + Grundpreis + Messentgelte</code>
+              </li>
+              <li class="calc-step">
+                <strong class="calc-step-title">Monatskosten mit vZEV</strong>
+                <code class="formula">Mit vZEV = Solar-kWh * (vZEV-Energiepreis / 100) + Rest-kWh * Normaltarif + Grundpreis + Messentgelte + vZEV-Gebühr</code>
+              </li>
+              <li class="calc-step">
+                <strong class="calc-step-title">Einsparung</strong>
+                <code class="formula">Monatsersparnis = Ohne vZEV - Mit vZEV</code>
+                <code class="formula">Jahresersparnis = Summe aller 12 Monatsersparnisse</code>
+              </li>
+              <li class="calc-step">
+                <strong class="calc-step-title">Rundung</strong>
+                <code class="formula">Ausgabe auf 5 Rappen gerundet (roundToFiveRappen)</code>
+              </li>
+            </ol>
           </details>
         </div>
       </article>
