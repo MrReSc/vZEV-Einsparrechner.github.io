@@ -20,7 +20,7 @@
       --pv: #5f7f45;
       --pv-soft: #dbe6cf;
       --positive: #4f7138;
-      --negative: #a8503a;
+      --negative: #946247;
       --warning: #4d6f98;
       --neutral-border: #9eb8d8;
       --neutral-bg-top: #edf5ff;
@@ -157,6 +157,13 @@
     form {
       display: grid;
       gap: 0.72rem;
+    }
+
+    .quick-note {
+      margin: 0;
+      font-size: 0.86rem;
+      color: #4f5a47;
+      font-weight: 530;
     }
 
     .field {
@@ -554,9 +561,9 @@
     }
 
     .summary-item.primary.negative {
-      border-color: #d3a395;
-      background: linear-gradient(180deg, #fff3ef 0%, #f9e2db 100%);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65), 0 6px 16px rgba(168, 80, 58, 0.12);
+      border-color: #c9ab95;
+      background: linear-gradient(180deg, #fdf5ef 0%, #f4e6da 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65), 0 6px 16px rgba(148, 98, 71, 0.12);
     }
 
     .summary-item.primary.neutral {
@@ -574,7 +581,7 @@
     }
 
     .summary-item.primary.negative .label {
-      color: #6a2f20;
+      color: #634231;
     }
 
     .summary-item.primary.neutral .label {
@@ -623,9 +630,9 @@
     }
 
     .result-conclusion.negative {
-      border-color: #d3a395;
-      background: linear-gradient(180deg, #fff3ef 0%, #f9e2db 100%);
-      color: #6a2f20;
+      border-color: #c9ab95;
+      background: linear-gradient(180deg, #fdf5ef 0%, #f4e6da 100%);
+      color: #634231;
     }
 
     .result-conclusion.neutral {
@@ -819,17 +826,18 @@
   <main class="container">
     <header class="header">
       <h1>Stromkosten mit Solarstrom</h1>
-      <p>Monatliche und jährliche Kostenschätzung mit und ohne Solarstrom aus der Nachbarschaft bei gleichem Monatsverbrauch.</p>
-      <p class="disclaimer-note">Diese Berechnung ist eine einfache Orientierung. Die tatsächliche Einsparung hängt vom Nutzungsverhalten ab und kann abweichen.</p>
+      <p>Du siehst in kurzer Zeit was Solarstrom aus der Nachbarschaft für deine jährlichen Stromkosten bedeuten kann.</p>
+      <p class="disclaimer-note">Diese Berechnung ist eine Orientierung. Die tatsächlichen Kosten hängen von deinem Verbrauch ab.</p>
     </header>
 
     <section class="layout">
       <article class="card">
         <div class="card-header">
-          <h2>Eingaben</h2>
+          <h2>Deine Angaben</h2>
         </div>
         <div class="card-body">
           <form id="calcForm" novalidate>
+            <p class="quick-note">Drei Angaben genügen für eine erste Einschätzung.</p>
             <section class="quick-fields">
               <div class="field" data-field="monthlyKwh">
                 <div class="field-label-row">
@@ -873,7 +881,7 @@
             </section>
 
             <details class="advanced" id="advancedInputs">
-              <summary>Weitere Tarife und Fixkosten</summary>
+              <summary>Weitere Angaben wenn bekannt</summary>
               <div class="advanced-grid">
                 <div class="field" data-field="energyRpKwh">
                   <div class="field-label-row">
@@ -952,7 +960,7 @@
 
       <article class="card">
         <div class="card-header">
-          <h2>Ergebnisse</h2>
+          <h2>Dein Ergebnis</h2>
         </div>
         <div class="card-body">
           <div id="validationStatus" class="status hidden"></div>
@@ -977,7 +985,7 @@
           </div>
 
           <details class="monthly-table">
-            <summary>Monatliche Übersicht</summary>
+            <summary>Monate im Vergleich</summary>
             <div class="table-wrap">
               <table>
                 <thead>
@@ -1007,8 +1015,8 @@
           </details>
 
           <details class="calculation-details">
-            <summary>Berechnung im Detail</summary>
-            <p class="calc-intro">So wird mit deinen Eingaben gerechnet, in derselben Reihenfolge wie im Code:</p>
+            <summary>So wurde gerechnet</summary>
+            <p class="calc-intro">So wird mit deinen Angaben gerechnet in derselben Reihenfolge wie im Code.</p>
             <ol class="calc-steps">
               <li class="calc-step">
                 <strong class="calc-step-title">Tarifbasis</strong>
@@ -1500,10 +1508,10 @@
       if (savingChf > 10) {
         return {
           text:
-            "Mit deinen Angaben ist der Bezug von Solarstrom aus der Nachbarschaft sinnvoll. Du sparst pro Jahr etwa <span class='conclusion-amount'>" +
+            "Mit deinen Angaben sparst du pro Jahr etwa <span class='conclusion-amount'>" +
             formatChf(savingChf) +
             "</span>" +
-            " wenn du Solarstrom aus der Nachbarschaft beziehst. So sparst du Geld, entlastest die Umwelt und das Stromnetz und hilfst den Solaranlagenbetreibern, die Solaranlagen schneller zu amortisieren. Damit gibt es nur Gewinner, nämlich dich, die Nachbarschaft, die Solaranlagenbetreiber und die Umwelt.",
+            " mit Solarstrom aus der Nachbarschaft. Du profitierst bei den Stromkosten und stärkst die lokale Versorgung. So gewinnen du, deine Nachbarschaft und die Umwelt.",
           tone: "positive"
         };
       }
@@ -1511,20 +1519,20 @@
       if (savingChf < -10) {
         return {
           text:
-            "Mit deinen Angaben wird deine Stromrechnung teurer, wenn du Solarstrom aus der Nachbarschaft beziehst. Du zahlst pro Jahr etwa <span class='conclusion-amount'>" +
+            "Mit deinen Angaben liegen die Kosten mit Solarstrom aus der Nachbarschaft pro Jahr etwa <span class='conclusion-amount'>" +
             formatChf(Math.abs(savingChf)) +
             "</span>" +
-            " mehr als ohne Solarstrom.",
+            " höher. Das ist eine Momentaufnahme und kann sich mit angepasstem Verbrauch verändern. Auch bei kleinem Aufpreis unterstützt du eine sinnvolle Lösung in der Nachbarschaft.",
           tone: "negative"
         };
       }
 
       return {
         text:
-          "Mit deinen Angaben sind die Kosten fast gleich. Der Unterschied liegt bei rund <span class='conclusion-amount'>" +
+          "Mit deinen Angaben ist der Unterschied pro Jahr rund <span class='conclusion-amount'>" +
           formatChf(Math.abs(savingChf)) +
           "</span>" +
-          " pro Jahr. Der Bezug von Solarstrom aus der Nachbarschaft kann trotzdem sinnvoll sein. Du hilfst, dass sich die Solaranlagen schneller amortisieren. Damit bleibt günstiger und umweltfreundlicher Strom in der Nachbarschaft verfügbar.",
+          ". Die Kosten bleiben damit fast gleich. Du unterstützt trotzdem eine sinnvolle Versorgung in der Nachbarschaft.",
         tone: "neutral"
       };
     }
