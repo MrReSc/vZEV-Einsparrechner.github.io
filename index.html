@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>vZEV Einsparrechner</title>
+  <title>Stromkosten mit Solarstrom</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="shortcut icon" type="image/svg+xml" href="favicon.svg">
   <style>
@@ -818,8 +818,8 @@
 <body>
   <main class="container">
     <header class="header">
-      <h1>vZEV Einsparrechner</h1>
-      <p>Monatliche und jährliche Kostenschätzung mit und ohne vZEV-Strom bei gleichem Monatsverbrauch.</p>
+      <h1>Stromkosten mit Solarstrom</h1>
+      <p>Monatliche und jährliche Kostenschätzung mit und ohne Solarstrom aus der Nachbarschaft bei gleichem Monatsverbrauch.</p>
       <p class="disclaimer-note">Diese Berechnung ist eine einfache Orientierung. Die tatsächliche Einsparung hängt vom Nutzungsverhalten ab und kann abweichen.</p>
     </header>
 
@@ -860,9 +860,9 @@
 
               <div class="field" data-field="vzevEnergyRpKwh">
                 <div class="field-label-row">
-                  <label for="vzevEnergyRpKwh">vZEV Energiepreis<span class="sr-only"> (Pflichtfeld)</span></label>
-                  <button type="button" class="info-trigger" aria-label="Info zum vZEV Energiepreis" aria-describedby="tooltip-vzevEnergyRpKwh">i</button>
-                  <div class="field-tooltip" id="tooltip-vzevEnergyRpKwh" role="tooltip">Das ist der Preis pro kWh für Strom aus dem vZEV.</div>
+                  <label for="vzevEnergyRpKwh">Preis für lokalen Solarstrom<span class="sr-only"> (Pflichtfeld)</span></label>
+                  <button type="button" class="info-trigger" aria-label="Info zum Preis für lokalen Solarstrom" aria-describedby="tooltip-vzevEnergyRpKwh">i</button>
+                  <div class="field-tooltip" id="tooltip-vzevEnergyRpKwh" role="tooltip">Das ist der Preis pro kWh für lokalen Solarstrom.</div>
                 </div>
                 <div class="input-with-unit">
                   <input id="vzevEnergyRpKwh" name="vzevEnergyRpKwh" type="number" min="0" step="0.01" inputmode="decimal">
@@ -892,7 +892,7 @@
                   <div class="field-label-row">
                     <label for="gridRpKwh">Netznutzungsgebühren</label>
                     <button type="button" class="info-trigger" aria-label="Info zu Netznutzungsgebühren" aria-describedby="tooltip-gridRpKwh">i</button>
-                    <div class="field-tooltip" id="tooltip-gridRpKwh" role="tooltip">Das ist die Netznutzungsgebühr pro kWh. Für direkt genutzten vZEV-Solarstrom fällt dieser Anteil nicht an.</div>
+                    <div class="field-tooltip" id="tooltip-gridRpKwh" role="tooltip">Das ist die Netznutzungsgebühr pro kWh. Für direkt genutzten Solarstrom aus der Nachbarschaft fällt dieser Anteil nicht an.</div>
                   </div>
                   <div class="input-with-unit">
                     <input id="gridRpKwh" name="gridRpKwh" type="number" min="0" step="0.01" inputmode="decimal">
@@ -929,9 +929,9 @@
 
                 <div class="field" data-field="vzevFeeChfMonth">
                   <div class="field-label-row">
-                    <label for="vzevFeeChfMonth">vZEV Gebühr des Energieversorgers</label>
-                    <button type="button" class="info-trigger" aria-label="Info zur vZEV Gebühr" aria-describedby="tooltip-vzevFeeChfMonth">i</button>
-                    <div class="field-tooltip" id="tooltip-vzevFeeChfMonth" role="tooltip">Das ist eine zusätzliche monatliche vZEV-Gebühr des Energieversorgers.</div>
+                    <label for="vzevFeeChfMonth">Preis für die Abrechnung von Solarstrom</label>
+                    <button type="button" class="info-trigger" aria-label="Info zum Preis für die Abrechnung von Solarstrom aus der Nachbarschaft" aria-describedby="tooltip-vzevFeeChfMonth">i</button>
+                    <div class="field-tooltip" id="tooltip-vzevFeeChfMonth" role="tooltip">Das ist eine zusätzliche monatliche Gebühr des Energieversorgers für die Abrechnung von Solarstrom aus der Nachbarschaft.</div>
                   </div>
                   <div class="input-with-unit">
                     <input id="vzevFeeChfMonth" name="vzevFeeChfMonth" type="number" min="0" step="0.01" inputmode="decimal">
@@ -959,15 +959,15 @@
 
           <div class="summary">
             <div class="summary-item">
-              <div class="label">Jahreskosten ohne vZEV</div>
+              <div class="label">Jahreskosten ohne Solarstrom</div>
               <div class="value" id="yearBaseline">-</div>
             </div>
             <div class="summary-item">
-              <div class="label">Jahreskosten mit vZEV</div>
+              <div class="label">Jahreskosten mit Solarstrom</div>
               <div class="value" id="yearVzev">-</div>
             </div>
             <div class="summary-item primary neutral">
-              <div class="label">Jährliche Einsparung</div>
+              <div class="label">Jährliche Einsparung mit Solarstrom</div>
               <div class="value" id="yearSaving">-</div>
             </div>
           </div>
@@ -984,8 +984,8 @@
                   <tr>
                     <th>Monat</th>
                     <th>Solaranteil</th>
-                    <th>Ohne vZEV</th>
-                    <th>Mit vZEV</th>
+                    <th>Ohne Solarstrom</th>
+                    <th>Mit Solarstrom</th>
                     <th>Einsparung</th>
                   </tr>
                 </thead>
@@ -999,9 +999,9 @@
             <ul>
               <li>Der Monatsverbrauch ist in allen 12 Monaten gleich.</li>
               <li>Solarstrom ist von März bis November verfügbar. Von Dezember bis Februar gibt es keinen Solarstrom.</li>
-              <li>Der Solaranteil in Solar-Monaten beträgt je nach Profil 70 Prozent, 50 Prozent oder 30 Prozent.</li>
-              <li>Der monatliche Grundpreis gilt in beiden Szenarien mit und ohne vZEV.</li>
-              <li>Die monatlichen Messentgelte gelten in beiden Szenarien mit und ohne vZEV.</li>
+              <li>Der Solaranteil in Solar-Monaten beträgt je nach Profil: Fast immer 70 %, Wenig 50 %, Fast nie 30 %.</li>
+              <li>Der monatliche Grundpreis gilt in beiden Szenarien mit und ohne Solarstrom.</li>
+              <li>Die monatlichen Messentgelte gelten in beiden Szenarien mit und ohne Solarstrom.</li>
               <li>Reststrom wird mit Normaltarif und Netznutzung berechnet.</li>
             </ul>
           </details>
@@ -1025,16 +1025,16 @@
                 <code class="formula">Rest-kWh = Monatsverbrauch - Solar-kWh</code>
               </li>
               <li class="calc-step">
-                <strong class="calc-step-title">Monatskosten ohne vZEV</strong>
-                <code class="formula">Ohne vZEV = Monatsverbrauch * Normaltarif + Grundpreis + Messentgelte</code>
+                <strong class="calc-step-title">Monatskosten ohne Solarstrom</strong>
+                <code class="formula">Ohne Solarstrom = Monatsverbrauch * Normaltarif + Grundpreis + Messentgelte</code>
               </li>
               <li class="calc-step">
-                <strong class="calc-step-title">Monatskosten mit vZEV</strong>
-                <code class="formula">Mit vZEV = Solar-kWh * (vZEV-Energiepreis / 100) + Rest-kWh * Normaltarif + Grundpreis + Messentgelte + vZEV-Gebühr</code>
+                <strong class="calc-step-title">Monatskosten mit Solarstrom</strong>
+                <code class="formula">Mit Solarstrom = Solar-kWh * (Preis für lokalen Solarstrom / 100) + Rest-kWh * Normaltarif + Grundpreis + Messentgelte + Preis für die Abrechnung von Solarstrom</code>
               </li>
               <li class="calc-step">
                 <strong class="calc-step-title">Einsparung</strong>
-                <code class="formula">Monatsersparnis = Ohne vZEV - Mit vZEV</code>
+                <code class="formula">Monatsersparnis = Ohne Solarstrom - Mit Solarstrom</code>
                 <code class="formula">Jahresersparnis = Summe aller 12 Monatsersparnisse</code>
               </li>
               <li class="calc-step">
@@ -1500,10 +1500,10 @@
       if (savingChf > 10) {
         return {
           text:
-            "Mit deinen Angaben ist ein Beitritt in den vZEV sinnvoll. Du sparst pro Jahr etwa <span class='conclusion-amount'>" +
+            "Mit deinen Angaben ist der Bezug von Solarstrom aus der Nachbarschaft sinnvoll. Du sparst pro Jahr etwa <span class='conclusion-amount'>" +
             formatChf(savingChf) +
             "</span>" +
-            " wenn du Solarstrom beziehst. So sparst du Geld, entlastest die Umwelt und das Stromnetz und hilfst den Solaranlagenbetreibern, die Solaranlagen schneller zu amortisieren. Damit gibt es nur Gewinner, nämlich dich, die Nachbarschaft, die Solaranlagenbetreiber und die Umwelt.",
+            " wenn du Solarstrom aus der Nachbarschaft beziehst. So sparst du Geld, entlastest die Umwelt und das Stromnetz und hilfst den Solaranlagenbetreibern, die Solaranlagen schneller zu amortisieren. Damit gibt es nur Gewinner, nämlich dich, die Nachbarschaft, die Solaranlagenbetreiber und die Umwelt.",
           tone: "positive"
         };
       }
@@ -1511,10 +1511,10 @@
       if (savingChf < -10) {
         return {
           text:
-            "Mit deinen Angaben wird deine Stromrechnung teurer, wenn du dem vZEV beitrittst. Du zahlst pro Jahr etwa <span class='conclusion-amount'>" +
+            "Mit deinen Angaben wird deine Stromrechnung teurer, wenn du Solarstrom aus der Nachbarschaft beziehst. Du zahlst pro Jahr etwa <span class='conclusion-amount'>" +
             formatChf(Math.abs(savingChf)) +
             "</span>" +
-            " mehr als ohne vZEV.",
+            " mehr als ohne Solarstrom.",
           tone: "negative"
         };
       }
@@ -1524,7 +1524,7 @@
           "Mit deinen Angaben sind die Kosten fast gleich. Der Unterschied liegt bei rund <span class='conclusion-amount'>" +
           formatChf(Math.abs(savingChf)) +
           "</span>" +
-          " pro Jahr. Ein Beitritt in den vZEV macht trotzdem Sinn. Du hilfst, dass sich die Solaranlagen schneller amortisieren. Die Betreiber machen damit den vZEV möglich, der anderen Nachbarn günstigen und umweltfreundlichen Strom liefert.",
+          " pro Jahr. Der Bezug von Solarstrom aus der Nachbarschaft kann trotzdem sinnvoll sein. Du hilfst, dass sich die Solaranlagen schneller amortisieren. Damit bleibt günstiger und umweltfreundlicher Strom in der Nachbarschaft verfügbar.",
         tone: "neutral"
       };
     }
