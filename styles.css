@@ -1192,12 +1192,7 @@ body.page-praesentation {
       }
 
       body.page-praesentation .controls{
-        right: 0.72rem;
-        bottom: 0.72rem;
-      }
-
-      body.page-praesentation .controls button{
-        min-width: 5.4rem;
+        display: none;
       }
     }
 
