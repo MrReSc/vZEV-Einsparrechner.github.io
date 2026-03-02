@@ -1091,7 +1091,8 @@ body.page-praesentation {
 
     body.page-praesentation .slide-1,
     body.page-praesentation .slide-2,
-    body.page-praesentation .slide-3{
+    body.page-praesentation .slide-3,
+    body.page-praesentation .slide-4{
       background: transparent;
     }
 
