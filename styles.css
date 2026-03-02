@@ -850,12 +850,15 @@ body.page-praesentation {
       left: 1rem;
       z-index: 30;
       display: flex;
+      flex-wrap: wrap;
       gap: 0.5rem;
+      max-width: calc(100% - 2rem);
     }
 
     body.page-praesentation .quick-link{
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 0.42rem;
       border: 1px solid #bca980;
       border-radius: 999px;
@@ -865,6 +868,7 @@ body.page-praesentation {
       font-family: inherit;
       font-weight: 660;
       font-size: 1.04rem;
+      line-height: 1.2;
       padding: 0.52rem 0.86rem;
       transition: background-color 160ms ease, border-color 160ms ease, opacity 160ms ease;
     }
@@ -1201,6 +1205,9 @@ body.page-praesentation {
       body.page-praesentation .top-actions{
         top: 0.62rem;
         left: 0.62rem;
+        right: 0.62rem;
+        gap: 0.38rem;
+        max-width: none;
       }
 
       body.page-praesentation .quick-link{

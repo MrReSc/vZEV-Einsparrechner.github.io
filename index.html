@@ -3,761 +3,348 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Stromkosten mit Solarstrom</title>
+  <title>EigenverbrauchMax Präsentation</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="shortcut icon" type="image/svg+xml" href="favicon.svg">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body class="page-rechner">
-  <main class="container">
-    <header class="header">
-      <h1>Stromkosten mit Solarstrom</h1>
-      <p>Du siehst in kurzer Zeit was Solarstrom aus der Nachbarschaft für deine jährlichen Stromkosten bedeuten kann.</p>
-      <p class="header-link-note">Möchtest du wissen, wie lokaler Solarstrom funktioniert? <a href="praesentation.html">Hier findest du eine kurze Präsentation.</a></p>
-      <p class="disclaimer-note">Diese Berechnung ist eine Orientierung. Die tatsächlichen Kosten hängen von deinem Verbrauch ab.</p>
-    </header>
+<body class="page-praesentation">
+  <div class="top-actions">
+    <a class="quick-link" href="calculator.html">Jetzt Einsparung berechnen</a>
+    <a class="quick-link" href="#" title="Anmeldelink folgt in Kürze" aria-label="Jetzt anmelden (Anmeldelink folgt in Kürze)">Jetzt anmelden</a>
+  </div>
 
-    <section class="layout">
-      <article class="card">
-        <div class="card-header">
-          <h2>Deine Angaben</h2>
+  <main id="deck" class="deck" aria-label="Präsentation EigenverbrauchMax">
+    <section id="slide-1" class="slide slide-1" aria-label="Slide 1 von 4">
+      <div class="slide-inner">
+        <header class="hero">
+          <h1>Solarstrom aus deiner Nachbarschaft</h1>
+          <p>Mit EigenverbrauchMax von Thurplus erhältst du lokalen Solarstrom und senkst so deine Stromkosten.</p>
+        </header>
+
+        <div class="cards">
+          <article class="card card-third">
+            <div class="card-head">
+              <h3>Was ist EigenverbrauchMax</h3>
+            </div>
+            <div class="card-body">
+              <p>EigenverbrauchMax von Thurplus ist eine einfache Lösung für geteilten Solarstrom. Du nutzt Strom aus deiner Nachbarschaft direkt in deinem Alltag.</p>
+              <div class="chip">Geteilter Solarstrom</div>
+            </div>
+          </article>
+
+          <article class="card card-third">
+            <div class="card-head">
+              <h3>Wie funktioniert das</h3>
+            </div>
+            <div class="card-body">
+              <p>In deiner Nachbarschaft wird Solarstrom produziert. Thurplus verteilt die Strommengen fair auf alle Teilnehmenden. So kommt der Strom dorthin wo er gebraucht wird.</p>
+              <div class="chip">Einfach und transparent</div>
+            </div>
+          </article>
+
+          <article class="card card-third">
+            <div class="card-head">
+              <h3>Wer übernimmt die Abrechnung</h3>
+            </div>
+            <div class="card-body">
+              <p>Thurplus übernimmt Messung Verrechnung und Inkasso für dich. An deiner bisherigen Abrechnung ändert sich nichts und alles bleibt wie bis anhin. Neu wird dein Solarstrom aus der Nachbarschaft direkt und transparent über die reguläre Stromrechnung abgerechnet.</p>
+              <div class="chip">Thurplus übernimmt alles</div>
+            </div>
+          </article>
         </div>
-        <div class="card-body">
-          <form id="calcForm" novalidate>
-            <p class="quick-note">Drei Angaben genügen für eine erste Einschätzung.</p>
-            <section class="quick-fields">
-              <div class="field" data-field="monthlyKwh">
-                <div class="field-label-row">
-                  <label for="monthlyKwh">Stromverbrauch pro Monat<span class="sr-only"> (Pflichtfeld)</span></label>
-                  <button type="button" class="info-trigger" aria-label="Info zu Stromverbrauch pro Monat" aria-describedby="tooltip-monthlyKwh">i</button>
-                  <div class="field-tooltip" id="tooltip-monthlyKwh" role="tooltip">Das ist dein durchschnittlicher Stromverbrauch pro Monat. Wenn du nur den Jahreswert kennst, teile ihn durch 12.</div>
-                </div>
-                <div class="input-with-unit">
-                  <input id="monthlyKwh" name="monthlyKwh" type="number" min="0" step="0.01" inputmode="decimal">
-                  <span class="unit-suffix" aria-hidden="true">kWh</span>
-                </div>
-                <div class="error-msg" id="error-monthlyKwh"></div>
-              </div>
+      </div>
+    </section>
 
-              <div class="field" data-field="usageProfile">
-                <div class="field-label-row">
-                  <label for="usageProfile">Wie oft bist du tagsüber zu Hause?<span class="sr-only"> (Pflichtfeld)</span></label>
-                  <button type="button" class="info-trigger" aria-label="Info zur Tagesanwesenheit" aria-describedby="tooltip-usageProfile">i</button>
-                  <div class="field-tooltip" id="tooltip-usageProfile" role="tooltip">Wenn du tagsüber oft zu Hause bist, kannst du grosse Verbraucher wie Waschmaschine, Tumbler, Kochen oder E-Auto-Laden gezielt mit Solarstrom abdecken. Bei &bdquo;Wenig&ldquo; gelingt das nur teilweise, weil Lasten häufiger ausserhalb der Sonnenstunden laufen. Bei &bdquo;Fast nie&ldquo; ist der direkte Solarstromverbrauch am kleinsten und das Einsparpotenzial entsprechend tiefer.</div>
-                </div>
-                <select id="usageProfile" name="usageProfile">
-                  <option value="day_high">Fast immer</option>
-                  <option value="house_empty">Wenig</option>
-                  <option value="day_low">Fast nie</option>
-                </select>
-                <div class="error-msg" id="error-usageProfile"></div>
-              </div>
+    <section id="slide-2" class="slide slide-2" aria-label="Slide 2 von 4">
+      <div class="slide-inner">
+        <header class="hero">
+          <h2>Was bringt es Solarstrom lokal zu nutzen</h2>
+          <p>Alle gewinnen mit lokalem Solarstrom. Die Stromkundschaft spart Geld. Betreibende steigern den Ertrag. Umwelt und Netz profitieren mit.</p>
+        </header>
 
-              <div class="field" data-field="vzevEnergyRpKwh">
-                <div class="field-label-row">
-                  <label for="vzevEnergyRpKwh">Preis für lokalen Solarstrom<span class="sr-only"> (Pflichtfeld)</span></label>
-                  <button type="button" class="info-trigger" aria-label="Info zum Preis für lokalen Solarstrom" aria-describedby="tooltip-vzevEnergyRpKwh">i</button>
-                  <div class="field-tooltip" id="tooltip-vzevEnergyRpKwh" role="tooltip">Das ist der Preis pro kWh für lokalen Solarstrom.</div>
-                </div>
-                <div class="input-with-unit">
-                  <input id="vzevEnergyRpKwh" name="vzevEnergyRpKwh" type="number" min="0" step="0.01" inputmode="decimal">
-                  <span class="unit-suffix" aria-hidden="true">Rp/kWh</span>
-                </div>
-                <div class="error-msg" id="error-vzevEnergyRpKwh"></div>
-              </div>
-            </section>
-
-            <details class="advanced" id="advancedInputs">
-              <summary>Weitere Angaben wenn bekannt</summary>
-              <div class="advanced-grid">
-                <div class="field" data-field="energyRpKwh">
-                  <div class="field-label-row">
-                    <label for="energyRpKwh">Energiepreis</label>
-                    <button type="button" class="info-trigger" aria-label="Info zum Energiepreis" aria-describedby="tooltip-energyRpKwh">i</button>
-                    <div class="field-tooltip" id="tooltip-energyRpKwh" role="tooltip">Das ist der Preis pro kWh für normalen Strom ohne Netznutzungsgebühren.</div>
-                  </div>
-                  <div class="input-with-unit">
-                    <input id="energyRpKwh" name="energyRpKwh" type="number" min="0" step="0.01" inputmode="decimal">
-                    <span class="unit-suffix" aria-hidden="true">Rp/kWh</span>
-                  </div>
-                  <div class="error-msg" id="error-energyRpKwh"></div>
-                </div>
-
-                <div class="field" data-field="gridRpKwh">
-                  <div class="field-label-row">
-                    <label for="gridRpKwh">Netznutzungsgebühren</label>
-                    <button type="button" class="info-trigger" aria-label="Info zu Netznutzungsgebühren" aria-describedby="tooltip-gridRpKwh">i</button>
-                    <div class="field-tooltip" id="tooltip-gridRpKwh" role="tooltip">Das ist die Netznutzungsgebühr pro kWh. Für direkt genutzten Solarstrom aus der Nachbarschaft fällt dieser Anteil nicht an.</div>
-                  </div>
-                  <div class="input-with-unit">
-                    <input id="gridRpKwh" name="gridRpKwh" type="number" min="0" step="0.01" inputmode="decimal">
-                    <span class="unit-suffix" aria-hidden="true">Rp/kWh</span>
-                  </div>
-                  <div class="error-msg" id="error-gridRpKwh"></div>
-                </div>
-
-                <div class="field" data-field="baseFeeChfMonth">
-                  <div class="field-label-row">
-                    <label for="baseFeeChfMonth">Grundpreis</label>
-                    <button type="button" class="info-trigger" aria-label="Info zum Grundpreis" aria-describedby="tooltip-baseFeeChfMonth">i</button>
-                    <div class="field-tooltip" id="tooltip-baseFeeChfMonth" role="tooltip">Das ist ein fixer monatlicher Grundpreis unabhängig vom Verbrauch.</div>
-                  </div>
-                  <div class="input-with-unit">
-                    <input id="baseFeeChfMonth" name="baseFeeChfMonth" type="number" min="0" step="0.01" inputmode="decimal">
-                    <span class="unit-suffix" aria-hidden="true">CHF/Monat</span>
-                  </div>
-                  <div class="error-msg" id="error-baseFeeChfMonth"></div>
-                </div>
-
-                <div class="field" data-field="meteringFeeChfMonth">
-                  <div class="field-label-row">
-                    <label for="meteringFeeChfMonth">Messentgelte</label>
-                    <button type="button" class="info-trigger" aria-label="Info zu Messentgelten" aria-describedby="tooltip-meteringFeeChfMonth">i</button>
-                    <div class="field-tooltip" id="tooltip-meteringFeeChfMonth" role="tooltip">Das sind die Messentgelte des Energieversorgers pro Monat.</div>
-                  </div>
-                  <div class="input-with-unit">
-                    <input id="meteringFeeChfMonth" name="meteringFeeChfMonth" type="number" min="0" step="0.01" inputmode="decimal">
-                    <span class="unit-suffix" aria-hidden="true">CHF/Monat</span>
-                  </div>
-                  <div class="error-msg" id="error-meteringFeeChfMonth"></div>
-                </div>
-
-                <div class="field" data-field="vzevFeeChfMonth">
-                  <div class="field-label-row">
-                    <label for="vzevFeeChfMonth">Preis für die Abrechnung von Solarstrom</label>
-                    <button type="button" class="info-trigger" aria-label="Info zum Preis für die Abrechnung von Solarstrom aus der Nachbarschaft" aria-describedby="tooltip-vzevFeeChfMonth">i</button>
-                    <div class="field-tooltip" id="tooltip-vzevFeeChfMonth" role="tooltip">Das ist eine zusätzliche monatliche Gebühr des Energieversorgers für die Abrechnung von Solarstrom aus der Nachbarschaft.</div>
-                  </div>
-                  <div class="input-with-unit">
-                    <input id="vzevFeeChfMonth" name="vzevFeeChfMonth" type="number" min="0" step="0.01" inputmode="decimal">
-                    <span class="unit-suffix" aria-hidden="true">CHF/Monat</span>
-                  </div>
-                  <div class="error-msg" id="error-vzevFeeChfMonth"></div>
-                </div>
-              </div>
-            </details>
-
-            <div class="actions">
-              <button type="button" class="ghost-btn" id="resetBtn">Zurücksetzen</button>
+        <div class="cards">
+          <article class="card card-third">
+            <div class="card-head">
+              <h3>Nutzen für Solaranlagenbetreiber</h3>
             </div>
-            <div class="meta-note">Eingaben werden nur lokal im Browser gespeichert.</div>
-          </form>
+            <div class="card-body">
+              <p>Mehr Solarstrom direkt zu verkaufen verkürzt die Amortisationsdauer der Anlage.</p>
+              <div class="chip">Mehr Ertrag</div>
+            </div>
+          </article>
+
+          <article class="card card-third">
+            <div class="card-head">
+              <h3>Nutzen für Bewohnende</h3>
+            </div>
+            <div class="card-body">
+              <p>Du kannst lokalen Solarstrom nutzen auch ohne eigene Solaranlage. Das ist einfach und bringt erneuerbare Energie direkt in deinen Alltag. Lokaler Solarstrom stabilisiert den schwankenden Strompreis teilweise und macht deine Kosten besser planbar.</p>
+              <div class="chip">Direkt sparen</div>
+            </div>
+          </article>
+
+          <article class="card card-third">
+            <div class="card-head">
+              <h3>Nutzen für Umwelt und Netz</h3>
+            </div>
+            <div class="card-body">
+              <p>Mehr Solarstrom wird direkt in der Nachbarschaft genutzt und das stärkt die Umwelt und entlastet das Netz.</p>
+              <div class="chip">Umwelt und Netz</div>
+            </div>
+          </article>
         </div>
-      </article>
+      </div>
+    </section>
 
-      <article class="card">
-        <div class="card-header">
-          <h2>Dein Ergebnis</h2>
+    <section id="slide-3" class="slide slide-3" aria-label="Slide 3 von 4">
+      <div class="slide-inner">
+        <header class="hero">
+          <h2>Kosten und Einsparung im Überblick</h2>
+          <p>Du siehst auf einen Blick was für dich möglich ist und welche klaren Startkosten anfallen.</p>
+        </header>
+
+        <div class="cards">
+          <article class="card card-third">
+            <div class="card-head">
+              <h3>Beispiel ohne eigene Solaranlage</h3>
+            </div>
+            <div class="card-body">
+              <p>Ein Haushalt mit 4 Personen und 250 kWh pro Monat spart rund 130 CHF pro Jahr.</p>
+              <p>Ein Haushalt mit 2 Personen und 150 kWh pro Monat spart rund 65 CHF pro Jahr.</p>
+              <div class="chip">Bis 130 CHF sparen</div>
+            </div>
+          </article>
+
+          <article class="card card-third">
+            <div class="card-head">
+              <h3>Beispiel mit eigener Solaranlage</h3>
+            </div>
+            <div class="card-body">
+              <p>Der Mehrertrag liegt bei mindestens 50 bis 75 CHF pro Jahr.</p>
+              <div class="chip">Mehrertrag ab 50 CHF</div>
+            </div>
+          </article>
+
+          <article class="card card-third">
+            <div class="card-head">
+              <h3>Klarer Start mit transparenten Kosten</h3>
+            </div>
+            <div class="card-body">
+              <p>Einmalige Einrichtungspauschale 490 CHF pro Gemeinschaft.</p>
+              <p>Mutationspauschale 60 CHF pro nachträgliche Anpassung.</p>
+              <p>Monatlicher Servicebeitrag 3 CHF pro Zähler.</p>
+              <div class="chip">Klare Startkosten</div>
+            </div>
+          </article>
         </div>
-        <div class="card-body">
-          <div id="validationStatus" class="status hidden"></div>
 
-          <div class="summary">
-            <div class="summary-item">
-              <div class="label">Jahreskosten ohne Solarstrom</div>
-              <div class="value" id="yearBaseline">-</div>
+        <p class="note">Je besser Verbrauch und Solarstrom in der Nachbarschaft zusammenpassen desto grösser ist der Nutzen für alle.</p>
+      </div>
+    </section>
+
+    <section id="slide-4" class="slide slide-4" aria-label="Slide 4 von 4">
+      <div class="slide-inner">
+        <header class="hero">
+          <h2>Gemeinsam einen fairen Strompreis finden</h2>
+          <p>Alle Teilnehmenden gestalten den Preis für lokalen Solarstrom gemeinsam. Der Preis entsteht durch eine Abstimmung und aus dem Durchschnitt der abgegebenen Stimmen.</p>
+        </header>
+
+        <div class="cards">
+          <article class="card card-third">
+            <div class="card-head">
+              <h3>Gemeinsam entscheiden</h3>
             </div>
-            <div class="summary-item">
-              <div class="label">Jahreskosten mit Solarstrom</div>
-              <div class="value" id="yearVzev">-</div>
+            <div class="card-body">
+              <p>Alle Teilnehmenden geben ihre Stimme für einen Preis ab. Der Durchschnitt aller Stimmen ergibt den gemeinsamen Preis.</p>
+              <div class="chip">Gemeinsam festgelegt</div>
             </div>
-            <div class="summary-item primary neutral">
-              <div class="label">Jährliche Einsparung mit Solarstrom</div>
-              <div class="value" id="yearSaving">-</div>
+          </article>
+
+          <article class="card card-third">
+            <div class="card-head">
+              <h3>Fairness im Blick</h3>
             </div>
-          </div>
-
-          <div id="resultConclusion" class="result-conclusion neutral" aria-live="polite">
-            Bitte gib gültige Werte ein. Dann siehst du hier kurz erklärt, was dein Ergebnis bedeutet.
-          </div>
-
-          <details class="monthly-table">
-            <summary>Monate im Vergleich</summary>
-            <div class="table-wrap">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Monat</th>
-                    <th>Solaranteil</th>
-                    <th>Ohne Solarstrom</th>
-                    <th>Mit Solarstrom</th>
-                    <th>Einsparung</th>
-                  </tr>
-                </thead>
-                <tbody id="resultsBody"></tbody>
-              </table>
+            <div class="card-body">
+              <p>Diese Preisfindung ist nicht in jeder Lage perfekt fair. Darum braucht es bei der Preiswahl Verantwortung und den Blick auf die ganze Gemeinschaft.</p>
+              <div class="chip">Fairness im Blick</div>
             </div>
-          </details>
+          </article>
 
-          <details class="assumptions">
-            <summary>Annahmen</summary>
-            <ul>
-              <li>Der Monatsverbrauch ist in allen 12 Monaten gleich.</li>
-              <li>Solarstrom ist von März bis November verfügbar. Von Dezember bis Februar gibt es keinen Solarstrom.</li>
-              <li>Der Solaranteil in Solar-Monaten beträgt je nach Profil: Fast immer 70 %, Wenig 50 %, Fast nie 30 %.</li>
-              <li>Der monatliche Grundpreis gilt in beiden Szenarien mit und ohne Solarstrom.</li>
-              <li>Die monatlichen Messentgelte gelten in beiden Szenarien mit und ohne Solarstrom.</li>
-              <li>Reststrom wird mit Normaltarif und Netznutzung berechnet.</li>
-            </ul>
-          </details>
-
-          <details class="calculation-details">
-            <summary>So wurde gerechnet</summary>
-            <p class="calc-intro">So wird mit deinen Angaben gerechnet in derselben Reihenfolge wie im Code.</p>
-            <ol class="calc-steps">
-              <li class="calc-step">
-                <strong class="calc-step-title">Tarifbasis</strong>
-                <code class="formula">Normaltarif (CHF/kWh) = (Energiepreis + Netznutzungsgebühren) / 100</code>
-              </li>
-              <li class="calc-step">
-                <strong class="calc-step-title">Solaranteil je Monat</strong>
-                <div class="calc-note">Dezember bis Februar gilt kein Solarstrom.</div>
-                <code class="formula">Solaranteil = 0 (Dez-Feb), sonst 70 % / 50 % / 30 % je Profil</code>
-              </li>
-              <li class="calc-step">
-                <strong class="calc-step-title">Energiemengen</strong>
-                <code class="formula">Solar-kWh = Monatsverbrauch * Solaranteil</code>
-                <code class="formula">Rest-kWh = Monatsverbrauch - Solar-kWh</code>
-              </li>
-              <li class="calc-step">
-                <strong class="calc-step-title">Monatskosten ohne Solarstrom</strong>
-                <code class="formula">Ohne Solarstrom = Monatsverbrauch * Normaltarif + Grundpreis + Messentgelte</code>
-              </li>
-              <li class="calc-step">
-                <strong class="calc-step-title">Monatskosten mit Solarstrom</strong>
-                <code class="formula">Mit Solarstrom = Solar-kWh * (Preis für lokalen Solarstrom / 100) + Rest-kWh * Normaltarif + Grundpreis + Messentgelte + Preis für die Abrechnung von Solarstrom</code>
-              </li>
-              <li class="calc-step">
-                <strong class="calc-step-title">Einsparung</strong>
-                <code class="formula">Monatsersparnis = Ohne Solarstrom - Mit Solarstrom</code>
-                <code class="formula">Jahresersparnis = Summe aller 12 Monatsersparnisse</code>
-              </li>
-              <li class="calc-step">
-                <strong class="calc-step-title">Rundung</strong>
-                <code class="formula">Ausgabe auf 5 Rappen gerundet (roundToFiveRappen)</code>
-              </li>
-            </ol>
-          </details>
+          <article class="card card-third">
+            <div class="card-head">
+              <h3>Gemeinsame Chance</h3>
+            </div>
+            <div class="card-body">
+              <p>Die Energiewende gelingt besser wenn Nachbarschaften zusammenarbeiten. Ein ausgewogener Preis schafft Nutzen für Kaufende und Verkaufende und stärkt die Akzeptanz.</p>
+              <div class="chip">Gemeinsame Chance</div>
+            </div>
+          </article>
         </div>
-      </article>
+      </div>
     </section>
   </main>
 
+  <nav class="controls" aria-label="Slide Navigation">
+    <button id="prevBtn" type="button">Zurück</button>
+    <div id="slideIndicator" class="slide-indicator" aria-live="polite">1 / 4</div>
+    <button id="nextBtn" type="button">Weiter</button>
+  </nav>
+
   <script>
-    /**
-     * @typedef {Object} InputState
-     * @property {number} energyRpKwh
-     * @property {number} gridRpKwh
-     * @property {number} monthlyKwh
-     * @property {number} baseFeeChfMonth
-     * @property {number} meteringFeeChfMonth
-     * @property {number} vzevEnergyRpKwh
-     * @property {number} vzevFeeChfMonth
-     * @property {"day_high" | "house_empty" | "day_low"} usageProfile
-     */
+    (function () {
+      var deck = document.getElementById("deck");
+      var slides = Array.prototype.slice.call(deck.querySelectorAll(".slide"));
+      var prevBtn = document.getElementById("prevBtn");
+      var nextBtn = document.getElementById("nextBtn");
+      var slideIndicator = document.getElementById("slideIndicator");
+      var activeIndex = 0;
+      var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    /**
-     * @typedef {Object} MonthResult
-     * @property {string} monthKey
-     * @property {number} solarShare
-     * @property {number} baselineChf
-     * @property {number} vzevChf
-     * @property {number} savingChf
-     */
-
-    const STORAGE_KEY = "vzevcalc.state.v1";
-    const USAGE_PROFILE_DAY_SHARE = Object.freeze({
-      day_high: 0.7,
-      house_empty: 0.5,
-      day_low: 0.3
-    });
-
-    const MONTHS = Object.freeze([
-      { key: "jan", label: "Januar" },
-      { key: "feb", label: "Februar" },
-      { key: "mar", label: "März" },
-      { key: "apr", label: "April" },
-      { key: "may", label: "Mai" },
-      { key: "jun", label: "Juni" },
-      { key: "jul", label: "Juli" },
-      { key: "aug", label: "August" },
-      { key: "sep", label: "September" },
-      { key: "oct", label: "Oktober" },
-      { key: "nov", label: "November" },
-      { key: "dec", label: "Dezember" }
-    ]);
-
-    /** @type {InputState} */
-    const DEFAULT_STATE = Object.freeze({
-      energyRpKwh: 12.9,
-      gridRpKwh: 12.86,
-      monthlyKwh: 250,
-      baseFeeChfMonth: 10,
-      meteringFeeChfMonth: 4,
-      vzevEnergyRpKwh: 15,
-      vzevFeeChfMonth: 3,
-      usageProfile: "day_high"
-    });
-
-    const chfFormatter = new Intl.NumberFormat("de-CH", {
-      style: "currency",
-      currency: "CHF",
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    });
-
-    const percentFormatter = new Intl.NumberFormat("de-CH", {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0
-    });
-
-    const form = document.getElementById("calcForm");
-    const resetBtn = document.getElementById("resetBtn");
-    const resultsBody = document.getElementById("resultsBody");
-    const yearBaseline = document.getElementById("yearBaseline");
-    const yearVzev = document.getElementById("yearVzev");
-    const yearSaving = document.getElementById("yearSaving");
-    const yearSavingItem = yearSaving ? yearSaving.closest(".summary-item") : null;
-    const resultConclusion = document.getElementById("resultConclusion");
-    const validationStatus = document.getElementById("validationStatus");
-    const advancedInputs = document.getElementById("advancedInputs");
-
-    const numericFieldIds = [
-      "energyRpKwh",
-      "gridRpKwh",
-      "monthlyKwh",
-      "baseFeeChfMonth",
-      "meteringFeeChfMonth",
-      "vzevEnergyRpKwh",
-      "vzevFeeChfMonth"
-    ];
-    const advancedFieldIds = [
-      "energyRpKwh",
-      "gridRpKwh",
-      "baseFeeChfMonth",
-      "meteringFeeChfMonth",
-      "vzevFeeChfMonth"
-    ];
-
-    initialize();
-
-    function initialize() {
-      const initialState = loadState();
-      writeStateToForm(initialState);
-      renderFromForm();
-      setupTooltipPlacement();
-
-      form.addEventListener("input", renderFromForm);
-      form.addEventListener("change", renderFromForm);
-
-      resetBtn.addEventListener("click", handleReset);
-    }
-
-    function setupTooltipPlacement() {
-      const triggers = form.querySelectorAll(".info-trigger");
-      triggers.forEach(function (trigger) {
-        trigger.addEventListener("mouseenter", handleTooltipPlacement);
-        trigger.addEventListener("focus", handleTooltipPlacement);
-        trigger.addEventListener("click", handleTooltipPlacement);
-      });
-    }
-
-    /**
-     * @param {MouseEvent|FocusEvent} event
-     */
-    function handleTooltipPlacement(event) {
-      const trigger = event.currentTarget;
-      if (!(trigger instanceof HTMLElement)) {
-        return;
+      function clampIndex(index) {
+        if (index < 0) {
+          return 0;
+        }
+        if (index > slides.length - 1) {
+          return slides.length - 1;
+        }
+        return index;
       }
 
-      const row = trigger.closest(".field-label-row");
-      if (!row) {
-        return;
+      function updateUi() {
+        slideIndicator.textContent = (activeIndex + 1) + " / " + slides.length;
+        prevBtn.disabled = activeIndex === 0;
+        nextBtn.disabled = activeIndex === slides.length - 1;
       }
 
-      const tooltip = row.querySelector(".field-tooltip");
-      if (!(tooltip instanceof HTMLElement)) {
-        return;
+      function goToSlide(index) {
+        activeIndex = clampIndex(index);
+        slides[activeIndex].scrollIntoView({
+          behavior: reducedMotion ? "auto" : "smooth",
+          block: "start"
+        });
+        updateUi();
       }
 
-      positionTooltip(row, tooltip);
-    }
-
-    /**
-     * @param {Element} row
-     * @param {HTMLElement} tooltip
-     */
-    function positionTooltip(row, tooltip) {
-      row.classList.remove("tooltip-below");
-      const rect = tooltip.getBoundingClientRect();
-      if (rect.top < 12) {
-        row.classList.add("tooltip-below");
-      }
-    }
-
-    /**
-     * @returns {InputState}
-     */
-    function loadState() {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) {
-          return { ...DEFAULT_STATE };
+      function handleKeyNavigation(event) {
+        var tag = event.target && event.target.tagName ? event.target.tagName.toLowerCase() : "";
+        if (tag === "input" || tag === "textarea" || tag === "select" || event.target.isContentEditable) {
+          return;
         }
 
-        const parsed = JSON.parse(raw);
-        return sanitizeState(parsed);
-      } catch (_error) {
-        return { ...DEFAULT_STATE };
-      }
-    }
-
-    /**
-     * @param {InputState} state
-     */
-    function saveState(state) {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-      } catch (_error) {
-        // Ignore storage failures (private mode or blocked localStorage).
-      }
-    }
-
-    /**
-     * @param {unknown} candidate
-     * @returns {InputState}
-     */
-    function sanitizeState(candidate) {
-      const input = candidate && typeof candidate === "object" ? candidate : {};
-      return {
-        energyRpKwh: normalizeNumber(input.energyRpKwh, DEFAULT_STATE.energyRpKwh),
-        gridRpKwh: normalizeNumber(input.gridRpKwh, DEFAULT_STATE.gridRpKwh),
-        monthlyKwh: normalizeNumber(input.monthlyKwh, DEFAULT_STATE.monthlyKwh),
-        baseFeeChfMonth: normalizeNumber(input.baseFeeChfMonth, DEFAULT_STATE.baseFeeChfMonth),
-        meteringFeeChfMonth: normalizeNumber(input.meteringFeeChfMonth, DEFAULT_STATE.meteringFeeChfMonth),
-        vzevEnergyRpKwh: normalizeNumber(input.vzevEnergyRpKwh, DEFAULT_STATE.vzevEnergyRpKwh),
-        vzevFeeChfMonth: normalizeNumber(input.vzevFeeChfMonth, DEFAULT_STATE.vzevFeeChfMonth),
-        usageProfile: normalizeUsageProfile(input.usageProfile, DEFAULT_STATE.usageProfile)
-      };
-    }
-
-    /**
-     * @param {unknown} value
-     * @param {number} fallback
-     * @returns {number}
-     */
-    function normalizeNumber(value, fallback) {
-      const numeric = Number(value);
-      return Number.isFinite(numeric) && numeric >= 0 ? numeric : fallback;
-    }
-
-    /**
-     * @param {unknown} value
-     * @param {"day_high" | "house_empty" | "day_low" | ""} fallback
-     * @returns {"day_high" | "house_empty" | "day_low" | ""}
-     */
-    function normalizeUsageProfile(value, fallback) {
-      return Object.prototype.hasOwnProperty.call(USAGE_PROFILE_DAY_SHARE, value) ? value : fallback;
-    }
-
-    /**
-     * @param {InputState} state
-     */
-    function writeStateToForm(state) {
-      form.energyRpKwh.value = state.energyRpKwh;
-      form.gridRpKwh.value = state.gridRpKwh;
-      form.monthlyKwh.value = state.monthlyKwh;
-      form.baseFeeChfMonth.value = state.baseFeeChfMonth;
-      form.meteringFeeChfMonth.value = state.meteringFeeChfMonth;
-      form.vzevEnergyRpKwh.value = state.vzevEnergyRpKwh;
-      form.vzevFeeChfMonth.value = state.vzevFeeChfMonth;
-      form.usageProfile.value = state.usageProfile;
-    }
-
-    /**
-     * @returns {InputState}
-     */
-    function readStateFromForm() {
-      return {
-        energyRpKwh: Number(form.energyRpKwh.value),
-        gridRpKwh: Number(form.gridRpKwh.value),
-        monthlyKwh: Number(form.monthlyKwh.value),
-        baseFeeChfMonth: Number(form.baseFeeChfMonth.value),
-        meteringFeeChfMonth: Number(form.meteringFeeChfMonth.value),
-        vzevEnergyRpKwh: Number(form.vzevEnergyRpKwh.value),
-        vzevFeeChfMonth: Number(form.vzevFeeChfMonth.value),
-        usageProfile: form.usageProfile.value
-      };
-    }
-
-    function renderFromForm() {
-      const state = readStateFromForm();
-      const errors = validateState(state);
-      applyValidation(errors);
-
-      if (Object.keys(errors).length > 0) {
-        renderInvalid();
-        return;
-      }
-
-      saveState(state);
-      const yearResult = calculateYear(state);
-      renderResults(yearResult);
-    }
-
-    /**
-     * @param {InputState} state
-     * @returns {Record<string, string>}
-     */
-    function validateState(state) {
-      const errors = {};
-
-      for (const fieldId of numericFieldIds) {
-        const value = state[fieldId];
-        if (!Number.isFinite(value) || value < 0) {
-          errors[fieldId] = "Bitte eine gültige Zahl ab 0 eingeben.";
+        if (event.key === "ArrowRight" || event.key === "ArrowDown" || event.key === "PageDown" || event.key === " ") {
+          event.preventDefault();
+          goToSlide(activeIndex + 1);
+        } else if (event.key === "ArrowLeft" || event.key === "ArrowUp" || event.key === "PageUp") {
+          event.preventDefault();
+          goToSlide(activeIndex - 1);
+        } else if (event.key === "Home") {
+          event.preventDefault();
+          goToSlide(0);
+        } else if (event.key === "End") {
+          event.preventDefault();
+          goToSlide(slides.length - 1);
         }
       }
 
-      if (!Object.prototype.hasOwnProperty.call(USAGE_PROFILE_DAY_SHARE, state.usageProfile)) {
-        errors.usageProfile = "Bitte ein gültiges Nutzungsprofil auswählen.";
-      }
-
-      return errors;
-    }
-
-    /**
-     * @param {number} monthIndex
-     * @param {"day_high" | "house_empty" | "day_low"} usageProfile
-     * @returns {number}
-     */
-    function calculateSolarShare(monthIndex, usageProfile) {
-      if (!isSolarMonth(monthIndex)) {
-        return 0;
-      }
-
-      return USAGE_PROFILE_DAY_SHARE[usageProfile] ?? USAGE_PROFILE_DAY_SHARE[DEFAULT_STATE.usageProfile];
-    }
-
-    /**
-     * @param {Record<string, string>} errors
-     */
-    function applyValidation(errors) {
-      const hasAdvancedError = advancedFieldIds.some(function (fieldId) {
-        return Boolean(errors[fieldId]);
-      });
-      if (hasAdvancedError && advancedInputs) {
-        advancedInputs.open = true;
-      }
-
-      const fields = form.querySelectorAll(".field");
-      fields.forEach(function (field) {
-        const key = field.getAttribute("data-field");
-        const msg = errors[key] || "";
-        field.classList.toggle("invalid", Boolean(msg));
-        const errorEl = document.getElementById("error-" + key);
-        if (errorEl) {
-          errorEl.textContent = msg;
+      function syncActiveSlideFromViewport() {
+        var bestIndex = activeIndex;
+        var bestDistance = Number.POSITIVE_INFINITY;
+        for (var i = 0; i < slides.length; i += 1) {
+          var distance = Math.abs(slides[i].offsetTop - deck.scrollTop);
+          if (distance < bestDistance) {
+            bestDistance = distance;
+            bestIndex = i;
+          }
         }
+        if (bestIndex !== activeIndex) {
+          activeIndex = bestIndex;
+          updateUi();
+        }
+      }
+
+      function getBestTitleBreakIndex(words) {
+        var bestIndex = 1;
+        var bestDelta = Number.POSITIVE_INFINITY;
+        for (var i = 1; i < words.length; i += 1) {
+          var leftLength = words.slice(0, i).join(" ").length;
+          var rightLength = words.slice(i).join(" ").length;
+          var delta = Math.abs(leftLength - rightLength);
+          if (delta < bestDelta) {
+            bestDelta = delta;
+            bestIndex = i;
+          }
+        }
+        return bestIndex;
+      }
+
+      function splitSingleLineCardTitles() {
+        var titles = deck.querySelectorAll(".card-head h3");
+        for (var i = 0; i < titles.length; i += 1) {
+          var title = titles[i];
+          if (title.dataset.splitApplied === "true") {
+            continue;
+          }
+
+          var cleanText = title.textContent.replace(/\s+/g, " ").trim();
+          if (!cleanText) {
+            continue;
+          }
+
+          var words = cleanText.split(" ");
+          if (words.length <= 1) {
+            continue;
+          }
+
+          var style = window.getComputedStyle(title);
+          var lineHeight = parseFloat(style.lineHeight);
+          if (Number.isNaN(lineHeight)) {
+            continue;
+          }
+
+          var isSingleLine = title.scrollHeight <= lineHeight * 1.3;
+          if (!isSingleLine) {
+            continue;
+          }
+
+          var breakIndex = getBestTitleBreakIndex(words);
+          var firstLine = words.slice(0, breakIndex).join(" ");
+          var secondLine = words.slice(breakIndex).join(" ");
+
+          title.textContent = "";
+          var lineOne = document.createElement("span");
+          lineOne.className = "title-line";
+          lineOne.textContent = firstLine;
+          var lineTwo = document.createElement("span");
+          lineTwo.className = "title-line";
+          lineTwo.textContent = secondLine;
+
+          title.appendChild(lineOne);
+          title.appendChild(lineTwo);
+          title.dataset.splitApplied = "true";
+        }
+      }
+
+      prevBtn.addEventListener("click", function () {
+        goToSlide(activeIndex - 1);
       });
-    }
 
-    function renderInvalid() {
-      validationStatus.classList.remove("hidden");
-      validationStatus.textContent = "Bitte prüfe alle Eingaben. Die Berechnung erscheint erst mit gültigen Werten.";
-
-      yearBaseline.textContent = "-";
-      yearVzev.textContent = "-";
-      yearSaving.textContent = "-";
-      yearSaving.classList.remove("positive", "negative", "neutral");
-      if (yearSavingItem) {
-        yearSavingItem.classList.remove("positive", "negative");
-        yearSavingItem.classList.add("neutral");
-      }
-      resultConclusion.textContent =
-        "Bitte gib gültige Werte ein. Dann siehst du hier kurz erklärt, was dein Ergebnis bedeutet.";
-      resultConclusion.classList.remove("positive", "negative");
-      resultConclusion.classList.add("neutral");
-      resultsBody.innerHTML = "";
-    }
-
-    /**
-     * @param {InputState} state
-     * @param {number} monthIndex
-     * @returns {MonthResult}
-     */
-    function calculateMonth(state, monthIndex) {
-      const month = MONTHS[monthIndex];
-      const baselineRateChfPerKwh = (state.energyRpKwh + state.gridRpKwh) / 100;
-      const solarShare = calculateSolarShare(monthIndex, state.usageProfile);
-      const solarKwh = state.monthlyKwh * solarShare;
-      const restKwh = state.monthlyKwh - solarKwh;
-
-      const baselineChf =
-        state.monthlyKwh * baselineRateChfPerKwh +
-        state.baseFeeChfMonth +
-        state.meteringFeeChfMonth;
-      const vzevChf =
-        solarKwh * (state.vzevEnergyRpKwh / 100) +
-        restKwh * baselineRateChfPerKwh +
-        state.baseFeeChfMonth +
-        state.meteringFeeChfMonth +
-        state.vzevFeeChfMonth;
-      const savingChf = baselineChf - vzevChf;
-
-      return {
-        monthKey: month.key,
-        solarShare: solarShare,
-        baselineChf: baselineChf,
-        vzevChf: vzevChf,
-        savingChf: savingChf
-      };
-    }
-
-    /**
-     * @param {InputState} state
-     */
-    function calculateYear(state) {
-      const months = MONTHS.map(function (_month, index) {
-        return calculateMonth(state, index);
+      nextBtn.addEventListener("click", function () {
+        goToSlide(activeIndex + 1);
       });
 
-      const totals = months.reduce(
-        function (acc, month) {
-          acc.baselineChf += month.baselineChf;
-          acc.vzevChf += month.vzevChf;
-          acc.savingChf += month.savingChf;
-          return acc;
-        },
-        { baselineChf: 0, vzevChf: 0, savingChf: 0 }
-      );
+      deck.addEventListener("scroll", function () {
+        window.requestAnimationFrame(syncActiveSlideFromViewport);
+      }, { passive: true });
 
-      return { months: months, totals: totals };
-    }
+      window.addEventListener("keydown", handleKeyNavigation);
 
-    /**
-     * @param {{ months: MonthResult[], totals: { baselineChf: number, vzevChf: number, savingChf: number } }} results
-     */
-    function renderResults(results) {
-      validationStatus.classList.add("hidden");
-      validationStatus.textContent = "";
+      window.requestAnimationFrame(function () {
+        window.requestAnimationFrame(splitSingleLineCardTitles);
+      });
 
-      const rows = results.months
-        .map(function (month, index) {
-          const savingClass = month.savingChf >= 0 ? "pos" : "neg";
-          const monthLabel = MONTHS[index].label;
-          const solarLabel = percentFormatter.format(month.solarShare * 100) + "%";
-
-          return (
-            "<tr>" +
-            "<td>" + monthLabel + "</td>" +
-            "<td>" + solarLabel + "</td>" +
-            "<td>" + formatChf(month.baselineChf) + "</td>" +
-            "<td>" + formatChf(month.vzevChf) + "</td>" +
-            "<td class='saving " + savingClass + "'>" + formatChf(month.savingChf) + "</td>" +
-            "</tr>"
-          );
-        })
-        .join("");
-
-      const totalSavingClass = results.totals.savingChf >= 0 ? "pos" : "neg";
-      resultsBody.innerHTML =
-        rows +
-        "<tr class='total-row'>" +
-        "<td>Total</td>" +
-        "<td>-</td>" +
-        "<td>" + formatChf(results.totals.baselineChf) + "</td>" +
-        "<td>" + formatChf(results.totals.vzevChf) + "</td>" +
-        "<td class='saving " + totalSavingClass + "'>" + formatChf(results.totals.savingChf) + "</td>" +
-        "</tr>";
-
-      yearBaseline.textContent = formatChf(results.totals.baselineChf);
-      yearVzev.textContent = formatChf(results.totals.vzevChf);
-      const conclusion = getConclusion(results.totals.savingChf);
-      yearSaving.textContent = formatChf(results.totals.savingChf);
-      yearSaving.classList.remove("positive", "negative", "neutral");
-      yearSaving.classList.add(conclusion.tone);
-      if (yearSavingItem) {
-        yearSavingItem.classList.remove("positive", "negative", "neutral");
-        yearSavingItem.classList.add(conclusion.tone);
-      }
-      resultConclusion.innerHTML = conclusion.text;
-      resultConclusion.classList.remove("positive", "negative", "neutral");
-      resultConclusion.classList.add(conclusion.tone);
-    }
-
-    /**
-     * @param {number} savingChf
-     * @returns {{ text: string, tone: "positive" | "negative" | "neutral" }}
-     */
-    function getConclusion(savingChf) {
-      if (savingChf > 10) {
-        return {
-          text:
-            "Mit deinen Angaben sparst du pro Jahr etwa <span class='conclusion-amount'>" +
-            formatChf(savingChf) +
-            "</span>" +
-            " mit Solarstrom aus der Nachbarschaft. Du profitierst bei den Stromkosten und stärkst die lokale Versorgung. So gewinnen du, deine Nachbarschaft und die Umwelt.",
-          tone: "positive"
-        };
-      }
-
-      if (savingChf < -10) {
-        return {
-          text:
-            "Mit deinen Angaben liegen die Kosten mit Solarstrom aus der Nachbarschaft pro Jahr etwa <span class='conclusion-amount'>" +
-            formatChf(Math.abs(savingChf)) +
-            "</span>" +
-            " höher. Das ist eine Momentaufnahme und kann sich mit angepasstem Verbrauch verändern. Auch bei kleinem Aufpreis unterstützt du eine sinnvolle Lösung in der Nachbarschaft.",
-          tone: "negative"
-        };
-      }
-
-      return {
-        text:
-          "Mit deinen Angaben ist der Unterschied pro Jahr rund <span class='conclusion-amount'>" +
-          formatChf(Math.abs(savingChf)) +
-          "</span>" +
-          ". Die Kosten bleiben damit fast gleich. Du unterstützt trotzdem eine sinnvolle Versorgung in der Nachbarschaft.",
-        tone: "neutral"
-      };
-    }
-
-    /**
-     * @param {number} value
-     * @returns {string}
-     */
-    function formatChf(value) {
-      return chfFormatter.format(roundToFiveRappen(value));
-    }
-
-    /**
-     * @param {number} monthIndex
-     * @returns {boolean}
-     */
-    function isSolarMonth(monthIndex) {
-      return monthIndex >= 2 && monthIndex <= 10;
-    }
-
-    /**
-     * @param {number} value
-     * @returns {number}
-     */
-    function roundToFiveRappen(value) {
-      return Math.round((value + Number.EPSILON) * 20) / 20;
-    }
-
-    function handleReset() {
-      try {
-        localStorage.removeItem(STORAGE_KEY);
-      } catch (_error) {
-        // Ignore storage errors.
-      }
-
-      writeStateToForm({ ...DEFAULT_STATE });
-      renderFromForm();
-    }
+      updateUi();
+    })();
   </script>
 </body>
 </html>
