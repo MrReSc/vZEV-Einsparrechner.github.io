@@ -1168,7 +1168,13 @@ body.page-praesentation {
     }
 
     @media (max-width: 980px){
+      body.page-praesentation .deck{
+        scroll-snap-type: y proximity;
+      }
+
       body.page-praesentation .slide{
+        align-items: flex-start;
+        scroll-snap-stop: normal;
         padding-top: 4rem;
       }
 
