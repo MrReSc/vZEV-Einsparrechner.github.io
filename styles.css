@@ -67,7 +67,7 @@ body {
   min-height: 100vh;
   background: transparent;
   color: var(--text);
-  font-family: "Avenir Next", "Segoe UI", "Noto Sans", "Helvetica Neue", sans-serif;
+  font-family: "Roboto", "Avenir Next", "Segoe UI", "Noto Sans", "Helvetica Neue", sans-serif;
 }
 
 body.page-rechner {
@@ -103,7 +103,7 @@ body.page-rechner {
 
     body.page-rechner .header h1{
       margin: 0 0 0.2rem;
-      font-size: clamp(1.45rem, 1.15rem + 1vw, 2rem);
+      font-size: clamp(1.67rem, 1.32rem + 1.15vw, 2.3rem);
       line-height: 1.2;
       font-weight: 710;
       letter-spacing: 0.1px;
@@ -113,7 +113,7 @@ body.page-rechner {
     body.page-rechner .header p{
       margin: 0;
       color: var(--text-muted);
-      font-size: 0.95rem;
+      font-size: 1.09rem;
     }
 
     body.page-rechner .header .disclaimer-note{
@@ -267,7 +267,7 @@ body.page-rechner {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.74rem;
+      font-size: 0.8rem;
       font-weight: 760;
       line-height: 1;
       transform: translateY(1px);
@@ -432,7 +432,13 @@ body.page-rechner {
       padding: 0.12rem 0.56rem 0.56rem;
     }
 
+    body.page-rechner details.advanced:not([open]), body.page-rechner .monthly-table:not([open]), body.page-rechner .assumptions:not([open]), body.page-rechner .calculation-details:not([open]){
+      padding-bottom: 0.12rem;
+    }
+
     body.page-rechner details.advanced > summary, body.page-rechner .monthly-table > summary, body.page-rechner .assumptions > summary, body.page-rechner .calculation-details > summary{
+      display: flex;
+      align-items: center;
       cursor: pointer;
       color: #505942;
       font-size: 0.92rem;
@@ -468,6 +474,13 @@ body.page-rechner {
       display: grid;
       gap: 0.68rem;
       padding-top: 0.2rem;
+    }
+
+    body.page-rechner .advanced-note{
+      margin: 0.3rem 0 0.1rem;
+      font-size: 0.82rem;
+      line-height: 1.35;
+      color: var(--text-muted);
     }
 
     body.page-rechner .error-msg{
@@ -545,7 +558,7 @@ body.page-rechner {
     }
 
     body.page-rechner .summary-item .label{
-      font-size: 0.78rem;
+      font-size: 0.9rem;
       color: #5c644f;
       text-transform: uppercase;
       letter-spacing: 0.3px;
@@ -917,7 +930,7 @@ body.page-praesentation {
 
     body.page-praesentation .hero h1, body.page-praesentation .hero h2{
       margin: 0;
-      color: #2a3326;
+      color: var(--text);
       line-height: 1.08;
       letter-spacing: 0.2px;
       font-size: clamp(3rem, 4.5vw, 4.5rem);
@@ -927,7 +940,7 @@ body.page-praesentation {
 
     body.page-praesentation .hero p{
       margin: 0.6rem 0 0;
-      color: var(--text-muted);
+      color: var(--text);
       font-size: clamp(1.38rem, 1.75vw, 1.75rem);
       line-height: 1.35;
       max-width: 62ch;
@@ -1109,15 +1122,21 @@ body.page-praesentation {
       box-shadow: var(--shadow-soft);
     }
 
-    body.page-rechner .header h1,
-    body.page-praesentation .hero h1,
-    body.page-praesentation .hero h2{
+    body.page-rechner .header h1{
       color: #2a3326;
     }
 
-    body.page-rechner .header p,
-    body.page-praesentation .hero p{
+    body.page-praesentation .hero h1,
+    body.page-praesentation .hero h2{
+      color: var(--text);
+    }
+
+    body.page-rechner .header p{
       color: var(--text-muted);
+    }
+
+    body.page-praesentation .hero p{
+      color: var(--text);
     }
 
     body.page-rechner .card,
