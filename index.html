@@ -55,6 +55,7 @@
             </div>
           </article>
         </div>
+
       </div>
     </section>
 
@@ -96,6 +97,7 @@
             </div>
           </article>
         </div>
+
       </div>
     </section>
 
@@ -147,9 +149,12 @@
 
     <section id="slide-4" class="slide slide-4" aria-label="Slide 4 von 4">
       <div class="slide-inner">
-        <header class="hero">
-          <h2>Den Solarstrompreis bestimmst du mit</h2>
-          <p>Alle Teilnehmenden gestalten den Preis für lokalen Solarstrom gemeinsam. Der Preis entsteht durch eine Abstimmung und aus dem Durchschnitt der abgegebenen Stimmen.</p>
+        <header class="hero hero-with-graphic">
+          <div class="hero-main">
+            <h2>Den Solarstrompreis bestimmst du mit</h2>
+            <p>Alle Teilnehmenden gestalten den Preis für lokalen Solarstrom gemeinsam. Der Preis entsteht durch eine Abstimmung und aus dem Durchschnitt der abgegebenen Stimmen.</p>
+          </div>
+          <div id="strompreis-composition" class="strompreis-composition"></div>
         </header>
 
         <div class="cards">
@@ -165,6 +170,17 @@
 
           <article class="card card-third">
             <div class="card-head">
+              <h3>Wie entsteht der Solarstrompreis</h3>
+            </div>
+            <div class="card-body">
+              <p><span class="strompreis-word-red">Rot</span> zeigt den normalen Strompreis, <span class="strompreis-word-blue">Blau</span> und <span class="strompreis-word-yellow">Gelb</span> zeigen die Kosten für Bezüger und Produzenten.</p>
+              <p>Im <span class="strompreis-word-green">grünen Band</span> von 11 bis 23 Rp/kWh bleibt der Solarstrompreis fair, so profitieren alle.</p>
+              <div class="chip">Preisbildung erklärt</div>
+            </div>
+          </article>
+
+          <article class="card card-third">
+            <div class="card-head">
               <h3>Fairness im Blick</h3>
             </div>
             <div class="card-body">
@@ -172,17 +188,10 @@
               <div class="chip">Fairness im Blick</div>
             </div>
           </article>
-
-          <article class="card card-third">
-            <div class="card-head">
-              <h3>Gemeinsame Chance</h3>
-            </div>
-            <div class="card-body">
-              <p>Die Energiewende gelingt besser wenn Nachbarschaften zusammenarbeiten. Ein ausgewogener Preis schafft Nutzen für Kaufende und Verkaufende und stärkt die Akzeptanz.</p>
-              <div class="chip">Gemeinsame Chance</div>
-            </div>
-          </article>
         </div>
+
+        <p class="note">Die Kosten für Bezüger und Produzenten pro kWh variieren abhängig vom eigenen Stromverbrauch.</p>
+        <p class="note">Kosten Bezüger sind die monatlichen Abrechnungskosten von Thurplus. Kosten Produzenten umfassen diese Abrechnungskosten plus die Solarvergütung.</p>
       </div>
     </section>
   </main>
@@ -202,6 +211,207 @@
       var slideIndicator = document.getElementById("slideIndicator");
       var activeIndex = 0;
       var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var strompreisCompositionConfig = {
+        unit: "Rp/kWh",
+        leftColumn: {
+          label: "Normaler Strompreis",
+          value: 26
+        },
+        segments: [
+          {
+            key: "feeTop",
+            type: "value",
+            label: "Abrechnungspauschale für EigenverbrauchMax",
+            value: 3
+          },
+          {
+            key: "solarBand",
+            type: "range",
+            label: "Spielraum Solarstrompreis",
+            min: 11,
+            max: 23
+          },
+          {
+            key: "feeBottom",
+            type: "value",
+            label: "Abrechnungspauschale für EigenverbrauchMax",
+            value: 3
+          },
+          {
+            key: "feedIn",
+            type: "value",
+            label: "Solarstromvergütung",
+            value: 8
+          }
+        ],
+        legendItems: [
+          {
+            colorKey: "leftColumn",
+            label: "Normaler Strompreis"
+          },
+          {
+            colorKey: "feeTop",
+            label: "Kosten Bezüger"
+          },
+          {
+            colorKey: "solarBand",
+            label: "Solarstrompreis"
+          },
+          {
+            colorKey: "feeBottom",
+            label: "Kosten Produzenten"
+          }
+        ]
+      };
+
+      function getNumericValue(value) {
+        var numericValue = Number(value);
+        if (!Number.isFinite(numericValue)) {
+          return 0;
+        }
+        return numericValue;
+      }
+
+      function formatNumber(value) {
+        var roundedValue = Math.round(value * 100) / 100;
+        if (Math.abs(roundedValue % 1) < 0.0000001) {
+          return String(Math.round(roundedValue));
+        }
+        return String(roundedValue);
+      }
+
+      function getClassSafeKey(value) {
+        return String(value || "")
+          .replace(/([a-z])([A-Z])/g, "$1-$2")
+          .replace(/[^a-zA-Z0-9-_]/g, "-")
+          .toLowerCase();
+      }
+
+      function appendLegendItem(legendContainer, colorKey, labelText) {
+        var keyClass = getClassSafeKey(colorKey);
+        var legendItem = document.createElement("div");
+        legendItem.className = "strompreis-legend-item";
+        if (keyClass) {
+          legendItem.className += " strompreis-legend-" + keyClass;
+        }
+
+        var legendSwatch = document.createElement("span");
+        legendSwatch.className = "strompreis-legend-swatch";
+        legendSwatch.setAttribute("aria-hidden", "true");
+
+        var legendText = document.createElement("span");
+        legendText.className = "strompreis-legend-label";
+        legendText.textContent = labelText;
+
+        legendItem.appendChild(legendSwatch);
+        legendItem.appendChild(legendText);
+        legendContainer.appendChild(legendItem);
+      }
+
+      function getSegmentUnits(segment) {
+        if (segment.type === "range") {
+          return Math.max(0, getNumericValue(segment.max) - getNumericValue(segment.min));
+        }
+        return Math.max(0, getNumericValue(segment.value));
+      }
+
+      function getSegmentDetail(segment, unit) {
+        if (segment.type === "range") {
+          return formatNumber(getNumericValue(segment.min)) + " bis " + formatNumber(getNumericValue(segment.max)) + " " + unit;
+        }
+        return formatNumber(getNumericValue(segment.value)) + " " + unit;
+      }
+
+      function buildChartAriaLabel(config) {
+        var descriptionParts = [];
+        descriptionParts.push(config.leftColumn.label + " " + formatNumber(getNumericValue(config.leftColumn.value)) + " " + config.unit);
+        for (var i = 0; i < config.segments.length; i += 1) {
+          var segment = config.segments[i];
+          descriptionParts.push(segment.label + " " + getSegmentDetail(segment, config.unit));
+        }
+        return descriptionParts.join(". ");
+      }
+
+      function renderStrompreisComposition() {
+        var container = document.getElementById("strompreis-composition");
+        if (!container) {
+          return;
+        }
+
+        var config = strompreisCompositionConfig;
+        var segments = config.segments || [];
+        if (segments.length === 0) {
+          return;
+        }
+
+        container.innerHTML = "";
+
+        var layout = document.createElement("div");
+        layout.className = "strompreis-layout";
+
+        var chart = document.createElement("div");
+        chart.className = "strompreis-chart";
+        chart.setAttribute("role", "img");
+        chart.setAttribute("aria-label", buildChartAriaLabel(config));
+
+        var left = document.createElement("div");
+        left.className = "strompreis-left";
+        var leftLabel = document.createElement("p");
+        leftLabel.className = "strompreis-left-label";
+        leftLabel.textContent = formatNumber(getNumericValue(config.leftColumn.value)) + " " + config.unit;
+        left.appendChild(leftLabel);
+
+        var stack = document.createElement("div");
+        stack.className = "strompreis-stack";
+
+        var legend = document.createElement("div");
+        legend.className = "strompreis-legend";
+        var legendItems = config.legendItems || [];
+        if (legendItems.length === 0) {
+          legendItems = [
+            { colorKey: "leftColumn", label: "Normaler Strompreis" },
+            { colorKey: "feeTop", label: "Kosten Bezüger" },
+            { colorKey: "solarBand", label: "Solarstrompreis" },
+            { colorKey: "feeBottom", label: "Kosten Produzenten" }
+          ];
+        }
+        for (var k = 0; k < legendItems.length; k += 1) {
+          var legendItemConfig = legendItems[k];
+          appendLegendItem(
+            legend,
+            legendItemConfig.colorKey,
+            legendItemConfig.label
+          );
+        }
+
+        for (var j = 0; j < segments.length; j += 1) {
+          var segmentItem = segments[j];
+          var units = getSegmentUnits(segmentItem);
+          var segmentKeyClass = getClassSafeKey(segmentItem.key);
+
+          var segment = document.createElement("section");
+          segment.className = "strompreis-segment strompreis-segment-" + segmentItem.type;
+          if (segmentKeyClass) {
+            segment.className += " strompreis-segment-" + segmentKeyClass;
+          }
+          segment.style.flexGrow = String(units > 0 ? units : 0.1);
+          segment.style.flexBasis = "0";
+
+          var value = document.createElement("p");
+          value.className = "strompreis-segment-value";
+          value.textContent = getSegmentDetail(segmentItem, config.unit);
+
+          segment.appendChild(value);
+          stack.appendChild(segment);
+
+        }
+
+        chart.appendChild(left);
+        chart.appendChild(stack);
+        layout.appendChild(legend);
+        layout.appendChild(chart);
+        container.appendChild(layout);
+      }
 
       function clampIndex(index) {
         if (index < 0) {
@@ -345,6 +555,7 @@
         window.requestAnimationFrame(splitSingleLineCardTitles);
       });
 
+      renderStrompreisComposition();
       updateUi();
     })();
   </script>

@@ -946,6 +946,207 @@ body.page-praesentation {
       max-width: 62ch;
     }
 
+    body.page-praesentation .slide-4 .hero-with-graphic{
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) clamp(275px, 27vw, 355px);
+      gap: clamp(0.68rem, 1.1vw, 0.9rem);
+      align-items: stretch;
+    }
+
+    body.page-praesentation .slide-4 .hero-main{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-width: 0;
+    }
+
+    body.page-praesentation .strompreis-composition{
+      display: flex;
+      justify-content: flex-end;
+      min-height: clamp(210px, 24vh, 280px);
+      padding: 0.55rem 0.55rem 0.55rem 0;
+    }
+
+    body.page-praesentation .strompreis-layout{
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: stretch;
+      gap: clamp(0.34rem, 0.75vw, 0.62rem);
+    }
+
+    body.page-praesentation .strompreis-legend{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: clamp(0.14rem, 0.3vh, 0.22rem);
+      min-width: clamp(96px, 8.2vw, 132px);
+      padding: clamp(0.12rem, 0.25vh, 0.2rem) 0;
+    }
+
+    body.page-praesentation .strompreis-legend-item{
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 0.34rem;
+    }
+
+    body.page-praesentation .strompreis-legend-swatch{
+      width: clamp(0.52rem, 0.56vw, 0.66rem);
+      height: clamp(0.52rem, 0.56vw, 0.66rem);
+      border-radius: 0.2rem;
+      border: 1px solid rgba(44, 44, 44, 0.24);
+      background: #f5efe1;
+      flex: 0 0 auto;
+    }
+
+    body.page-praesentation .strompreis-legend-label{
+      color: #344031;
+      font-size: clamp(0.68rem, 0.74vw, 0.8rem);
+      line-height: 1.1;
+      font-weight: 500;
+      white-space: normal;
+      text-wrap: balance;
+    }
+
+    body.page-praesentation .strompreis-chart{
+      display: grid;
+      grid-template-columns: clamp(40px, 20%, 52px) 1fr;
+      width: min(100%, 205px);
+      height: 100%;
+      border: 1px solid #8f897a;
+      border-radius: 7px;
+      overflow: hidden;
+      background: #f5efe1;
+      box-shadow: 0 8px 16px rgba(66, 59, 44, 0.13);
+    }
+
+    body.page-praesentation .strompreis-left{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-right: 1px solid #b9857f;
+      background: #efb9b1;
+      padding: 0.6rem 0.25rem;
+    }
+
+    body.page-praesentation .strompreis-chart .strompreis-left-label{
+      margin: 0;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      font-size: 0.86rem !important;
+      line-height: 1.15;
+      text-align: center;
+      color: #5b2621;
+      font-weight: 400;
+    }
+
+    body.page-praesentation .strompreis-stack{
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+
+    body.page-praesentation .strompreis-segment{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      gap: 0;
+      padding: clamp(0.16rem, 0.42vh, 0.28rem) clamp(0.24rem, 0.45vw, 0.42rem);
+      border-top: 1px solid #958e7e;
+      background: #f5efe1;
+    }
+
+    body.page-praesentation .strompreis-segment:first-child{
+      border-top: 0;
+    }
+
+    body.page-praesentation .strompreis-segment-range{
+      background: #f2ebda;
+    }
+
+    body.page-praesentation .strompreis-chart .strompreis-segment-value{
+      margin: 0;
+      color: #2f362c;
+      text-wrap: balance;
+      font-size: 0.86rem !important;
+      line-height: 1.15;
+      font-weight: 400;
+    }
+
+    body.page-praesentation .strompreis-segment-fee-top{
+      background: #c2d9f6;
+    }
+
+    body.page-praesentation .strompreis-segment-fee-top .strompreis-segment-value{
+      color: #274a6f;
+    }
+
+    body.page-praesentation .strompreis-segment-solar-band{
+      background: #c8e7bc;
+    }
+
+    body.page-praesentation .strompreis-segment-solar-band .strompreis-segment-value{
+      color: #2d5e2a;
+    }
+
+    body.page-praesentation .strompreis-segment-fee-bottom,
+    body.page-praesentation .strompreis-segment-feed-in{
+      background: #f6df91;
+    }
+
+    body.page-praesentation .strompreis-segment-fee-bottom .strompreis-segment-value,
+    body.page-praesentation .strompreis-segment-feed-in .strompreis-segment-value{
+      color: #5a471c;
+    }
+
+    body.page-praesentation .strompreis-legend-left-column .strompreis-legend-swatch{
+      border-color: #b9857f;
+      background: #efb9b1;
+    }
+
+    body.page-praesentation .strompreis-legend-fee-top .strompreis-legend-swatch{
+      border-color: #95acd1;
+      background: #c2d9f6;
+    }
+
+    body.page-praesentation .strompreis-legend-solar-band .strompreis-legend-swatch{
+      border-color: #93be84;
+      background: #c8e7bc;
+    }
+
+    body.page-praesentation .strompreis-legend-fee-bottom .strompreis-legend-swatch,
+    body.page-praesentation .strompreis-legend-feed-in .strompreis-legend-swatch{
+      border-color: #d6bf74;
+      background: #f6df91;
+    }
+
+    body.page-praesentation .strompreis-word-red,
+    body.page-praesentation .strompreis-word-blue,
+    body.page-praesentation .strompreis-word-green,
+    body.page-praesentation .strompreis-word-yellow{
+      font-weight: 700;
+      letter-spacing: 0.1px;
+    }
+
+    body.page-praesentation .strompreis-word-red{
+      color: #c8857d;
+    }
+
+    body.page-praesentation .strompreis-word-blue{
+      color: #7ba7d9;
+    }
+
+    body.page-praesentation .strompreis-word-green{
+      color: #7fb27a;
+    }
+
+    body.page-praesentation .strompreis-word-yellow{
+      color: #b5963f;
+    }
+
     body.page-praesentation .cards{
       display: grid;
       gap: clamp(0.72rem, 1.2vw, 1rem);
@@ -1206,6 +1407,27 @@ body.page-praesentation {
         max-width: 100%;
       }
 
+      body.page-praesentation .slide-4 .hero-with-graphic{
+        grid-template-columns: 1fr;
+      }
+
+      body.page-praesentation .strompreis-composition{
+        justify-content: flex-start;
+        min-height: clamp(200px, 34vw, 250px);
+      }
+
+      body.page-praesentation .strompreis-chart{
+        max-width: 205px;
+      }
+
+      body.page-praesentation .strompreis-legend{
+        min-width: 90px;
+      }
+
+      body.page-praesentation .strompreis-legend-label{
+        font-size: clamp(0.62rem, 1.5vw, 0.74rem);
+      }
+
       body.page-praesentation .card-half, body.page-praesentation .card-third{
         grid-column: span 12;
       }
@@ -1237,6 +1459,26 @@ body.page-praesentation {
 
       body.page-praesentation .hero{
         padding: 0.82rem;
+      }
+
+      body.page-praesentation .strompreis-composition{
+        min-height: 185px;
+      }
+
+      body.page-praesentation .strompreis-chart{
+        max-width: 100%;
+      }
+
+      body.page-praesentation .strompreis-layout{
+        gap: 0.32rem;
+      }
+
+      body.page-praesentation .strompreis-legend{
+        min-width: 76px;
+      }
+
+      body.page-praesentation .strompreis-legend-label{
+        font-size: 0.6rem;
       }
 
       body.page-praesentation .card-head, body.page-praesentation .card-body{
