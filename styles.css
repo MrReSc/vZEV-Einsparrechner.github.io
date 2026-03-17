@@ -1402,6 +1402,10 @@ body.page-praesentation {
         justify-content: flex-start;
       }
 
+      body.page-praesentation .strompreis-layout{
+        justify-content: flex-start;
+      }
+
       body.page-praesentation .controls{
         display: none;
       }
