@@ -149,48 +149,41 @@
 
     <section id="slide-4" class="slide slide-4" aria-label="Slide 4 von 4">
       <div class="slide-inner">
-        <header class="hero hero-with-graphic">
-          <div class="hero-main">
-            <h2>Den Solarstrompreis bestimmst du mit</h2>
-            <p>Alle Teilnehmenden gestalten den Preis für lokalen Solarstrom gemeinsam. Der Preis entsteht durch eine Abstimmung und aus dem Durchschnitt der abgegebenen Stimmen.</p>
-          </div>
-          <div id="strompreis-composition" class="strompreis-composition"></div>
+        <header class="hero">
+          <h2>Den Solarstrompreis bestimmst du mit</h2>
+          <p>Alle Teilnehmenden stimmen über den Preis ab. Der Solarstrompreis ergibt sich aus dem Durchschnitt aller Stimmen.</p>
         </header>
 
         <div class="cards">
-          <article class="card card-third">
+          <article class="card card-two-thirds">
             <div class="card-head">
-              <h3>Gemeinsam entscheiden</h3>
+              <h3>So finden wir einen fairen Solarstrompreis</h3>
             </div>
-            <div class="card-body">
-              <p>Alle Teilnehmenden geben ihre Stimme für einen Preis ab. Der Durchschnitt aller Stimmen ergibt den gemeinsamen Preis.</p>
-              <div class="chip">Gemeinsam festgelegt</div>
+            <div class="card-body card-body-strompreis">
+              <div class="strompreis-card-content">
+                <div class="strompreis-card-text">
+                  <p><span class="strompreis-word-red">Rot</span> zeigt den normalen Strompreis. <span class="strompreis-word-blue">Blau</span> zeigt die Kosten für Bezüger. <span class="strompreis-word-yellow">Gelb</span> zeigt die Kosten für Produzenten.</p>
+                  <p>Den <span class="strompreis-word-green">Solarstrompreis</span> können wir frei festlegen. Sinnvoll ist ein Bereich von 11 bis 23 Rp/kWh, damit beide Seiten profitieren. Unter 11 Rp/kWh lohnt es sich für Produzenten oft zu wenig. Über 23 Rp/kWh sparen Bezüger oft zu wenig.</p>
+                </div>
+                <div class="strompreis-card-graphic">
+                  <div id="strompreis-composition" class="strompreis-composition"></div>
+                </div>
+              </div>
             </div>
           </article>
 
           <article class="card card-third">
             <div class="card-head">
-              <h3>Wie entsteht der Solarstrompreis</h3>
+              <h3>Freie Wahl braucht Verantwortung</h3>
             </div>
             <div class="card-body">
-              <p><span class="strompreis-word-red">Rot</span> zeigt den normalen Strompreis, <span class="strompreis-word-blue">Blau</span> und <span class="strompreis-word-yellow">Gelb</span> zeigen die Kosten für Bezüger und Produzenten.</p>
-              <p>Im <span class="strompreis-word-green">grünen Band</span> von 11 bis 23 Rp/kWh bleibt der Solarstrompreis fair, so profitieren alle.</p>
-              <div class="chip">Preisbildung erklärt</div>
-            </div>
-          </article>
-
-          <article class="card card-third">
-            <div class="card-head">
-              <h3>Fairness im Blick</h3>
-            </div>
-            <div class="card-body">
-              <p>Diese Preisfindung ist nicht in jeder Lage perfekt fair. Darum braucht es bei der Preiswahl Verantwortung und den Blick auf die ganze Gemeinschaft.</p>
-              <div class="chip">Fairness im Blick</div>
+              <p>Mit eurer Stimme legen wir den Preis fest. Weil jede Stimme gleich zählt, kann eine Mehrheit den Preis deutlich beeinflussen. Darum tragen alle Verantwortung und behalten die Gemeinschaft im Blick.</p>
+              <p>Mit dem <a href="calculator.html">Rechner</a> kann jede Person prüfen, was zur eigenen Situation passt.</p>
             </div>
           </article>
         </div>
 
-        <p class="note">Die Kosten pro kWh für Bezüger und Produzenten variieren je nach eigenem Stromverbrauch. Für beide gelten die monatlichen Abrechnungskosten von Thurplus, bei Produzenten kommt zusätzlich die Solarvergütung dazu.</p>
+        <p class="note">Alle Zahlen sind von mir geschätzt und hängen vom Stromverbrauch innerhalb der Gemeinschaft ab. Bei Bezügern sind die Kosten die monatliche Abrechnungsgebühr. Bei Produzenten sind die Kosten die monatliche Abrechnungsgebühr und die verlorene Einspeisevergütung.</p>
       </div>
     </section>
   </main>
@@ -242,24 +235,6 @@
             label: "Solarstromvergütung",
             value: 8
           }
-        ],
-        legendItems: [
-          {
-            colorKey: "leftColumn",
-            label: "Normaler Strompreis"
-          },
-          {
-            colorKey: "feeTop",
-            label: "Kosten Bezüger"
-          },
-          {
-            colorKey: "solarBand",
-            label: "Solarstrompreis"
-          },
-          {
-            colorKey: "feeBottom",
-            label: "Kosten Produzenten"
-          }
         ]
       };
 
@@ -284,27 +259,6 @@
           .replace(/([a-z])([A-Z])/g, "$1-$2")
           .replace(/[^a-zA-Z0-9-_]/g, "-")
           .toLowerCase();
-      }
-
-      function appendLegendItem(legendContainer, colorKey, labelText) {
-        var keyClass = getClassSafeKey(colorKey);
-        var legendItem = document.createElement("div");
-        legendItem.className = "strompreis-legend-item";
-        if (keyClass) {
-          legendItem.className += " strompreis-legend-" + keyClass;
-        }
-
-        var legendSwatch = document.createElement("span");
-        legendSwatch.className = "strompreis-legend-swatch";
-        legendSwatch.setAttribute("aria-hidden", "true");
-
-        var legendText = document.createElement("span");
-        legendText.className = "strompreis-legend-label";
-        legendText.textContent = labelText;
-
-        legendItem.appendChild(legendSwatch);
-        legendItem.appendChild(legendText);
-        legendContainer.appendChild(legendItem);
       }
 
       function getSegmentUnits(segment) {
@@ -363,26 +317,6 @@
         var stack = document.createElement("div");
         stack.className = "strompreis-stack";
 
-        var legend = document.createElement("div");
-        legend.className = "strompreis-legend";
-        var legendItems = config.legendItems || [];
-        if (legendItems.length === 0) {
-          legendItems = [
-            { colorKey: "leftColumn", label: "Normaler Strompreis" },
-            { colorKey: "feeTop", label: "Kosten Bezüger" },
-            { colorKey: "solarBand", label: "Solarstrompreis" },
-            { colorKey: "feeBottom", label: "Kosten Produzenten" }
-          ];
-        }
-        for (var k = 0; k < legendItems.length; k += 1) {
-          var legendItemConfig = legendItems[k];
-          appendLegendItem(
-            legend,
-            legendItemConfig.colorKey,
-            legendItemConfig.label
-          );
-        }
-
         for (var j = 0; j < segments.length; j += 1) {
           var segmentItem = segments[j];
           var units = getSegmentUnits(segmentItem);
@@ -407,7 +341,6 @@
 
         chart.appendChild(left);
         chart.appendChild(stack);
-        layout.appendChild(legend);
         layout.appendChild(chart);
         container.appendChild(layout);
       }
