@@ -1508,6 +1508,9 @@ body.page-praesentation {
         justify-content: flex-start;
       }
 
+    }
+
+    @media (hover: none), (pointer: coarse){
       body.page-praesentation .controls{
         display: none;
       }
