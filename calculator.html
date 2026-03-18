@@ -111,6 +111,19 @@
                   <div class="error-msg" id="error-baseFeeChfMonth"></div>
                 </div>
 
+                <div class="field" data-field="recyclingFeeChfMonth">
+                  <div class="field-label-row">
+                    <label for="recyclingFeeChfMonth">Recycling-Gebühr</label>
+                    <button type="button" class="info-trigger" aria-label="Info zur Recycling-Gebühr" aria-describedby="tooltip-recyclingFeeChfMonth">i</button>
+                    <div class="field-tooltip" id="tooltip-recyclingFeeChfMonth" role="tooltip">Das ist eine fixe monatliche Recycling-Gebühr unabhängig vom Verbrauch.</div>
+                  </div>
+                  <div class="input-with-unit">
+                    <input id="recyclingFeeChfMonth" name="recyclingFeeChfMonth" type="number" min="0" step="0.01" inputmode="decimal">
+                    <span class="unit-suffix" aria-hidden="true">CHF/Monat</span>
+                  </div>
+                  <div class="error-msg" id="error-recyclingFeeChfMonth"></div>
+                </div>
+
                 <div class="field" data-field="meteringFeeChfMonth">
                   <div class="field-label-row">
                     <label for="meteringFeeChfMonth">Messentgelte</label>
@@ -211,6 +224,7 @@
               <li>Solarstrom ist von März bis November verfügbar. Von Dezember bis Februar gibt es keinen Solarstrom.</li>
               <li>Der Solaranteil in Solar-Monaten beträgt je nach Profil: Fast immer 70 %, Wenig 50 %, Fast nie 30 %.</li>
               <li>Der monatliche Grundpreis gilt in beiden Szenarien mit und ohne Solarstrom.</li>
+              <li>Die monatliche Recycling-Gebühr gilt in beiden Szenarien mit und ohne Solarstrom.</li>
               <li>Die monatlichen Messentgelte gelten in beiden Szenarien mit und ohne Solarstrom.</li>
               <li>Die MwSt wird auf alle Preise ausser dem lokalen Solarstrompreis angewendet.</li>
               <li>Reststrom wird mit Normaltarif und Netznutzung berechnet.</li>
@@ -238,11 +252,11 @@
               </li>
               <li class="calc-step">
                 <strong class="calc-step-title">Monatskosten ohne Solarstrom</strong>
-                <code class="formula">Ohne Solarstrom = Monatsverbrauch * Normaltarif + Grundpreis * MwSt-Faktor + Messentgelte * MwSt-Faktor</code>
+                <code class="formula">Ohne Solarstrom = Monatsverbrauch * Normaltarif + Grundpreis * MwSt-Faktor + Recycling-Gebühr * MwSt-Faktor + Messentgelte * MwSt-Faktor</code>
               </li>
               <li class="calc-step">
                 <strong class="calc-step-title">Monatskosten mit Solarstrom</strong>
-                <code class="formula">Mit Solarstrom = Solar-kWh * (Preis für lokalen Solarstrom / 100) + Rest-kWh * Normaltarif + Grundpreis * MwSt-Faktor + Messentgelte * MwSt-Faktor + Preis für die Abrechnung von Solarstrom * MwSt-Faktor</code>
+                <code class="formula">Mit Solarstrom = Solar-kWh * (Preis für lokalen Solarstrom / 100) + Rest-kWh * Normaltarif + Grundpreis * MwSt-Faktor + Recycling-Gebühr * MwSt-Faktor + Messentgelte * MwSt-Faktor + Preis für die Abrechnung von Solarstrom * MwSt-Faktor</code>
               </li>
               <li class="calc-step">
                 <strong class="calc-step-title">Einsparung</strong>
@@ -269,6 +283,7 @@
      * @property {number} gridRpKwh
      * @property {number} monthlyKwh
      * @property {number} baseFeeChfMonth
+     * @property {number} recyclingFeeChfMonth
      * @property {number} meteringFeeChfMonth
      * @property {number} vzevEnergyRpKwh
      * @property {number} vzevFeeChfMonth
@@ -313,6 +328,7 @@
       gridRpKwh: 12.86,
       monthlyKwh: 250,
       baseFeeChfMonth: 10,
+      recyclingFeeChfMonth: 5,
       meteringFeeChfMonth: 4,
       vzevEnergyRpKwh: 15,
       vzevFeeChfMonth: 3,
@@ -348,6 +364,7 @@
       "gridRpKwh",
       "monthlyKwh",
       "baseFeeChfMonth",
+      "recyclingFeeChfMonth",
       "meteringFeeChfMonth",
       "vzevEnergyRpKwh",
       "vzevFeeChfMonth",
@@ -357,6 +374,7 @@
       "energyRpKwh",
       "gridRpKwh",
       "baseFeeChfMonth",
+      "recyclingFeeChfMonth",
       "meteringFeeChfMonth",
       "vzevFeeChfMonth",
       "vatPercent"
@@ -458,6 +476,7 @@
         gridRpKwh: normalizeNumber(input.gridRpKwh, DEFAULT_STATE.gridRpKwh),
         monthlyKwh: normalizeNumber(input.monthlyKwh, DEFAULT_STATE.monthlyKwh),
         baseFeeChfMonth: normalizeNumber(input.baseFeeChfMonth, DEFAULT_STATE.baseFeeChfMonth),
+        recyclingFeeChfMonth: normalizeNumber(input.recyclingFeeChfMonth, DEFAULT_STATE.recyclingFeeChfMonth),
         meteringFeeChfMonth: normalizeNumber(input.meteringFeeChfMonth, DEFAULT_STATE.meteringFeeChfMonth),
         vzevEnergyRpKwh: normalizeNumber(input.vzevEnergyRpKwh, DEFAULT_STATE.vzevEnergyRpKwh),
         vzevFeeChfMonth: normalizeNumber(input.vzevFeeChfMonth, DEFAULT_STATE.vzevFeeChfMonth),
@@ -493,6 +512,7 @@
       form.gridRpKwh.value = state.gridRpKwh;
       form.monthlyKwh.value = state.monthlyKwh;
       form.baseFeeChfMonth.value = state.baseFeeChfMonth;
+      form.recyclingFeeChfMonth.value = state.recyclingFeeChfMonth;
       form.meteringFeeChfMonth.value = state.meteringFeeChfMonth;
       form.vzevEnergyRpKwh.value = state.vzevEnergyRpKwh;
       form.vzevFeeChfMonth.value = state.vzevFeeChfMonth;
@@ -509,6 +529,7 @@
         gridRpKwh: Number(form.gridRpKwh.value),
         monthlyKwh: Number(form.monthlyKwh.value),
         baseFeeChfMonth: Number(form.baseFeeChfMonth.value),
+        recyclingFeeChfMonth: Number(form.recyclingFeeChfMonth.value),
         meteringFeeChfMonth: Number(form.meteringFeeChfMonth.value),
         vzevEnergyRpKwh: Number(form.vzevEnergyRpKwh.value),
         vzevFeeChfMonth: Number(form.vzevFeeChfMonth.value),
@@ -618,6 +639,7 @@
       const vatFactor = 1 + state.vatPercent / 100;
       const baselineRateChfPerKwh = ((state.energyRpKwh + state.gridRpKwh) * vatFactor) / 100;
       const baseFeeGross = state.baseFeeChfMonth * vatFactor;
+      const recyclingFeeGross = state.recyclingFeeChfMonth * vatFactor;
       const meteringFeeGross = state.meteringFeeChfMonth * vatFactor;
       const vzevFeeGross = state.vzevFeeChfMonth * vatFactor;
       const solarShare = calculateSolarShare(monthIndex, state.usageProfile);
@@ -627,11 +649,13 @@
       const baselineChf =
         state.monthlyKwh * baselineRateChfPerKwh +
         baseFeeGross +
+        recyclingFeeGross +
         meteringFeeGross;
       const vzevChf =
         solarKwh * (state.vzevEnergyRpKwh / 100) +
         restKwh * baselineRateChfPerKwh +
         baseFeeGross +
+        recyclingFeeGross +
         meteringFeeGross +
         vzevFeeGross;
       const savingChf = baselineChf - vzevChf;
