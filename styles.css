@@ -92,8 +92,8 @@ body.page-rechner {
     }
 
     body.page-rechner .header{
-      margin-bottom: 0.85rem;
-      padding: 0.82rem;
+      margin-bottom: 1rem;
+      padding: 1.02rem;
       border-radius: var(--radius);
       background: linear-gradient(180deg, #fffcf4 0%, #fbf5e8 100%);
       border: 1px solid var(--border);
@@ -102,18 +102,20 @@ body.page-rechner {
     }
 
     body.page-rechner .header h1{
-      margin: 0 0 0.2rem;
-      font-size: clamp(1.67rem, 1.32rem + 1.15vw, 2.3rem);
-      line-height: 1.2;
-      font-weight: 710;
-      letter-spacing: 0.1px;
+      margin: 0 0 0.28rem;
+      font-size: clamp(1.85rem, 1.45rem + 1.28vw, 2.55rem);
+      line-height: 1.14;
+      font-weight: 740;
+      letter-spacing: 0.12px;
       color: #2a3326;
     }
 
     body.page-rechner .header p{
       margin: 0;
       color: var(--text-muted);
-      font-size: 1.09rem;
+      font-size: 1.14rem;
+      line-height: 1.42;
+      max-width: 62ch;
     }
 
     body.page-rechner .header .disclaimer-note{
@@ -129,9 +131,9 @@ body.page-rechner {
     }
 
     body.page-rechner .header-link-note{
-      margin: 0.62rem 0 0;
-      font-size: 0.95rem;
-      line-height: 1.45;
+      margin: 0.7rem 0 0;
+      font-size: 0.99rem;
+      line-height: 1.46;
       color: var(--text-muted);
     }
 
@@ -541,6 +543,18 @@ body.page-rechner {
       margin-top: 0.45rem;
       font-size: 0.83rem;
       color: var(--text-muted);
+    }
+
+    body.page-rechner .rechner-bottom-note{
+      margin: 0.75rem 0 0;
+      border: 1px solid #d2c6ac;
+      border-radius: var(--radius-sm);
+      padding: 0.72rem 0.84rem;
+      background: #f6ecd7;
+      color: var(--text);
+      font-size: 0.89rem;
+      line-height: 1.35;
+      font-weight: 560;
     }
 
     body.page-rechner .status{
