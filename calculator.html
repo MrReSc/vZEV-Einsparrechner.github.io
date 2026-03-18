@@ -71,7 +71,7 @@
 
             <details class="advanced" id="advancedInputs">
               <summary>Weitere Angaben wenn bekannt</summary>
-              <p class="advanced-note">Hinweis: Die vorausgefüllten Werte gelten für Thurplus im Jahr 2026.</p>
+              <p class="advanced-note">Hinweis: Die vorausgefüllten Werte gelten für Thurplus im Jahr 2026 gemäss <a href="https://www.thurplus.ch/public/upload/assets/1020/Stromtarif%20per%2001.01.2026.pdf?fp=1770298817330" target="_blank" rel="noopener noreferrer">Stromtarif per 01.01.2026 (PDF)</a>.</p>
               <div class="advanced-grid">
                 <div class="field" data-field="energyRpKwh">
                   <div class="field-label-row">
@@ -137,6 +137,19 @@
                   </div>
                   <div class="error-msg" id="error-vzevFeeChfMonth"></div>
                 </div>
+
+                <div class="field" data-field="vatPercent">
+                  <div class="field-label-row">
+                    <label for="vatPercent">MwSt</label>
+                    <button type="button" class="info-trigger" aria-label="Info zur Mehrwertsteuer" aria-describedby="tooltip-vatPercent">i</button>
+                    <div class="field-tooltip" id="tooltip-vatPercent" role="tooltip">Die Mehrwertsteuer wird auf alle Preise ausser dem lokalen Solarstrompreis angewendet.</div>
+                  </div>
+                  <div class="input-with-unit">
+                    <input id="vatPercent" name="vatPercent" type="number" min="0" step="0.01" inputmode="decimal">
+                    <span class="unit-suffix" aria-hidden="true">%</span>
+                  </div>
+                  <div class="error-msg" id="error-vatPercent"></div>
+                </div>
               </div>
             </details>
 
@@ -200,6 +213,7 @@
               <li>Der Solaranteil in Solar-Monaten beträgt je nach Profil: Fast immer 70 %, Wenig 50 %, Fast nie 30 %.</li>
               <li>Der monatliche Grundpreis gilt in beiden Szenarien mit und ohne Solarstrom.</li>
               <li>Die monatlichen Messentgelte gelten in beiden Szenarien mit und ohne Solarstrom.</li>
+              <li>Die MwSt wird auf alle Preise ausser dem lokalen Solarstrompreis angewendet.</li>
               <li>Reststrom wird mit Normaltarif und Netznutzung berechnet.</li>
             </ul>
           </details>
@@ -210,7 +224,8 @@
             <ol class="calc-steps">
               <li class="calc-step">
                 <strong class="calc-step-title">Tarifbasis</strong>
-                <code class="formula">Normaltarif (CHF/kWh) = (Energiepreis + Netznutzungsgebühren) / 100</code>
+                <code class="formula">MwSt-Faktor = 1 + (MwSt / 100)</code>
+                <code class="formula">Normaltarif (CHF/kWh) = (Energiepreis + Netznutzungsgebühren) * MwSt-Faktor / 100</code>
               </li>
               <li class="calc-step">
                 <strong class="calc-step-title">Solaranteil je Monat</strong>
@@ -224,11 +239,11 @@
               </li>
               <li class="calc-step">
                 <strong class="calc-step-title">Monatskosten ohne Solarstrom</strong>
-                <code class="formula">Ohne Solarstrom = Monatsverbrauch * Normaltarif + Grundpreis + Messentgelte</code>
+                <code class="formula">Ohne Solarstrom = Monatsverbrauch * Normaltarif + Grundpreis * MwSt-Faktor + Messentgelte * MwSt-Faktor</code>
               </li>
               <li class="calc-step">
                 <strong class="calc-step-title">Monatskosten mit Solarstrom</strong>
-                <code class="formula">Mit Solarstrom = Solar-kWh * (Preis für lokalen Solarstrom / 100) + Rest-kWh * Normaltarif + Grundpreis + Messentgelte + Preis für die Abrechnung von Solarstrom</code>
+                <code class="formula">Mit Solarstrom = Solar-kWh * (Preis für lokalen Solarstrom / 100) + Rest-kWh * Normaltarif + Grundpreis * MwSt-Faktor + Messentgelte * MwSt-Faktor + Preis für die Abrechnung von Solarstrom * MwSt-Faktor</code>
               </li>
               <li class="calc-step">
                 <strong class="calc-step-title">Einsparung</strong>
@@ -256,6 +271,7 @@
      * @property {number} meteringFeeChfMonth
      * @property {number} vzevEnergyRpKwh
      * @property {number} vzevFeeChfMonth
+     * @property {number} vatPercent
      * @property {"day_high" | "house_empty" | "day_low"} usageProfile
      */
 
@@ -299,6 +315,7 @@
       meteringFeeChfMonth: 4,
       vzevEnergyRpKwh: 15,
       vzevFeeChfMonth: 3,
+      vatPercent: 8.1,
       usageProfile: "day_high"
     });
 
@@ -332,14 +349,16 @@
       "baseFeeChfMonth",
       "meteringFeeChfMonth",
       "vzevEnergyRpKwh",
-      "vzevFeeChfMonth"
+      "vzevFeeChfMonth",
+      "vatPercent"
     ];
     const advancedFieldIds = [
       "energyRpKwh",
       "gridRpKwh",
       "baseFeeChfMonth",
       "meteringFeeChfMonth",
-      "vzevFeeChfMonth"
+      "vzevFeeChfMonth",
+      "vatPercent"
     ];
 
     initialize();
@@ -441,6 +460,7 @@
         meteringFeeChfMonth: normalizeNumber(input.meteringFeeChfMonth, DEFAULT_STATE.meteringFeeChfMonth),
         vzevEnergyRpKwh: normalizeNumber(input.vzevEnergyRpKwh, DEFAULT_STATE.vzevEnergyRpKwh),
         vzevFeeChfMonth: normalizeNumber(input.vzevFeeChfMonth, DEFAULT_STATE.vzevFeeChfMonth),
+        vatPercent: normalizeNumber(input.vatPercent, DEFAULT_STATE.vatPercent),
         usageProfile: normalizeUsageProfile(input.usageProfile, DEFAULT_STATE.usageProfile)
       };
     }
@@ -475,6 +495,7 @@
       form.meteringFeeChfMonth.value = state.meteringFeeChfMonth;
       form.vzevEnergyRpKwh.value = state.vzevEnergyRpKwh;
       form.vzevFeeChfMonth.value = state.vzevFeeChfMonth;
+      form.vatPercent.value = state.vatPercent;
       form.usageProfile.value = state.usageProfile;
     }
 
@@ -490,6 +511,7 @@
         meteringFeeChfMonth: Number(form.meteringFeeChfMonth.value),
         vzevEnergyRpKwh: Number(form.vzevEnergyRpKwh.value),
         vzevFeeChfMonth: Number(form.vzevFeeChfMonth.value),
+        vatPercent: Number(form.vatPercent.value),
         usageProfile: form.usageProfile.value
       };
     }
@@ -592,21 +614,25 @@
      */
     function calculateMonth(state, monthIndex) {
       const month = MONTHS[monthIndex];
-      const baselineRateChfPerKwh = (state.energyRpKwh + state.gridRpKwh) / 100;
+      const vatFactor = 1 + state.vatPercent / 100;
+      const baselineRateChfPerKwh = ((state.energyRpKwh + state.gridRpKwh) * vatFactor) / 100;
+      const baseFeeGross = state.baseFeeChfMonth * vatFactor;
+      const meteringFeeGross = state.meteringFeeChfMonth * vatFactor;
+      const vzevFeeGross = state.vzevFeeChfMonth * vatFactor;
       const solarShare = calculateSolarShare(monthIndex, state.usageProfile);
       const solarKwh = state.monthlyKwh * solarShare;
       const restKwh = state.monthlyKwh - solarKwh;
 
       const baselineChf =
         state.monthlyKwh * baselineRateChfPerKwh +
-        state.baseFeeChfMonth +
-        state.meteringFeeChfMonth;
+        baseFeeGross +
+        meteringFeeGross;
       const vzevChf =
         solarKwh * (state.vzevEnergyRpKwh / 100) +
         restKwh * baselineRateChfPerKwh +
-        state.baseFeeChfMonth +
-        state.meteringFeeChfMonth +
-        state.vzevFeeChfMonth;
+        baseFeeGross +
+        meteringFeeGross +
+        vzevFeeGross;
       const savingChf = baselineChf - vzevChf;
 
       return {

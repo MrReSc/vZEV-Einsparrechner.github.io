@@ -483,6 +483,22 @@ body.page-rechner {
       color: var(--text-muted);
     }
 
+    body.page-rechner .advanced-note a{
+      color: var(--accent);
+      text-decoration: underline;
+      text-underline-offset: 0.1em;
+    }
+
+    body.page-rechner .advanced-note a:hover{
+      color: #a98941;
+    }
+
+    body.page-rechner .advanced-note a:focus-visible{
+      outline: 2px solid rgba(200, 138, 29, 0.32);
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+
     body.page-rechner .error-msg{
       min-height: 0.95rem;
       font-size: 0.74rem;
