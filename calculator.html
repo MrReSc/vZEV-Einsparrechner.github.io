@@ -44,11 +44,11 @@
                 <div class="field-label-row">
                   <label for="usageProfile">Wie oft bist du tagsüber zu Hause?<span class="sr-only"> (Pflichtfeld)</span></label>
                   <button type="button" class="info-trigger" aria-label="Info zur Tagesanwesenheit" aria-describedby="tooltip-usageProfile">i</button>
-                  <div class="field-tooltip" id="tooltip-usageProfile" role="tooltip">Wenn du tagsüber oft zu Hause bist, kannst du grosse Verbraucher wie Waschmaschine, Tumbler, Kochen oder E-Auto-Laden gezielt mit Solarstrom abdecken. Bei &bdquo;Wenig&ldquo; gelingt das nur teilweise, weil Lasten häufiger ausserhalb der Sonnenstunden laufen. Bei &bdquo;Fast nie&ldquo; ist der direkte Solarstromverbrauch am kleinsten und das Einsparpotenzial entsprechend tiefer.</div>
+                  <div class="field-tooltip" id="tooltip-usageProfile" role="tooltip">Wenn du tagsüber oft zu Hause bist, kannst du grosse Verbraucher wie Waschmaschine, Tumbler, Kochen oder E-Auto-Laden gezielt mit Solarstrom abdecken. Bei &bdquo;Durchschnittlich&ldquo; gelingt das nur teilweise, weil Lasten häufiger ausserhalb der Sonnenstunden laufen. Bei &bdquo;Fast nie&ldquo; ist der direkte Solarstromverbrauch am kleinsten und das Einsparpotenzial entsprechend tiefer.</div>
                 </div>
                 <select id="usageProfile" name="usageProfile">
                   <option value="day_high">Fast immer</option>
-                  <option value="house_empty">Wenig</option>
+                  <option value="house_empty">Durchschnittlich</option>
                   <option value="day_low">Fast nie</option>
                 </select>
                 <div class="error-msg" id="error-usageProfile"></div>
@@ -222,10 +222,8 @@
             <ul>
               <li>Der Monatsverbrauch ist in allen 12 Monaten gleich.</li>
               <li>Solarstrom ist von März bis November verfügbar. Von Dezember bis Februar gibt es keinen Solarstrom.</li>
-              <li>Der Solaranteil in Solar-Monaten beträgt je nach Profil: Fast immer 70 %, Wenig 50 %, Fast nie 30 %.</li>
-              <li>Der monatliche Grundpreis gilt in beiden Szenarien mit und ohne Solarstrom.</li>
-              <li>Die monatliche Recycling-Gebühr gilt in beiden Szenarien mit und ohne Solarstrom.</li>
-              <li>Die monatlichen Messentgelte gelten in beiden Szenarien mit und ohne Solarstrom.</li>
+              <li>Der Solaranteil in Solar-Monaten beträgt je nach Profil: Fast immer 70 %, Durchschnittlich 50 %, Fast nie 30 %.</li>
+              <li>Die monatlichen Fixkosten wie Grundpreis, Recycling-Gebühr und Messentgelte gelten in beiden Szenarien mit und ohne Solarstrom.</li>
               <li>Die MwSt wird auf alle Preise ausser dem lokalen Solarstrompreis angewendet.</li>
               <li>Reststrom wird mit Normaltarif und Netznutzung berechnet.</li>
             </ul>
@@ -275,7 +273,7 @@
     });
     const USAGE_PROFILE_LABEL = Object.freeze({
       day_high: "Fast immer",
-      house_empty: "Wenig",
+      house_empty: "Durchschnittlich",
       day_low: "Fast nie"
     });
 
@@ -301,7 +299,7 @@
       baseFeeChfMonth: 10,
       recyclingFeeChfMonth: 5,
       meteringFeeChfMonth: 4,
-      vzevEnergyRpKwh: 15,
+      vzevEnergyRpKwh: 17,
       vzevFeeChfMonth: 3,
       vatPercent: 8.1,
       usageProfile: "day_high"

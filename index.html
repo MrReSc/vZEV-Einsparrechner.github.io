@@ -162,8 +162,8 @@
             <div class="card-body card-body-strompreis">
               <div class="strompreis-card-content">
                 <div class="strompreis-card-text">
-                  <p><span class="strompreis-word-red">Rot</span> zeigt den normalen Strompreis. <span class="strompreis-word-blue">Blau</span> zeigt die Kosten für Bezüger. <span class="strompreis-word-yellow">Gelb</span> zeigt die Kosten für Produzenten.</p>
-                  <p>Den <span class="strompreis-word-green">Solarstrompreis</span> können wir frei festlegen. Sinnvoll ist ein Bereich zwischen 11 und 23 Rp/kWh, damit beide Seiten profitieren. Unter 11 Rp/kWh lohnt es sich für Produzenten nicht. Über 23 Rp/kWh sparen Bezüger zu wenig.</p>
+                  <p><span class="strompreis-word-red">Rot</span> zeigt den normalen Strompreis (aktuell <span data-strompreis-field="normal"></span> Rp/kWh). <span class="strompreis-word-blue">Blau</span> zeigt die Kosten für Bezüger. <span class="strompreis-word-yellow">Gelb</span> zeigt die Kosten für Produzenten.</p>
+                  <p>Den <span class="strompreis-word-green">Solarstrompreis</span> können wir frei festlegen. Sinnvoll ist ein Bereich zwischen <span data-strompreis-field="bandMin"></span> und <span data-strompreis-field="bandMax"></span> Rp/kWh, damit beide Seiten profitieren. Unter <span data-strompreis-field="bandMin"></span> Rp/kWh lohnt es sich für Produzenten nicht. Über <span data-strompreis-field="bandMax"></span> Rp/kWh sparen Bezüger zu wenig.</p>
                 </div>
                 <div class="strompreis-card-graphic">
                   <div id="strompreis-composition" class="strompreis-composition"></div>
@@ -207,7 +207,7 @@
         unit: "Rp/kWh",
         leftColumn: {
           label: "Normaler Strompreis",
-          value: 26
+          value: 28
         },
         segments: [
           {
@@ -221,7 +221,7 @@
             type: "range",
             label: "Spielraum Solarstrompreis",
             min: 11,
-            max: 23
+            max: 25
           },
           {
             key: "feeBottom",
@@ -259,6 +259,55 @@
           .replace(/([a-z])([A-Z])/g, "$1-$2")
           .replace(/[^a-zA-Z0-9-_]/g, "-")
           .toLowerCase();
+      }
+
+      function getSegmentByKey(segments, key) {
+        for (var i = 0; i < segments.length; i += 1) {
+          if (segments[i] && segments[i].key === key) {
+            return segments[i];
+          }
+        }
+        return null;
+      }
+
+      function applyDerivedStrompreisValues(config) {
+        var segments = config.segments || [];
+        var solarBand = getSegmentByKey(segments, "solarBand");
+        var feeTop = getSegmentByKey(segments, "feeTop");
+        var feeBottom = getSegmentByKey(segments, "feeBottom");
+        var feedIn = getSegmentByKey(segments, "feedIn");
+        if (!solarBand) {
+          return;
+        }
+
+        var normalPrice = getNumericValue(config.leftColumn && config.leftColumn.value);
+        var topFee = getNumericValue(feeTop && feeTop.value);
+        var bottomFee = getNumericValue(feeBottom && feeBottom.value);
+        var feedInValue = getNumericValue(feedIn && feedIn.value);
+
+        // Producer needs at least feed-in + producer-side fee. Consumer should stay below normal price - consumer-side fee.
+        solarBand.min = Math.max(0, feedInValue + bottomFee);
+        solarBand.max = Math.max(solarBand.min, normalPrice - topFee);
+      }
+
+      function renderStrompreisText(config) {
+        var segments = config.segments || [];
+        var solarBand = getSegmentByKey(segments, "solarBand");
+        if (!solarBand) {
+          return;
+        }
+
+        var values = {
+          normal: formatNumber(getNumericValue(config.leftColumn && config.leftColumn.value)),
+          bandMin: formatNumber(getNumericValue(solarBand.min)),
+          bandMax: formatNumber(getNumericValue(solarBand.max))
+        };
+
+        var fields = document.querySelectorAll("[data-strompreis-field]");
+        for (var i = 0; i < fields.length; i += 1) {
+          var fieldName = fields[i].getAttribute("data-strompreis-field");
+          fields[i].textContent = Object.prototype.hasOwnProperty.call(values, fieldName) ? values[fieldName] : "";
+        }
       }
 
       function getSegmentUnits(segment) {
@@ -487,6 +536,8 @@
         window.requestAnimationFrame(splitSingleLineCardTitles);
       });
 
+      applyDerivedStrompreisValues(strompreisCompositionConfig);
+      renderStrompreisText(strompreisCompositionConfig);
       renderStrompreisComposition();
       updateUi();
     })();
