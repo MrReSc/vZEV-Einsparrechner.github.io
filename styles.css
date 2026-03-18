@@ -1139,14 +1139,16 @@ body.page-praesentation {
       align-self: flex-start;
       align-items: center;
       margin-top: auto;
-      padding: 0.34rem 0.62rem;
-      border-radius: 999px;
-      border: 1px solid #ced9bf;
-      background: linear-gradient(180deg, #eef6e6 0%, #e4efd8 100%);
-      color: #3f5b2d;
-      font-weight: 650;
-      font-size: clamp(0.98rem, 1.2vw, 1.1rem);
-      letter-spacing: 0.2px;
+      padding: 0.18rem 0.5rem 0.2rem;
+      border: 1px solid rgba(143, 137, 122, 0.32);
+      border-radius: 0.32rem;
+      background: rgba(219, 230, 207, 0.7);
+      box-shadow: 0 2px 6px rgba(66, 59, 44, 0.1);
+      color: #344031;
+      font-weight: 400;
+      font-size: clamp(1.18rem, 1.45vw, 1.35rem);
+      line-height: 1.24;
+      letter-spacing: 0.04px;
     }
 
     body.page-praesentation .card-wide{
@@ -1209,8 +1211,8 @@ body.page-praesentation {
       border: 1px solid #d2c6ac;
       border-radius: var(--radius-sm);
       padding: 0.72rem 0.84rem;
-      background: linear-gradient(180deg, #fff8e8 0%, #f6ecd7 100%);
-      color: #5d4d2b;
+      background: #f6ecd7;
+      color: var(--text);
       font-size: clamp(1.15rem, 1.25vw, 1.28rem);
       line-height: 1.35;
       font-weight: 560;
@@ -1344,8 +1346,7 @@ body.page-praesentation {
       box-shadow: 0 0 0 3px rgba(200, 138, 29, 0.26);
     }
 
-    body.page-rechner .header .disclaimer-note,
-    body.page-praesentation .note{
+    body.page-rechner .header .disclaimer-note{
       border: 1px solid #d5c5a0;
       background: linear-gradient(180deg, #fff8e5 0%, #fbf1d7 100%);
       color: #554a2e;
