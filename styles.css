@@ -1389,6 +1389,78 @@ body.page-praesentation {
       color: var(--text);
     }
 
+    /* Flat surfaces: calculator only */
+    body.page-rechner .header{
+      background: #fdf8ee;
+    }
+
+    body.page-rechner .header .disclaimer-note{
+      background: #fdf4de;
+    }
+
+    body.page-rechner .card{
+      background: #fffbf4;
+    }
+
+    body.page-rechner .card-header{
+      background: #f9f3e5;
+    }
+
+    body.page-rechner .quick-fields{
+      background: #fdf6e8;
+    }
+
+    body.page-rechner .info-trigger{
+      background: #fbeecb;
+    }
+
+    body.page-rechner .info-trigger:hover{
+      background: #f8e7bf;
+    }
+
+    body.page-rechner details.advanced,
+    body.page-rechner .monthly-table,
+    body.page-rechner .assumptions,
+    body.page-rechner .calculation-details{
+      background: #fcf6ea;
+    }
+
+    body.page-rechner .summary-item{
+      background: #fcf8ee;
+    }
+
+    body.page-rechner .summary-item.primary{
+      background: #e6f0fc;
+    }
+
+    body.page-rechner .summary-item.primary.positive{
+      background: #e7f2d9;
+    }
+
+    body.page-rechner .summary-item.primary.negative{
+      background: #f9eee4;
+    }
+
+    body.page-rechner .summary-item.primary.neutral{
+      background: #e6f0fc;
+    }
+
+    body.page-rechner .result-conclusion{
+      background: #e6f0fc;
+    }
+
+    body.page-rechner .result-conclusion.positive{
+      background: #e7f2d9;
+    }
+
+    body.page-rechner .result-conclusion.negative{
+      background: #f9eee4;
+    }
+
+    body.page-rechner .result-conclusion.neutral{
+      background: #e6f0fc;
+    }
+
     @media (max-width: 1320px){
       body.page-praesentation .card-third{
         grid-column: span 6;
