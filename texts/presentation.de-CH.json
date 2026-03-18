@@ -25,12 +25,12 @@
         },
         "card2": {
           "title": "Wie funktioniert das",
-          "body": "In deiner Nachbarschaft wird Solarstrom produziert. Thurplus verteilt die Strommengen fair auf alle Teilnehmenden. So kommt der Strom dorthin wo er gebraucht wird.",
+          "body": "In deiner Nachbarschaft wird Solarstrom produziert. Thurplus verteilt die Strommengen fair auf alle Teilnehmenden. So kommt der Strom dorthin, wo er gebraucht wird.",
           "chip": "Einfach und transparent"
         },
         "card3": {
           "title": "Wer übernimmt die Abrechnung",
-          "body": "Thurplus übernimmt Messung Verrechnung und Inkasso für dich. An deiner bisherigen Abrechnung ändert sich nichts und alles bleibt wie bis anhin. Neu wird dein Solarstrom aus der Nachbarschaft direkt und transparent über die reguläre Stromrechnung abgerechnet.",
+          "body": "Thurplus übernimmt Messung, Verrechnung und Inkasso für dich. An deiner bisherigen Abrechnung ändert sich nichts. Dein Solarstrom aus der Nachbarschaft wird direkt und transparent über die reguläre Stromrechnung abgerechnet.",
           "chip": "Thurplus übernimmt alles"
         }
       }
@@ -49,12 +49,12 @@
         },
         "card2": {
           "title": "So gewinnst du mit Solaranlage",
-          "body": "Mehr Solarstrom direkt zu verkaufen verkürzt die Amortisationsdauer der Anlage.",
+          "body": "Mehr Solarstrom direkt zu verkaufen, verkürzt die Amortisationsdauer der Anlage.",
           "chip": "Mehr Ertrag"
         },
         "card3": {
           "title": "So gewinnt die Umwelt und das Netz",
-          "body": "Mehr Solarstrom wird direkt in der Nachbarschaft genutzt und das stärkt die Umwelt und entlastet das Netz.",
+          "body": "Mehr Solarstrom wird direkt in der Nachbarschaft genutzt. Das stärkt die Umwelt und entlastet das Netz.",
           "chip": "Umwelt und Netz"
         }
       }
@@ -63,7 +63,7 @@
       "ariaLabel": "Slide 3 von 4",
       "hero": {
         "title": "Kosten und Einsparung im Überblick",
-        "subtitle": "Du siehst auf einen Blick was für dich möglich ist und welche klaren Startkosten anfallen."
+        "subtitle": "Du siehst auf einen Blick, was für dich möglich ist und welche Startkosten anfallen."
       },
       "cards": {
         "card1": {
@@ -85,7 +85,7 @@
           "chip": "Fair und transparent"
         }
       },
-      "note": "Je besser Verbrauch und Solarstrom in der Nachbarschaft zusammenpassen desto grösser ist der Nutzen für alle. Das gelingt am besten wenn du deinen Grossverbrauch wie Waschmaschine, Tumbler und ähnliche Geräte in die Tagesstunden verlegen kannst."
+      "note": "Je besser Verbrauch und Solarstrom in der Nachbarschaft zusammenpassen, desto grösser ist der Nutzen für alle. Das gelingt am besten, wenn du deinen Grossverbrauch wie Waschmaschine, Tumbler und ähnliche Geräte in die Sonnenstunden verlegen kannst."
     },
     "slide4": {
       "ariaLabel": "Slide 4 von 4",
