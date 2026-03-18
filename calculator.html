@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Stromkosten mit Solarstrom</title>
+  <title data-i18n="meta.title"></title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="shortcut icon" type="image/svg+xml" href="favicon.svg">
   <link rel="preconnect" href="https://fonts.bunny.net">
@@ -13,152 +13,152 @@
 <body class="page-rechner">
   <main class="container">
     <header class="header">
-      <h1>Stromkosten mit Solarstrom</h1>
-      <p>Du siehst in kurzer Zeit was Solarstrom aus der Nachbarschaft für deine jährlichen Stromkosten bedeuten kann.</p>
-      <p class="header-link-note">Zurück zur Präsentation? <a href="index.html">Hier findest du die kurze Übersicht zu EigenverbrauchMax.</a></p>
+      <h1 data-i18n="header.title"></h1>
+      <p data-i18n="header.subtitle"></p>
+      <p class="header-link-note" data-i18n-html="header.linkNoteHtml"></p>
     </header>
 
     <section class="layout">
       <article class="card">
         <div class="card-header">
-          <h2>Deine Angaben</h2>
+          <h2 data-i18n="inputs.title"></h2>
         </div>
         <div class="card-body">
           <form id="calcForm" novalidate>
-            <p class="quick-note">Drei Angaben genügen für eine erste Einschätzung.</p>
+            <p class="quick-note" data-i18n="inputs.quickNote"></p>
             <section class="quick-fields">
               <div class="field" data-field="monthlyKwh">
                 <div class="field-label-row">
-                  <label for="monthlyKwh">Stromverbrauch pro Monat<span class="sr-only"> (Pflichtfeld)</span></label>
-                  <button type="button" class="info-trigger" aria-label="Info zu Stromverbrauch pro Monat" aria-describedby="tooltip-monthlyKwh">i</button>
-                  <div class="field-tooltip" id="tooltip-monthlyKwh" role="tooltip">Das ist dein durchschnittlicher Stromverbrauch pro Monat. Wenn du deinen Stromverbrauch nicht kennst, nimm die vier Quartalsrechnungen eines Jahres, addiere die kWh aus der Strom-Grundversorgung und teile durch 12.</div>
+                  <label for="monthlyKwh" data-i18n-html="fields.monthlyKwh.labelHtml"></label>
+                  <button type="button" class="info-trigger" aria-describedby="tooltip-monthlyKwh" data-i18n-attr="aria-label:fields.monthlyKwh.infoAria">i</button>
+                  <div class="field-tooltip" id="tooltip-monthlyKwh" role="tooltip" data-i18n="fields.monthlyKwh.tooltip"></div>
                 </div>
                 <div class="input-with-unit">
                   <input id="monthlyKwh" name="monthlyKwh" type="number" min="0" step="0.01" inputmode="decimal">
-                  <span class="unit-suffix" aria-hidden="true">kWh</span>
+                  <span class="unit-suffix" aria-hidden="true" data-i18n="units.kwh"></span>
                 </div>
                 <div class="error-msg" id="error-monthlyKwh"></div>
               </div>
 
               <div class="field" data-field="usageProfile">
                 <div class="field-label-row">
-                  <label for="usageProfile">Wie oft bist du tagsüber zu Hause?<span class="sr-only"> (Pflichtfeld)</span></label>
-                  <button type="button" class="info-trigger" aria-label="Info zur Tagesanwesenheit" aria-describedby="tooltip-usageProfile">i</button>
-                  <div class="field-tooltip" id="tooltip-usageProfile" role="tooltip">Bei &bdquo;Fast immer&ldquo; kannst du tagsüber gezielt Verbraucher wie Waschmaschine, Tumbler, Kochen oder E-Auto-Laden starten und so mehr Solarstrom direkt nutzen. Bei &bdquo;Durchschnittlich&ldquo; gelingt das nur teilweise, weil Lasten häufiger ausserhalb der Sonnenstunden laufen. Bei &bdquo;Fast nie&ldquo; ist der direkte Solarstromverbrauch am kleinsten und das Einsparpotenzial entsprechend tiefer.</div>
+                  <label for="usageProfile" data-i18n-html="fields.usageProfile.labelHtml"></label>
+                  <button type="button" class="info-trigger" aria-describedby="tooltip-usageProfile" data-i18n-attr="aria-label:fields.usageProfile.infoAria">i</button>
+                  <div class="field-tooltip" id="tooltip-usageProfile" role="tooltip" data-i18n="fields.usageProfile.tooltip"></div>
                 </div>
                 <select id="usageProfile" name="usageProfile">
-                  <option value="day_high">Fast immer</option>
-                  <option value="house_empty">Durchschnittlich</option>
-                  <option value="day_low">Fast nie</option>
+                  <option value="day_high" data-i18n="fields.usageProfile.options.day_high"></option>
+                  <option value="house_empty" data-i18n="fields.usageProfile.options.house_empty"></option>
+                  <option value="day_low" data-i18n="fields.usageProfile.options.day_low"></option>
                 </select>
                 <div class="error-msg" id="error-usageProfile"></div>
               </div>
 
               <div class="field" data-field="vzevEnergyRpKwh">
                 <div class="field-label-row">
-                  <label for="vzevEnergyRpKwh">Preis für lokalen Solarstrom<span class="sr-only"> (Pflichtfeld)</span></label>
-                  <button type="button" class="info-trigger" aria-label="Info zum Preis für lokalen Solarstrom" aria-describedby="tooltip-vzevEnergyRpKwh">i</button>
-                  <div class="field-tooltip" id="tooltip-vzevEnergyRpKwh" role="tooltip">Das ist der Preis pro kWh für lokalen Solarstrom.</div>
+                  <label for="vzevEnergyRpKwh" data-i18n-html="fields.vzevEnergyRpKwh.labelHtml"></label>
+                  <button type="button" class="info-trigger" aria-describedby="tooltip-vzevEnergyRpKwh" data-i18n-attr="aria-label:fields.vzevEnergyRpKwh.infoAria">i</button>
+                  <div class="field-tooltip" id="tooltip-vzevEnergyRpKwh" role="tooltip" data-i18n="fields.vzevEnergyRpKwh.tooltip"></div>
                 </div>
                 <div class="input-with-unit">
                   <input id="vzevEnergyRpKwh" name="vzevEnergyRpKwh" type="number" min="0" step="0.01" inputmode="decimal">
-                  <span class="unit-suffix" aria-hidden="true">Rp/kWh</span>
+                  <span class="unit-suffix" aria-hidden="true" data-i18n="units.rpPerKwh"></span>
                 </div>
                 <div class="error-msg" id="error-vzevEnergyRpKwh"></div>
               </div>
             </section>
 
             <details class="advanced" id="advancedInputs">
-              <summary>Weitere Angaben wenn bekannt</summary>
-              <p class="advanced-note">Hinweis: Die vorausgefüllten Werte gelten für Thurplus im Jahr 2026 gemäss <a href="https://www.thurplus.ch/public/upload/assets/1020/Stromtarif%20per%2001.01.2026.pdf?fp=1770298817330" target="_blank" rel="noopener noreferrer">Stromtarif per 01.01.2026 (PDF)</a>.</p>
+              <summary data-i18n="advanced.summary"></summary>
+              <p class="advanced-note" data-i18n-html="advanced.noteHtml"></p>
               <div class="advanced-grid">
                 <div class="field" data-field="energyRpKwh">
                   <div class="field-label-row">
-                    <label for="energyRpKwh">Energiepreis</label>
-                    <button type="button" class="info-trigger" aria-label="Info zum Energiepreis" aria-describedby="tooltip-energyRpKwh">i</button>
-                    <div class="field-tooltip" id="tooltip-energyRpKwh" role="tooltip">Das ist der Preis pro kWh für normalen Strom ohne Netznutzungsgebühren.</div>
+                    <label for="energyRpKwh" data-i18n="advanced.fields.energyRpKwh.label"></label>
+                    <button type="button" class="info-trigger" aria-describedby="tooltip-energyRpKwh" data-i18n-attr="aria-label:advanced.fields.energyRpKwh.infoAria">i</button>
+                    <div class="field-tooltip" id="tooltip-energyRpKwh" role="tooltip" data-i18n="advanced.fields.energyRpKwh.tooltip"></div>
                   </div>
                   <div class="input-with-unit">
                     <input id="energyRpKwh" name="energyRpKwh" type="number" min="0" step="0.01" inputmode="decimal">
-                    <span class="unit-suffix" aria-hidden="true">Rp/kWh</span>
+                    <span class="unit-suffix" aria-hidden="true" data-i18n="units.rpPerKwh"></span>
                   </div>
                   <div class="error-msg" id="error-energyRpKwh"></div>
                 </div>
 
                 <div class="field" data-field="gridRpKwh">
                   <div class="field-label-row">
-                    <label for="gridRpKwh">Netznutzungsgebühren</label>
-                    <button type="button" class="info-trigger" aria-label="Info zu Netznutzungsgebühren" aria-describedby="tooltip-gridRpKwh">i</button>
-                    <div class="field-tooltip" id="tooltip-gridRpKwh" role="tooltip">Das ist die Netznutzungsgebühr pro kWh. Für direkt genutzten Solarstrom aus der Nachbarschaft fällt dieser Anteil nicht an.</div>
+                    <label for="gridRpKwh" data-i18n="advanced.fields.gridRpKwh.label"></label>
+                    <button type="button" class="info-trigger" aria-describedby="tooltip-gridRpKwh" data-i18n-attr="aria-label:advanced.fields.gridRpKwh.infoAria">i</button>
+                    <div class="field-tooltip" id="tooltip-gridRpKwh" role="tooltip" data-i18n="advanced.fields.gridRpKwh.tooltip"></div>
                   </div>
                   <div class="input-with-unit">
                     <input id="gridRpKwh" name="gridRpKwh" type="number" min="0" step="0.01" inputmode="decimal">
-                    <span class="unit-suffix" aria-hidden="true">Rp/kWh</span>
+                    <span class="unit-suffix" aria-hidden="true" data-i18n="units.rpPerKwh"></span>
                   </div>
                   <div class="error-msg" id="error-gridRpKwh"></div>
                 </div>
 
                 <div class="field" data-field="baseFeeChfMonth">
                   <div class="field-label-row">
-                    <label for="baseFeeChfMonth">Grundpreis</label>
-                    <button type="button" class="info-trigger" aria-label="Info zum Grundpreis" aria-describedby="tooltip-baseFeeChfMonth">i</button>
-                    <div class="field-tooltip" id="tooltip-baseFeeChfMonth" role="tooltip">Das ist ein fixer monatlicher Grundpreis unabhängig vom Verbrauch.</div>
+                    <label for="baseFeeChfMonth" data-i18n="advanced.fields.baseFeeChfMonth.label"></label>
+                    <button type="button" class="info-trigger" aria-describedby="tooltip-baseFeeChfMonth" data-i18n-attr="aria-label:advanced.fields.baseFeeChfMonth.infoAria">i</button>
+                    <div class="field-tooltip" id="tooltip-baseFeeChfMonth" role="tooltip" data-i18n="advanced.fields.baseFeeChfMonth.tooltip"></div>
                   </div>
                   <div class="input-with-unit">
                     <input id="baseFeeChfMonth" name="baseFeeChfMonth" type="number" min="0" step="0.01" inputmode="decimal">
-                    <span class="unit-suffix" aria-hidden="true">CHF/Monat</span>
+                    <span class="unit-suffix" aria-hidden="true" data-i18n="units.chfPerMonth"></span>
                   </div>
                   <div class="error-msg" id="error-baseFeeChfMonth"></div>
                 </div>
 
                 <div class="field" data-field="recyclingFeeChfMonth">
                   <div class="field-label-row">
-                    <label for="recyclingFeeChfMonth">Recycling-Gebühr</label>
-                    <button type="button" class="info-trigger" aria-label="Info zur Recycling-Gebühr" aria-describedby="tooltip-recyclingFeeChfMonth">i</button>
-                    <div class="field-tooltip" id="tooltip-recyclingFeeChfMonth" role="tooltip">Das ist eine fixe monatliche Recycling-Gebühr unabhängig vom Verbrauch.</div>
+                    <label for="recyclingFeeChfMonth" data-i18n="advanced.fields.recyclingFeeChfMonth.label"></label>
+                    <button type="button" class="info-trigger" aria-describedby="tooltip-recyclingFeeChfMonth" data-i18n-attr="aria-label:advanced.fields.recyclingFeeChfMonth.infoAria">i</button>
+                    <div class="field-tooltip" id="tooltip-recyclingFeeChfMonth" role="tooltip" data-i18n="advanced.fields.recyclingFeeChfMonth.tooltip"></div>
                   </div>
                   <div class="input-with-unit">
                     <input id="recyclingFeeChfMonth" name="recyclingFeeChfMonth" type="number" min="0" step="0.01" inputmode="decimal">
-                    <span class="unit-suffix" aria-hidden="true">CHF/Monat</span>
+                    <span class="unit-suffix" aria-hidden="true" data-i18n="units.chfPerMonth"></span>
                   </div>
                   <div class="error-msg" id="error-recyclingFeeChfMonth"></div>
                 </div>
 
                 <div class="field" data-field="meteringFeeChfMonth">
                   <div class="field-label-row">
-                    <label for="meteringFeeChfMonth">Messentgelte</label>
-                    <button type="button" class="info-trigger" aria-label="Info zu Messentgelten" aria-describedby="tooltip-meteringFeeChfMonth">i</button>
-                    <div class="field-tooltip" id="tooltip-meteringFeeChfMonth" role="tooltip">Das sind die Messentgelte des Energieversorgers pro Monat.</div>
+                    <label for="meteringFeeChfMonth" data-i18n="advanced.fields.meteringFeeChfMonth.label"></label>
+                    <button type="button" class="info-trigger" aria-describedby="tooltip-meteringFeeChfMonth" data-i18n-attr="aria-label:advanced.fields.meteringFeeChfMonth.infoAria">i</button>
+                    <div class="field-tooltip" id="tooltip-meteringFeeChfMonth" role="tooltip" data-i18n="advanced.fields.meteringFeeChfMonth.tooltip"></div>
                   </div>
                   <div class="input-with-unit">
                     <input id="meteringFeeChfMonth" name="meteringFeeChfMonth" type="number" min="0" step="0.01" inputmode="decimal">
-                    <span class="unit-suffix" aria-hidden="true">CHF/Monat</span>
+                    <span class="unit-suffix" aria-hidden="true" data-i18n="units.chfPerMonth"></span>
                   </div>
                   <div class="error-msg" id="error-meteringFeeChfMonth"></div>
                 </div>
 
                 <div class="field" data-field="vzevFeeChfMonth">
                   <div class="field-label-row">
-                    <label for="vzevFeeChfMonth">Preis für die Abrechnung von Solarstrom</label>
-                    <button type="button" class="info-trigger" aria-label="Info zum Preis für die Abrechnung von Solarstrom aus der Nachbarschaft" aria-describedby="tooltip-vzevFeeChfMonth">i</button>
-                    <div class="field-tooltip" id="tooltip-vzevFeeChfMonth" role="tooltip">Das ist eine zusätzliche monatliche Gebühr des Energieversorgers für die Abrechnung von Solarstrom aus der Nachbarschaft.</div>
+                    <label for="vzevFeeChfMonth" data-i18n="advanced.fields.vzevFeeChfMonth.label"></label>
+                    <button type="button" class="info-trigger" aria-describedby="tooltip-vzevFeeChfMonth" data-i18n-attr="aria-label:advanced.fields.vzevFeeChfMonth.infoAria">i</button>
+                    <div class="field-tooltip" id="tooltip-vzevFeeChfMonth" role="tooltip" data-i18n="advanced.fields.vzevFeeChfMonth.tooltip"></div>
                   </div>
                   <div class="input-with-unit">
                     <input id="vzevFeeChfMonth" name="vzevFeeChfMonth" type="number" min="0" step="0.01" inputmode="decimal">
-                    <span class="unit-suffix" aria-hidden="true">CHF/Monat</span>
+                    <span class="unit-suffix" aria-hidden="true" data-i18n="units.chfPerMonth"></span>
                   </div>
                   <div class="error-msg" id="error-vzevFeeChfMonth"></div>
                 </div>
 
                 <div class="field" data-field="vatPercent">
                   <div class="field-label-row">
-                    <label for="vatPercent">MwSt</label>
-                    <button type="button" class="info-trigger" aria-label="Info zur Mehrwertsteuer" aria-describedby="tooltip-vatPercent">i</button>
-                    <div class="field-tooltip" id="tooltip-vatPercent" role="tooltip">Die Mehrwertsteuer wird auf alle Preise ausser dem lokalen Solarstrompreis angewendet.</div>
+                    <label for="vatPercent" data-i18n="advanced.fields.vatPercent.label"></label>
+                    <button type="button" class="info-trigger" aria-describedby="tooltip-vatPercent" data-i18n-attr="aria-label:advanced.fields.vatPercent.infoAria">i</button>
+                    <div class="field-tooltip" id="tooltip-vatPercent" role="tooltip" data-i18n="advanced.fields.vatPercent.tooltip"></div>
                   </div>
                   <div class="input-with-unit">
                     <input id="vatPercent" name="vatPercent" type="number" min="0" step="0.01" inputmode="decimal">
-                    <span class="unit-suffix" aria-hidden="true">%</span>
+                    <span class="unit-suffix" aria-hidden="true" data-i18n="units.percent"></span>
                   </div>
                   <div class="error-msg" id="error-vatPercent"></div>
                 </div>
@@ -166,50 +166,48 @@
             </details>
 
             <div class="actions">
-              <button type="button" class="ghost-btn" id="resetBtn">Zurücksetzen</button>
+              <button type="button" class="ghost-btn" id="resetBtn" data-i18n="actions.reset"></button>
             </div>
-            <div class="meta-note">Eingaben werden nur lokal im Browser gespeichert.</div>
+            <div class="meta-note" data-i18n="inputs.metaNote"></div>
           </form>
         </div>
       </article>
 
       <article class="card">
         <div class="card-header">
-          <h2>Dein Ergebnis</h2>
+          <h2 data-i18n="results.title"></h2>
         </div>
         <div class="card-body">
           <div id="validationStatus" class="status hidden"></div>
 
           <div class="summary">
             <div class="summary-item">
-              <div class="label">Jahreskosten ohne Solarstrom</div>
-              <div class="value" id="yearBaseline">-</div>
+              <div class="label" data-i18n="results.summary.baseline"></div>
+              <div class="value" id="yearBaseline"></div>
             </div>
             <div class="summary-item">
-              <div class="label">Jahreskosten mit Solarstrom</div>
-              <div class="value" id="yearVzev">-</div>
+              <div class="label" data-i18n="results.summary.withSolar"></div>
+              <div class="value" id="yearVzev"></div>
             </div>
             <div class="summary-item primary neutral">
-              <div class="label">Jährliche Einsparung mit Solarstrom</div>
-              <div class="value" id="yearSaving">-</div>
+              <div class="label" data-i18n="results.summary.saving"></div>
+              <div class="value" id="yearSaving"></div>
             </div>
           </div>
 
-          <div id="resultConclusion" class="result-conclusion neutral" aria-live="polite">
-            Bitte gib gültige Werte ein. Dann siehst du hier kurz erklärt, was dein Ergebnis bedeutet.
-          </div>
+          <div id="resultConclusion" class="result-conclusion neutral" aria-live="polite" data-i18n-html="results.defaultConclusionHtml"></div>
 
           <details class="monthly-table">
-            <summary>Monate im Vergleich</summary>
+            <summary data-i18n="results.table.summary"></summary>
             <div class="table-wrap">
               <table>
                 <thead>
                   <tr>
-                    <th>Monat</th>
-                    <th>Solaranteil</th>
-                    <th>Ohne Solarstrom</th>
-                    <th>Mit Solarstrom</th>
-                    <th>Einsparung</th>
+                    <th data-i18n="results.table.headers.month"></th>
+                    <th data-i18n="results.table.headers.solarShare"></th>
+                    <th data-i18n="results.table.headers.withoutSolar"></th>
+                    <th data-i18n="results.table.headers.withSolar"></th>
+                    <th data-i18n="results.table.headers.saving"></th>
                   </tr>
                 </thead>
                 <tbody id="resultsBody"></tbody>
@@ -218,720 +216,876 @@
           </details>
 
           <details class="assumptions">
-            <summary>Annahmen</summary>
+            <summary data-i18n="results.assumptions.summary"></summary>
             <ul>
-              <li>Der Monatsverbrauch ist in allen 12 Monaten gleich.</li>
-              <li>Solarstrom ist von März bis November verfügbar. Von Dezember bis Februar gibt es keinen Solarstrom.</li>
-              <li>Der Solaranteil in Solar-Monaten beträgt je nach Profil: Fast immer 70 %, Durchschnittlich 50 %, Fast nie 30 %.</li>
-              <li>Die monatlichen Fixkosten wie Grundpreis, Recycling-Gebühr und Messentgelte gelten in beiden Szenarien mit und ohne Solarstrom.</li>
-              <li>Die MwSt wird auf alle Preise ausser dem lokalen Solarstrompreis angewendet.</li>
-              <li>Reststrom wird mit Normaltarif und Netznutzung berechnet.</li>
+              <li data-i18n="results.assumptions.items.item1"></li>
+              <li data-i18n="results.assumptions.items.item2"></li>
+              <li data-i18n="results.assumptions.items.item3"></li>
+              <li data-i18n="results.assumptions.items.item4"></li>
+              <li data-i18n="results.assumptions.items.item5"></li>
+              <li data-i18n="results.assumptions.items.item6"></li>
             </ul>
           </details>
 
           <details class="calculation-details">
-            <summary>So wurde gerechnet</summary>
-            <p class="calc-intro">Die Schritte zeigen immer zuerst die Formel und danach die eingesetzten Werte.</p>
+            <summary data-i18n="results.calculation.summary"></summary>
+            <p class="calc-intro" data-i18n="results.calculation.intro"></p>
             <ol class="calc-steps" id="calcSteps"></ol>
           </details>
         </div>
       </article>
     </section>
 
-    <p class="rechner-bottom-note">Diese Berechnung ist eine Orientierung. Die tatsächlichen Kosten hängen von deinem Verbrauch ab.</p>
+    <p class="rechner-bottom-note" data-i18n="results.bottomNote"></p>
   </main>
 
   <script>
-    /**
-     * @typedef {Object} InputState
-     * @property {number} energyRpKwh
-     * @property {number} gridRpKwh
-     * @property {number} monthlyKwh
-     * @property {number} baseFeeChfMonth
-     * @property {number} recyclingFeeChfMonth
-     * @property {number} meteringFeeChfMonth
-     * @property {number} vzevEnergyRpKwh
-     * @property {number} vzevFeeChfMonth
-     * @property {number} vatPercent
-     * @property {"day_high" | "house_empty" | "day_low"} usageProfile
-     */
+    (async function () {
+      /**
+       * @typedef {Object} InputState
+       * @property {number} energyRpKwh
+       * @property {number} gridRpKwh
+       * @property {number} monthlyKwh
+       * @property {number} baseFeeChfMonth
+       * @property {number} recyclingFeeChfMonth
+       * @property {number} meteringFeeChfMonth
+       * @property {number} vzevEnergyRpKwh
+       * @property {number} vzevFeeChfMonth
+       * @property {number} vatPercent
+       * @property {"day_high" | "house_empty" | "day_low"} usageProfile
+       */
 
-    /**
-     * @typedef {Object} MonthResult
-     * @property {number} solarShare
-     * @property {number} baselineChf
-     * @property {number} vzevChf
-     * @property {number} savingChf
-     */
+      /**
+       * @typedef {Object} MonthResult
+       * @property {number} solarShare
+       * @property {number} baselineChf
+       * @property {number} vzevChf
+       * @property {number} savingChf
+       */
 
-    const STORAGE_KEY = "vzevcalc.state.v1";
-    const USAGE_PROFILE_DAY_SHARE = Object.freeze({
-      day_high: 0.7,
-      house_empty: 0.5,
-      day_low: 0.3
-    });
-    const USAGE_PROFILE_LABEL = Object.freeze({
-      day_high: "Fast immer",
-      house_empty: "Durchschnittlich",
-      day_low: "Fast nie"
-    });
+      var i18nMessages = {};
+      var missingKeys = {};
 
-    const MONTHS = Object.freeze([
-      { key: "jan", label: "Januar" },
-      { key: "feb", label: "Februar" },
-      { key: "mar", label: "März" },
-      { key: "apr", label: "April" },
-      { key: "may", label: "Mai" },
-      { key: "jun", label: "Juni" },
-      { key: "jul", label: "Juli" },
-      { key: "aug", label: "August" },
-      { key: "sep", label: "September" },
-      { key: "oct", label: "Oktober" },
-      { key: "nov", label: "November" },
-      { key: "dec", label: "Dezember" }
-    ]);
-    /** @type {InputState} */
-    const DEFAULT_STATE = Object.freeze({
-      energyRpKwh: 12.9,
-      gridRpKwh: 12.86,
-      monthlyKwh: 250,
-      baseFeeChfMonth: 10,
-      recyclingFeeChfMonth: 5,
-      meteringFeeChfMonth: 4,
-      vzevEnergyRpKwh: 17,
-      vzevFeeChfMonth: 3,
-      vatPercent: 8.1,
-      usageProfile: "day_high"
-    });
+      function getMessageByPath(source, key) {
+        var path = String(key || "").split(".");
+        var value = source;
+        for (var i = 0; i < path.length; i += 1) {
+          if (!value || typeof value !== "object" || !Object.prototype.hasOwnProperty.call(value, path[i])) {
+            return undefined;
+          }
+          value = value[path[i]];
+        }
+        return value;
+      }
 
-    const chfFormatter = new Intl.NumberFormat("de-CH", {
-      style: "currency",
-      currency: "CHF",
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    });
+      function interpolateMessage(template, vars) {
+        if (!vars) {
+          return template;
+        }
+        return template.replace(/\{([a-zA-Z0-9_]+)\}/g, function (_match, key) {
+          return Object.prototype.hasOwnProperty.call(vars, key) ? String(vars[key]) : "";
+        });
+      }
 
-    const percentFormatter = new Intl.NumberFormat("de-CH", {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0
-    });
-    const detailNumberFormatter = new Intl.NumberFormat("de-CH", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    });
-    const detailRateFormatter = new Intl.NumberFormat("de-CH", {
-      minimumFractionDigits: 4,
-      maximumFractionDigits: 4
-    });
+      function t(key, vars) {
+        var template = getMessageByPath(i18nMessages, key);
+        if (typeof template !== "string") {
+          if (!missingKeys[key]) {
+            missingKeys[key] = true;
+            console.warn("[i18n] Missing translation key:", key);
+          }
+          return "";
+        }
+        return interpolateMessage(template, vars);
+      }
 
-    const form = document.getElementById("calcForm");
-    const resetBtn = document.getElementById("resetBtn");
-    const resultsBody = document.getElementById("resultsBody");
-    const yearBaseline = document.getElementById("yearBaseline");
-    const yearVzev = document.getElementById("yearVzev");
-    const yearSaving = document.getElementById("yearSaving");
-    const yearSavingItem = yearSaving ? yearSaving.closest(".summary-item") : null;
-    const resultConclusion = document.getElementById("resultConclusion");
-    const validationStatus = document.getElementById("validationStatus");
-    const advancedInputs = document.getElementById("advancedInputs");
-    const calcSteps = document.getElementById("calcSteps");
+      function applyI18n() {
+        var textNodes = document.querySelectorAll("[data-i18n]");
+        for (var i = 0; i < textNodes.length; i += 1) {
+          var node = textNodes[i];
+          node.textContent = t(node.getAttribute("data-i18n"));
+        }
 
-    const numericFieldIds = [
-      "energyRpKwh",
-      "gridRpKwh",
-      "monthlyKwh",
-      "baseFeeChfMonth",
-      "recyclingFeeChfMonth",
-      "meteringFeeChfMonth",
-      "vzevEnergyRpKwh",
-      "vzevFeeChfMonth",
-      "vatPercent"
-    ];
-    const advancedFieldIds = [
-      "energyRpKwh",
-      "gridRpKwh",
-      "baseFeeChfMonth",
-      "recyclingFeeChfMonth",
-      "meteringFeeChfMonth",
-      "vzevFeeChfMonth",
-      "vatPercent"
-    ];
+        var htmlNodes = document.querySelectorAll("[data-i18n-html]");
+        for (var j = 0; j < htmlNodes.length; j += 1) {
+          var htmlNode = htmlNodes[j];
+          htmlNode.innerHTML = t(htmlNode.getAttribute("data-i18n-html"));
+        }
 
-    initialize();
+        var attrNodes = document.querySelectorAll("[data-i18n-attr]");
+        for (var k = 0; k < attrNodes.length; k += 1) {
+          var attrNode = attrNodes[k];
+          var definition = attrNode.getAttribute("data-i18n-attr") || "";
+          var mappings = definition.split(";");
 
-    function initialize() {
-      const initialState = loadState();
-      writeStateToForm(initialState);
-      renderFromForm();
-      setupTooltipPlacement();
+          for (var m = 0; m < mappings.length; m += 1) {
+            var mapping = mappings[m].trim();
+            if (!mapping) {
+              continue;
+            }
+            var separatorIndex = mapping.indexOf(":");
+            if (separatorIndex === -1) {
+              continue;
+            }
+            var attributeName = mapping.slice(0, separatorIndex).trim();
+            var translationKey = mapping.slice(separatorIndex + 1).trim();
+            attrNode.setAttribute(attributeName, t(translationKey));
+          }
+        }
+      }
 
-      form.addEventListener("input", renderFromForm);
-      form.addEventListener("change", renderFromForm);
+      async function loadI18n(url) {
+        try {
+          var response = await fetch(url, { cache: "no-store" });
+          if (!response.ok) {
+            throw new Error("HTTP " + response.status);
+          }
+          i18nMessages = await response.json();
+        } catch (error) {
+          i18nMessages = {};
+          document.body.setAttribute("data-text-load-error", "true");
+          if (window.location.protocol === "file:") {
+            document.body.setAttribute("data-text-load-error-reason", "file-protocol");
+            console.error(
+              "[i18n] Failed to load calculator texts from file://. Start a local server, e.g. `python3 -m http.server`, and open http://localhost:8000/calculator.html",
+              error
+            );
+          } else {
+            console.error("[i18n] Failed to load calculator texts:", error);
+          }
+        }
+      }
 
-      resetBtn.addEventListener("click", handleReset);
-    }
+      await loadI18n("texts/calculator.de-CH.json");
+      applyI18n();
 
-    function setupTooltipPlacement() {
-      const triggers = form.querySelectorAll(".info-trigger");
-      triggers.forEach(function (trigger) {
-        trigger.addEventListener("mouseenter", handleTooltipPlacement);
-        trigger.addEventListener("focus", handleTooltipPlacement);
-        trigger.addEventListener("click", handleTooltipPlacement);
+      const STORAGE_KEY = "vzevcalc.state.v1";
+      const USAGE_PROFILE_DAY_SHARE = Object.freeze({
+        day_high: 0.7,
+        house_empty: 0.5,
+        day_low: 0.3
       });
-    }
+      const USAGE_PROFILE_TEXT_KEY = Object.freeze({
+        day_high: "fields.usageProfile.options.day_high",
+        house_empty: "fields.usageProfile.options.house_empty",
+        day_low: "fields.usageProfile.options.day_low"
+      });
+      const MONTHS = Object.freeze([
+        { key: "jan", labelKey: "months.jan" },
+        { key: "feb", labelKey: "months.feb" },
+        { key: "mar", labelKey: "months.mar" },
+        { key: "apr", labelKey: "months.apr" },
+        { key: "may", labelKey: "months.may" },
+        { key: "jun", labelKey: "months.jun" },
+        { key: "jul", labelKey: "months.jul" },
+        { key: "aug", labelKey: "months.aug" },
+        { key: "sep", labelKey: "months.sep" },
+        { key: "oct", labelKey: "months.oct" },
+        { key: "nov", labelKey: "months.nov" },
+        { key: "dec", labelKey: "months.dec" }
+      ]);
+      /** @type {InputState} */
+      const DEFAULT_STATE = Object.freeze({
+        energyRpKwh: 12.9,
+        gridRpKwh: 12.86,
+        monthlyKwh: 250,
+        baseFeeChfMonth: 10,
+        recyclingFeeChfMonth: 5,
+        meteringFeeChfMonth: 4,
+        vzevEnergyRpKwh: 17,
+        vzevFeeChfMonth: 3,
+        vatPercent: 8.1,
+        usageProfile: "day_high"
+      });
 
-    /**
-     * @param {MouseEvent|FocusEvent} event
-     */
-    function handleTooltipPlacement(event) {
-      const trigger = event.currentTarget;
-      if (!(trigger instanceof HTMLElement)) {
-        return;
+      const chfFormatter = new Intl.NumberFormat("de-CH", {
+        style: "currency",
+        currency: "CHF",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+
+      const percentFormatter = new Intl.NumberFormat("de-CH", {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+      });
+      const detailNumberFormatter = new Intl.NumberFormat("de-CH", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+      const detailRateFormatter = new Intl.NumberFormat("de-CH", {
+        minimumFractionDigits: 4,
+        maximumFractionDigits: 4
+      });
+
+      const form = document.getElementById("calcForm");
+      const resetBtn = document.getElementById("resetBtn");
+      const resultsBody = document.getElementById("resultsBody");
+      const yearBaseline = document.getElementById("yearBaseline");
+      const yearVzev = document.getElementById("yearVzev");
+      const yearSaving = document.getElementById("yearSaving");
+      const yearSavingItem = yearSaving ? yearSaving.closest(".summary-item") : null;
+      const resultConclusion = document.getElementById("resultConclusion");
+      const validationStatus = document.getElementById("validationStatus");
+      const advancedInputs = document.getElementById("advancedInputs");
+      const calcSteps = document.getElementById("calcSteps");
+
+      const numericFieldIds = [
+        "energyRpKwh",
+        "gridRpKwh",
+        "monthlyKwh",
+        "baseFeeChfMonth",
+        "recyclingFeeChfMonth",
+        "meteringFeeChfMonth",
+        "vzevEnergyRpKwh",
+        "vzevFeeChfMonth",
+        "vatPercent"
+      ];
+      const advancedFieldIds = [
+        "energyRpKwh",
+        "gridRpKwh",
+        "baseFeeChfMonth",
+        "recyclingFeeChfMonth",
+        "meteringFeeChfMonth",
+        "vzevFeeChfMonth",
+        "vatPercent"
+      ];
+
+      initialize();
+
+      function getUsageProfileLabel(profile) {
+        const labelKey = USAGE_PROFILE_TEXT_KEY[profile] || USAGE_PROFILE_TEXT_KEY[DEFAULT_STATE.usageProfile];
+        return t(labelKey);
       }
 
-      const row = trigger.closest(".field-label-row");
-      if (!row) {
-        return;
+      function initialize() {
+        const initialState = loadState();
+        writeStateToForm(initialState);
+        renderFromForm();
+        setupTooltipPlacement();
+
+        form.addEventListener("input", renderFromForm);
+        form.addEventListener("change", renderFromForm);
+
+        resetBtn.addEventListener("click", handleReset);
       }
 
-      const tooltip = row.querySelector(".field-tooltip");
-      if (!(tooltip instanceof HTMLElement)) {
-        return;
+      function setupTooltipPlacement() {
+        const triggers = form.querySelectorAll(".info-trigger");
+        triggers.forEach(function (trigger) {
+          trigger.addEventListener("mouseenter", handleTooltipPlacement);
+          trigger.addEventListener("focus", handleTooltipPlacement);
+          trigger.addEventListener("click", handleTooltipPlacement);
+        });
       }
 
-      positionTooltip(row, tooltip);
-    }
+      /**
+       * @param {MouseEvent|FocusEvent} event
+       */
+      function handleTooltipPlacement(event) {
+        const trigger = event.currentTarget;
+        if (!(trigger instanceof HTMLElement)) {
+          return;
+        }
 
-    /**
-     * @param {Element} row
-     * @param {HTMLElement} tooltip
-     */
-    function positionTooltip(row, tooltip) {
-      row.classList.remove("tooltip-below");
-      const rect = tooltip.getBoundingClientRect();
-      if (rect.top < 12) {
-        row.classList.add("tooltip-below");
+        const row = trigger.closest(".field-label-row");
+        if (!row) {
+          return;
+        }
+
+        const tooltip = row.querySelector(".field-tooltip");
+        if (!(tooltip instanceof HTMLElement)) {
+          return;
+        }
+
+        positionTooltip(row, tooltip);
       }
-    }
 
-    /**
-     * @returns {InputState}
-     */
-    function loadState() {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) {
+      /**
+       * @param {Element} row
+       * @param {HTMLElement} tooltip
+       */
+      function positionTooltip(row, tooltip) {
+        row.classList.remove("tooltip-below");
+        const rect = tooltip.getBoundingClientRect();
+        if (rect.top < 12) {
+          row.classList.add("tooltip-below");
+        }
+      }
+
+      /**
+       * @returns {InputState}
+       */
+      function loadState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) {
+            return { ...DEFAULT_STATE };
+          }
+
+          const parsed = JSON.parse(raw);
+          return sanitizeState(parsed);
+        } catch (_error) {
           return { ...DEFAULT_STATE };
         }
-
-        const parsed = JSON.parse(raw);
-        return sanitizeState(parsed);
-      } catch (_error) {
-        return { ...DEFAULT_STATE };
-      }
-    }
-
-    /**
-     * @param {InputState} state
-     */
-    function saveState(state) {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-      } catch (_error) {
-        // Ignore storage failures (private mode or blocked localStorage).
-      }
-    }
-
-    /**
-     * @param {unknown} candidate
-     * @returns {InputState}
-     */
-    function sanitizeState(candidate) {
-      const input = candidate && typeof candidate === "object" ? candidate : {};
-      return {
-        energyRpKwh: normalizeNumber(input.energyRpKwh, DEFAULT_STATE.energyRpKwh),
-        gridRpKwh: normalizeNumber(input.gridRpKwh, DEFAULT_STATE.gridRpKwh),
-        monthlyKwh: normalizeNumber(input.monthlyKwh, DEFAULT_STATE.monthlyKwh),
-        baseFeeChfMonth: normalizeNumber(input.baseFeeChfMonth, DEFAULT_STATE.baseFeeChfMonth),
-        recyclingFeeChfMonth: normalizeNumber(input.recyclingFeeChfMonth, DEFAULT_STATE.recyclingFeeChfMonth),
-        meteringFeeChfMonth: normalizeNumber(input.meteringFeeChfMonth, DEFAULT_STATE.meteringFeeChfMonth),
-        vzevEnergyRpKwh: normalizeNumber(input.vzevEnergyRpKwh, DEFAULT_STATE.vzevEnergyRpKwh),
-        vzevFeeChfMonth: normalizeNumber(input.vzevFeeChfMonth, DEFAULT_STATE.vzevFeeChfMonth),
-        vatPercent: normalizeNumber(input.vatPercent, DEFAULT_STATE.vatPercent),
-        usageProfile: normalizeUsageProfile(input.usageProfile, DEFAULT_STATE.usageProfile)
-      };
-    }
-
-    /**
-     * @param {unknown} value
-     * @param {number} fallback
-     * @returns {number}
-     */
-    function normalizeNumber(value, fallback) {
-      const numeric = Number(value);
-      return Number.isFinite(numeric) && numeric >= 0 ? numeric : fallback;
-    }
-
-    /**
-     * @param {unknown} value
-     * @param {"day_high" | "house_empty" | "day_low" | ""} fallback
-     * @returns {"day_high" | "house_empty" | "day_low" | ""}
-     */
-    function normalizeUsageProfile(value, fallback) {
-      return Object.prototype.hasOwnProperty.call(USAGE_PROFILE_DAY_SHARE, value) ? value : fallback;
-    }
-
-    /**
-     * @param {InputState} state
-     */
-    function writeStateToForm(state) {
-      form.energyRpKwh.value = state.energyRpKwh;
-      form.gridRpKwh.value = state.gridRpKwh;
-      form.monthlyKwh.value = state.monthlyKwh;
-      form.baseFeeChfMonth.value = state.baseFeeChfMonth;
-      form.recyclingFeeChfMonth.value = state.recyclingFeeChfMonth;
-      form.meteringFeeChfMonth.value = state.meteringFeeChfMonth;
-      form.vzevEnergyRpKwh.value = state.vzevEnergyRpKwh;
-      form.vzevFeeChfMonth.value = state.vzevFeeChfMonth;
-      form.vatPercent.value = state.vatPercent;
-      form.usageProfile.value = state.usageProfile;
-    }
-
-    /**
-     * @returns {InputState}
-     */
-    function readStateFromForm() {
-      return {
-        energyRpKwh: Number(form.energyRpKwh.value),
-        gridRpKwh: Number(form.gridRpKwh.value),
-        monthlyKwh: Number(form.monthlyKwh.value),
-        baseFeeChfMonth: Number(form.baseFeeChfMonth.value),
-        recyclingFeeChfMonth: Number(form.recyclingFeeChfMonth.value),
-        meteringFeeChfMonth: Number(form.meteringFeeChfMonth.value),
-        vzevEnergyRpKwh: Number(form.vzevEnergyRpKwh.value),
-        vzevFeeChfMonth: Number(form.vzevFeeChfMonth.value),
-        vatPercent: Number(form.vatPercent.value),
-        usageProfile: form.usageProfile.value
-      };
-    }
-
-    function renderFromForm() {
-      const state = readStateFromForm();
-      const errors = validateState(state);
-      applyValidation(errors);
-
-      if (Object.keys(errors).length > 0) {
-        renderInvalid();
-        return;
       }
 
-      saveState(state);
-      const yearResult = calculateYear(state);
-      renderResults(yearResult, state);
-    }
-
-    /**
-     * @param {InputState} state
-     * @returns {Record<string, string>}
-     */
-    function validateState(state) {
-      const errors = {};
-
-      for (const fieldId of numericFieldIds) {
-        const value = state[fieldId];
-        if (!Number.isFinite(value) || value < 0) {
-          errors[fieldId] = "Bitte eine gültige Zahl ab 0 eingeben.";
+      /**
+       * @param {InputState} state
+       */
+      function saveState(state) {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        } catch (_error) {
+          // Ignore storage failures (private mode or blocked localStorage).
         }
       }
 
-      if (!Object.prototype.hasOwnProperty.call(USAGE_PROFILE_DAY_SHARE, state.usageProfile)) {
-        errors.usageProfile = "Bitte ein gültiges Nutzungsprofil auswählen.";
+      /**
+       * @param {unknown} candidate
+       * @returns {InputState}
+       */
+      function sanitizeState(candidate) {
+        const input = candidate && typeof candidate === "object" ? candidate : {};
+        return {
+          energyRpKwh: normalizeNumber(input.energyRpKwh, DEFAULT_STATE.energyRpKwh),
+          gridRpKwh: normalizeNumber(input.gridRpKwh, DEFAULT_STATE.gridRpKwh),
+          monthlyKwh: normalizeNumber(input.monthlyKwh, DEFAULT_STATE.monthlyKwh),
+          baseFeeChfMonth: normalizeNumber(input.baseFeeChfMonth, DEFAULT_STATE.baseFeeChfMonth),
+          recyclingFeeChfMonth: normalizeNumber(input.recyclingFeeChfMonth, DEFAULT_STATE.recyclingFeeChfMonth),
+          meteringFeeChfMonth: normalizeNumber(input.meteringFeeChfMonth, DEFAULT_STATE.meteringFeeChfMonth),
+          vzevEnergyRpKwh: normalizeNumber(input.vzevEnergyRpKwh, DEFAULT_STATE.vzevEnergyRpKwh),
+          vzevFeeChfMonth: normalizeNumber(input.vzevFeeChfMonth, DEFAULT_STATE.vzevFeeChfMonth),
+          vatPercent: normalizeNumber(input.vatPercent, DEFAULT_STATE.vatPercent),
+          usageProfile: normalizeUsageProfile(input.usageProfile, DEFAULT_STATE.usageProfile)
+        };
       }
 
-      return errors;
-    }
-
-    /**
-     * @param {number} monthIndex
-     * @param {"day_high" | "house_empty" | "day_low"} usageProfile
-     * @returns {number}
-     */
-    function calculateSolarShare(monthIndex, usageProfile) {
-      if (!isSolarMonth(monthIndex)) {
-        return 0;
+      /**
+       * @param {unknown} value
+       * @param {number} fallback
+       * @returns {number}
+       */
+      function normalizeNumber(value, fallback) {
+        const numeric = Number(value);
+        return Number.isFinite(numeric) && numeric >= 0 ? numeric : fallback;
       }
 
-      return USAGE_PROFILE_DAY_SHARE[usageProfile] ?? USAGE_PROFILE_DAY_SHARE[DEFAULT_STATE.usageProfile];
-    }
-
-    /**
-     * @param {Record<string, string>} errors
-     */
-    function applyValidation(errors) {
-      const hasAdvancedError = advancedFieldIds.some(function (fieldId) {
-        return Boolean(errors[fieldId]);
-      });
-      if (hasAdvancedError && advancedInputs) {
-        advancedInputs.open = true;
+      /**
+       * @param {unknown} value
+       * @param {"day_high" | "house_empty" | "day_low" | ""} fallback
+       * @returns {"day_high" | "house_empty" | "day_low" | ""}
+       */
+      function normalizeUsageProfile(value, fallback) {
+        return Object.prototype.hasOwnProperty.call(USAGE_PROFILE_DAY_SHARE, value) ? value : fallback;
       }
 
-      const fields = form.querySelectorAll(".field");
-      fields.forEach(function (field) {
-        const key = field.getAttribute("data-field");
-        const msg = errors[key] || "";
-        field.classList.toggle("invalid", Boolean(msg));
-        const errorEl = document.getElementById("error-" + key);
-        if (errorEl) {
-          errorEl.textContent = msg;
+      /**
+       * @param {InputState} state
+       */
+      function writeStateToForm(state) {
+        form.energyRpKwh.value = state.energyRpKwh;
+        form.gridRpKwh.value = state.gridRpKwh;
+        form.monthlyKwh.value = state.monthlyKwh;
+        form.baseFeeChfMonth.value = state.baseFeeChfMonth;
+        form.recyclingFeeChfMonth.value = state.recyclingFeeChfMonth;
+        form.meteringFeeChfMonth.value = state.meteringFeeChfMonth;
+        form.vzevEnergyRpKwh.value = state.vzevEnergyRpKwh;
+        form.vzevFeeChfMonth.value = state.vzevFeeChfMonth;
+        form.vatPercent.value = state.vatPercent;
+        form.usageProfile.value = state.usageProfile;
+      }
+
+      /**
+       * @returns {InputState}
+       */
+      function readStateFromForm() {
+        return {
+          energyRpKwh: Number(form.energyRpKwh.value),
+          gridRpKwh: Number(form.gridRpKwh.value),
+          monthlyKwh: Number(form.monthlyKwh.value),
+          baseFeeChfMonth: Number(form.baseFeeChfMonth.value),
+          recyclingFeeChfMonth: Number(form.recyclingFeeChfMonth.value),
+          meteringFeeChfMonth: Number(form.meteringFeeChfMonth.value),
+          vzevEnergyRpKwh: Number(form.vzevEnergyRpKwh.value),
+          vzevFeeChfMonth: Number(form.vzevFeeChfMonth.value),
+          vatPercent: Number(form.vatPercent.value),
+          usageProfile: form.usageProfile.value
+        };
+      }
+
+      function renderFromForm() {
+        const state = readStateFromForm();
+        const errors = validateState(state);
+        applyValidation(errors);
+
+        if (Object.keys(errors).length > 0) {
+          renderInvalid();
+          return;
         }
-      });
-    }
 
-    function renderInvalid() {
-      validationStatus.classList.remove("hidden");
-      validationStatus.textContent = "Bitte prüfe alle Eingaben. Die Berechnung erscheint erst mit gültigen Werten.";
-
-      yearBaseline.textContent = "-";
-      yearVzev.textContent = "-";
-      yearSaving.textContent = "-";
-      yearSaving.classList.remove("positive", "negative", "neutral");
-      if (yearSavingItem) {
-        yearSavingItem.classList.remove("positive", "negative");
-        yearSavingItem.classList.add("neutral");
-      }
-      resultConclusion.textContent =
-        "Bitte gib gültige Werte ein. Dann siehst du hier kurz erklärt, was dein Ergebnis bedeutet.";
-      resultConclusion.classList.remove("positive", "negative");
-      resultConclusion.classList.add("neutral");
-      resultsBody.innerHTML = "";
-
-      if (calcSteps) {
-        calcSteps.innerHTML = "";
-      }
-    }
-
-    /**
-     * @param {InputState} state
-     * @param {number} monthIndex
-     * @returns {MonthResult}
-     */
-    function calculateMonth(state, monthIndex) {
-      const vatFactor = 1 + state.vatPercent / 100;
-      const baselineRateChfPerKwh = ((state.energyRpKwh + state.gridRpKwh) * vatFactor) / 100;
-      const baseFeeGross = state.baseFeeChfMonth * vatFactor;
-      const recyclingFeeGross = state.recyclingFeeChfMonth * vatFactor;
-      const meteringFeeGross = state.meteringFeeChfMonth * vatFactor;
-      const vzevFeeGross = state.vzevFeeChfMonth * vatFactor;
-      const solarShare = calculateSolarShare(monthIndex, state.usageProfile);
-      const solarKwh = state.monthlyKwh * solarShare;
-      const restKwh = state.monthlyKwh - solarKwh;
-      const baselineChf = state.monthlyKwh * baselineRateChfPerKwh + baseFeeGross + recyclingFeeGross + meteringFeeGross;
-      const vzevChf =
-        solarKwh * (state.vzevEnergyRpKwh / 100) +
-        restKwh * baselineRateChfPerKwh +
-        baseFeeGross +
-        recyclingFeeGross +
-        meteringFeeGross +
-        vzevFeeGross;
-      const savingChf = baselineChf - vzevChf;
-
-      return {
-        solarShare: solarShare,
-        baselineChf: baselineChf,
-        vzevChf: vzevChf,
-        savingChf: savingChf
-      };
-    }
-
-    /**
-     * @param {InputState} state
-     */
-    function calculateYear(state) {
-      const months = MONTHS.map(function (_month, index) {
-        return calculateMonth(state, index);
-      });
-
-      const totals = months.reduce(
-        function (acc, month) {
-          acc.baselineChf += month.baselineChf;
-          acc.vzevChf += month.vzevChf;
-          acc.savingChf += month.savingChf;
-          return acc;
-        },
-        { baselineChf: 0, vzevChf: 0, savingChf: 0 }
-      );
-
-      return { months: months, totals: totals };
-    }
-
-    /**
-     * @param {{ months: MonthResult[], totals: { baselineChf: number, vzevChf: number, savingChf: number } }} results
-     * @param {InputState} state
-     */
-    function renderResults(results, state) {
-      validationStatus.classList.add("hidden");
-      validationStatus.textContent = "";
-
-      const rows = results.months
-        .map(function (month, index) {
-          const savingClass = month.savingChf >= 0 ? "pos" : "neg";
-          const monthLabel = MONTHS[index].label;
-          const solarLabel = percentFormatter.format(month.solarShare * 100) + "%";
-
-          return (
-            "<tr>" +
-            "<td>" + monthLabel + "</td>" +
-            "<td>" + solarLabel + "</td>" +
-            "<td>" + formatChf(month.baselineChf) + "</td>" +
-            "<td>" + formatChf(month.vzevChf) + "</td>" +
-            "<td class='saving " + savingClass + "'>" + formatChf(month.savingChf) + "</td>" +
-            "</tr>"
-          );
-        })
-        .join("");
-
-      const totalSavingClass = results.totals.savingChf >= 0 ? "pos" : "neg";
-      resultsBody.innerHTML =
-        rows +
-        "<tr class='total-row'>" +
-        "<td>Total</td>" +
-        "<td>-</td>" +
-        "<td>" + formatChf(results.totals.baselineChf) + "</td>" +
-        "<td>" + formatChf(results.totals.vzevChf) + "</td>" +
-        "<td class='saving " + totalSavingClass + "'>" + formatChf(results.totals.savingChf) + "</td>" +
-        "</tr>";
-
-      yearBaseline.textContent = formatChf(results.totals.baselineChf);
-      yearVzev.textContent = formatChf(results.totals.vzevChf);
-      const conclusion = getConclusion(results.totals.savingChf);
-      yearSaving.textContent = formatChf(results.totals.savingChf);
-      yearSaving.classList.remove("positive", "negative", "neutral");
-      yearSaving.classList.add(conclusion.tone);
-      if (yearSavingItem) {
-        yearSavingItem.classList.remove("positive", "negative", "neutral");
-        yearSavingItem.classList.add(conclusion.tone);
-      }
-      resultConclusion.innerHTML = conclusion.text;
-      resultConclusion.classList.remove("positive", "negative", "neutral");
-      resultConclusion.classList.add(conclusion.tone);
-      renderCalculationDetails(state);
-    }
-
-    /**
-     * @param {InputState} state
-     * @param {number} solarShare
-     * @returns {{
-     *   vatFactor: number,
-     *   baselineRateChfPerKwh: number,
-     *   baseFeeGross: number,
-     *   recyclingFeeGross: number,
-     *   meteringFeeGross: number,
-     *   vzevFeeGross: number,
-     *   solarKwh: number,
-     *   restKwh: number,
-     *   baselineChf: number,
-     *   vzevChf: number,
-     *   savingChf: number
-     * }}
-     */
-    function calculateDetailScenario(state, solarShare) {
-      const vatFactor = 1 + state.vatPercent / 100;
-      const baselineRateChfPerKwh = ((state.energyRpKwh + state.gridRpKwh) * vatFactor) / 100;
-      const baseFeeGross = state.baseFeeChfMonth * vatFactor;
-      const recyclingFeeGross = state.recyclingFeeChfMonth * vatFactor;
-      const meteringFeeGross = state.meteringFeeChfMonth * vatFactor;
-      const vzevFeeGross = state.vzevFeeChfMonth * vatFactor;
-      const solarKwh = state.monthlyKwh * solarShare;
-      const restKwh = state.monthlyKwh - solarKwh;
-      const baselineChf = state.monthlyKwh * baselineRateChfPerKwh + baseFeeGross + recyclingFeeGross + meteringFeeGross;
-      const vzevChf =
-        solarKwh * (state.vzevEnergyRpKwh / 100) +
-        restKwh * baselineRateChfPerKwh +
-        baseFeeGross +
-        recyclingFeeGross +
-        meteringFeeGross +
-        vzevFeeGross;
-      const savingChf = baselineChf - vzevChf;
-
-      return {
-        vatFactor: vatFactor,
-        baselineRateChfPerKwh: baselineRateChfPerKwh,
-        baseFeeGross: baseFeeGross,
-        recyclingFeeGross: recyclingFeeGross,
-        meteringFeeGross: meteringFeeGross,
-        vzevFeeGross: vzevFeeGross,
-        solarKwh: solarKwh,
-        restKwh: restKwh,
-        baselineChf: baselineChf,
-        vzevChf: vzevChf,
-        savingChf: savingChf
-      };
-    }
-
-    /**
-     * @param {InputState} state
-     */
-    function renderCalculationDetails(state) {
-      if (!calcSteps) {
-        return;
+        saveState(state);
+        const yearResult = calculateYear(state);
+        renderResults(yearResult, state);
       }
 
-      const selectedProfileShare = USAGE_PROFILE_DAY_SHARE[state.usageProfile] ?? USAGE_PROFILE_DAY_SHARE[DEFAULT_STATE.usageProfile];
-      const selectedProfileLabel = USAGE_PROFILE_LABEL[state.usageProfile] ?? USAGE_PROFILE_LABEL[DEFAULT_STATE.usageProfile];
-      const selectedProfilePercentLabel = formatDetailNumber(selectedProfileShare * 100) + " %";
-      const summerScenario = calculateDetailScenario(state, selectedProfileShare);
-      const winterScenario = calculateDetailScenario(state, 0);
-      const annualSavingByProfile = summerScenario.savingChf * 9 + winterScenario.savingChf * 3;
+      /**
+       * @param {InputState} state
+       * @returns {Record<string, string>}
+       */
+      function validateState(state) {
+        const errors = {};
 
-      calcSteps.innerHTML =
-        "<li class='calc-step'>" +
-        "<strong class='calc-step-title'>Tarifbasis</strong>" +
-        "<code class='formula'>MwSt-Faktor = 1 + (MwSt / 100)</code>" +
-        "<code class='formula calc-values'>Berechnung: 1 + (" + formatDetailNumber(state.vatPercent) + " / 100) = " + formatDetailNumber(summerScenario.vatFactor) + "</code>" +
-        "<code class='formula'>Normaltarif (CHF/kWh) = (Energiepreis + Netznutzungsgebühren) * MwSt-Faktor / 100</code>" +
-        "<code class='formula calc-values'>Berechnung: (" + formatDetailNumber(state.energyRpKwh) + " + " + formatDetailNumber(state.gridRpKwh) + ") * " + formatDetailNumber(summerScenario.vatFactor) + " / 100 = " + formatDetailChfPerKwh(summerScenario.baselineRateChfPerKwh) + "</code>" +
-        "</li>" +
-        "<li class='calc-step'>" +
-        "<strong class='calc-step-title'>Solaranteil je Monat und Profil</strong>" +
-        "<code class='formula'>Solaranteil = 0 im Winter, sonst Profilwert im Sommer</code>" +
-        "<code class='formula calc-values'>Berechnung Sommer (Profil " + selectedProfileLabel + "): Solaranteil = " + selectedProfilePercentLabel + "</code>" +
-        "<code class='formula calc-values'>Berechnung Winter (Profil " + selectedProfileLabel + "): Solaranteil = 0.00 %</code>" +
-        "</li>" +
-        "<li class='calc-step'>" +
-        "<strong class='calc-step-title'>Energiemengen</strong>" +
-        "<code class='formula'>Solar-kWh = Monatsverbrauch * Solaranteil</code>" +
-        "<code class='formula'>Rest-kWh = Monatsverbrauch - Solar-kWh</code>" +
-        "<code class='formula calc-values'>Berechnung Sommer: " + formatDetailKwh(state.monthlyKwh) + " * " + selectedProfilePercentLabel + " = " + formatDetailKwh(summerScenario.solarKwh) + ", Rest = " + formatDetailKwh(summerScenario.restKwh) + "</code>" +
-        "<code class='formula calc-values'>Berechnung Winter: " + formatDetailKwh(state.monthlyKwh) + " * 0.00 % = " + formatDetailKwh(winterScenario.solarKwh) + ", Rest = " + formatDetailKwh(winterScenario.restKwh) + "</code>" +
-        "</li>" +
-        "<li class='calc-step'>" +
-        "<strong class='calc-step-title'>Monatskosten ohne Solarstrom</strong>" +
-        "<code class='formula'>Ohne Solarstrom = Monatsverbrauch * Normaltarif + Grundpreis * MwSt-Faktor + Recycling-Gebühr * MwSt-Faktor + Messentgelte * MwSt-Faktor</code>" +
-        "<code class='formula calc-values'>Berechnung: " + formatDetailKwh(state.monthlyKwh) + " * " + formatDetailChfPerKwh(summerScenario.baselineRateChfPerKwh) + " + " + formatDetailChf(summerScenario.baseFeeGross) + " + " + formatDetailChf(summerScenario.recyclingFeeGross) + " + " + formatDetailChf(summerScenario.meteringFeeGross) + " = " + formatDetailChf(summerScenario.baselineChf) + "</code>" +
-        "</li>" +
-        "<li class='calc-step'>" +
-        "<strong class='calc-step-title'>Monatskosten mit Solarstrom (Sommer, Profil " + selectedProfileLabel + ")</strong>" +
-        "<code class='formula'>Mit Solarstrom = Solar-kWh * (lokaler Solarstrompreis / 100) + Rest-kWh * Normaltarif + Grundpreis * MwSt-Faktor + Recycling-Gebühr * MwSt-Faktor + Messentgelte * MwSt-Faktor + Abrechnungsgebühr * MwSt-Faktor</code>" +
-        "<code class='formula calc-values'>Berechnung: " + formatDetailKwh(summerScenario.solarKwh) + " * (" + formatDetailNumber(state.vzevEnergyRpKwh) + " / 100) + " + formatDetailKwh(summerScenario.restKwh) + " * " + formatDetailChfPerKwh(summerScenario.baselineRateChfPerKwh) + " + " + formatDetailChf(summerScenario.baseFeeGross) + " + " + formatDetailChf(summerScenario.recyclingFeeGross) + " + " + formatDetailChf(summerScenario.meteringFeeGross) + " + " + formatDetailChf(summerScenario.vzevFeeGross) + " = " + formatDetailChf(summerScenario.vzevChf) + "</code>" +
-        "</li>" +
-        "<li class='calc-step'>" +
-        "<strong class='calc-step-title'>Monatskosten mit Solarstrom (Winter, Profil " + selectedProfileLabel + ")</strong>" +
-        "<code class='formula'>Mit Solarstrom = Solar-kWh * (lokaler Solarstrompreis / 100) + Rest-kWh * Normaltarif + Grundpreis * MwSt-Faktor + Recycling-Gebühr * MwSt-Faktor + Messentgelte * MwSt-Faktor + Abrechnungsgebühr * MwSt-Faktor</code>" +
-        "<code class='formula calc-values'>Berechnung: " + formatDetailKwh(winterScenario.solarKwh) + " * (" + formatDetailNumber(state.vzevEnergyRpKwh) + " / 100) + " + formatDetailKwh(winterScenario.restKwh) + " * " + formatDetailChfPerKwh(winterScenario.baselineRateChfPerKwh) + " + " + formatDetailChf(winterScenario.baseFeeGross) + " + " + formatDetailChf(winterScenario.recyclingFeeGross) + " + " + formatDetailChf(winterScenario.meteringFeeGross) + " + " + formatDetailChf(winterScenario.vzevFeeGross) + " = " + formatDetailChf(winterScenario.vzevChf) + "</code>" +
-        "</li>" +
-        "<li class='calc-step'>" +
-        "<strong class='calc-step-title'>Einsparung</strong>" +
-        "<code class='formula'>Monatsersparnis = Ohne Solarstrom - Mit Solarstrom</code>" +
-        "<code class='formula'>Jahresersparnis (Profil " + selectedProfileLabel + ") = (Sommerersparnis * 9) + (Winterersparnis * 3)</code>" +
-        "<code class='formula calc-values'>Berechnung Sommer: " + formatDetailChf(summerScenario.baselineChf) + " - " + formatDetailChf(summerScenario.vzevChf) + " = " + formatDetailChf(summerScenario.savingChf) + "</code>" +
-        "<code class='formula calc-values'>Berechnung Winter: " + formatDetailChf(winterScenario.baselineChf) + " - " + formatDetailChf(winterScenario.vzevChf) + " = " + formatDetailChf(winterScenario.savingChf) + "</code>" +
-        "<code class='formula calc-values'>Berechnung Jahr (9 Sommer + 3 Winter): (" + formatDetailChf(summerScenario.savingChf) + " * 9) + (" + formatDetailChf(winterScenario.savingChf) + " * 3) = " + formatDetailChf(annualSavingByProfile) + "</code>" +
-        "</li>";
-    }
+        for (const fieldId of numericFieldIds) {
+          const value = state[fieldId];
+          if (!Number.isFinite(value) || value < 0) {
+            errors[fieldId] = t("validation.invalidNumber");
+          }
+        }
 
-    /**
-     * @param {number} savingChf
-     * @returns {{ text: string, tone: "positive" | "negative" | "neutral" }}
-     */
-    function getConclusion(savingChf) {
-      if (savingChf > 10) {
+        if (!Object.prototype.hasOwnProperty.call(USAGE_PROFILE_DAY_SHARE, state.usageProfile)) {
+          errors.usageProfile = t("validation.invalidProfile");
+        }
+
+        return errors;
+      }
+
+      /**
+       * @param {number} monthIndex
+       * @param {"day_high" | "house_empty" | "day_low"} usageProfile
+       * @returns {number}
+       */
+      function calculateSolarShare(monthIndex, usageProfile) {
+        if (!isSolarMonth(monthIndex)) {
+          return 0;
+        }
+
+        return USAGE_PROFILE_DAY_SHARE[usageProfile] ?? USAGE_PROFILE_DAY_SHARE[DEFAULT_STATE.usageProfile];
+      }
+
+      /**
+       * @param {Record<string, string>} errors
+       */
+      function applyValidation(errors) {
+        const hasAdvancedError = advancedFieldIds.some(function (fieldId) {
+          return Boolean(errors[fieldId]);
+        });
+        if (hasAdvancedError && advancedInputs) {
+          advancedInputs.open = true;
+        }
+
+        const fields = form.querySelectorAll(".field");
+        fields.forEach(function (field) {
+          const key = field.getAttribute("data-field");
+          const msg = errors[key] || "";
+          field.classList.toggle("invalid", Boolean(msg));
+          const errorEl = document.getElementById("error-" + key);
+          if (errorEl) {
+            errorEl.textContent = msg;
+          }
+        });
+      }
+
+      function renderInvalid() {
+        validationStatus.classList.remove("hidden");
+        validationStatus.textContent = t("validation.invalidStatus");
+
+        yearBaseline.textContent = t("results.emptyValue");
+        yearVzev.textContent = t("results.emptyValue");
+        yearSaving.textContent = t("results.emptyValue");
+        yearSaving.classList.remove("positive", "negative", "neutral");
+        if (yearSavingItem) {
+          yearSavingItem.classList.remove("positive", "negative");
+          yearSavingItem.classList.add("neutral");
+        }
+        resultConclusion.innerHTML = t("results.defaultConclusionHtml");
+        resultConclusion.classList.remove("positive", "negative");
+        resultConclusion.classList.add("neutral");
+        resultsBody.innerHTML = "";
+
+        if (calcSteps) {
+          calcSteps.innerHTML = "";
+        }
+      }
+
+      /**
+       * @param {InputState} state
+       * @param {number} monthIndex
+       * @returns {MonthResult}
+       */
+      function calculateMonth(state, monthIndex) {
+        const vatFactor = 1 + state.vatPercent / 100;
+        const baselineRateChfPerKwh = ((state.energyRpKwh + state.gridRpKwh) * vatFactor) / 100;
+        const baseFeeGross = state.baseFeeChfMonth * vatFactor;
+        const recyclingFeeGross = state.recyclingFeeChfMonth * vatFactor;
+        const meteringFeeGross = state.meteringFeeChfMonth * vatFactor;
+        const vzevFeeGross = state.vzevFeeChfMonth * vatFactor;
+        const solarShare = calculateSolarShare(monthIndex, state.usageProfile);
+        const solarKwh = state.monthlyKwh * solarShare;
+        const restKwh = state.monthlyKwh - solarKwh;
+        const baselineChf = state.monthlyKwh * baselineRateChfPerKwh + baseFeeGross + recyclingFeeGross + meteringFeeGross;
+        const vzevChf =
+          solarKwh * (state.vzevEnergyRpKwh / 100) +
+          restKwh * baselineRateChfPerKwh +
+          baseFeeGross +
+          recyclingFeeGross +
+          meteringFeeGross +
+          vzevFeeGross;
+        const savingChf = baselineChf - vzevChf;
+
         return {
-          text:
-            "Mit deinen Angaben sparst du pro Jahr etwa <span class='conclusion-amount'>" +
-            formatChf(savingChf) +
-            "</span>" +
-            " mit Solarstrom aus der Nachbarschaft. Du profitierst bei den Stromkosten und stärkst die lokale Versorgung. So gewinnen du, deine Nachbarschaft und die Umwelt.",
-          tone: "positive"
+          solarShare: solarShare,
+          baselineChf: baselineChf,
+          vzevChf: vzevChf,
+          savingChf: savingChf
         };
       }
 
-      if (savingChf < -10) {
+      /**
+       * @param {InputState} state
+       */
+      function calculateYear(state) {
+        const months = MONTHS.map(function (_month, index) {
+          return calculateMonth(state, index);
+        });
+
+        const totals = months.reduce(
+          function (acc, month) {
+            acc.baselineChf += month.baselineChf;
+            acc.vzevChf += month.vzevChf;
+            acc.savingChf += month.savingChf;
+            return acc;
+          },
+          { baselineChf: 0, vzevChf: 0, savingChf: 0 }
+        );
+
+        return { months: months, totals: totals };
+      }
+
+      /**
+       * @param {{ months: MonthResult[], totals: { baselineChf: number, vzevChf: number, savingChf: number } }} results
+       * @param {InputState} state
+       */
+      function renderResults(results, state) {
+        validationStatus.classList.add("hidden");
+        validationStatus.textContent = "";
+
+        const rows = results.months
+          .map(function (month, index) {
+            const savingClass = month.savingChf >= 0 ? "pos" : "neg";
+            const monthLabel = t(MONTHS[index].labelKey);
+            const solarLabel = percentFormatter.format(month.solarShare * 100) + "%";
+
+            return (
+              "<tr>" +
+              "<td>" + monthLabel + "</td>" +
+              "<td>" + solarLabel + "</td>" +
+              "<td>" + formatChf(month.baselineChf) + "</td>" +
+              "<td>" + formatChf(month.vzevChf) + "</td>" +
+              "<td class='saving " + savingClass + "'>" + formatChf(month.savingChf) + "</td>" +
+              "</tr>"
+            );
+          })
+          .join("");
+
+        const totalSavingClass = results.totals.savingChf >= 0 ? "pos" : "neg";
+        resultsBody.innerHTML =
+          rows +
+          "<tr class='total-row'>" +
+          "<td>" + t("results.table.totalLabel") + "</td>" +
+          "<td>-</td>" +
+          "<td>" + formatChf(results.totals.baselineChf) + "</td>" +
+          "<td>" + formatChf(results.totals.vzevChf) + "</td>" +
+          "<td class='saving " + totalSavingClass + "'>" + formatChf(results.totals.savingChf) + "</td>" +
+          "</tr>";
+
+        yearBaseline.textContent = formatChf(results.totals.baselineChf);
+        yearVzev.textContent = formatChf(results.totals.vzevChf);
+        const conclusion = getConclusion(results.totals.savingChf);
+        yearSaving.textContent = formatChf(results.totals.savingChf);
+        yearSaving.classList.remove("positive", "negative", "neutral");
+        yearSaving.classList.add(conclusion.tone);
+        if (yearSavingItem) {
+          yearSavingItem.classList.remove("positive", "negative", "neutral");
+          yearSavingItem.classList.add(conclusion.tone);
+        }
+        resultConclusion.innerHTML = conclusion.text;
+        resultConclusion.classList.remove("positive", "negative", "neutral");
+        resultConclusion.classList.add(conclusion.tone);
+        renderCalculationDetails(state);
+      }
+
+      /**
+       * @param {InputState} state
+       * @param {number} solarShare
+       * @returns {{
+       *   vatFactor: number,
+       *   baselineRateChfPerKwh: number,
+       *   baseFeeGross: number,
+       *   recyclingFeeGross: number,
+       *   meteringFeeGross: number,
+       *   vzevFeeGross: number,
+       *   solarKwh: number,
+       *   restKwh: number,
+       *   baselineChf: number,
+       *   vzevChf: number,
+       *   savingChf: number
+       * }}
+       */
+      function calculateDetailScenario(state, solarShare) {
+        const vatFactor = 1 + state.vatPercent / 100;
+        const baselineRateChfPerKwh = ((state.energyRpKwh + state.gridRpKwh) * vatFactor) / 100;
+        const baseFeeGross = state.baseFeeChfMonth * vatFactor;
+        const recyclingFeeGross = state.recyclingFeeChfMonth * vatFactor;
+        const meteringFeeGross = state.meteringFeeChfMonth * vatFactor;
+        const vzevFeeGross = state.vzevFeeChfMonth * vatFactor;
+        const solarKwh = state.monthlyKwh * solarShare;
+        const restKwh = state.monthlyKwh - solarKwh;
+        const baselineChf = state.monthlyKwh * baselineRateChfPerKwh + baseFeeGross + recyclingFeeGross + meteringFeeGross;
+        const vzevChf =
+          solarKwh * (state.vzevEnergyRpKwh / 100) +
+          restKwh * baselineRateChfPerKwh +
+          baseFeeGross +
+          recyclingFeeGross +
+          meteringFeeGross +
+          vzevFeeGross;
+        const savingChf = baselineChf - vzevChf;
+
         return {
-          text:
-            "Mit deinen Angaben liegen die Kosten mit Solarstrom aus der Nachbarschaft pro Jahr etwa <span class='conclusion-amount'>" +
-            formatChf(Math.abs(savingChf)) +
-            "</span>" +
-            " höher. Das ist eine Momentaufnahme und kann sich mit angepasstem Verbrauch verändern. Auch bei kleinem Aufpreis unterstützt du eine sinnvolle Lösung in der Nachbarschaft.",
-          tone: "negative"
+          vatFactor: vatFactor,
+          baselineRateChfPerKwh: baselineRateChfPerKwh,
+          baseFeeGross: baseFeeGross,
+          recyclingFeeGross: recyclingFeeGross,
+          meteringFeeGross: meteringFeeGross,
+          vzevFeeGross: vzevFeeGross,
+          solarKwh: solarKwh,
+          restKwh: restKwh,
+          baselineChf: baselineChf,
+          vzevChf: vzevChf,
+          savingChf: savingChf
         };
       }
 
-      return {
-        text:
-          "Mit deinen Angaben ist der Unterschied pro Jahr rund <span class='conclusion-amount'>" +
-          formatChf(Math.abs(savingChf)) +
-          "</span>" +
-          ". Die Kosten bleiben damit fast gleich. Du unterstützt trotzdem eine sinnvolle Versorgung in der Nachbarschaft.",
-        tone: "neutral"
-      };
-    }
+      /**
+       * @param {InputState} state
+       */
+      function renderCalculationDetails(state) {
+        if (!calcSteps) {
+          return;
+        }
 
-    /**
-     * @param {number} value
-     * @returns {string}
-     */
-    function formatChf(value) {
-      return chfFormatter.format(roundToFiveRappen(value));
-    }
+        const selectedProfileShare = USAGE_PROFILE_DAY_SHARE[state.usageProfile] ?? USAGE_PROFILE_DAY_SHARE[DEFAULT_STATE.usageProfile];
+        const selectedProfileLabel = getUsageProfileLabel(state.usageProfile);
+        const selectedProfilePercentLabel = formatDetailNumber(selectedProfileShare * 100) + " %";
+        const summerScenario = calculateDetailScenario(state, selectedProfileShare);
+        const winterScenario = calculateDetailScenario(state, 0);
+        const annualSavingByProfile = summerScenario.savingChf * 9 + winterScenario.savingChf * 3;
 
-    /**
-     * @param {number} value
-     * @returns {string}
-     */
-    function formatDetailNumber(value) {
-      return detailNumberFormatter.format(value);
-    }
-
-    /**
-     * @param {number} value
-     * @returns {string}
-     */
-    function formatDetailChf(value) {
-      return formatDetailNumber(value) + " CHF";
-    }
-
-    /**
-     * @param {number} value
-     * @returns {string}
-     */
-    function formatDetailChfPerKwh(value) {
-      return detailRateFormatter.format(value) + " CHF/kWh";
-    }
-
-    /**
-     * @param {number} value
-     * @returns {string}
-     */
-    function formatDetailKwh(value) {
-      return formatDetailNumber(value) + " kWh";
-    }
-
-    /**
-     * @param {number} monthIndex
-     * @returns {boolean}
-     */
-    function isSolarMonth(monthIndex) {
-      return monthIndex >= 2 && monthIndex <= 10;
-    }
-
-    /**
-     * @param {number} value
-     * @returns {number}
-     */
-    function roundToFiveRappen(value) {
-      return Math.round((value + Number.EPSILON) * 20) / 20;
-    }
-
-    function handleReset() {
-      try {
-        localStorage.removeItem(STORAGE_KEY);
-      } catch (_error) {
-        // Ignore storage errors.
+        calcSteps.innerHTML =
+          "<li class='calc-step'>" +
+          "<strong class='calc-step-title'>" + t("calc.steps.tarifbasis.title") + "</strong>" +
+          "<code class='formula'>" + t("calc.steps.tarifbasis.formulaVatFactor") + "</code>" +
+          "<code class='formula calc-values'>" + t("calc.steps.tarifbasis.valuesVatFactor", {
+            vatPercent: formatDetailNumber(state.vatPercent),
+            vatFactor: formatDetailNumber(summerScenario.vatFactor)
+          }) + "</code>" +
+          "<code class='formula'>" + t("calc.steps.tarifbasis.formulaBaselineRate") + "</code>" +
+          "<code class='formula calc-values'>" + t("calc.steps.tarifbasis.valuesBaselineRate", {
+            energyRpKwh: formatDetailNumber(state.energyRpKwh),
+            gridRpKwh: formatDetailNumber(state.gridRpKwh),
+            vatFactor: formatDetailNumber(summerScenario.vatFactor),
+            baselineRate: formatDetailChfPerKwh(summerScenario.baselineRateChfPerKwh)
+          }) + "</code>" +
+          "</li>" +
+          "<li class='calc-step'>" +
+          "<strong class='calc-step-title'>" + t("calc.steps.solarShare.title") + "</strong>" +
+          "<code class='formula'>" + t("calc.steps.solarShare.formula") + "</code>" +
+          "<code class='formula calc-values'>" + t("calc.steps.solarShare.valuesSummer", {
+            profile: selectedProfileLabel,
+            share: selectedProfilePercentLabel
+          }) + "</code>" +
+          "<code class='formula calc-values'>" + t("calc.steps.solarShare.valuesWinter", {
+            profile: selectedProfileLabel
+          }) + "</code>" +
+          "</li>" +
+          "<li class='calc-step'>" +
+          "<strong class='calc-step-title'>" + t("calc.steps.energyVolumes.title") + "</strong>" +
+          "<code class='formula'>" + t("calc.steps.energyVolumes.formulaSolar") + "</code>" +
+          "<code class='formula'>" + t("calc.steps.energyVolumes.formulaRest") + "</code>" +
+          "<code class='formula calc-values'>" + t("calc.steps.energyVolumes.valuesSummer", {
+            monthlyKwh: formatDetailKwh(state.monthlyKwh),
+            share: selectedProfilePercentLabel,
+            solarKwh: formatDetailKwh(summerScenario.solarKwh),
+            restKwh: formatDetailKwh(summerScenario.restKwh)
+          }) + "</code>" +
+          "<code class='formula calc-values'>" + t("calc.steps.energyVolumes.valuesWinter", {
+            monthlyKwh: formatDetailKwh(state.monthlyKwh),
+            solarKwh: formatDetailKwh(winterScenario.solarKwh),
+            restKwh: formatDetailKwh(winterScenario.restKwh)
+          }) + "</code>" +
+          "</li>" +
+          "<li class='calc-step'>" +
+          "<strong class='calc-step-title'>" + t("calc.steps.monthlyWithoutSolar.title") + "</strong>" +
+          "<code class='formula'>" + t("calc.steps.monthlyWithoutSolar.formula") + "</code>" +
+          "<code class='formula calc-values'>" + t("calc.steps.monthlyWithoutSolar.values", {
+            monthlyKwh: formatDetailKwh(state.monthlyKwh),
+            baselineRate: formatDetailChfPerKwh(summerScenario.baselineRateChfPerKwh),
+            baseFeeGross: formatDetailChf(summerScenario.baseFeeGross),
+            recyclingFeeGross: formatDetailChf(summerScenario.recyclingFeeGross),
+            meteringFeeGross: formatDetailChf(summerScenario.meteringFeeGross),
+            baselineChf: formatDetailChf(summerScenario.baselineChf)
+          }) + "</code>" +
+          "</li>" +
+          "<li class='calc-step'>" +
+          "<strong class='calc-step-title'>" + t("calc.steps.monthlyWithSolarSummer.title", {
+            profile: selectedProfileLabel
+          }) + "</strong>" +
+          "<code class='formula'>" + t("calc.steps.monthlyWithSolarSummer.formula") + "</code>" +
+          "<code class='formula calc-values'>" + t("calc.steps.monthlyWithSolarSummer.values", {
+            solarKwh: formatDetailKwh(summerScenario.solarKwh),
+            vzevEnergyRpKwh: formatDetailNumber(state.vzevEnergyRpKwh),
+            restKwh: formatDetailKwh(summerScenario.restKwh),
+            baselineRate: formatDetailChfPerKwh(summerScenario.baselineRateChfPerKwh),
+            baseFeeGross: formatDetailChf(summerScenario.baseFeeGross),
+            recyclingFeeGross: formatDetailChf(summerScenario.recyclingFeeGross),
+            meteringFeeGross: formatDetailChf(summerScenario.meteringFeeGross),
+            vzevFeeGross: formatDetailChf(summerScenario.vzevFeeGross),
+            vzevChf: formatDetailChf(summerScenario.vzevChf)
+          }) + "</code>" +
+          "</li>" +
+          "<li class='calc-step'>" +
+          "<strong class='calc-step-title'>" + t("calc.steps.monthlyWithSolarWinter.title", {
+            profile: selectedProfileLabel
+          }) + "</strong>" +
+          "<code class='formula'>" + t("calc.steps.monthlyWithSolarWinter.formula") + "</code>" +
+          "<code class='formula calc-values'>" + t("calc.steps.monthlyWithSolarWinter.values", {
+            solarKwh: formatDetailKwh(winterScenario.solarKwh),
+            vzevEnergyRpKwh: formatDetailNumber(state.vzevEnergyRpKwh),
+            restKwh: formatDetailKwh(winterScenario.restKwh),
+            baselineRate: formatDetailChfPerKwh(winterScenario.baselineRateChfPerKwh),
+            baseFeeGross: formatDetailChf(winterScenario.baseFeeGross),
+            recyclingFeeGross: formatDetailChf(winterScenario.recyclingFeeGross),
+            meteringFeeGross: formatDetailChf(winterScenario.meteringFeeGross),
+            vzevFeeGross: formatDetailChf(winterScenario.vzevFeeGross),
+            vzevChf: formatDetailChf(winterScenario.vzevChf)
+          }) + "</code>" +
+          "</li>" +
+          "<li class='calc-step'>" +
+          "<strong class='calc-step-title'>" + t("calc.steps.savings.title") + "</strong>" +
+          "<code class='formula'>" + t("calc.steps.savings.formulaMonthly") + "</code>" +
+          "<code class='formula'>" + t("calc.steps.savings.formulaYearly", {
+            profile: selectedProfileLabel
+          }) + "</code>" +
+          "<code class='formula calc-values'>" + t("calc.steps.savings.valuesSummer", {
+            baselineChf: formatDetailChf(summerScenario.baselineChf),
+            vzevChf: formatDetailChf(summerScenario.vzevChf),
+            savingChf: formatDetailChf(summerScenario.savingChf)
+          }) + "</code>" +
+          "<code class='formula calc-values'>" + t("calc.steps.savings.valuesWinter", {
+            baselineChf: formatDetailChf(winterScenario.baselineChf),
+            vzevChf: formatDetailChf(winterScenario.vzevChf),
+            savingChf: formatDetailChf(winterScenario.savingChf)
+          }) + "</code>" +
+          "<code class='formula calc-values'>" + t("calc.steps.savings.valuesYear", {
+            summerSavingChf: formatDetailChf(summerScenario.savingChf),
+            winterSavingChf: formatDetailChf(winterScenario.savingChf),
+            annualSavingByProfile: formatDetailChf(annualSavingByProfile)
+          }) + "</code>" +
+          "</li>";
       }
 
-      writeStateToForm({ ...DEFAULT_STATE });
-      renderFromForm();
-    }
+      /**
+       * @param {number} savingChf
+       * @returns {{ text: string, tone: "positive" | "negative" | "neutral" }}
+       */
+      function getConclusion(savingChf) {
+        if (savingChf > 10) {
+          return {
+            text: t("conclusion.positiveHtml", { amount: formatChf(savingChf) }),
+            tone: "positive"
+          };
+        }
+
+        if (savingChf < -10) {
+          return {
+            text: t("conclusion.negativeHtml", { amount: formatChf(Math.abs(savingChf)) }),
+            tone: "negative"
+          };
+        }
+
+        return {
+          text: t("conclusion.neutralHtml", { amount: formatChf(Math.abs(savingChf)) }),
+          tone: "neutral"
+        };
+      }
+
+      /**
+       * @param {number} value
+       * @returns {string}
+       */
+      function formatChf(value) {
+        return chfFormatter.format(roundToFiveRappen(value));
+      }
+
+      /**
+       * @param {number} value
+       * @returns {string}
+       */
+      function formatDetailNumber(value) {
+        return detailNumberFormatter.format(value);
+      }
+
+      /**
+       * @param {number} value
+       * @returns {string}
+       */
+      function formatDetailChf(value) {
+        return formatDetailNumber(value) + " " + t("calc.units.chf");
+      }
+
+      /**
+       * @param {number} value
+       * @returns {string}
+       */
+      function formatDetailChfPerKwh(value) {
+        return detailRateFormatter.format(value) + " " + t("calc.units.chfPerKwh");
+      }
+
+      /**
+       * @param {number} value
+       * @returns {string}
+       */
+      function formatDetailKwh(value) {
+        return formatDetailNumber(value) + " " + t("calc.units.kwh");
+      }
+
+      /**
+       * @param {number} monthIndex
+       * @returns {boolean}
+       */
+      function isSolarMonth(monthIndex) {
+        return monthIndex >= 2 && monthIndex <= 10;
+      }
+
+      /**
+       * @param {number} value
+       * @returns {number}
+       */
+      function roundToFiveRappen(value) {
+        return Math.round((value + Number.EPSILON) * 20) / 20;
+      }
+
+      function handleReset() {
+        try {
+          localStorage.removeItem(STORAGE_KEY);
+        } catch (_error) {
+          // Ignore storage errors.
+        }
+
+        writeStateToForm({ ...DEFAULT_STATE });
+        renderFromForm();
+      }
+    })();
   </script>
 </body>
 </html>

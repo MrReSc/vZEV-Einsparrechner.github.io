@@ -1,0 +1,200 @@
+{
+  "meta": {
+    "title": "Stromkosten mit Solarstrom"
+  },
+  "header": {
+    "title": "Stromkosten mit Solarstrom",
+    "subtitle": "Du siehst in kurzer Zeit was Solarstrom aus der Nachbarschaft für deine jährlichen Stromkosten bedeuten kann.",
+    "linkNoteHtml": "Zurück zur Präsentation? <a href='index.html'>Hier findest du die kurze Übersicht zu EigenverbrauchMax.</a>"
+  },
+  "inputs": {
+    "title": "Deine Angaben",
+    "quickNote": "Drei Angaben genügen für eine erste Einschätzung.",
+    "metaNote": "Eingaben werden nur lokal im Browser gespeichert."
+  },
+  "fields": {
+    "monthlyKwh": {
+      "labelHtml": "Stromverbrauch pro Monat",
+      "infoAria": "Info zu Stromverbrauch pro Monat",
+      "tooltip": "Das ist dein durchschnittlicher Stromverbrauch pro Monat. Wenn du deinen Stromverbrauch nicht kennst, nimm die vier Quartalsrechnungen eines Jahres, addiere die kWh aus der Strom-Grundversorgung und teile durch 12."
+    },
+    "usageProfile": {
+      "labelHtml": "Wie oft bist du tagsüber zu Hause?",
+      "infoAria": "Info zur Tagesanwesenheit",
+      "tooltip": "Bei „Fast immer“ kannst du tagsüber gezielt Verbraucher wie Waschmaschine, Tumbler, Kochen oder E-Auto-Laden starten und so mehr Solarstrom direkt nutzen. Bei „Durchschnittlich“ gelingt das nur teilweise, weil Lasten häufiger ausserhalb der Sonnenstunden laufen. Bei „Fast nie“ ist der direkte Solarstromverbrauch am kleinsten und das Einsparpotenzial entsprechend tiefer.",
+      "options": {
+        "day_high": "Fast immer",
+        "house_empty": "Durchschnittlich",
+        "day_low": "Fast nie"
+      }
+    },
+    "vzevEnergyRpKwh": {
+      "labelHtml": "Preis für lokalen Solarstrom",
+      "infoAria": "Info zum Preis für lokalen Solarstrom",
+      "tooltip": "Das ist der Preis pro kWh für lokalen Solarstrom."
+    }
+  },
+  "advanced": {
+    "summary": "Weitere Angaben wenn bekannt",
+    "noteHtml": "Hinweis: Die vorausgefüllten Werte gelten für Thurplus im Jahr 2026 gemäss <a href='https://www.thurplus.ch/public/upload/assets/1020/Stromtarif%20per%2001.01.2026.pdf?fp=1770298817330' target='_blank' rel='noopener noreferrer'>Stromtarif per 01.01.2026 (PDF)</a>.",
+    "fields": {
+      "energyRpKwh": {
+        "label": "Energiepreis",
+        "infoAria": "Info zum Energiepreis",
+        "tooltip": "Das ist der Preis pro kWh für normalen Strom ohne Netznutzungsgebühren."
+      },
+      "gridRpKwh": {
+        "label": "Netznutzungsgebühren",
+        "infoAria": "Info zu Netznutzungsgebühren",
+        "tooltip": "Das ist die Netznutzungsgebühr pro kWh. Für direkt genutzten Solarstrom aus der Nachbarschaft fällt dieser Anteil nicht an."
+      },
+      "baseFeeChfMonth": {
+        "label": "Grundpreis",
+        "infoAria": "Info zum Grundpreis",
+        "tooltip": "Das ist ein fixer monatlicher Grundpreis unabhängig vom Verbrauch."
+      },
+      "recyclingFeeChfMonth": {
+        "label": "Recycling-Gebühr",
+        "infoAria": "Info zur Recycling-Gebühr",
+        "tooltip": "Das ist eine fixe monatliche Recycling-Gebühr unabhängig vom Verbrauch."
+      },
+      "meteringFeeChfMonth": {
+        "label": "Messentgelte",
+        "infoAria": "Info zu Messentgelten",
+        "tooltip": "Das sind die Messentgelte des Energieversorgers pro Monat."
+      },
+      "vzevFeeChfMonth": {
+        "label": "Preis für die Abrechnung von Solarstrom",
+        "infoAria": "Info zum Preis für die Abrechnung von Solarstrom aus der Nachbarschaft",
+        "tooltip": "Das ist eine zusätzliche monatliche Gebühr des Energieversorgers für die Abrechnung von Solarstrom aus der Nachbarschaft."
+      },
+      "vatPercent": {
+        "label": "MwSt",
+        "infoAria": "Info zur Mehrwertsteuer",
+        "tooltip": "Die Mehrwertsteuer wird auf alle Preise ausser dem lokalen Solarstrompreis angewendet."
+      }
+    }
+  },
+  "units": {
+    "kwh": "kWh",
+    "rpPerKwh": "Rp/kWh",
+    "chfPerMonth": "CHF/Monat",
+    "percent": "%"
+  },
+  "actions": {
+    "reset": "Zurücksetzen"
+  },
+  "results": {
+    "title": "Dein Ergebnis",
+    "summary": {
+      "baseline": "Jahreskosten ohne Solarstrom",
+      "withSolar": "Jahreskosten mit Solarstrom",
+      "saving": "Jährliche Einsparung mit Solarstrom"
+    },
+    "defaultConclusionHtml": "Bitte gib gültige Werte ein. Dann siehst du hier kurz erklärt, was dein Ergebnis bedeutet.",
+    "emptyValue": "-",
+    "table": {
+      "summary": "Monate im Vergleich",
+      "headers": {
+        "month": "Monat",
+        "solarShare": "Solaranteil",
+        "withoutSolar": "Ohne Solarstrom",
+        "withSolar": "Mit Solarstrom",
+        "saving": "Einsparung"
+      },
+      "totalLabel": "Total"
+    },
+    "assumptions": {
+      "summary": "Annahmen",
+      "items": {
+        "item1": "Der Monatsverbrauch ist in allen 12 Monaten gleich.",
+        "item2": "Solarstrom ist von März bis November verfügbar. Von Dezember bis Februar gibt es keinen Solarstrom.",
+        "item3": "Der Solaranteil in Solar-Monaten beträgt je nach Profil: Fast immer 70 %, Durchschnittlich 50 %, Fast nie 30 %.",
+        "item4": "Die monatlichen Fixkosten wie Grundpreis, Recycling-Gebühr und Messentgelte gelten in beiden Szenarien mit und ohne Solarstrom.",
+        "item5": "Die MwSt wird auf alle Preise ausser dem lokalen Solarstrompreis angewendet.",
+        "item6": "Reststrom wird mit Normaltarif und Netznutzung berechnet."
+      }
+    },
+    "calculation": {
+      "summary": "So wurde gerechnet",
+      "intro": "Die Schritte zeigen immer zuerst die Formel und danach die eingesetzten Werte."
+    },
+    "bottomNote": "Diese Berechnung ist eine Orientierung. Die tatsächlichen Kosten hängen von deinem Verbrauch ab."
+  },
+  "validation": {
+    "invalidNumber": "Bitte eine gültige Zahl ab 0 eingeben.",
+    "invalidProfile": "Bitte ein gültiges Nutzungsprofil auswählen.",
+    "invalidStatus": "Bitte prüfe alle Eingaben. Die Berechnung erscheint erst mit gültigen Werten."
+  },
+  "months": {
+    "jan": "Januar",
+    "feb": "Februar",
+    "mar": "März",
+    "apr": "April",
+    "may": "Mai",
+    "jun": "Juni",
+    "jul": "Juli",
+    "aug": "August",
+    "sep": "September",
+    "oct": "Oktober",
+    "nov": "November",
+    "dec": "Dezember"
+  },
+  "conclusion": {
+    "positiveHtml": "Mit deinen Angaben sparst du pro Jahr etwa <span class='conclusion-amount'>{amount}</span> mit Solarstrom aus der Nachbarschaft. Du profitierst bei den Stromkosten und stärkst die lokale Versorgung. So gewinnen du, deine Nachbarschaft und die Umwelt.",
+    "negativeHtml": "Mit deinen Angaben liegen die Kosten mit Solarstrom aus der Nachbarschaft pro Jahr etwa <span class='conclusion-amount'>{amount}</span> höher. Das ist eine Momentaufnahme und kann sich mit angepasstem Verbrauch verändern. Auch bei kleinem Aufpreis unterstützt du eine sinnvolle Lösung in der Nachbarschaft.",
+    "neutralHtml": "Mit deinen Angaben ist der Unterschied pro Jahr rund <span class='conclusion-amount'>{amount}</span>. Die Kosten bleiben damit fast gleich. Du unterstützt trotzdem eine sinnvolle Versorgung in der Nachbarschaft."
+  },
+  "calc": {
+    "units": {
+      "chf": "CHF",
+      "chfPerKwh": "CHF/kWh",
+      "kwh": "kWh"
+    },
+    "steps": {
+      "tarifbasis": {
+        "title": "Tarifbasis",
+        "formulaVatFactor": "MwSt-Faktor = 1 + (MwSt / 100)",
+        "valuesVatFactor": "Berechnung: 1 + ({vatPercent} / 100) = {vatFactor}",
+        "formulaBaselineRate": "Normaltarif (CHF/kWh) = (Energiepreis + Netznutzungsgebühren) * MwSt-Faktor / 100",
+        "valuesBaselineRate": "Berechnung: ({energyRpKwh} + {gridRpKwh}) * {vatFactor} / 100 = {baselineRate}"
+      },
+      "solarShare": {
+        "title": "Solaranteil je Monat und Profil",
+        "formula": "Solaranteil = 0 im Winter, sonst Profilwert im Sommer",
+        "valuesSummer": "Berechnung Sommer (Profil {profile}): Solaranteil = {share}",
+        "valuesWinter": "Berechnung Winter (Profil {profile}): Solaranteil = 0.00 %"
+      },
+      "energyVolumes": {
+        "title": "Energiemengen",
+        "formulaSolar": "Solar-kWh = Monatsverbrauch * Solaranteil",
+        "formulaRest": "Rest-kWh = Monatsverbrauch - Solar-kWh",
+        "valuesSummer": "Berechnung Sommer: {monthlyKwh} * {share} = {solarKwh}, Rest = {restKwh}",
+        "valuesWinter": "Berechnung Winter: {monthlyKwh} * 0.00 % = {solarKwh}, Rest = {restKwh}"
+      },
+      "monthlyWithoutSolar": {
+        "title": "Monatskosten ohne Solarstrom",
+        "formula": "Ohne Solarstrom = Monatsverbrauch * Normaltarif + Grundpreis * MwSt-Faktor + Recycling-Gebühr * MwSt-Faktor + Messentgelte * MwSt-Faktor",
+        "values": "Berechnung: {monthlyKwh} * {baselineRate} + {baseFeeGross} + {recyclingFeeGross} + {meteringFeeGross} = {baselineChf}"
+      },
+      "monthlyWithSolarSummer": {
+        "title": "Monatskosten mit Solarstrom (Sommer, Profil {profile})",
+        "formula": "Mit Solarstrom = Solar-kWh * (lokaler Solarstrompreis / 100) + Rest-kWh * Normaltarif + Grundpreis * MwSt-Faktor + Recycling-Gebühr * MwSt-Faktor + Messentgelte * MwSt-Faktor + Abrechnungsgebühr * MwSt-Faktor",
+        "values": "Berechnung: {solarKwh} * ({vzevEnergyRpKwh} / 100) + {restKwh} * {baselineRate} + {baseFeeGross} + {recyclingFeeGross} + {meteringFeeGross} + {vzevFeeGross} = {vzevChf}"
+      },
+      "monthlyWithSolarWinter": {
+        "title": "Monatskosten mit Solarstrom (Winter, Profil {profile})",
+        "formula": "Mit Solarstrom = Solar-kWh * (lokaler Solarstrompreis / 100) + Rest-kWh * Normaltarif + Grundpreis * MwSt-Faktor + Recycling-Gebühr * MwSt-Faktor + Messentgelte * MwSt-Faktor + Abrechnungsgebühr * MwSt-Faktor",
+        "values": "Berechnung: {solarKwh} * ({vzevEnergyRpKwh} / 100) + {restKwh} * {baselineRate} + {baseFeeGross} + {recyclingFeeGross} + {meteringFeeGross} + {vzevFeeGross} = {vzevChf}"
+      },
+      "savings": {
+        "title": "Einsparung",
+        "formulaMonthly": "Monatsersparnis = Ohne Solarstrom - Mit Solarstrom",
+        "formulaYearly": "Jahresersparnis (Profil {profile}) = (Sommerersparnis * 9) + (Winterersparnis * 3)",
+        "valuesSummer": "Berechnung Sommer: {baselineChf} - {vzevChf} = {savingChf}",
+        "valuesWinter": "Berechnung Winter: {baselineChf} - {vzevChf} = {savingChf}",
+        "valuesYear": "Berechnung Jahr (9 Sommer + 3 Winter): ({summerSavingChf} * 9) + ({winterSavingChf} * 3) = {annualSavingByProfile}"
+      }
+    }
+  }
+}

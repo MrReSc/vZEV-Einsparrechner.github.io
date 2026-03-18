@@ -1,0 +1,139 @@
+{
+  "meta": {
+    "title": "EigenverbrauchMax Präsentation"
+  },
+  "topActions": {
+    "calculate": "Jetzt Einsparung berechnen",
+    "join": "Jetzt mitmachen",
+    "joinTitle": "Anmeldelink folgt in Kürze"
+  },
+  "deck": {
+    "ariaLabel": "Präsentation EigenverbrauchMax"
+  },
+  "slides": {
+    "slide1": {
+      "ariaLabel": "Slide 1 von 4",
+      "hero": {
+        "title": "Solarstrom aus deiner Nachbarschaft",
+        "subtitle": "Mit EigenverbrauchMax von Thurplus erhältst du lokalen Solarstrom und senkst so deine Stromkosten."
+      },
+      "cards": {
+        "card1": {
+          "title": "Was ist EigenverbrauchMax",
+          "body": "EigenverbrauchMax von Thurplus ist eine einfache Lösung für geteilten Solarstrom. Du nutzt Strom aus deiner Nachbarschaft direkt in deinem Alltag.",
+          "chip": "Geteilter Solarstrom"
+        },
+        "card2": {
+          "title": "Wie funktioniert das",
+          "body": "In deiner Nachbarschaft wird Solarstrom produziert. Thurplus verteilt die Strommengen fair auf alle Teilnehmenden. So kommt der Strom dorthin wo er gebraucht wird.",
+          "chip": "Einfach und transparent"
+        },
+        "card3": {
+          "title": "Wer übernimmt die Abrechnung",
+          "body": "Thurplus übernimmt Messung Verrechnung und Inkasso für dich. An deiner bisherigen Abrechnung ändert sich nichts und alles bleibt wie bis anhin. Neu wird dein Solarstrom aus der Nachbarschaft direkt und transparent über die reguläre Stromrechnung abgerechnet.",
+          "chip": "Thurplus übernimmt alles"
+        }
+      }
+    },
+    "slide2": {
+      "ariaLabel": "Slide 2 von 4",
+      "hero": {
+        "title": "Was bringt es Solarstrom lokal zu nutzen",
+        "subtitle": "Alle gewinnen mit lokalem Solarstrom. Die Stromkundschaft spart Geld. Betreibende steigern den Ertrag. Umwelt und Netz profitieren mit."
+      },
+      "cards": {
+        "card1": {
+          "title": "So gewinnst du ohne Solaranlage",
+          "body": "Du kannst lokalen Solarstrom nutzen auch ohne eigene Solaranlage. Das ist einfach und bringt erneuerbare Energie direkt in deinen Alltag. Lokaler Solarstrom stabilisiert den schwankenden Strompreis teilweise und macht deine Kosten besser planbar.",
+          "chip": "Direkt sparen"
+        },
+        "card2": {
+          "title": "So gewinnst du mit Solaranlage",
+          "body": "Mehr Solarstrom direkt zu verkaufen verkürzt die Amortisationsdauer der Anlage.",
+          "chip": "Mehr Ertrag"
+        },
+        "card3": {
+          "title": "So gewinnt die Umwelt und das Netz",
+          "body": "Mehr Solarstrom wird direkt in der Nachbarschaft genutzt und das stärkt die Umwelt und entlastet das Netz.",
+          "chip": "Umwelt und Netz"
+        }
+      }
+    },
+    "slide3": {
+      "ariaLabel": "Slide 3 von 4",
+      "hero": {
+        "title": "Kosten und Einsparung im Überblick",
+        "subtitle": "Du siehst auf einen Blick was für dich möglich ist und welche klaren Startkosten anfallen."
+      },
+      "cards": {
+        "card1": {
+          "title": "Beispiel ohne eigene Solaranlage",
+          "body1": "Ein Haushalt mit 4 Personen und 250 kWh pro Monat spart rund 130 CHF pro Jahr.",
+          "body2": "Ein Haushalt mit 2 Personen und 150 kWh pro Monat spart rund 65 CHF pro Jahr.",
+          "chip": "Bis 130 CHF sparen"
+        },
+        "card2": {
+          "title": "Beispiel mit eigener Solaranlage",
+          "body": "Der Mehrertrag liegt bei mindestens 50 bis 75 CHF pro Jahr.",
+          "chip": "Mehrertrag ab 50 CHF"
+        },
+        "card3": {
+          "title": "Alle Kosten auf einen Blick",
+          "body1": "Einmalige Einrichtungspauschale 490 CHF pro Gemeinschaft.",
+          "body2": "Mutationspauschale 60 CHF pro nachträgliche Anpassung.",
+          "body3": "Monatliche Kostenabrechnung Solarstrom 3 CHF pro Haushalt.",
+          "chip": "Fair und transparent"
+        }
+      },
+      "note": "Je besser Verbrauch und Solarstrom in der Nachbarschaft zusammenpassen desto grösser ist der Nutzen für alle. Das gelingt am besten wenn du deinen Grossverbrauch wie Waschmaschine, Tumbler und ähnliche Geräte in die Tagesstunden verlegen kannst."
+    },
+    "slide4": {
+      "ariaLabel": "Slide 4 von 4",
+      "hero": {
+        "title": "Den Solarstrompreis bestimmst du mit",
+        "subtitle": "Alle Teilnehmenden stimmen über den Preis ab. Der Solarstrompreis ergibt sich aus dem Durchschnitt aller Stimmen."
+      },
+      "cards": {
+        "card1": {
+          "title": "So finden wir einen fairen Solarstrompreis",
+          "body1Html": "<span class='strompreis-word-red'>Rot</span> zeigt den normalen Strompreis (aktuell <span data-strompreis-field='normal'></span> Rp/kWh). <span class='strompreis-word-blue'>Blau</span> zeigt die Kosten für Bezüger. <span class='strompreis-word-yellow'>Gelb</span> zeigt die Kosten für Produzenten.",
+          "body2Html": "Den <span class='strompreis-word-green'>Solarstrompreis</span> können wir frei festlegen. Sinnvoll ist ein Bereich zwischen <span data-strompreis-field='bandMin'></span> und <span data-strompreis-field='bandMax'></span> Rp/kWh, damit beide Seiten profitieren. Unter <span data-strompreis-field='bandMin'></span> Rp/kWh lohnt es sich für Produzenten nicht. Über <span data-strompreis-field='bandMax'></span> Rp/kWh sparen Bezüger zu wenig."
+        },
+        "card2": {
+          "title": "Freie Wahl braucht Verantwortung",
+          "body1": "Mit eurer Stimme legen wir den Preis fest. Weil jede Stimme gleich zählt, kann eine Mehrheit den Preis deutlich beeinflussen. Darum tragen alle Verantwortung und müssen die Gemeinschaft im Blick behalten.",
+          "body2Html": "Mit dem <a href='calculator.html'>Rechner</a> kann jede Person prüfen, was zur eigenen Situation passt."
+        }
+      },
+      "note": "Alle Zahlen sind von mir geschätzt und hängen vom Stromverbrauch innerhalb der Gemeinschaft ab. Bei Bezügern sind die Kosten die monatliche Abrechnungsgebühr. Bei Produzenten sind die Kosten die monatliche Abrechnungsgebühr und die verlorene Einspeisevergütung."
+    }
+  },
+  "controls": {
+    "ariaLabel": "Slide Navigation",
+    "prev": "Zurück",
+    "next": "Weiter"
+  },
+  "strompreis": {
+    "rangeConnector": "bis",
+    "config": {
+      "unit": "Rp/kWh",
+      "leftColumn": {
+        "label": "Normaler Strompreis"
+      },
+      "segments": {
+        "feeTop": {
+          "label": "Abrechnungspauschale für EigenverbrauchMax"
+        },
+        "solarBand": {
+          "label": "Spielraum Solarstrompreis"
+        },
+        "feeBottom": {
+          "label": "Abrechnungspauschale für EigenverbrauchMax"
+        },
+        "feedIn": {
+          "label": "Solarstromvergütung"
+        }
+      }
+    }
+  }
+}
