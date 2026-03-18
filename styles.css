@@ -7,9 +7,6 @@
   --text-muted: #586150;
   --border: #d7cfbd;
   --accent: #c88a1d;
-  --accent-soft: #f2dfb3;
-  --pv: #5f7f45;
-  --pv-soft: #dbe6cf;
   --positive: #4f7138;
   --negative: #946247;
   --warning: #4d6f98;
@@ -116,18 +113,6 @@ body.page-rechner {
       font-size: 1.14rem;
       line-height: 1.42;
       max-width: 74ch;
-    }
-
-    body.page-rechner .header .disclaimer-note{
-      margin-top: 0.5rem;
-      padding: 0.6rem 0.7rem;
-      border: 1px solid #d5c5a0;
-      border-radius: var(--radius-sm);
-      background: linear-gradient(180deg, #fff8e5 0%, #fbf1d7 100%);
-      color: #554a2e;
-      font-size: 0.89rem;
-      font-weight: 500;
-      line-height: 1.4;
     }
 
     body.page-rechner .header-link-note{
@@ -815,11 +800,6 @@ body.page-rechner {
       font-weight: 670;
     }
 
-    body.page-rechner .calculation-details .calc-note{
-      margin-top: 0.1rem;
-      color: #4c5646;
-    }
-
     body.page-rechner .calculation-details .formula{
       display: block;
       margin-top: 0.14rem;
@@ -1201,14 +1181,6 @@ body.page-praesentation {
       letter-spacing: 0.04px;
     }
 
-    body.page-praesentation .card-wide{
-      grid-column: span 12;
-    }
-
-    body.page-praesentation .card-half{
-      grid-column: span 6;
-    }
-
     body.page-praesentation .card-third{
       grid-column: span 4;
     }
@@ -1266,11 +1238,6 @@ body.page-praesentation {
       font-size: clamp(1.15rem, 1.25vw, 1.28rem);
       line-height: 1.35;
       font-weight: 560;
-    }
-
-    body.page-praesentation .result-highlight{
-      color: #2f5b1f;
-      font-weight: 780;
     }
 
     body.page-praesentation .controls{
@@ -1416,12 +1383,6 @@ body.page-praesentation {
       cursor: not-allowed;
     }
 
-    body.page-rechner .header .disclaimer-note{
-      border: 1px solid #d5c5a0;
-      background: linear-gradient(180deg, #fff8e5 0%, #fbf1d7 100%);
-      color: #554a2e;
-    }
-
     body.page-praesentation .card-body p{
       color: var(--text);
     }
@@ -1429,10 +1390,6 @@ body.page-praesentation {
     /* Flat surfaces: calculator only */
     body.page-rechner .header{
       background: #fdf8ee;
-    }
-
-    body.page-rechner .header .disclaimer-note{
-      background: #fdf4de;
     }
 
     body.page-rechner .card{
@@ -1533,7 +1490,7 @@ body.page-praesentation {
         max-width: 205px;
       }
 
-      body.page-praesentation .card-half, body.page-praesentation .card-third, body.page-praesentation .card-two-thirds{
+      body.page-praesentation .card-third, body.page-praesentation .card-two-thirds{
         grid-column: span 12;
       }
 

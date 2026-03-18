@@ -258,7 +258,6 @@
 
     /**
      * @typedef {Object} MonthResult
-     * @property {string} monthKey
      * @property {number} solarShare
      * @property {number} baselineChf
      * @property {number} vzevChf
@@ -617,7 +616,6 @@
      * @returns {MonthResult}
      */
     function calculateMonth(state, monthIndex) {
-      const month = MONTHS[monthIndex];
       const vatFactor = 1 + state.vatPercent / 100;
       const baselineRateChfPerKwh = ((state.energyRpKwh + state.gridRpKwh) * vatFactor) / 100;
       const baseFeeGross = state.baseFeeChfMonth * vatFactor;
@@ -638,7 +636,6 @@
       const savingChf = baselineChf - vzevChf;
 
       return {
-        monthKey: month.key,
         solarShare: solarShare,
         baselineChf: baselineChf,
         vzevChf: vzevChf,
