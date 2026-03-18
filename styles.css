@@ -532,14 +532,15 @@ body.page-rechner {
 
     body.page-rechner .rechner-bottom-note{
       margin: 0.75rem 0 0;
-      border: 1px solid #d2c6ac;
+      border: 1px solid var(--border);
       border-radius: var(--radius-sm);
       padding: 0.72rem 0.84rem;
-      background: #f6ecd7;
+      background: linear-gradient(180deg, #faf3e2 0%, var(--card-alt) 100%);
       color: var(--text);
       font-size: 0.89rem;
       line-height: 1.35;
-      font-weight: 560;
+      font-weight: 400;
+      box-shadow: none;
     }
 
     body.page-rechner .status{
@@ -1229,15 +1230,16 @@ body.page-praesentation {
     }
 
     body.page-praesentation .note{
-      margin-top: 0.75rem;
-      border: 1px solid #d2c6ac;
+      margin-top: 0.9rem;
+      border: 1px solid var(--border);
       border-radius: var(--radius-sm);
-      padding: 0.72rem 0.84rem;
-      background: #f6ecd7;
+      padding: 0.8rem 0.94rem;
+      background: linear-gradient(180deg, #faf3e2 0%, var(--card-alt) 100%);
       color: var(--text);
       font-size: clamp(1.15rem, 1.25vw, 1.28rem);
       line-height: 1.35;
-      font-weight: 560;
+      font-weight: 400;
+      box-shadow: none;
     }
 
     body.page-praesentation .controls{
