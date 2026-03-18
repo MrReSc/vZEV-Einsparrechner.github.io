@@ -115,7 +115,7 @@ body.page-rechner {
       color: var(--text-muted);
       font-size: 1.14rem;
       line-height: 1.42;
-      max-width: 62ch;
+      max-width: 74ch;
     }
 
     body.page-rechner .header .disclaimer-note{
