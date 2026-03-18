@@ -787,6 +787,12 @@ body.page-rechner {
       line-height: 1.4;
     }
 
+    body.page-rechner .calculation-details .formula.calc-values{
+      background: #f8f1e3;
+      border-color: #dfd0b6;
+      color: #36402f;
+    }
+
     body.page-rechner .calculation-details .calc-steps{
       margin: 0;
       padding-left: 1.2rem;
@@ -846,6 +852,7 @@ body.page-rechner {
       body.page-rechner .summary{
         grid-template-columns: repeat(3, minmax(0, 1fr));
       }
+
     }
 
     @media (max-width: 460px){

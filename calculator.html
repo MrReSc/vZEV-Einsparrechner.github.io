@@ -233,41 +233,8 @@
 
           <details class="calculation-details">
             <summary>So wurde gerechnet</summary>
-            <p class="calc-intro">So wird mit deinen Angaben gerechnet in derselben Reihenfolge wie im Code.</p>
-            <ol class="calc-steps">
-              <li class="calc-step">
-                <strong class="calc-step-title">Tarifbasis</strong>
-                <code class="formula">MwSt-Faktor = 1 + (MwSt / 100)</code>
-                <code class="formula">Normaltarif (CHF/kWh) = (Energiepreis + Netznutzungsgebühren) * MwSt-Faktor / 100</code>
-              </li>
-              <li class="calc-step">
-                <strong class="calc-step-title">Solaranteil je Monat</strong>
-                <div class="calc-note">Dezember bis Februar gilt kein Solarstrom.</div>
-                <code class="formula">Solaranteil = 0 (Dez-Feb), sonst 70 % / 50 % / 30 % je Profil</code>
-              </li>
-              <li class="calc-step">
-                <strong class="calc-step-title">Energiemengen</strong>
-                <code class="formula">Solar-kWh = Monatsverbrauch * Solaranteil</code>
-                <code class="formula">Rest-kWh = Monatsverbrauch - Solar-kWh</code>
-              </li>
-              <li class="calc-step">
-                <strong class="calc-step-title">Monatskosten ohne Solarstrom</strong>
-                <code class="formula">Ohne Solarstrom = Monatsverbrauch * Normaltarif + Grundpreis * MwSt-Faktor + Recycling-Gebühr * MwSt-Faktor + Messentgelte * MwSt-Faktor</code>
-              </li>
-              <li class="calc-step">
-                <strong class="calc-step-title">Monatskosten mit Solarstrom</strong>
-                <code class="formula">Mit Solarstrom = Solar-kWh * (Preis für lokalen Solarstrom / 100) + Rest-kWh * Normaltarif + Grundpreis * MwSt-Faktor + Recycling-Gebühr * MwSt-Faktor + Messentgelte * MwSt-Faktor + Preis für die Abrechnung von Solarstrom * MwSt-Faktor</code>
-              </li>
-              <li class="calc-step">
-                <strong class="calc-step-title">Einsparung</strong>
-                <code class="formula">Monatsersparnis = Ohne Solarstrom - Mit Solarstrom</code>
-                <code class="formula">Jahresersparnis = Summe aller 12 Monatsersparnisse</code>
-              </li>
-              <li class="calc-step">
-                <strong class="calc-step-title">Rundung</strong>
-                <code class="formula">Ausgabe auf 5 Rappen gerundet (roundToFiveRappen)</code>
-              </li>
-            </ol>
+            <p class="calc-intro">Die Schritte zeigen immer zuerst die Formel und danach die eingesetzten Werte.</p>
+            <ol class="calc-steps" id="calcSteps"></ol>
           </details>
         </div>
       </article>
@@ -306,6 +273,11 @@
       house_empty: 0.5,
       day_low: 0.3
     });
+    const USAGE_PROFILE_LABEL = Object.freeze({
+      day_high: "Fast immer",
+      house_empty: "Wenig",
+      day_low: "Fast nie"
+    });
 
     const MONTHS = Object.freeze([
       { key: "jan", label: "Januar" },
@@ -321,7 +293,6 @@
       { key: "nov", label: "November" },
       { key: "dec", label: "Dezember" }
     ]);
-
     /** @type {InputState} */
     const DEFAULT_STATE = Object.freeze({
       energyRpKwh: 12.9,
@@ -347,6 +318,14 @@
       minimumFractionDigits: 0,
       maximumFractionDigits: 0
     });
+    const detailNumberFormatter = new Intl.NumberFormat("de-CH", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+    const detailRateFormatter = new Intl.NumberFormat("de-CH", {
+      minimumFractionDigits: 4,
+      maximumFractionDigits: 4
+    });
 
     const form = document.getElementById("calcForm");
     const resetBtn = document.getElementById("resetBtn");
@@ -358,6 +337,7 @@
     const resultConclusion = document.getElementById("resultConclusion");
     const validationStatus = document.getElementById("validationStatus");
     const advancedInputs = document.getElementById("advancedInputs");
+    const calcSteps = document.getElementById("calcSteps");
 
     const numericFieldIds = [
       "energyRpKwh",
@@ -550,7 +530,7 @@
 
       saveState(state);
       const yearResult = calculateYear(state);
-      renderResults(yearResult);
+      renderResults(yearResult, state);
     }
 
     /**
@@ -627,6 +607,10 @@
       resultConclusion.classList.remove("positive", "negative");
       resultConclusion.classList.add("neutral");
       resultsBody.innerHTML = "";
+
+      if (calcSteps) {
+        calcSteps.innerHTML = "";
+      }
     }
 
     /**
@@ -645,12 +629,7 @@
       const solarShare = calculateSolarShare(monthIndex, state.usageProfile);
       const solarKwh = state.monthlyKwh * solarShare;
       const restKwh = state.monthlyKwh - solarKwh;
-
-      const baselineChf =
-        state.monthlyKwh * baselineRateChfPerKwh +
-        baseFeeGross +
-        recyclingFeeGross +
-        meteringFeeGross;
+      const baselineChf = state.monthlyKwh * baselineRateChfPerKwh + baseFeeGross + recyclingFeeGross + meteringFeeGross;
       const vzevChf =
         solarKwh * (state.vzevEnergyRpKwh / 100) +
         restKwh * baselineRateChfPerKwh +
@@ -692,8 +671,9 @@
 
     /**
      * @param {{ months: MonthResult[], totals: { baselineChf: number, vzevChf: number, savingChf: number } }} results
+     * @param {InputState} state
      */
-    function renderResults(results) {
+    function renderResults(results, state) {
       validationStatus.classList.add("hidden");
       validationStatus.textContent = "";
 
@@ -739,6 +719,119 @@
       resultConclusion.innerHTML = conclusion.text;
       resultConclusion.classList.remove("positive", "negative", "neutral");
       resultConclusion.classList.add(conclusion.tone);
+      renderCalculationDetails(state);
+    }
+
+    /**
+     * @param {InputState} state
+     * @param {number} solarShare
+     * @returns {{
+     *   vatFactor: number,
+     *   baselineRateChfPerKwh: number,
+     *   baseFeeGross: number,
+     *   recyclingFeeGross: number,
+     *   meteringFeeGross: number,
+     *   vzevFeeGross: number,
+     *   solarKwh: number,
+     *   restKwh: number,
+     *   baselineChf: number,
+     *   vzevChf: number,
+     *   savingChf: number
+     * }}
+     */
+    function calculateDetailScenario(state, solarShare) {
+      const vatFactor = 1 + state.vatPercent / 100;
+      const baselineRateChfPerKwh = ((state.energyRpKwh + state.gridRpKwh) * vatFactor) / 100;
+      const baseFeeGross = state.baseFeeChfMonth * vatFactor;
+      const recyclingFeeGross = state.recyclingFeeChfMonth * vatFactor;
+      const meteringFeeGross = state.meteringFeeChfMonth * vatFactor;
+      const vzevFeeGross = state.vzevFeeChfMonth * vatFactor;
+      const solarKwh = state.monthlyKwh * solarShare;
+      const restKwh = state.monthlyKwh - solarKwh;
+      const baselineChf = state.monthlyKwh * baselineRateChfPerKwh + baseFeeGross + recyclingFeeGross + meteringFeeGross;
+      const vzevChf =
+        solarKwh * (state.vzevEnergyRpKwh / 100) +
+        restKwh * baselineRateChfPerKwh +
+        baseFeeGross +
+        recyclingFeeGross +
+        meteringFeeGross +
+        vzevFeeGross;
+      const savingChf = baselineChf - vzevChf;
+
+      return {
+        vatFactor: vatFactor,
+        baselineRateChfPerKwh: baselineRateChfPerKwh,
+        baseFeeGross: baseFeeGross,
+        recyclingFeeGross: recyclingFeeGross,
+        meteringFeeGross: meteringFeeGross,
+        vzevFeeGross: vzevFeeGross,
+        solarKwh: solarKwh,
+        restKwh: restKwh,
+        baselineChf: baselineChf,
+        vzevChf: vzevChf,
+        savingChf: savingChf
+      };
+    }
+
+    /**
+     * @param {InputState} state
+     */
+    function renderCalculationDetails(state) {
+      if (!calcSteps) {
+        return;
+      }
+
+      const selectedProfileShare = USAGE_PROFILE_DAY_SHARE[state.usageProfile] ?? USAGE_PROFILE_DAY_SHARE[DEFAULT_STATE.usageProfile];
+      const selectedProfileLabel = USAGE_PROFILE_LABEL[state.usageProfile] ?? USAGE_PROFILE_LABEL[DEFAULT_STATE.usageProfile];
+      const selectedProfilePercentLabel = formatDetailNumber(selectedProfileShare * 100) + " %";
+      const summerScenario = calculateDetailScenario(state, selectedProfileShare);
+      const winterScenario = calculateDetailScenario(state, 0);
+      const annualSavingByProfile = summerScenario.savingChf * 9 + winterScenario.savingChf * 3;
+
+      calcSteps.innerHTML =
+        "<li class='calc-step'>" +
+        "<strong class='calc-step-title'>Tarifbasis</strong>" +
+        "<code class='formula'>MwSt-Faktor = 1 + (MwSt / 100)</code>" +
+        "<code class='formula calc-values'>Berechnung: 1 + (" + formatDetailNumber(state.vatPercent) + " / 100) = " + formatDetailNumber(summerScenario.vatFactor) + "</code>" +
+        "<code class='formula'>Normaltarif (CHF/kWh) = (Energiepreis + Netznutzungsgebühren) * MwSt-Faktor / 100</code>" +
+        "<code class='formula calc-values'>Berechnung: (" + formatDetailNumber(state.energyRpKwh) + " + " + formatDetailNumber(state.gridRpKwh) + ") * " + formatDetailNumber(summerScenario.vatFactor) + " / 100 = " + formatDetailChfPerKwh(summerScenario.baselineRateChfPerKwh) + "</code>" +
+        "</li>" +
+        "<li class='calc-step'>" +
+        "<strong class='calc-step-title'>Solaranteil je Monat und Profil</strong>" +
+        "<code class='formula'>Solaranteil = 0 im Winter, sonst Profilwert im Sommer</code>" +
+        "<code class='formula calc-values'>Berechnung Sommer (Profil " + selectedProfileLabel + "): Solaranteil = " + selectedProfilePercentLabel + "</code>" +
+        "<code class='formula calc-values'>Berechnung Winter (Profil " + selectedProfileLabel + "): Solaranteil = 0.00 %</code>" +
+        "</li>" +
+        "<li class='calc-step'>" +
+        "<strong class='calc-step-title'>Energiemengen</strong>" +
+        "<code class='formula'>Solar-kWh = Monatsverbrauch * Solaranteil</code>" +
+        "<code class='formula'>Rest-kWh = Monatsverbrauch - Solar-kWh</code>" +
+        "<code class='formula calc-values'>Berechnung Sommer: " + formatDetailKwh(state.monthlyKwh) + " * " + selectedProfilePercentLabel + " = " + formatDetailKwh(summerScenario.solarKwh) + ", Rest = " + formatDetailKwh(summerScenario.restKwh) + "</code>" +
+        "<code class='formula calc-values'>Berechnung Winter: " + formatDetailKwh(state.monthlyKwh) + " * 0.00 % = " + formatDetailKwh(winterScenario.solarKwh) + ", Rest = " + formatDetailKwh(winterScenario.restKwh) + "</code>" +
+        "</li>" +
+        "<li class='calc-step'>" +
+        "<strong class='calc-step-title'>Monatskosten ohne Solarstrom</strong>" +
+        "<code class='formula'>Ohne Solarstrom = Monatsverbrauch * Normaltarif + Grundpreis * MwSt-Faktor + Recycling-Gebühr * MwSt-Faktor + Messentgelte * MwSt-Faktor</code>" +
+        "<code class='formula calc-values'>Berechnung: " + formatDetailKwh(state.monthlyKwh) + " * " + formatDetailChfPerKwh(summerScenario.baselineRateChfPerKwh) + " + " + formatDetailChf(summerScenario.baseFeeGross) + " + " + formatDetailChf(summerScenario.recyclingFeeGross) + " + " + formatDetailChf(summerScenario.meteringFeeGross) + " = " + formatDetailChf(summerScenario.baselineChf) + "</code>" +
+        "</li>" +
+        "<li class='calc-step'>" +
+        "<strong class='calc-step-title'>Monatskosten mit Solarstrom (Sommer, Profil " + selectedProfileLabel + ")</strong>" +
+        "<code class='formula'>Mit Solarstrom = Solar-kWh * (lokaler Solarstrompreis / 100) + Rest-kWh * Normaltarif + Grundpreis * MwSt-Faktor + Recycling-Gebühr * MwSt-Faktor + Messentgelte * MwSt-Faktor + Abrechnungsgebühr * MwSt-Faktor</code>" +
+        "<code class='formula calc-values'>Berechnung: " + formatDetailKwh(summerScenario.solarKwh) + " * (" + formatDetailNumber(state.vzevEnergyRpKwh) + " / 100) + " + formatDetailKwh(summerScenario.restKwh) + " * " + formatDetailChfPerKwh(summerScenario.baselineRateChfPerKwh) + " + " + formatDetailChf(summerScenario.baseFeeGross) + " + " + formatDetailChf(summerScenario.recyclingFeeGross) + " + " + formatDetailChf(summerScenario.meteringFeeGross) + " + " + formatDetailChf(summerScenario.vzevFeeGross) + " = " + formatDetailChf(summerScenario.vzevChf) + "</code>" +
+        "</li>" +
+        "<li class='calc-step'>" +
+        "<strong class='calc-step-title'>Monatskosten mit Solarstrom (Winter, Profil " + selectedProfileLabel + ")</strong>" +
+        "<code class='formula'>Mit Solarstrom = Solar-kWh * (lokaler Solarstrompreis / 100) + Rest-kWh * Normaltarif + Grundpreis * MwSt-Faktor + Recycling-Gebühr * MwSt-Faktor + Messentgelte * MwSt-Faktor + Abrechnungsgebühr * MwSt-Faktor</code>" +
+        "<code class='formula calc-values'>Berechnung: " + formatDetailKwh(winterScenario.solarKwh) + " * (" + formatDetailNumber(state.vzevEnergyRpKwh) + " / 100) + " + formatDetailKwh(winterScenario.restKwh) + " * " + formatDetailChfPerKwh(winterScenario.baselineRateChfPerKwh) + " + " + formatDetailChf(winterScenario.baseFeeGross) + " + " + formatDetailChf(winterScenario.recyclingFeeGross) + " + " + formatDetailChf(winterScenario.meteringFeeGross) + " + " + formatDetailChf(winterScenario.vzevFeeGross) + " = " + formatDetailChf(winterScenario.vzevChf) + "</code>" +
+        "</li>" +
+        "<li class='calc-step'>" +
+        "<strong class='calc-step-title'>Einsparung</strong>" +
+        "<code class='formula'>Monatsersparnis = Ohne Solarstrom - Mit Solarstrom</code>" +
+        "<code class='formula'>Jahresersparnis (Profil " + selectedProfileLabel + ") = (Sommerersparnis * 9) + (Winterersparnis * 3)</code>" +
+        "<code class='formula calc-values'>Berechnung Sommer: " + formatDetailChf(summerScenario.baselineChf) + " - " + formatDetailChf(summerScenario.vzevChf) + " = " + formatDetailChf(summerScenario.savingChf) + "</code>" +
+        "<code class='formula calc-values'>Berechnung Winter: " + formatDetailChf(winterScenario.baselineChf) + " - " + formatDetailChf(winterScenario.vzevChf) + " = " + formatDetailChf(winterScenario.savingChf) + "</code>" +
+        "<code class='formula calc-values'>Berechnung Jahr (9 Sommer + 3 Winter): (" + formatDetailChf(summerScenario.savingChf) + " * 9) + (" + formatDetailChf(winterScenario.savingChf) + " * 3) = " + formatDetailChf(annualSavingByProfile) + "</code>" +
+        "</li>";
     }
 
     /**
@@ -784,6 +877,38 @@
      */
     function formatChf(value) {
       return chfFormatter.format(roundToFiveRappen(value));
+    }
+
+    /**
+     * @param {number} value
+     * @returns {string}
+     */
+    function formatDetailNumber(value) {
+      return detailNumberFormatter.format(value);
+    }
+
+    /**
+     * @param {number} value
+     * @returns {string}
+     */
+    function formatDetailChf(value) {
+      return formatDetailNumber(value) + " CHF";
+    }
+
+    /**
+     * @param {number} value
+     * @returns {string}
+     */
+    function formatDetailChfPerKwh(value) {
+      return detailRateFormatter.format(value) + " CHF/kWh";
+    }
+
+    /**
+     * @param {number} value
+     * @returns {string}
+     */
+    function formatDetailKwh(value) {
+      return formatDetailNumber(value) + " kWh";
     }
 
     /**
