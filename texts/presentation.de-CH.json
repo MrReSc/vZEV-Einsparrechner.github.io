@@ -85,7 +85,7 @@
           "chip": "Fair und transparent"
         }
       },
-      "note": "Je besser Verbrauch und Solarstrom in der Nachbarschaft zusammenpassen, desto grösser ist der Nutzen für alle. Das gelingt am besten, wenn du deinen Grossverbrauch wie Waschmaschine, Tumbler und ähnliche Geräte in die Sonnenstunden verlegen kannst."
+      "noteHtml": "Je besser Verbrauch und Solarstrom in der Nachbarschaft zusammenpassen, desto grösser ist der Nutzen für alle. Das gelingt am besten, wenn du deinen Grossverbrauch wie Waschmaschine, Tumbler und ähnliche Geräte in die Sonnenstunden verlegen kannst.<br>Die Kostenangaben sind von Thurplus. Ersparnisse und Mehrerträge sind mit Durchschnittswerten berechnet und hängen von der Anzahl Teilnehmender und ihrem Verbrauch ab."
     },
     "slide4": {
       "ariaLabel": "Slide 4 von 4",
