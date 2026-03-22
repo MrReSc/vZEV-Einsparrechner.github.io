@@ -4,6 +4,7 @@
   },
   "topActions": {
     "calculate": "Jetzt Einsparung berechnen",
+    "simulate": "EigenverbrauchMax simulieren",
     "join": "Jetzt mitmachen",
     "joinTitle": "Anmeldelink folgt in Kürze"
   },
@@ -102,7 +103,7 @@
         "card2": {
           "title": "Freie Wahl braucht Verantwortung",
           "body1": "Mit eurer Stimme legen wir den Preis fest. Weil jede Stimme gleich zählt, kann eine Mehrheit den Preis deutlich beeinflussen. Darum tragen alle Verantwortung und müssen die Gemeinschaft im Blick behalten.",
-          "body2Html": "Mit dem <a href='calculator.html'>Rechner</a> kann jede Person prüfen, was zur eigenen Situation passt."
+          "body2Html": "Mit dem <a href='calculator.html'>Rechner</a> kann jede Person die eigene Situation prüfen. Mit der <a href='simulation.html'>Simulation</a> könnt ihr die ganze Gemeinschaft durchrechnen."
         }
       },
       "note": "Alle Zahlen sind von mir geschätzt und hängen vom Stromverbrauch innerhalb der Gemeinschaft ab. Bei Bezügern sind die Kosten die monatliche Abrechnungsgebühr. Bei Produzenten sind die Kosten die monatliche Abrechnungsgebühr und die verlorene Einspeisevergütung."

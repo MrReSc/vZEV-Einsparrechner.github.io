@@ -1,0 +1,1686 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title data-i18n="meta.title"></title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="shortcut icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.bunny.net">
+  <link href="https://fonts.bunny.net/css?family=roboto:400,500,700,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="page-simulation">
+  <main class="simulation-container">
+    <header class="simulation-header">
+      <h1 data-i18n="header.title"></h1>
+      <p data-i18n="header.subtitle"></p>
+      <p class="simulation-link-note" data-i18n-html="header.linkNoteHtml"></p>
+    </header>
+
+    <section class="simulation-layout">
+      <article class="simulation-card">
+        <div class="simulation-card-header">
+          <h2 data-i18n="inputs.title"></h2>
+        </div>
+        <div class="simulation-card-body">
+          <form id="simulationForm" novalidate>
+            <p class="simulation-quick-note" data-i18n="inputs.quickNote"></p>
+
+            <div class="simulation-fields">
+              <div class="simulation-field" data-field="maxProducerCount">
+                <div class="simulation-label-row">
+                  <label for="maxProducerCount" data-i18n="fields.maxProducerCount.label"></label>
+                  <button type="button" class="info-trigger" aria-describedby="tooltip-maxProducerCount" data-i18n-attr="aria-label:fields.maxProducerCount.infoAria">i</button>
+                  <div class="field-tooltip" id="tooltip-maxProducerCount" role="tooltip" data-i18n="fields.maxProducerCount.tooltip"></div>
+                </div>
+                <input id="maxProducerCount" name="maxProducerCount" type="number" min="1" step="1" inputmode="numeric">
+                <div class="simulation-error" id="error-maxProducerCount"></div>
+              </div>
+
+              <div class="simulation-field" data-field="maxConsumerCount">
+                <div class="simulation-label-row">
+                  <label for="maxConsumerCount" data-i18n="fields.maxConsumerCount.label"></label>
+                  <button type="button" class="info-trigger" aria-describedby="tooltip-maxConsumerCount" data-i18n-attr="aria-label:fields.maxConsumerCount.infoAria">i</button>
+                  <div class="field-tooltip" id="tooltip-maxConsumerCount" role="tooltip" data-i18n="fields.maxConsumerCount.tooltip"></div>
+                </div>
+                <input id="maxConsumerCount" name="maxConsumerCount" type="number" min="1" step="1" inputmode="numeric">
+                <div class="simulation-error" id="error-maxConsumerCount"></div>
+              </div>
+
+              <div class="simulation-field" data-field="monthlyKwhPerParticipant">
+                <div class="simulation-label-row">
+                  <label for="monthlyKwhPerParticipant" data-i18n="fields.monthlyKwhPerParticipant.label"></label>
+                  <button type="button" class="info-trigger" aria-describedby="tooltip-monthlyKwhPerParticipant" data-i18n-attr="aria-label:fields.monthlyKwhPerParticipant.infoAria">i</button>
+                  <div class="field-tooltip" id="tooltip-monthlyKwhPerParticipant" role="tooltip" data-i18n="fields.monthlyKwhPerParticipant.tooltip"></div>
+                </div>
+                <div class="simulation-input-with-unit">
+                  <input id="monthlyKwhPerParticipant" name="monthlyKwhPerParticipant" type="number" min="0" step="0.01" inputmode="decimal">
+                  <span class="simulation-unit" aria-hidden="true" data-i18n="units.kwhPerMonth"></span>
+                </div>
+                <div class="simulation-error" id="error-monthlyKwhPerParticipant"></div>
+              </div>
+
+              <div class="simulation-field" data-field="consumerDaytimeSharePercent">
+                <div class="simulation-label-row">
+                  <label for="consumerDaytimeSharePercent" data-i18n="fields.consumerDaytimeSharePercent.label"></label>
+                  <button type="button" class="info-trigger" aria-describedby="tooltip-consumerDaytimeSharePercent" data-i18n-attr="aria-label:fields.consumerDaytimeSharePercent.infoAria">i</button>
+                  <div class="field-tooltip" id="tooltip-consumerDaytimeSharePercent" role="tooltip" data-i18n="fields.consumerDaytimeSharePercent.tooltip"></div>
+                </div>
+                <div class="simulation-input-with-unit">
+                  <input id="consumerDaytimeSharePercent" name="consumerDaytimeSharePercent" type="number" min="0" max="100" step="0.01" inputmode="decimal">
+                  <span class="simulation-unit" aria-hidden="true" data-i18n="units.percent"></span>
+                </div>
+                <div class="simulation-error" id="error-consumerDaytimeSharePercent"></div>
+              </div>
+
+              <div class="simulation-field" data-field="pvKwPerProducer">
+                <div class="simulation-label-row">
+                  <label for="pvKwPerProducer" data-i18n="fields.pvKwPerProducer.label"></label>
+                  <button type="button" class="info-trigger" aria-describedby="tooltip-pvKwPerProducer" data-i18n-attr="aria-label:fields.pvKwPerProducer.infoAria">i</button>
+                  <div class="field-tooltip" id="tooltip-pvKwPerProducer" role="tooltip" data-i18n="fields.pvKwPerProducer.tooltip"></div>
+                </div>
+                <div class="simulation-input-with-unit">
+                  <input id="pvKwPerProducer" name="pvKwPerProducer" type="number" min="0" step="0.01" inputmode="decimal">
+                  <span class="simulation-unit" aria-hidden="true" data-i18n="units.kwp"></span>
+                </div>
+                <div class="simulation-error" id="error-pvKwPerProducer"></div>
+              </div>
+
+              <div class="simulation-field" data-field="pvYieldKwhPerKwYear">
+                <div class="simulation-label-row">
+                  <label for="pvYieldKwhPerKwYear" data-i18n="fields.pvYieldKwhPerKwYear.label"></label>
+                  <button type="button" class="info-trigger" aria-describedby="tooltip-pvYieldKwhPerKwYear" data-i18n-attr="aria-label:fields.pvYieldKwhPerKwYear.infoAria">i</button>
+                  <div class="field-tooltip" id="tooltip-pvYieldKwhPerKwYear" role="tooltip" data-i18n="fields.pvYieldKwhPerKwYear.tooltip"></div>
+                </div>
+                <div class="simulation-input-with-unit">
+                  <input id="pvYieldKwhPerKwYear" name="pvYieldKwhPerKwYear" type="number" min="0" step="0.01" inputmode="decimal">
+                  <span class="simulation-unit simulation-unit-wide" aria-hidden="true" data-i18n="units.kwhPerKwpYear"></span>
+                </div>
+                <div class="simulation-error" id="error-pvYieldKwhPerKwYear"></div>
+              </div>
+
+              <div class="simulation-field" data-field="evuPriceRpKwh">
+                <div class="simulation-label-row">
+                  <label for="evuPriceRpKwh" data-i18n="fields.evuPriceRpKwh.label"></label>
+                  <button type="button" class="info-trigger" aria-describedby="tooltip-evuPriceRpKwh" data-i18n-attr="aria-label:fields.evuPriceRpKwh.infoAria">i</button>
+                  <div class="field-tooltip" id="tooltip-evuPriceRpKwh" role="tooltip" data-i18n="fields.evuPriceRpKwh.tooltip"></div>
+                </div>
+                <div class="simulation-input-with-unit">
+                  <input id="evuPriceRpKwh" name="evuPriceRpKwh" type="number" min="0" step="0.01" inputmode="decimal">
+                  <span class="simulation-unit" aria-hidden="true" data-i18n="units.rpPerKwh"></span>
+                </div>
+                <div class="simulation-error" id="error-evuPriceRpKwh"></div>
+              </div>
+
+              <div class="simulation-field" data-field="feedInRpKwh">
+                <div class="simulation-label-row">
+                  <label for="feedInRpKwh" data-i18n="fields.feedInRpKwh.label"></label>
+                  <button type="button" class="info-trigger" aria-describedby="tooltip-feedInRpKwh" data-i18n-attr="aria-label:fields.feedInRpKwh.infoAria">i</button>
+                  <div class="field-tooltip" id="tooltip-feedInRpKwh" role="tooltip" data-i18n="fields.feedInRpKwh.tooltip"></div>
+                </div>
+                <div class="simulation-input-with-unit">
+                  <input id="feedInRpKwh" name="feedInRpKwh" type="number" min="0" step="0.01" inputmode="decimal">
+                  <span class="simulation-unit" aria-hidden="true" data-i18n="units.rpPerKwh"></span>
+                </div>
+                <div class="simulation-error" id="error-feedInRpKwh"></div>
+              </div>
+
+              <div class="simulation-field" data-field="vzevFeeChfMonth">
+                <div class="simulation-label-row">
+                  <label for="vzevFeeChfMonth" data-i18n="fields.vzevFeeChfMonth.label"></label>
+                  <button type="button" class="info-trigger" aria-describedby="tooltip-vzevFeeChfMonth" data-i18n-attr="aria-label:fields.vzevFeeChfMonth.infoAria">i</button>
+                  <div class="field-tooltip" id="tooltip-vzevFeeChfMonth" role="tooltip" data-i18n="fields.vzevFeeChfMonth.tooltip"></div>
+                </div>
+                <div class="simulation-input-with-unit">
+                  <input id="vzevFeeChfMonth" name="vzevFeeChfMonth" type="number" min="0" step="0.01" inputmode="decimal">
+                  <span class="simulation-unit simulation-unit-wide" aria-hidden="true" data-i18n="units.chfPerMonth"></span>
+                </div>
+                <div class="simulation-error" id="error-vzevFeeChfMonth"></div>
+              </div>
+
+              <div class="simulation-field" data-field="virtualMeterChfMonth">
+                <div class="simulation-label-row">
+                  <label for="virtualMeterChfMonth" data-i18n="fields.virtualMeterChfMonth.label"></label>
+                  <button type="button" class="info-trigger" aria-describedby="tooltip-virtualMeterChfMonth" data-i18n-attr="aria-label:fields.virtualMeterChfMonth.infoAria">i</button>
+                  <div class="field-tooltip" id="tooltip-virtualMeterChfMonth" role="tooltip" data-i18n="fields.virtualMeterChfMonth.tooltip"></div>
+                </div>
+                <div class="simulation-input-with-unit">
+                  <input id="virtualMeterChfMonth" name="virtualMeterChfMonth" type="number" min="0" step="0.01" inputmode="decimal">
+                  <span class="simulation-unit simulation-unit-wide" aria-hidden="true" data-i18n="units.chfPerMonth"></span>
+                </div>
+                <div class="simulation-error" id="error-virtualMeterChfMonth"></div>
+              </div>
+
+              <div class="simulation-field" data-field="winterMonths">
+                <div class="simulation-label-row">
+                  <label for="winterMonths" data-i18n="fields.winterMonths.label"></label>
+                  <button type="button" class="info-trigger" aria-describedby="tooltip-winterMonths" data-i18n-attr="aria-label:fields.winterMonths.infoAria">i</button>
+                  <div class="field-tooltip" id="tooltip-winterMonths" role="tooltip" data-i18n="fields.winterMonths.tooltip"></div>
+                </div>
+                <input id="winterMonths" name="winterMonths" type="number" min="0" max="12" step="1" inputmode="numeric">
+                <div class="simulation-error" id="error-winterMonths"></div>
+              </div>
+
+            </div>
+
+            <div class="simulation-actions">
+              <button type="button" class="simulation-ghost-btn" id="resetBtn" data-i18n="actions.reset"></button>
+            </div>
+
+            <p class="simulation-meta-note" data-i18n="inputs.metaNote"></p>
+          </form>
+        </div>
+      </article>
+
+      <article class="simulation-card">
+        <div class="simulation-card-header">
+          <h2 data-i18n="results.title"></h2>
+        </div>
+        <div class="simulation-card-body">
+          <div id="validationStatus" class="simulation-status hidden"></div>
+
+          <section class="simulation-panel">
+            <div class="simulation-panel-head">
+              <h3 data-i18n="results.matrix.title"></h3>
+              <p data-i18n="results.matrix.intro"></p>
+            </div>
+            <div class="simulation-matrix-wrap">
+              <table class="simulation-matrix">
+                <thead>
+                  <tr id="matrixHeaderRow"></tr>
+                </thead>
+                <tbody id="matrixBody"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="simulation-panel">
+            <div class="simulation-panel-head">
+              <h3 data-i18n="results.detail.title"></h3>
+            </div>
+
+            <div id="detailIntro" class="simulation-detail-intro"></div>
+
+            <section class="simulation-detail-metrics">
+              <div class="simulation-detail-metric metric-price">
+                <div class="label" data-i18n="results.detail.metrics.focusPrice"></div>
+                <div class="value" id="detailFocusPrice"></div>
+              </div>
+              <div class="simulation-detail-metric metric-price">
+                <div class="label" data-i18n="results.detail.metrics.consumerDelta"></div>
+                <div class="value" id="detailConsumerDelta"></div>
+              </div>
+              <div class="simulation-detail-metric metric-price">
+                <div class="label" data-i18n="results.detail.metrics.producerDelta"></div>
+                <div class="value" id="detailProducerDelta"></div>
+              </div>
+              <div class="simulation-detail-metric metric-solar">
+                <div class="label" data-i18n="results.detail.metrics.localSolar"></div>
+                <div class="value" id="detailLocalSolar"></div>
+              </div>
+              <div class="simulation-detail-metric metric-solar">
+                <div class="label" data-i18n="results.detail.metrics.utilization"></div>
+                <div class="value" id="detailUtilization"></div>
+              </div>
+            </section>
+
+            <div id="chartNotice" class="simulation-chart-notice hidden"></div>
+            <div class="simulation-chart-wrap">
+              <canvas id="detailChartCanvas"></canvas>
+            </div>
+
+            <details class="simulation-table-details">
+              <summary data-i18n="results.detail.table.summary"></summary>
+              <div class="simulation-table-wrap">
+                <table class="simulation-detail-table">
+                  <thead>
+                    <tr>
+                      <th data-i18n="results.detail.table.headers.price"></th>
+                      <th data-i18n="results.detail.table.headers.localSolar"></th>
+                      <th data-i18n="results.detail.table.headers.consumer"></th>
+                      <th data-i18n="results.detail.table.headers.producer"></th>
+                    </tr>
+                  </thead>
+                  <tbody id="detailTableBody"></tbody>
+                </table>
+              </div>
+            </details>
+          </section>
+
+          <details class="simulation-calculation-details">
+            <summary data-i18n="results.calculation.summary"></summary>
+            <p class="simulation-calc-intro" id="calculationIntro" data-i18n="results.calculation.empty"></p>
+            <ol class="simulation-calc-steps" id="calculationSteps"></ol>
+          </details>
+
+          <details class="simulation-assumptions">
+            <summary data-i18n="results.assumptions.summary"></summary>
+            <ul>
+              <li data-i18n="results.assumptions.items.item1"></li>
+              <li data-i18n="results.assumptions.items.item2"></li>
+              <li data-i18n="results.assumptions.items.item3"></li>
+              <li data-i18n="results.assumptions.items.item4"></li>
+              <li data-i18n="results.assumptions.items.item5"></li>
+              <li data-i18n="results.assumptions.items.item6"></li>
+            </ul>
+          </details>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
+  <script>
+    (async function () {
+      /**
+       * @typedef {Object} SimulationInputState
+       * @property {number} maxProducerCount
+       * @property {number} maxConsumerCount
+       * @property {number} monthlyKwhPerParticipant
+       * @property {number} consumerDaytimeSharePercent
+       * @property {number} pvKwPerProducer
+       * @property {number} pvYieldKwhPerKwYear
+       * @property {number} evuPriceRpKwh
+       * @property {number} feedInRpKwh
+       * @property {number} vzevFeeChfMonth
+       * @property {number} virtualMeterChfMonth
+       * @property {number} winterMonths
+       */
+
+      /**
+       * @typedef {Object} ScenarioResult
+       * @property {number} producerCount
+       * @property {number} consumerCount
+       * @property {number} solarPriceRpKwh
+       * @property {number} localSolarKwhYear
+       * @property {number} consumerDeltaChfYear
+       * @property {number} producerDeltaChfYear
+       * @property {number} annualPvProductionKwh
+       * @property {number} producerDirectUseKwhYear
+       * @property {number} sharedSolarAvailableKwhYear
+       * @property {number} solarAvailableKwhYear
+       * @property {number} consumerDemandSolarMonthsKwhYear
+       * @property {number} utilizationRatio
+       * @property {number} benefitGapChfYear
+       * @property {boolean} isFair
+       */
+
+      /**
+       * @typedef {Object} ScenarioSummary
+       * @property {number} producerCount
+       * @property {number} consumerCount
+       * @property {number | null} optimalPriceRpKwh
+       * @property {boolean} hasFairScenario
+       * @property {"fair" | "critical" | "not_fair"} status
+        * @property {ScenarioResult[]} priceResults
+        * @property {ScenarioResult | null} optimalResult
+        * @property {ScenarioResult | null} closestResult
+        * @property {ScenarioResult} balanceResult
+       * @property {number | null} noLossPriceMinRpKwh
+       * @property {number | null} noLossPriceMaxRpKwh
+        * @property {number} localSolarKwhYear
+        * @property {number} annualPvProductionKwh
+        * @property {number} solarAvailableKwhYear
+       * @property {number} consumerDemandSolarMonthsKwhYear
+       */
+
+      var i18nMessages = {};
+      var missingKeys = {};
+
+      function getMessageByPath(source, key) {
+        var path = String(key || "").split(".");
+        var value = source;
+        for (var i = 0; i < path.length; i += 1) {
+          if (!value || typeof value !== "object" || !Object.prototype.hasOwnProperty.call(value, path[i])) {
+            return undefined;
+          }
+          value = value[path[i]];
+        }
+        return value;
+      }
+
+      function interpolateMessage(template, vars) {
+        if (!vars) {
+          return template;
+        }
+        return template.replace(/\{([a-zA-Z0-9_]+)\}/g, function (_match, key) {
+          return Object.prototype.hasOwnProperty.call(vars, key) ? String(vars[key]) : "";
+        });
+      }
+
+      function t(key, vars) {
+        var template = getMessageByPath(i18nMessages, key);
+        if (typeof template !== "string") {
+          if (!missingKeys[key]) {
+            missingKeys[key] = true;
+            console.warn("[i18n] Missing translation key:", key);
+          }
+          return "";
+        }
+        return interpolateMessage(template, vars);
+      }
+
+      function applyI18n() {
+        var textNodes = document.querySelectorAll("[data-i18n]");
+        for (var i = 0; i < textNodes.length; i += 1) {
+          var node = textNodes[i];
+          node.textContent = t(node.getAttribute("data-i18n"));
+        }
+
+        var htmlNodes = document.querySelectorAll("[data-i18n-html]");
+        for (var j = 0; j < htmlNodes.length; j += 1) {
+          var htmlNode = htmlNodes[j];
+          htmlNode.innerHTML = t(htmlNode.getAttribute("data-i18n-html"));
+        }
+
+        var attrNodes = document.querySelectorAll("[data-i18n-attr]");
+        for (var k = 0; k < attrNodes.length; k += 1) {
+          var attrNode = attrNodes[k];
+          var mappings = attrNode.getAttribute("data-i18n-attr").split(",");
+          for (var m = 0; m < mappings.length; m += 1) {
+            var mapping = mappings[m].trim();
+            if (!mapping) {
+              continue;
+            }
+            var separatorIndex = mapping.indexOf(":");
+            if (separatorIndex === -1) {
+              continue;
+            }
+            var attributeName = mapping.slice(0, separatorIndex).trim();
+            var translationKey = mapping.slice(separatorIndex + 1).trim();
+            attrNode.setAttribute(attributeName, t(translationKey));
+          }
+        }
+      }
+
+      async function loadI18n(url) {
+        try {
+          var response = await fetch(url, { cache: "no-store" });
+          if (!response.ok) {
+            throw new Error("HTTP " + response.status);
+          }
+          i18nMessages = await response.json();
+        } catch (error) {
+          i18nMessages = {};
+          document.body.setAttribute("data-text-load-error", "true");
+          if (window.location.protocol === "file:") {
+            document.body.setAttribute("data-text-load-error-reason", "file-protocol");
+            console.error(
+              "[i18n] Failed to load simulation texts from file://. Start a local server, e.g. `python3 -m http.server`, and open http://localhost:8000/simulation.html",
+              error
+            );
+          } else {
+            console.error("[i18n] Failed to load simulation texts:", error);
+          }
+        }
+      }
+
+      await loadI18n("texts/simulation.de-CH.json");
+      applyI18n();
+
+      const STORAGE_KEY = "vzevcalc.simulation.state.v1";
+      const FAIRNESS_EPSILON = 0.000001;
+      const PRICE_SWEEP_STEP_RP_KWH = 1;
+      /** @type {SimulationInputState} */
+      const DEFAULT_STATE = Object.freeze({
+        maxProducerCount: 7,
+        maxConsumerCount: 10,
+        monthlyKwhPerParticipant: 200,
+        consumerDaytimeSharePercent: 50,
+        pvKwPerProducer: 63,
+        pvYieldKwhPerKwYear: 900,
+        evuPriceRpKwh: 28,
+        feedInRpKwh: 8,
+        vzevFeeChfMonth: 3,
+        virtualMeterChfMonth: 2,
+        winterMonths: 3
+      });
+
+      const integerFieldIds = [
+        "maxProducerCount",
+        "maxConsumerCount",
+        "winterMonths"
+      ];
+      const numericFieldIds = [
+        "maxProducerCount",
+        "maxConsumerCount",
+        "monthlyKwhPerParticipant",
+        "consumerDaytimeSharePercent",
+        "pvKwPerProducer",
+        "pvYieldKwhPerKwYear",
+        "evuPriceRpKwh",
+        "feedInRpKwh",
+        "vzevFeeChfMonth",
+        "virtualMeterChfMonth",
+        "winterMonths"
+      ];
+
+      const chfFormatter = new Intl.NumberFormat("de-CH", {
+        style: "currency",
+        currency: "CHF",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+      const numberFormatter = new Intl.NumberFormat("de-CH", {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2
+      });
+      const oneDecimalFormatter = new Intl.NumberFormat("de-CH", {
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 1
+      });
+      const detailNumberFormatter = new Intl.NumberFormat("de-CH", {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 3
+      });
+      const detailRateFormatter = new Intl.NumberFormat("de-CH", {
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 3
+      });
+      const percentFormatter = new Intl.NumberFormat("de-CH", {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+      });
+
+      const form = document.getElementById("simulationForm");
+      const resetBtn = document.getElementById("resetBtn");
+      const validationStatus = document.getElementById("validationStatus");
+      const matrixHeaderRow = document.getElementById("matrixHeaderRow");
+      const matrixBody = document.getElementById("matrixBody");
+      const detailIntro = document.getElementById("detailIntro");
+      const detailFocusPrice = document.getElementById("detailFocusPrice");
+      const detailLocalSolar = document.getElementById("detailLocalSolar");
+      const detailConsumerDelta = document.getElementById("detailConsumerDelta");
+      const detailProducerDelta = document.getElementById("detailProducerDelta");
+      const detailUtilization = document.getElementById("detailUtilization");
+      const detailTableBody = document.getElementById("detailTableBody");
+      const calculationIntro = document.getElementById("calculationIntro");
+      const calculationSteps = document.getElementById("calculationSteps");
+      const chartNotice = document.getElementById("chartNotice");
+      const detailChartCanvas = document.getElementById("detailChartCanvas");
+
+      var selectedProducerCount = DEFAULT_STATE.maxProducerCount;
+      var selectedConsumerCount = DEFAULT_STATE.maxConsumerCount;
+      var detailChart = null;
+
+      initialize();
+
+      function initialize() {
+        const initialState = loadState();
+        writeStateToForm(initialState);
+        setupTooltipPlacement();
+        form.addEventListener("input", renderFromForm);
+        form.addEventListener("change", renderFromForm);
+        resetBtn.addEventListener("click", handleReset);
+        matrixBody.addEventListener("click", handleMatrixSelection);
+        renderFromForm();
+      }
+
+      function setupTooltipPlacement() {
+        const triggers = form.querySelectorAll(".info-trigger");
+        triggers.forEach(function (trigger) {
+          trigger.addEventListener("mouseenter", handleTooltipPlacement);
+          trigger.addEventListener("focus", handleTooltipPlacement);
+          trigger.addEventListener("click", handleTooltipPlacement);
+        });
+      }
+
+      /**
+       * @param {MouseEvent | FocusEvent} event
+       */
+      function handleTooltipPlacement(event) {
+        const trigger = event.currentTarget;
+        if (!(trigger instanceof HTMLElement)) {
+          return;
+        }
+
+        const row = trigger.closest(".simulation-label-row");
+        if (!row) {
+          return;
+        }
+
+        const tooltip = row.querySelector(".field-tooltip");
+        if (!(tooltip instanceof HTMLElement)) {
+          return;
+        }
+
+        positionTooltip(row, tooltip);
+      }
+
+      /**
+       * @param {Element} row
+       * @param {HTMLElement} tooltip
+       */
+      function positionTooltip(row, tooltip) {
+        row.classList.remove("tooltip-below");
+        const rect = tooltip.getBoundingClientRect();
+        if (rect.top < 12) {
+          row.classList.add("tooltip-below");
+        }
+      }
+
+      /**
+       * @returns {SimulationInputState}
+       */
+      function loadState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) {
+            return { ...DEFAULT_STATE };
+          }
+          return sanitizeState(JSON.parse(raw));
+        } catch (_error) {
+          return { ...DEFAULT_STATE };
+        }
+      }
+
+      /**
+       * @param {SimulationInputState} state
+       */
+      function saveState(state) {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        } catch (_error) {
+          // Ignore localStorage errors.
+        }
+      }
+
+      /**
+       * @param {unknown} candidate
+       * @returns {SimulationInputState}
+       */
+      function sanitizeState(candidate) {
+        const input = candidate && typeof candidate === "object" ? candidate : {};
+        return {
+          maxProducerCount: normalizeNumber(input.maxProducerCount, DEFAULT_STATE.maxProducerCount),
+          maxConsumerCount: normalizeNumber(input.maxConsumerCount, DEFAULT_STATE.maxConsumerCount),
+          monthlyKwhPerParticipant: normalizeNumber(input.monthlyKwhPerParticipant, DEFAULT_STATE.monthlyKwhPerParticipant),
+          consumerDaytimeSharePercent: normalizeNumber(input.consumerDaytimeSharePercent, DEFAULT_STATE.consumerDaytimeSharePercent),
+          pvKwPerProducer: normalizeNumber(input.pvKwPerProducer, DEFAULT_STATE.pvKwPerProducer),
+          pvYieldKwhPerKwYear: normalizeNumber(input.pvYieldKwhPerKwYear, DEFAULT_STATE.pvYieldKwhPerKwYear),
+          evuPriceRpKwh: normalizeNumber(input.evuPriceRpKwh, DEFAULT_STATE.evuPriceRpKwh),
+          feedInRpKwh: normalizeNumber(input.feedInRpKwh, DEFAULT_STATE.feedInRpKwh),
+          vzevFeeChfMonth: normalizeNumber(input.vzevFeeChfMonth, DEFAULT_STATE.vzevFeeChfMonth),
+          virtualMeterChfMonth: normalizeNumber(input.virtualMeterChfMonth, DEFAULT_STATE.virtualMeterChfMonth),
+          winterMonths: normalizeNumber(input.winterMonths, DEFAULT_STATE.winterMonths)
+        };
+      }
+
+      /**
+       * @param {unknown} value
+       * @param {number} fallback
+       * @returns {number}
+       */
+      function normalizeNumber(value, fallback) {
+        const numeric = Number(value);
+        return Number.isFinite(numeric) && numeric >= 0 ? numeric : fallback;
+      }
+
+      /**
+       * @param {SimulationInputState} state
+       */
+      function writeStateToForm(state) {
+        form.maxProducerCount.value = state.maxProducerCount;
+        form.maxConsumerCount.value = state.maxConsumerCount;
+        form.monthlyKwhPerParticipant.value = state.monthlyKwhPerParticipant;
+        form.consumerDaytimeSharePercent.value = state.consumerDaytimeSharePercent;
+        form.pvKwPerProducer.value = state.pvKwPerProducer;
+        form.pvYieldKwhPerKwYear.value = state.pvYieldKwhPerKwYear;
+        form.evuPriceRpKwh.value = state.evuPriceRpKwh;
+        form.feedInRpKwh.value = state.feedInRpKwh;
+        form.vzevFeeChfMonth.value = state.vzevFeeChfMonth;
+        form.virtualMeterChfMonth.value = state.virtualMeterChfMonth;
+        form.winterMonths.value = state.winterMonths;
+      }
+
+      /**
+       * @returns {SimulationInputState}
+       */
+      function readStateFromForm() {
+        return {
+          maxProducerCount: Number(form.maxProducerCount.value),
+          maxConsumerCount: Number(form.maxConsumerCount.value),
+          monthlyKwhPerParticipant: Number(form.monthlyKwhPerParticipant.value),
+          consumerDaytimeSharePercent: Number(form.consumerDaytimeSharePercent.value),
+          pvKwPerProducer: Number(form.pvKwPerProducer.value),
+          pvYieldKwhPerKwYear: Number(form.pvYieldKwhPerKwYear.value),
+          evuPriceRpKwh: Number(form.evuPriceRpKwh.value),
+          feedInRpKwh: Number(form.feedInRpKwh.value),
+          vzevFeeChfMonth: Number(form.vzevFeeChfMonth.value),
+          virtualMeterChfMonth: Number(form.virtualMeterChfMonth.value),
+          winterMonths: Number(form.winterMonths.value)
+        };
+      }
+
+      function renderFromForm() {
+        const state = readStateFromForm();
+        const errors = validateState(state);
+        applyValidation(errors);
+
+        if (Object.keys(errors).length > 0) {
+          renderInvalid();
+          return;
+        }
+
+        saveState(state);
+        syncSelection(state);
+        const simulation = calculateSimulation(state);
+        renderResults(simulation, state);
+      }
+
+      /**
+       * @param {SimulationInputState} state
+       * @returns {Record<string, string>}
+       */
+      function validateState(state) {
+        const errors = {};
+
+        numericFieldIds.forEach(function (fieldId) {
+          const value = state[fieldId];
+          if (!Number.isFinite(value) || value < 0) {
+            errors[fieldId] = t("validation.invalidNumber");
+          }
+        });
+
+        integerFieldIds.forEach(function (fieldId) {
+          const value = state[fieldId];
+          if (Number.isFinite(value) && Math.floor(value) !== value) {
+            errors[fieldId] = t("validation.invalidInteger");
+          }
+        });
+
+        if (Number.isFinite(state.maxProducerCount) && state.maxProducerCount < 1) {
+          errors.maxProducerCount = t("validation.invalidCount");
+        }
+        if (Number.isFinite(state.maxConsumerCount) && state.maxConsumerCount < 1) {
+          errors.maxConsumerCount = t("validation.invalidCount");
+        }
+        if (
+          Number.isFinite(state.consumerDaytimeSharePercent) &&
+          (state.consumerDaytimeSharePercent < 0 || state.consumerDaytimeSharePercent > 100)
+        ) {
+          errors.consumerDaytimeSharePercent = t("validation.invalidPercent");
+        }
+        if (Number.isFinite(state.winterMonths) && state.winterMonths > 12) {
+          errors.winterMonths = t("validation.invalidWinterMonths");
+        }
+        return errors;
+      }
+
+      /**
+       * @param {Record<string, string>} errors
+       */
+      function applyValidation(errors) {
+        const fields = form.querySelectorAll(".simulation-field");
+        fields.forEach(function (field) {
+          const key = field.getAttribute("data-field");
+          const message = errors[key] || "";
+          field.classList.toggle("invalid", Boolean(message));
+          const errorEl = document.getElementById("error-" + key);
+          if (errorEl) {
+            errorEl.textContent = message;
+          }
+        });
+      }
+
+      function renderInvalid() {
+        validationStatus.classList.remove("hidden");
+        validationStatus.textContent = t("validation.invalidStatus");
+        detailIntro.textContent = t("results.detail.empty");
+        detailFocusPrice.textContent = t("results.emptyValue");
+        detailLocalSolar.textContent = t("results.emptyValue");
+        detailConsumerDelta.textContent = t("results.emptyValue");
+        detailProducerDelta.textContent = t("results.emptyValue");
+        detailUtilization.textContent = t("results.emptyValue");
+        matrixHeaderRow.innerHTML = "";
+        matrixBody.innerHTML = "";
+        detailTableBody.innerHTML = "";
+        calculationIntro.textContent = t("results.calculation.empty");
+        calculationSteps.innerHTML = "";
+        destroyChart();
+        chartNotice.classList.add("hidden");
+        chartNotice.textContent = "";
+      }
+
+      /**
+       * @param {SimulationInputState} state
+       */
+      function syncSelection(state) {
+        if (selectedProducerCount > state.maxProducerCount || selectedProducerCount < 1) {
+          selectedProducerCount = state.maxProducerCount;
+        }
+        if (selectedConsumerCount > state.maxConsumerCount || selectedConsumerCount < 1) {
+          selectedConsumerCount = state.maxConsumerCount;
+        }
+      }
+
+      /**
+       * @param {SimulationInputState} state
+       */
+      function calculateSimulation(state) {
+        const sweepBounds = getPriceSweepBounds(state);
+        const pricePoints = createPriceSweep(sweepBounds.minRpKwh, sweepBounds.maxRpKwh, PRICE_SWEEP_STEP_RP_KWH);
+        const summaryMap = {};
+
+        for (let consumerCount = 1; consumerCount <= state.maxConsumerCount; consumerCount += 1) {
+          for (let producerCount = 1; producerCount <= state.maxProducerCount; producerCount += 1) {
+            const priceResults = pricePoints.map(function (solarPriceRpKwh) {
+              return calculateScenario(state, producerCount, consumerCount, solarPriceRpKwh);
+            });
+            const balancePriceRpKwh = calculateBalancePrice(state, producerCount, consumerCount);
+            const balanceResult = calculateScenario(state, producerCount, consumerCount, balancePriceRpKwh);
+            const noLossBand = calculateNoLossPriceBand(state, producerCount, consumerCount, balanceResult.localSolarKwhYear);
+            const hasFairScenario =
+              balanceResult.consumerDeltaChfYear > FAIRNESS_EPSILON &&
+              balanceResult.producerDeltaChfYear > FAIRNESS_EPSILON;
+            const optimalResult = hasFairScenario ? balanceResult : null;
+            const closestResult = getClosestResult(priceResults, balancePriceRpKwh);
+            const referenceResult = priceResults[0];
+
+            summaryMap[getScenarioKey(producerCount, consumerCount)] = {
+              producerCount: producerCount,
+              consumerCount: consumerCount,
+              optimalPriceRpKwh: optimalResult ? optimalResult.solarPriceRpKwh : null,
+              hasFairScenario: hasFairScenario,
+              status: getScenarioStatus(balanceResult, hasFairScenario),
+              priceResults: priceResults,
+              optimalResult: optimalResult,
+              closestResult: closestResult,
+              balanceResult: balanceResult,
+              noLossPriceMinRpKwh: noLossBand.minRpKwh,
+              noLossPriceMaxRpKwh: noLossBand.maxRpKwh,
+              localSolarKwhYear: referenceResult ? referenceResult.localSolarKwhYear : 0,
+              annualPvProductionKwh: referenceResult ? referenceResult.annualPvProductionKwh : 0,
+              solarAvailableKwhYear: referenceResult ? referenceResult.solarAvailableKwhYear : 0,
+              consumerDemandSolarMonthsKwhYear: referenceResult ? referenceResult.consumerDemandSolarMonthsKwhYear : 0
+            };
+          }
+        }
+
+        return {
+          pricePoints: pricePoints,
+          summaryMap: summaryMap
+        };
+      }
+
+      /**
+       * @param {SimulationInputState} state
+       * @param {number} producerCount
+       * @param {number} consumerCount
+       * @param {number} solarPriceRpKwh
+       * @returns {ScenarioResult}
+       */
+      function calculateScenario(state, producerCount, consumerCount, solarPriceRpKwh) {
+        const activeMonths = Math.max(0, 12 - state.winterMonths);
+        const feeBreakdown = calculateAnnualFeeBreakdown(state, producerCount, consumerCount);
+        const daytimeShareFactor = state.consumerDaytimeSharePercent / 100;
+        const annualPvProductionKwh = state.pvKwPerProducer * state.pvYieldKwhPerKwYear;
+        const solarAvailableKwhYear = annualPvProductionKwh * (activeMonths / 12);
+        const producerDirectUseKwhYear = Math.min(
+          solarAvailableKwhYear,
+          producerCount * state.monthlyKwhPerParticipant * 12 * daytimeShareFactor
+        );
+        const sharedSolarAvailableKwhYear = Math.max(0, solarAvailableKwhYear - producerDirectUseKwhYear);
+        const consumerDemandSolarMonthsKwhYear =
+          consumerCount * state.monthlyKwhPerParticipant * activeMonths * daytimeShareFactor;
+        const localSolarKwhYear = Math.min(sharedSolarAvailableKwhYear, consumerDemandSolarMonthsKwhYear);
+        const localSolarKwhPerConsumer = consumerCount > 0 ? localSolarKwhYear / consumerCount : 0;
+        const localSolarKwhPerProducer = producerCount > 0 ? localSolarKwhYear / producerCount : 0;
+        const consumerDeltaChfYear =
+          localSolarKwhPerConsumer * ((state.evuPriceRpKwh - solarPriceRpKwh) / 100) - feeBreakdown.annualFeeChf;
+        const producerDeltaChfYear =
+          localSolarKwhPerProducer * ((solarPriceRpKwh - state.feedInRpKwh) / 100) - feeBreakdown.annualFeeChf;
+        const utilizationRatio = sharedSolarAvailableKwhYear > 0 ? localSolarKwhYear / sharedSolarAvailableKwhYear : 0;
+        const benefitGapChfYear = consumerDeltaChfYear - producerDeltaChfYear;
+
+        return {
+          producerCount: producerCount,
+          consumerCount: consumerCount,
+          solarPriceRpKwh: solarPriceRpKwh,
+          localSolarKwhYear: localSolarKwhYear,
+          consumerDeltaChfYear: consumerDeltaChfYear,
+          producerDeltaChfYear: producerDeltaChfYear,
+          annualPvProductionKwh: annualPvProductionKwh,
+          producerDirectUseKwhYear: producerDirectUseKwhYear,
+          sharedSolarAvailableKwhYear: sharedSolarAvailableKwhYear,
+          solarAvailableKwhYear: solarAvailableKwhYear,
+          consumerDemandSolarMonthsKwhYear: consumerDemandSolarMonthsKwhYear,
+          utilizationRatio: utilizationRatio,
+          benefitGapChfYear: benefitGapChfYear,
+          isFair:
+            Math.abs(benefitGapChfYear) <= FAIRNESS_EPSILON &&
+            consumerDeltaChfYear >= -FAIRNESS_EPSILON &&
+            producerDeltaChfYear >= -FAIRNESS_EPSILON
+        };
+      }
+
+      /**
+       * @param {SimulationInputState} state
+       * @param {number} producerCount
+       * @param {number} consumerCount
+       * @returns {number}
+       */
+      function calculateBalancePrice(state, producerCount, consumerCount) {
+        return (
+          producerCount * state.evuPriceRpKwh +
+          consumerCount * state.feedInRpKwh
+        ) / (producerCount + consumerCount);
+      }
+
+      /**
+       * @param {SimulationInputState} state
+       * @param {number} producerCount
+       * @param {number} consumerCount
+       * @param {number} localSolarKwhYear
+       * @returns {{ minRpKwh: number | null, maxRpKwh: number | null }}
+       */
+      function calculateNoLossPriceBand(state, producerCount, consumerCount, localSolarKwhYear) {
+        if (localSolarKwhYear <= FAIRNESS_EPSILON || producerCount < 1 || consumerCount < 1) {
+          return { minRpKwh: null, maxRpKwh: null };
+        }
+
+        const feeBreakdown = calculateAnnualFeeBreakdown(state, producerCount, consumerCount);
+        const localSolarKwhPerConsumer = localSolarKwhYear / consumerCount;
+        const localSolarKwhPerProducer = localSolarKwhYear / producerCount;
+
+        if (localSolarKwhPerConsumer <= FAIRNESS_EPSILON || localSolarKwhPerProducer <= FAIRNESS_EPSILON) {
+          return { minRpKwh: null, maxRpKwh: null };
+        }
+
+        return {
+          minRpKwh: state.feedInRpKwh + (feeBreakdown.annualFeeChf * 100) / localSolarKwhPerProducer,
+          maxRpKwh: state.evuPriceRpKwh - (feeBreakdown.annualFeeChf * 100) / localSolarKwhPerConsumer
+        };
+      }
+
+      /**
+       * @param {SimulationInputState} state
+       * @param {number} producerCount
+       * @param {number} consumerCount
+       * @returns {{
+       *   totalParticipants: number,
+       *   annualParticipantFeeChf: number,
+       *   annualVirtualMeterShareChf: number,
+       *   annualFeeChf: number
+       * }}
+       */
+      function calculateAnnualFeeBreakdown(state, producerCount, consumerCount) {
+        const totalParticipants = producerCount + consumerCount;
+        const annualParticipantFeeChf = state.vzevFeeChfMonth * 12;
+        const annualVirtualMeterShareChf =
+          totalParticipants > 0 ? (state.virtualMeterChfMonth * 12) / totalParticipants : 0;
+
+        return {
+          totalParticipants: totalParticipants,
+          annualParticipantFeeChf: annualParticipantFeeChf,
+          annualVirtualMeterShareChf: annualVirtualMeterShareChf,
+          annualFeeChf: annualParticipantFeeChf + annualVirtualMeterShareChf
+        };
+      }
+
+      /**
+       * @param {number} minValue
+       * @param {number} maxValue
+       * @param {number} stepValue
+       * @returns {number[]}
+       */
+      function createPriceSweep(minValue, maxValue, stepValue) {
+        const scale = Math.pow(10, Math.max(getDecimalPlaces(minValue), getDecimalPlaces(maxValue), getDecimalPlaces(stepValue)));
+        const minUnits = Math.round(minValue * scale);
+        const maxUnits = Math.round(maxValue * scale);
+        const stepUnits = Math.max(1, Math.round(stepValue * scale));
+        const values = [];
+
+        for (let current = minUnits; current <= maxUnits; current += stepUnits) {
+          values.push(current / scale);
+        }
+
+        if (values.length === 0 || Math.abs(values[values.length - 1] - maxValue) > (1 / scale) / 2) {
+          values.push(maxValue);
+        }
+
+        return values;
+      }
+
+      /**
+       * @param {SimulationInputState} state
+       * @returns {{ minRpKwh: number, maxRpKwh: number }}
+       */
+      function getPriceSweepBounds(state) {
+        return {
+          minRpKwh: Math.min(state.feedInRpKwh, state.evuPriceRpKwh),
+          maxRpKwh: Math.max(state.feedInRpKwh, state.evuPriceRpKwh)
+        };
+      }
+
+      /**
+       * @param {number} value
+       * @returns {number}
+       */
+      function getDecimalPlaces(value) {
+        const valueString = String(value);
+        const separatorIndex = valueString.indexOf(".");
+        return separatorIndex === -1 ? 0 : valueString.length - separatorIndex - 1;
+      }
+
+      /**
+       * @param {ScenarioResult[]} priceResults
+       * @param {number} targetPriceRpKwh
+       * @returns {ScenarioResult | null}
+       */
+      function getClosestResult(priceResults, targetPriceRpKwh) {
+        if (!priceResults.length) {
+          return null;
+        }
+
+        let bestResult = priceResults[0];
+        let bestDistance = Math.abs(priceResults[0].solarPriceRpKwh - targetPriceRpKwh);
+
+        for (let i = 1; i < priceResults.length; i += 1) {
+          const result = priceResults[i];
+          const distance = Math.abs(result.solarPriceRpKwh - targetPriceRpKwh);
+          if (distance < bestDistance - FAIRNESS_EPSILON) {
+            bestResult = result;
+            bestDistance = distance;
+          }
+        }
+
+        return bestResult;
+      }
+
+      /**
+       * @param {ScenarioResult} balanceResult
+       * @param {boolean} hasFairScenario
+       * @returns {"fair" | "critical" | "not_fair"}
+       */
+      function getScenarioStatus(balanceResult, hasFairScenario) {
+        if (!hasFairScenario || balanceResult.consumerDeltaChfYear <= FAIRNESS_EPSILON) {
+          return "not_fair";
+        }
+
+        if (balanceResult.consumerDeltaChfYear <= 10 + FAIRNESS_EPSILON) {
+          return "critical";
+        }
+
+        return "fair";
+      }
+
+      /**
+       * @param {{ summaryMap: Record<string, ScenarioSummary> }} simulation
+       * @param {SimulationInputState} state
+       */
+      function renderResults(simulation, state) {
+        validationStatus.classList.add("hidden");
+        validationStatus.textContent = "";
+
+        renderMatrix(simulation.summaryMap, state);
+
+        const selectedSummary = simulation.summaryMap[getScenarioKey(selectedProducerCount, selectedConsumerCount)];
+        if (!selectedSummary) {
+          return;
+        }
+
+        renderDetail(selectedSummary, state);
+      }
+
+      /**
+       * @param {Record<string, ScenarioSummary>} summaryMap
+       * @param {SimulationInputState} state
+       */
+      function renderMatrix(summaryMap, state) {
+        let headerHtml = "<th class='simulation-matrix-corner' aria-hidden='true'>" + t("results.matrix.cornerLabel") + "</th>";
+        for (let producerCount = 1; producerCount <= state.maxProducerCount; producerCount += 1) {
+          headerHtml += "<th class='simulation-matrix-col-header'>" + t("results.matrix.producerLabelShort", { count: producerCount }) + "</th>";
+        }
+        matrixHeaderRow.innerHTML = headerHtml;
+
+        let bodyHtml = "";
+        for (let consumerCount = 1; consumerCount <= state.maxConsumerCount; consumerCount += 1) {
+          bodyHtml += "<tr>";
+          bodyHtml += "<th scope='row' class='simulation-matrix-row-header'>" + t("results.matrix.consumerLabelShort", { count: consumerCount }) + "</th>";
+          for (let producerCount = 1; producerCount <= state.maxProducerCount; producerCount += 1) {
+            const summary = summaryMap[getScenarioKey(producerCount, consumerCount)];
+            const isSelected = producerCount === selectedProducerCount && consumerCount === selectedConsumerCount;
+            const mainLabel = formatSignedChfCompact(summary.balanceResult.consumerDeltaChfYear) + " " + t("results.matrix.benefitLabel");
+            const cellLabel = t("results.matrix.cellAriaLabel", {
+              producerCount: String(producerCount),
+              consumerCount: String(consumerCount),
+              value: mainLabel
+            });
+
+            bodyHtml +=
+              "<td class='status-" + summary.status + (isSelected ? " is-selected" : "") + "'>" +
+              "<button type='button' class='simulation-matrix-cell' data-producers='" + producerCount + "' data-consumers='" + consumerCount + "' aria-pressed='" + (isSelected ? "true" : "false") + "' aria-label='" + escapeHtml(cellLabel) + "' title='" + escapeHtml(cellLabel) + "'>" +
+              "<span class='main'>" + mainLabel + "</span>" +
+              "</button>" +
+              "</td>";
+          }
+          bodyHtml += "</tr>";
+        }
+        matrixBody.innerHTML = bodyHtml;
+      }
+
+      /**
+       * @param {ScenarioSummary} summary
+       * @param {SimulationInputState} state
+       */
+      function renderDetail(summary, state) {
+        const focusResult = summary.optimalResult || summary.closestResult || summary.priceResults[0] || null;
+        const utilizationPercent = summary.solarAvailableKwhYear > 0 ? summary.localSolarKwhYear / summary.solarAvailableKwhYear : 0;
+
+        if (summary.hasFairScenario && summary.optimalResult) {
+          detailIntro.innerHTML = t("results.detail.fairHtml", {
+            optimal: formatRpCompact(summary.optimalPriceRpKwh),
+            value: formatSignedChf(summary.balanceResult.consumerDeltaChfYear)
+          });
+        } else if (summary.closestResult) {
+          detailIntro.innerHTML = t("results.detail.noFairHtml", {
+            closest: formatRpCompact(summary.closestResult.solarPriceRpKwh),
+            gap: formatChf(Math.abs(summary.balanceResult.consumerDeltaChfYear))
+          });
+        } else {
+          detailIntro.textContent = t("results.detail.empty");
+        }
+
+        if (!focusResult) {
+          detailFocusPrice.textContent = t("results.emptyValue");
+          detailLocalSolar.textContent = t("results.emptyValue");
+          detailConsumerDelta.textContent = t("results.emptyValue");
+          detailProducerDelta.textContent = t("results.emptyValue");
+          detailUtilization.textContent = t("results.emptyValue");
+          detailTableBody.innerHTML = "";
+          calculationIntro.textContent = t("results.calculation.empty");
+          calculationSteps.innerHTML = "";
+          destroyChart();
+          chartNotice.classList.add("hidden");
+          chartNotice.textContent = "";
+          return;
+        }
+
+        detailFocusPrice.textContent = formatRp(focusResult.solarPriceRpKwh);
+        detailLocalSolar.textContent = formatKwh(summary.localSolarKwhYear);
+        detailConsumerDelta.textContent = formatSignedChf(focusResult.consumerDeltaChfYear);
+        detailProducerDelta.textContent = formatSignedChf(focusResult.producerDeltaChfYear);
+        detailUtilization.textContent = percentFormatter.format(utilizationPercent * 100) + " %";
+
+        renderDetailTable(summary.priceResults, summary.closestResult);
+        renderChart(summary.priceResults, summary.optimalResult || summary.balanceResult, summary);
+        renderCalculationDetails(summary, state, focusResult);
+      }
+
+      /**
+       * @param {ScenarioSummary} summary
+       * @param {SimulationInputState} state
+       * @param {ScenarioResult} focusResult
+       */
+      function renderCalculationDetails(summary, state, focusResult) {
+        const activeMonths = Math.max(0, 12 - state.winterMonths);
+        const feeBreakdown = calculateAnnualFeeBreakdown(state, summary.producerCount, summary.consumerCount);
+        const daytimeShareFactor = state.consumerDaytimeSharePercent / 100;
+        const producerDaytimeDemandKwhYear =
+          summary.producerCount * state.monthlyKwhPerParticipant * 12 * daytimeShareFactor;
+        const localSolarKwhPerConsumer = summary.consumerCount > 0 ? focusResult.localSolarKwhYear / summary.consumerCount : 0;
+        const localSolarKwhPerProducer = summary.producerCount > 0 ? focusResult.localSolarKwhYear / summary.producerCount : 0;
+
+        calculationIntro.innerHTML = t("results.calculation.introHtml", {
+          producerCount: String(summary.producerCount),
+          consumerCount: String(summary.consumerCount),
+          price: formatRp(focusResult.solarPriceRpKwh)
+        });
+
+        let stepsHtml =
+          "<li class='simulation-calc-step'>" +
+          "<strong class='simulation-calc-step-title'>" + t("results.calculation.steps.activeMonths.title") + "</strong>" +
+          "<code class='simulation-formula'>" + t("results.calculation.steps.activeMonths.formulaMonths") + "</code>" +
+          "<code class='simulation-formula'>" + t("results.calculation.steps.activeMonths.formulaShareFactor") + "</code>" +
+          "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.activeMonths.valuesMonths", {
+            winterMonths: formatDetailNumber(state.winterMonths),
+            activeMonths: formatDetailNumber(activeMonths)
+          }) + "</code>" +
+          "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.activeMonths.valuesShareFactor", {
+            daytimeSharePercent: formatDetailNumber(state.consumerDaytimeSharePercent),
+            daytimeShareFactor: formatDetailNumber(daytimeShareFactor)
+          }) + "</code>" +
+          "</li>" +
+          "<li class='simulation-calc-step'>" +
+          "<strong class='simulation-calc-step-title'>" + t("results.calculation.steps.fees.title") + "</strong>" +
+          "<code class='simulation-formula'>" + t("results.calculation.steps.fees.formulaParticipantFee") + "</code>" +
+          "<code class='simulation-formula'>" + t("results.calculation.steps.fees.formulaVirtualMeterShare") + "</code>" +
+          "<code class='simulation-formula'>" + t("results.calculation.steps.fees.formulaTotalFee") + "</code>" +
+          "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.fees.valuesParticipantFee", {
+            vzevFeeChfMonth: formatDetailChfMonth(state.vzevFeeChfMonth),
+            annualParticipantFeeChf: formatDetailChf(feeBreakdown.annualParticipantFeeChf)
+          }) + "</code>" +
+          "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.fees.valuesVirtualMeterShare", {
+            virtualMeterChfMonth: formatDetailChfMonth(state.virtualMeterChfMonth),
+            totalParticipants: formatDetailNumber(feeBreakdown.totalParticipants),
+            annualVirtualMeterShareChf: formatDetailChf(feeBreakdown.annualVirtualMeterShareChf)
+          }) + "</code>" +
+          "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.fees.valuesTotalFee", {
+            annualParticipantFeeChf: formatDetailChf(feeBreakdown.annualParticipantFeeChf),
+            annualVirtualMeterShareChf: formatDetailChf(feeBreakdown.annualVirtualMeterShareChf),
+            annualFeeChf: formatDetailChf(feeBreakdown.annualFeeChf)
+          }) + "</code>" +
+          "</li>" +
+          "<li class='simulation-calc-step'>" +
+          "<strong class='simulation-calc-step-title'>" + t("results.calculation.steps.pvSupply.title") + "</strong>" +
+          "<code class='simulation-formula'>" + t("results.calculation.steps.pvSupply.formulaProduction") + "</code>" +
+          "<code class='simulation-formula'>" + t("results.calculation.steps.pvSupply.formulaAvailable") + "</code>" +
+          "<code class='simulation-formula'>" + t("results.calculation.steps.pvSupply.formulaDirectUse") + "</code>" +
+          "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.pvSupply.valuesProduction", {
+            totalPvKw: formatDetailKwPeak(state.pvKwPerProducer),
+            pvYieldKwhPerKwYear: formatDetailYield(state.pvYieldKwhPerKwYear),
+            annualPvProductionKwh: formatDetailKwhYear(focusResult.annualPvProductionKwh)
+          }) + "</code>" +
+          "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.pvSupply.valuesAvailable", {
+            annualPvProductionKwh: formatDetailKwhYear(focusResult.annualPvProductionKwh),
+            activeMonths: formatDetailNumber(activeMonths),
+            solarAvailableKwhYear: formatDetailKwhYear(focusResult.solarAvailableKwhYear)
+          }) + "</code>" +
+          "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.pvSupply.valuesDirectUse", {
+            solarAvailableKwhYear: formatDetailKwhYear(focusResult.solarAvailableKwhYear),
+            producerCount: formatDetailNumber(summary.producerCount),
+            monthlyKwhPerParticipant: formatDetailKwhMonth(state.monthlyKwhPerParticipant),
+            activeMonths: formatDetailNumber(activeMonths),
+            daytimeShareFactor: formatDetailNumber(daytimeShareFactor),
+            producerDaytimeDemandKwhYear: formatDetailKwhYear(producerDaytimeDemandKwhYear),
+            producerDirectUseKwhYear: formatDetailKwhYear(focusResult.producerDirectUseKwhYear)
+          }) + "</code>" +
+          "</li>" +
+          "<li class='simulation-calc-step'>" +
+          "<strong class='simulation-calc-step-title'>" + t("results.calculation.steps.localSolar.title") + "</strong>" +
+          "<code class='simulation-formula'>" + t("results.calculation.steps.localSolar.formulaShared") + "</code>" +
+          "<code class='simulation-formula'>" + t("results.calculation.steps.localSolar.formulaDemand") + "</code>" +
+          "<code class='simulation-formula'>" + t("results.calculation.steps.localSolar.formulaLocal") + "</code>" +
+          "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.localSolar.valuesShared", {
+            solarAvailableKwhYear: formatDetailKwhYear(focusResult.solarAvailableKwhYear),
+            producerDirectUseKwhYear: formatDetailKwhYear(focusResult.producerDirectUseKwhYear),
+            sharedSolarAvailableKwhYear: formatDetailKwhYear(focusResult.sharedSolarAvailableKwhYear)
+          }) + "</code>" +
+          "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.localSolar.valuesDemand", {
+            consumerCount: formatDetailNumber(summary.consumerCount),
+            monthlyKwhPerParticipant: formatDetailKwhMonth(state.monthlyKwhPerParticipant),
+            activeMonths: formatDetailNumber(activeMonths),
+            daytimeShareFactor: formatDetailNumber(daytimeShareFactor),
+            consumerDemandSolarMonthsKwhYear: formatDetailKwhYear(focusResult.consumerDemandSolarMonthsKwhYear)
+          }) + "</code>" +
+          "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.localSolar.valuesLocal", {
+            sharedSolarAvailableKwhYear: formatDetailKwhYear(focusResult.sharedSolarAvailableKwhYear),
+            consumerDemandSolarMonthsKwhYear: formatDetailKwhYear(focusResult.consumerDemandSolarMonthsKwhYear),
+            localSolarKwhYear: formatDetailKwhYear(focusResult.localSolarKwhYear)
+          }) + "</code>" +
+          "</li>" +
+          "<li class='simulation-calc-step'>" +
+          "<strong class='simulation-calc-step-title'>" + t("results.calculation.steps.balancePrice.title") + "</strong>" +
+          "<code class='simulation-formula'>" + t("results.calculation.steps.balancePrice.formula") + "</code>" +
+          "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.balancePrice.valuesPrice", {
+            producerCount: formatDetailNumber(summary.producerCount),
+            evuPriceRpKwh: formatDetailRp(state.evuPriceRpKwh),
+            consumerCount: formatDetailNumber(summary.consumerCount),
+            feedInRpKwh: formatDetailRp(state.feedInRpKwh),
+            totalParticipants: formatDetailNumber(feeBreakdown.totalParticipants),
+            balancePriceRpKwh: formatDetailRp(summary.balanceResult.solarPriceRpKwh)
+          }) + "</code>" +
+          "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.balancePrice.valuesBenefit", {
+            balanceDeltaChfYear: formatSignedChf(summary.balanceResult.consumerDeltaChfYear)
+          }) + "</code>" +
+          "</li>" +
+          "<li class='simulation-calc-step'>" +
+          "<strong class='simulation-calc-step-title'>" + t("results.calculation.steps.focusImpact.title") + "</strong>" +
+          "<code class='simulation-formula'>" + t("results.calculation.steps.focusImpact.formulaConsumer") + "</code>" +
+          "<code class='simulation-formula'>" + t("results.calculation.steps.focusImpact.formulaProducer") + "</code>" +
+          "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.focusImpact.valuesConsumer", {
+            localSolarKwhPerConsumer: formatDetailKwhYear(localSolarKwhPerConsumer),
+            evuPriceRpKwh: formatDetailRp(state.evuPriceRpKwh),
+            focusPriceRpKwh: formatDetailRp(focusResult.solarPriceRpKwh),
+            annualFeeChf: formatDetailChf(feeBreakdown.annualFeeChf),
+            consumerDeltaChfYear: formatSignedChf(focusResult.consumerDeltaChfYear)
+          }) + "</code>" +
+          "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.focusImpact.valuesProducer", {
+            localSolarKwhPerProducer: formatDetailKwhYear(localSolarKwhPerProducer),
+            focusPriceRpKwh: formatDetailRp(focusResult.solarPriceRpKwh),
+            feedInRpKwh: formatDetailRp(state.feedInRpKwh),
+            annualFeeChf: formatDetailChf(feeBreakdown.annualFeeChf),
+            producerDeltaChfYear: formatSignedChf(focusResult.producerDeltaChfYear)
+          }) + "</code>" +
+          "</li>" +
+          "<li class='simulation-calc-step'>" +
+          "<strong class='simulation-calc-step-title'>" + t("results.calculation.steps.noLossBand.title") + "</strong>";
+
+        if (summary.noLossPriceMinRpKwh === null || summary.noLossPriceMaxRpKwh === null) {
+          stepsHtml +=
+            "<code class='simulation-formula simulation-formula-values'>" +
+            t("results.calculation.steps.noLossBand.noBand") +
+            "</code>";
+        } else {
+          stepsHtml +=
+            "<code class='simulation-formula'>" + t("results.calculation.steps.noLossBand.formulaMin") + "</code>" +
+            "<code class='simulation-formula'>" + t("results.calculation.steps.noLossBand.formulaMax") + "</code>" +
+            "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.noLossBand.valuesMin", {
+              feedInRpKwh: formatDetailRp(state.feedInRpKwh),
+              annualFeeChf: formatDetailChf(feeBreakdown.annualFeeChf),
+              localSolarKwhPerProducer: formatDetailKwhYear(localSolarKwhPerProducer),
+              noLossPriceMinRpKwh: formatDetailRp(summary.noLossPriceMinRpKwh)
+            }) + "</code>" +
+            "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.noLossBand.valuesMax", {
+              evuPriceRpKwh: formatDetailRp(state.evuPriceRpKwh),
+              annualFeeChf: formatDetailChf(feeBreakdown.annualFeeChf),
+              localSolarKwhPerConsumer: formatDetailKwhYear(localSolarKwhPerConsumer),
+              noLossPriceMaxRpKwh: formatDetailRp(summary.noLossPriceMaxRpKwh)
+            }) + "</code>";
+        }
+
+        stepsHtml += "</li>";
+        calculationSteps.innerHTML = stepsHtml;
+      }
+
+      /**
+       * @param {ScenarioResult[]} priceResults
+       * @param {ScenarioResult | null} closestResult
+       */
+      function renderDetailTable(priceResults, closestResult) {
+        const rows = priceResults.map(function (result) {
+          const isClosestPrice = closestResult && Math.abs(result.solarPriceRpKwh - closestResult.solarPriceRpKwh) <= FAIRNESS_EPSILON;
+
+          return (
+            "<tr class='" + (result.isFair ? "is-fair" : (isClosestPrice ? "is-focus" : "is-not-fair")) + "'>" +
+            "<td>" + formatRp(result.solarPriceRpKwh) + "</td>" +
+            "<td>" + formatKwh(result.localSolarKwhYear) + "</td>" +
+            "<td class='" + getDeltaClass(result.consumerDeltaChfYear) + "'>" + formatSignedChf(result.consumerDeltaChfYear) + "</td>" +
+            "<td class='" + getDeltaClass(result.producerDeltaChfYear) + "'>" + formatSignedChf(result.producerDeltaChfYear) + "</td>" +
+            "</tr>"
+          );
+        }).join("");
+
+        detailTableBody.innerHTML = rows;
+      }
+
+      /**
+       * @param {ScenarioResult[]} priceResults
+       * @param {ScenarioResult | null} optimalResult
+       * @param {ScenarioSummary} summary
+       */
+      function renderChart(priceResults, optimalResult, summary) {
+        if (!window.Chart) {
+          destroyChart();
+          chartNotice.classList.remove("hidden");
+          chartNotice.textContent = t("results.detail.chartUnavailable");
+          return;
+        }
+
+        chartNotice.classList.add("hidden");
+        chartNotice.textContent = "";
+
+        const chartData = priceResults.map(function (result) {
+          return {
+            x: result.solarPriceRpKwh,
+            consumer: result.consumerDeltaChfYear,
+            producer: result.producerDeltaChfYear
+          };
+        });
+        const xCandidates = chartData.map(function (point) {
+          return point.x;
+        });
+        if (optimalResult) {
+          xCandidates.push(optimalResult.solarPriceRpKwh);
+        }
+        if (summary.noLossPriceMinRpKwh !== null) {
+          xCandidates.push(summary.noLossPriceMinRpKwh);
+        }
+        if (summary.noLossPriceMaxRpKwh !== null) {
+          xCandidates.push(summary.noLossPriceMaxRpKwh);
+        }
+        const minPrice = xCandidates.length > 0 ? Math.min.apply(null, xCandidates) : 0;
+        const maxPrice = xCandidates.length > 0 ? Math.max.apply(null, xCandidates) : 0;
+
+        const noLossBandPlugin = {
+          id: "noLossBand",
+          beforeDatasetsDraw: function (chart, _args, pluginOptions) {
+            if (!pluginOptions || pluginOptions.min === null || pluginOptions.max === null || pluginOptions.max < pluginOptions.min) {
+              return;
+            }
+
+            const chartArea = chart.chartArea;
+            const xScale = chart.scales.x;
+            if (!chartArea || !xScale) {
+              return;
+            }
+
+            const left = Math.max(chartArea.left, xScale.getPixelForValue(pluginOptions.min));
+            const right = Math.min(chartArea.right, xScale.getPixelForValue(pluginOptions.max));
+            if (right <= left) {
+              return;
+            }
+
+            const ctx = chart.ctx;
+            ctx.save();
+            ctx.fillStyle = "rgba(54, 117, 176, 0.16)";
+            ctx.fillRect(left, chartArea.top, right - left, chartArea.bottom - chartArea.top);
+            ctx.restore();
+          }
+        };
+
+        destroyChart();
+        detailChart = new window.Chart(detailChartCanvas, {
+          plugins: [noLossBandPlugin],
+          type: "line",
+          data: {
+            datasets: [
+              {
+                label: t("results.detail.chart.consumerLabel"),
+                data: chartData.map(function (point) {
+                  return { x: point.x, y: point.consumer };
+                }),
+                borderColor: "#2b6f93",
+                backgroundColor: "rgba(43, 111, 147, 0.14)",
+                borderWidth: 3,
+                pointRadius: 0,
+                tension: 0.16
+              },
+              {
+                label: t("results.detail.chart.producerLabel"),
+                data: chartData.map(function (point) {
+                  return { x: point.x, y: point.producer };
+                }),
+                borderColor: "#b8721f",
+                backgroundColor: "rgba(184, 114, 31, 0.14)",
+                borderWidth: 3,
+                pointRadius: 0,
+                tension: 0.16
+              },
+              {
+                label: t("results.detail.chart.zeroLabel"),
+                data: [
+                  { x: minPrice, y: 0 },
+                  { x: maxPrice, y: 0 }
+                ],
+                borderColor: "rgba(76, 87, 70, 0.45)",
+                borderDash: [6, 6],
+                borderWidth: 2,
+                pointRadius: 0,
+                tension: 0
+              },
+              {
+                type: "scatter",
+                label: t("results.detail.chart.optimalLabel"),
+                data: optimalResult
+                  ? [
+                      { x: optimalResult.solarPriceRpKwh, y: optimalResult.consumerDeltaChfYear },
+                      { x: optimalResult.solarPriceRpKwh, y: optimalResult.producerDeltaChfYear }
+                    ]
+                  : [],
+                backgroundColor: "#4f7138",
+                borderColor: "#4f7138",
+                pointRadius: 5,
+                pointHoverRadius: 6
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: {
+              mode: "nearest",
+              intersect: false
+            },
+            plugins: {
+              noLossBand: {
+                min: summary.noLossPriceMinRpKwh,
+                max: summary.noLossPriceMaxRpKwh
+              },
+              legend: {
+                position: "bottom"
+              },
+              tooltip: {
+                callbacks: {
+                  label: function (context) {
+                    return context.dataset.label + ": " + formatSignedChf(context.parsed.y);
+                  }
+                }
+              }
+            },
+            scales: {
+              x: {
+                type: "linear",
+                title: {
+                  display: true,
+                  text: t("results.detail.chart.xAxis")
+                },
+                ticks: {
+                  callback: function (value) {
+                    return formatRpCompact(Number(value));
+                  }
+                }
+              },
+              y: {
+                title: {
+                  display: true,
+                  text: t("results.detail.chart.yAxis")
+                },
+                ticks: {
+                  callback: function (value) {
+                    return formatChfShort(Number(value));
+                  }
+                }
+              }
+            }
+          }
+        });
+      }
+
+      function destroyChart() {
+        if (detailChart) {
+          detailChart.destroy();
+          detailChart = null;
+        }
+      }
+
+      /**
+       * @param {MouseEvent} event
+       */
+      function handleMatrixSelection(event) {
+        const button = event.target.closest(".simulation-matrix-cell");
+        if (!(button instanceof HTMLElement)) {
+          return;
+        }
+
+        const producerCount = Number(button.getAttribute("data-producers"));
+        const consumerCount = Number(button.getAttribute("data-consumers"));
+        if (!Number.isFinite(producerCount) || !Number.isFinite(consumerCount)) {
+          return;
+        }
+
+        selectedProducerCount = producerCount;
+        selectedConsumerCount = consumerCount;
+        renderFromForm();
+      }
+
+      function handleReset() {
+        try {
+          localStorage.removeItem(STORAGE_KEY);
+        } catch (_error) {
+          // Ignore localStorage errors.
+        }
+
+        selectedProducerCount = DEFAULT_STATE.maxProducerCount;
+        selectedConsumerCount = DEFAULT_STATE.maxConsumerCount;
+        writeStateToForm({ ...DEFAULT_STATE });
+        renderFromForm();
+      }
+
+      /**
+       * @param {number} producerCount
+       * @param {number} consumerCount
+       * @returns {string}
+       */
+      function getScenarioKey(producerCount, consumerCount) {
+        return String(producerCount) + ":" + String(consumerCount);
+      }
+
+      /**
+       * @param {number} value
+       * @returns {string}
+       */
+      function formatChf(value) {
+        return chfFormatter.format(roundToFiveRappen(value));
+      }
+
+      /**
+       * @param {number} value
+       * @returns {string}
+       */
+      function formatSignedChf(value) {
+        const prefix = value > FAIRNESS_EPSILON ? "+" : "";
+        return prefix + formatChf(value);
+      }
+
+      /**
+       * @param {number} value
+       * @returns {string}
+       */
+      function formatSignedChfCompact(value) {
+        const prefix = value > FAIRNESS_EPSILON ? "+" : "";
+        return prefix + numberFormatter.format(roundToFiveRappen(value));
+      }
+
+      /**
+       * @param {number} value
+       * @returns {string}
+       */
+      function formatChfShort(value) {
+        return numberFormatter.format(roundToFiveRappen(value)) + " CHF";
+      }
+
+      /**
+       * @param {number} value
+       * @returns {string}
+       */
+      function formatKwh(value) {
+        return numberFormatter.format(value) + " " + t("units.kwhYear");
+      }
+
+      /**
+       * @param {number | null} value
+       * @returns {string}
+       */
+      function formatRp(value) {
+        if (value === null || !Number.isFinite(value)) {
+          return t("results.emptyValue");
+        }
+        return oneDecimalFormatter.format(value) + " " + t("units.rpPerKwh");
+      }
+
+      /**
+       * @param {number | null} value
+       * @returns {string}
+       */
+      function formatRpCompact(value) {
+        if (value === null || !Number.isFinite(value)) {
+          return t("results.emptyValue");
+        }
+        return oneDecimalFormatter.format(value);
+      }
+
+      /**
+       * @param {string} value
+       * @returns {string}
+       */
+      function escapeHtml(value) {
+        return String(value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/\"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      /**
+       * @param {number} value
+       * @returns {string}
+       */
+      function formatDetailNumber(value) {
+        return detailNumberFormatter.format(value);
+      }
+
+      /**
+       * @param {number} value
+       * @returns {string}
+       */
+      function formatDetailChf(value) {
+        return formatChf(value);
+      }
+
+      /**
+       * @param {number} value
+       * @returns {string}
+       */
+      function formatDetailChfMonth(value) {
+        return formatDetailNumber(value) + " " + t("units.chfPerMonth");
+      }
+
+      /**
+       * @param {number} value
+       * @returns {string}
+       */
+      function formatDetailKwhMonth(value) {
+        return formatDetailNumber(value) + " " + t("units.kwhPerMonth");
+      }
+
+      /**
+       * @param {number} value
+       * @returns {string}
+       */
+      function formatDetailKwhYear(value) {
+        return formatDetailNumber(value) + " " + t("units.kwhYear");
+      }
+
+      /**
+       * @param {number} value
+       * @returns {string}
+       */
+      function formatDetailKwPeak(value) {
+        return formatDetailNumber(value) + " " + t("units.kwp");
+      }
+
+      /**
+       * @param {number} value
+       * @returns {string}
+       */
+      function formatDetailYield(value) {
+        return formatDetailNumber(value) + " " + t("units.kwhPerKwpYear");
+      }
+
+      /**
+       * @param {number} value
+       * @returns {string}
+       */
+      function formatDetailRp(value) {
+        return detailRateFormatter.format(value) + " " + t("units.rpPerKwh");
+      }
+
+      /**
+       * @param {number} value
+       * @returns {string}
+       */
+      function getDeltaClass(value) {
+        if (value > FAIRNESS_EPSILON) {
+          return "delta-positive";
+        }
+        if (value < -FAIRNESS_EPSILON) {
+          return "delta-negative";
+        }
+        return "delta-neutral";
+      }
+
+      /**
+       * @param {number} value
+       * @returns {number}
+       */
+      function roundToFiveRappen(value) {
+        return Math.round((value + Number.EPSILON) * 20) / 20;
+      }
+    })();
+  </script>
+</body>
+</html>

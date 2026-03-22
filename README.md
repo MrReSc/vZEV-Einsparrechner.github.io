@@ -17,3 +17,4 @@ Dann im Browser öffnen:
 
 - `http://localhost:8000/index.html`
 - `http://localhost:8000/calculator.html`
+- `http://localhost:8000/simulation.html`

@@ -1,0 +1,209 @@
+{
+  "meta": {
+    "title": "EigenverbrauchMax-Simulation"
+  },
+  "header": {
+    "title": "EigenverbrauchMax Simulation",
+    "subtitle": "Die Simulation zeigt für verschiedene Kombinationen aus Produzenten, reinen Bezügern und Solarstrompreisen, ab wann beide Seiten im Jahresvergleich profitieren.",
+    "linkNoteHtml": "Zurück zur <a href='index.html'>Präsentation</a> oder lieber zum <a href='calculator.html'>Einzelrechner</a> wechseln."
+  },
+  "inputs": {
+    "title": "Parameter",
+    "quickNote": "Alle Annahmen sind direkt anpassbar. Die Matrix reagiert sofort auf jede Änderung.",
+    "metaNote": "Eingaben werden nur lokal im Browser gespeichert."
+  },
+  "fields": {
+    "maxProducerCount": {
+      "label": "Anzahl PV Anlagen",
+      "infoAria": "Info zu Anzahl PV Anlagen",
+      "tooltip": "Gibt an, wie viele PV-Anlagen beziehungsweise Produzenten in der Simulation berücksichtigt werden."
+    },
+    "maxConsumerCount": {
+      "label": "Anzahl reine Bezüger",
+      "infoAria": "Info zu Anzahl reine Bezüger",
+      "tooltip": "Gibt an, wie viele reine Strombezüger ohne eigene PV-Anlage im Szenario teilnehmen."
+    },
+    "monthlyKwhPerParticipant": {
+      "label": "Durchschnittlicher Verbrauch pro Teilnehmer",
+      "infoAria": "Info zu durchschnittlichem Verbrauch pro Teilnehmer",
+      "tooltip": "Das ist der angenommene monatliche Stromverbrauch pro Teilnehmer. Derselbe Wert wird für Produzenten und reine Bezüger verwendet."
+    },
+    "consumerDaytimeSharePercent": {
+      "label": "Tagesverbrauchsanteil je Teilnehmer",
+      "infoAria": "Info zu Tagesverbrauchsanteil je Teilnehmer",
+      "tooltip": "Beschreibt, welcher Anteil des Verbrauchs tagsüber in den Solarstunden anfällt und damit direkt mit lokalem Solarstrom gedeckt werden kann."
+    },
+    "pvKwPerProducer": {
+      "label": "Summe PV-Leistung",
+      "infoAria": "Info zu Summe PV-Leistung",
+      "tooltip": "Die gesamte installierte PV-Leistung aller Produzenten zusammen in kWp."
+    },
+    "pvYieldKwhPerKwYear": {
+      "label": "Spezifischer PV-Ertrag",
+      "infoAria": "Info zu spezifischem PV-Ertrag",
+      "tooltip": "Der erwartete Jahresertrag pro installiertem kWp in kWh. Damit wird aus der Anlagengrösse die jährliche PV-Produktion berechnet."
+    },
+    "evuPriceRpKwh": {
+      "label": "EVU-Strompreis",
+      "infoAria": "Info zu EVU-Strompreis",
+      "tooltip": "Der normale Strompreis des Energieversorgers in Rp/kWh. Daran misst sich die Ersparnis der reinen Bezüger."
+    },
+    "feedInRpKwh": {
+      "label": "Einspeisevergütung",
+      "infoAria": "Info zu Einspeisevergütung",
+      "tooltip": "Die Vergütung in Rp/kWh, die Produzenten für eingespeisten Strom erhalten würden. Daran misst sich ihr Mehrerlös im Modell."
+    },
+    "vzevFeeChfMonth": {
+      "label": "EigenverbrauchMax-Grundgebühr pro Teilnehmer",
+      "infoAria": "Info zu EigenverbrauchMax-Grundgebühr pro Teilnehmer",
+      "tooltip": "Die monatliche fixe Grundgebühr je Teilnehmer innerhalb von EigenverbrauchMax."
+    },
+    "virtualMeterChfMonth": {
+      "label": "Virtueller Zähler für EigenverbrauchMax",
+      "infoAria": "Info zu virtuellem Zähler für EigenverbrauchMax",
+      "tooltip": "Die monatlichen Kosten des virtuellen Zählers für die gesamte Gemeinschaft. Dieser Betrag wird in der Simulation auf alle Teilnehmer verteilt."
+    },
+    "winterMonths": {
+      "label": "Wintermonate ohne nutzbaren Solarstrom",
+      "infoAria": "Info zu Wintermonaten ohne nutzbaren Solarstrom",
+      "tooltip": "Anzahl Monate pro Jahr, in denen in dieser vereinfachten Simulation kein lokal nutzbarer Solarstrom für reine Bezüger zur Verfügung steht."
+    }
+  },
+  "units": {
+    "rpPerKwh": "Rp/kWh",
+    "chfPerMonth": "CHF/Monat",
+    "kwhPerMonth": "kWh/Monat",
+    "kwp": "kWp",
+    "kwhPerKwpYear": "kWh/kWp/Jahr",
+    "kwhYear": "kWh/Jahr",
+    "percent": "%"
+  },
+  "actions": {
+    "reset": "Zurücksetzen"
+  },
+  "results": {
+    "title": "Ergebnisse",
+    "emptyValue": "-",
+    "matrix": {
+      "title": "Auswahl Anzahl Produzenten / Bezüger",
+      "intro": "Bitte in der Matrix das Feld mit der gewünschten Anzahl Bezüger und Produzenten anklicken.",
+      "cornerLabel": "",
+      "producerLabelShort": "{count} Prod.",
+      "consumerLabelShort": "{count} Bez.",
+      "benefitLabel": "CHF/a",
+      "cellAriaLabel": "{producerCount} Produzenten und {consumerCount} Bezüger auswählen. Berechnete Ersparnis: {value}."
+    },
+    "detail": {
+      "title": "Detailansicht",
+      "empty": "Bitte zuerst gültige Eingaben machen.",
+      "fairHtml": "Bei einem Preis von <strong>{optimal} Rp/kWh</strong> haben alle Teilnehmer denselben Jahresvorteil von <strong>{value}</strong> pro Jahr.",
+      "noFairHtml": "Es gibt keinen Preis mit gleichem und gleichzeitig positivem Jahresvorteil für beide Seiten. Der Preis am nächsten am Gleichgewicht liegt bei <strong>{closest} Rp/kWh</strong>. Am exakten Gleichgewicht bleibt der gemeinsame Vorteil mit <strong>{gap}</strong> unter null.",
+      "chartUnavailable": "Chart.js konnte nicht geladen werden. Die Tabelle unten zeigt die gleichen Werte ohne Grafik.",
+      "metrics": {
+        "focusPrice": "Optimaler Preis",
+        "localSolar": "Lokal nutzbarer Solarstrom",
+        "consumerDelta": "Ersparnis pro Bezüger/Jahr",
+        "producerDelta": "Mehrerlös pro Produzent/Jahr",
+        "utilization": "Ausnutzung des Solarstroms"
+      },
+      "chart": {
+        "consumerLabel": "Bezüger",
+        "producerLabel": "Produzenten",
+        "zeroLabel": "Break-even",
+        "optimalLabel": "Optimaler Preis",
+        "xAxis": "Solarstrompreis (Rp/kWh)",
+        "yAxis": "Jährliche Veränderung pro Teilnehmer"
+      },
+      "table": {
+        "summary": "Preistabelle anzeigen",
+        "headers": {
+          "price": "Solarstrompreis",
+          "localSolar": "Lokaler Solarstrom",
+          "consumer": "Bezüger/Jahr",
+          "producer": "Produzent/Jahr"
+        }
+      }
+    },
+    "calculation": {
+      "summary": "Berechnungsschritte anzeigen",
+      "empty": "Bitte zuerst gültige Eingaben machen.",
+      "introHtml": "Die Schritte beziehen sich auf das ausgewählte Szenario mit <strong>{producerCount} Produzenten</strong>, <strong>{consumerCount} Bezügern</strong> und dem aktuell angezeigten Preis von <strong>{price}</strong>.",
+      "steps": {
+        "activeMonths": {
+          "title": "Aktive Monate und Tagesanteil",
+          "formulaMonths": "Aktive Monate = 12 - Wintermonate",
+          "formulaShareFactor": "Tagesanteil-Faktor = Tagesverbrauchsanteil / 100",
+          "valuesMonths": "Berechnung: 12 - {winterMonths} = {activeMonths}",
+          "valuesShareFactor": "Berechnung: {daytimeSharePercent} / 100 = {daytimeShareFactor}"
+        },
+        "fees": {
+          "title": "Jährliche Kosten pro Teilnehmer",
+          "formulaParticipantFee": "Teilnehmergebühr/Jahr = EigenverbrauchMax-Grundgebühr pro Monat * 12",
+          "formulaVirtualMeterShare": "Zähleranteil/Jahr = (Virtueller Zähler pro Monat * 12) / (Produzenten + Bezüger)",
+          "formulaTotalFee": "Gesamtkosten/Jahr = Teilnehmergebühr/Jahr + Zähleranteil/Jahr",
+          "valuesParticipantFee": "Berechnung: {vzevFeeChfMonth} * 12 = {annualParticipantFeeChf}",
+          "valuesVirtualMeterShare": "Berechnung: ({virtualMeterChfMonth} * 12) / {totalParticipants} = {annualVirtualMeterShareChf}",
+          "valuesTotalFee": "Berechnung: {annualParticipantFeeChf} + {annualVirtualMeterShareChf} = {annualFeeChf}"
+        },
+        "pvSupply": {
+          "title": "PV-Produktion und Direktverbrauch",
+          "formulaProduction": "PV-Produktion/Jahr = Summe PV-Leistung * spezifischer Ertrag",
+          "formulaAvailable": "Solarangebot in aktiven Monaten = PV-Produktion/Jahr * (aktive Monate / 12)",
+          "formulaDirectUse": "Direktverbrauch Produzenten = min(Solarangebot, Produzenten * Verbrauch/Monat * 12 * Tagesanteil-Faktor)",
+          "valuesProduction": "Berechnung: {totalPvKw} * {pvYieldKwhPerKwYear} = {annualPvProductionKwh}",
+          "valuesAvailable": "Berechnung: {annualPvProductionKwh} * ({activeMonths} / 12) = {solarAvailableKwhYear}",
+          "valuesDirectUse": "Berechnung: min({solarAvailableKwhYear}, {producerCount} * {monthlyKwhPerParticipant} * 12 * {daytimeShareFactor} = {producerDaytimeDemandKwhYear}) = {producerDirectUseKwhYear}"
+        },
+        "localSolar": {
+          "title": "Teilbarer und lokal genutzter Solarstrom",
+          "formulaShared": "Teilbarer Solarstrom = Solarangebot - Direktverbrauch Produzenten",
+          "formulaDemand": "Solarfähige Nachfrage Bezüger = Bezüger * Verbrauch/Monat * aktive Monate * Tagesanteil-Faktor",
+          "formulaLocal": "Lokal genutzter Solarstrom = min(teilbarer Solarstrom, solarfähige Nachfrage Bezüger)",
+          "valuesShared": "Berechnung: {solarAvailableKwhYear} - {producerDirectUseKwhYear} = {sharedSolarAvailableKwhYear}",
+          "valuesDemand": "Berechnung: {consumerCount} * {monthlyKwhPerParticipant} * {activeMonths} * {daytimeShareFactor} = {consumerDemandSolarMonthsKwhYear}",
+          "valuesLocal": "Berechnung: min({sharedSolarAvailableKwhYear}, {consumerDemandSolarMonthsKwhYear}) = {localSolarKwhYear}"
+        },
+        "balancePrice": {
+          "title": "Gleichgewichtspreis",
+          "formula": "Gleichgewichtspreis = (Produzenten * EVU-Preis + Bezüger * Einspeisevergütung) / (Produzenten + Bezüger)",
+          "valuesPrice": "Berechnung: ({producerCount} * {evuPriceRpKwh} + {consumerCount} * {feedInRpKwh}) / {totalParticipants} = {balancePriceRpKwh}",
+          "valuesBenefit": "Am exakten Gleichgewicht ergibt sich je Teilnehmer derselbe Jahresvorteil von {balanceDeltaChfYear}."
+        },
+        "focusImpact": {
+          "title": "Jahresvorteil beim angezeigten Preis",
+          "formulaConsumer": "Bezüger/Jahr = (lokaler Solarstrom pro Bezüger * (EVU-Preis - Solarstrompreis) / 100) - Gesamtkosten/Jahr",
+          "formulaProducer": "Produzent/Jahr = (lokaler Solarstrom pro Produzent * (Solarstrompreis - Einspeisevergütung) / 100) - Gesamtkosten/Jahr",
+          "valuesConsumer": "Berechnung: {localSolarKwhPerConsumer} * (({evuPriceRpKwh} - {focusPriceRpKwh}) / 100) - {annualFeeChf} = {consumerDeltaChfYear}",
+          "valuesProducer": "Berechnung: {localSolarKwhPerProducer} * (({focusPriceRpKwh} - {feedInRpKwh}) / 100) - {annualFeeChf} = {producerDeltaChfYear}"
+        },
+        "noLossBand": {
+          "title": "Preisband ohne Verlust",
+          "formulaMin": "Mindestpreis Produzenten = Einspeisevergütung + (Gesamtkosten/Jahr * 100) / lokaler Solarstrom pro Produzent",
+          "formulaMax": "Maximalpreis Bezüger = EVU-Preis - (Gesamtkosten/Jahr * 100) / lokaler Solarstrom pro Bezüger",
+          "valuesMin": "Berechnung: {feedInRpKwh} + ({annualFeeChf} * 100) / {localSolarKwhPerProducer} = {noLossPriceMinRpKwh}",
+          "valuesMax": "Berechnung: {evuPriceRpKwh} - ({annualFeeChf} * 100) / {localSolarKwhPerConsumer} = {noLossPriceMaxRpKwh}",
+          "noBand": "Kein Preisband ohne Verlust, weil in diesem Szenario kein lokal geteilter Solarstrom pro Partei anfällt."
+        }
+      }
+    },
+    "assumptions": {
+      "summary": "Annahmen",
+      "items": {
+        "item1": "Die angegebene Summe PV-Leistung beschreibt die gesamte installierte Leistung aller Produzenten zusammen.",
+        "item2": "Jeder Teilnehmer trägt die EigenverbrauchMax-Grundgebühr pro Monat nur im EigenverbrauchMax-Szenario.",
+        "item3": "Zusätzlich wird der virtuelle Zähler von ganz EigenverbrauchMax als gemeinsame Monatsgebühr auf alle Teilnehmer verteilt.",
+        "item4": "Der Eigenverbrauch der Produzenten in den Sonnenstunden wird direkt verbraucht und nicht in die Bilanz zwischen Produzenten und reinen Bezügern einbezogen.",
+        "item5": "Reine Bezüger können nur den verbleibenden teilbaren Solarstrom und nur den Anteil ihres Verbrauchs in den Sonnenstunden mit lokalem Solarstrom decken. In den Wintermonaten steht dafür kein lokal nutzbarer Solarstrom zur Verfügung.",
+        "item6": "Der faire Preis ist der Preis, bei dem Bezüger und Produzenten pro Teilnehmer gleich viel positiven Jahresvorteil haben."
+      }
+    }
+  },
+  "validation": {
+    "invalidNumber": "Bitte eine gültige Zahl ab 0 eingeben.",
+    "invalidInteger": "Bitte eine ganze Zahl eingeben.",
+    "invalidCount": "Bitte mindestens 1 eingeben.",
+    "invalidPercent": "Bitte einen Wert zwischen 0 und 100 eingeben.",
+    "invalidWinterMonths": "Bitte einen Wert zwischen 0 und 12 eingeben.",
+    "invalidStatus": "Bitte prüfe die Eingaben. Die Simulation erscheint erst mit gültigen Werten."
+  }
+}
