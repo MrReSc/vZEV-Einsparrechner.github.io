@@ -124,7 +124,7 @@
       "summary": "So wurde gerechnet",
       "intro": "Die Schritte zeigen immer zuerst die Formel und danach die eingesetzten Werte."
     },
-    "bottomNote": "Diese Berechnung ist eine Orientierung. Die tatsächlichen Kosten hängen von deinem Verbrauch ab."
+    "bottomNote": "Diese Berechnung ist eine Orientierung. Die tatsächlichen Kosten hängen von deinem Verbrauch und von der Anzahl Teilnehmer ab."
   },
   "validation": {
     "invalidNumber": "Bitte eine gültige Zahl ab 0 eingeben.",
