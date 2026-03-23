@@ -156,6 +156,19 @@
                 <div class="simulation-error" id="error-virtualMeterChfMonth"></div>
               </div>
 
+              <div class="simulation-field" data-field="vatPercent">
+                <div class="simulation-label-row">
+                  <label for="vatPercent" data-i18n="fields.vatPercent.label"></label>
+                  <button type="button" class="info-trigger" aria-describedby="tooltip-vatPercent" data-i18n-attr="aria-label:fields.vatPercent.infoAria">i</button>
+                  <div class="field-tooltip" id="tooltip-vatPercent" role="tooltip" data-i18n="fields.vatPercent.tooltip"></div>
+                </div>
+                <div class="simulation-input-with-unit">
+                  <input id="vatPercent" name="vatPercent" type="number" min="0" max="100" step="0.01" inputmode="decimal">
+                  <span class="simulation-unit" aria-hidden="true" data-i18n="units.percent"></span>
+                </div>
+                <div class="simulation-error" id="error-vatPercent"></div>
+              </div>
+
               <div class="simulation-field" data-field="producerMinYieldChfYear">
                 <div class="simulation-label-row">
                   <label for="producerMinYieldChfYear" data-i18n="fields.producerMinYieldChfYear.label"></label>
@@ -292,6 +305,7 @@
               <li data-i18n="results.assumptions.items.item7"></li>
               <li data-i18n="results.assumptions.items.item8"></li>
               <li data-i18n="results.assumptions.items.item9"></li>
+              <li data-i18n="results.assumptions.items.item10"></li>
             </ul>
           </details>
         </div>
@@ -316,6 +330,7 @@
        * @property {number} feedInRpKwh
        * @property {number} vzevFeeChfMonth
        * @property {number} virtualMeterChfMonth
+       * @property {number} vatPercent
        * @property {number} producerMinYieldChfYear
        * @property {number} winterMonths
        */
@@ -471,6 +486,7 @@
         feedInRpKwh: 8,
         vzevFeeChfMonth: 3,
         virtualMeterChfMonth: 2,
+        vatPercent: 8.1,
         producerMinYieldChfYear: 100,
         winterMonths: 3
       });
@@ -491,6 +507,7 @@
         "feedInRpKwh",
         "vzevFeeChfMonth",
         "virtualMeterChfMonth",
+        "vatPercent",
         "producerMinYieldChfYear",
         "winterMonths"
       ];
@@ -646,6 +663,7 @@
           feedInRpKwh: normalizeNumber(input.feedInRpKwh, DEFAULT_STATE.feedInRpKwh),
           vzevFeeChfMonth: normalizeNumber(input.vzevFeeChfMonth, DEFAULT_STATE.vzevFeeChfMonth),
           virtualMeterChfMonth: normalizeNumber(input.virtualMeterChfMonth, DEFAULT_STATE.virtualMeterChfMonth),
+          vatPercent: normalizeNumber(input.vatPercent, DEFAULT_STATE.vatPercent),
           producerMinYieldChfYear: normalizeNumber(input.producerMinYieldChfYear, DEFAULT_STATE.producerMinYieldChfYear),
           winterMonths: normalizeNumber(input.winterMonths, DEFAULT_STATE.winterMonths)
         };
@@ -675,6 +693,7 @@
         form.feedInRpKwh.value = state.feedInRpKwh;
         form.vzevFeeChfMonth.value = state.vzevFeeChfMonth;
         form.virtualMeterChfMonth.value = state.virtualMeterChfMonth;
+        form.vatPercent.value = state.vatPercent;
         form.producerMinYieldChfYear.value = state.producerMinYieldChfYear;
         form.winterMonths.value = state.winterMonths;
       }
@@ -694,6 +713,7 @@
           feedInRpKwh: Number(form.feedInRpKwh.value),
           vzevFeeChfMonth: Number(form.vzevFeeChfMonth.value),
           virtualMeterChfMonth: Number(form.virtualMeterChfMonth.value),
+          vatPercent: Number(form.vatPercent.value),
           producerMinYieldChfYear: Number(form.producerMinYieldChfYear.value),
           winterMonths: Number(form.winterMonths.value)
         };
@@ -747,6 +767,9 @@
           (state.consumerDaytimeSharePercent < 0 || state.consumerDaytimeSharePercent > 100)
         ) {
           errors.consumerDaytimeSharePercent = t("validation.invalidPercent");
+        }
+        if (Number.isFinite(state.vatPercent) && (state.vatPercent < 0 || state.vatPercent > 100)) {
+          errors.vatPercent = t("validation.invalidPercent");
         }
         if (Number.isFinite(state.winterMonths) && state.winterMonths > 12) {
           errors.winterMonths = t("validation.invalidWinterMonths");
@@ -1030,22 +1053,28 @@
        * @param {number} consumerCount
        * @returns {{
        *   totalParticipants: number,
-       *   annualParticipantFeeChf: number,
-       *   annualVirtualMeterShareChf: number,
+       *   vatFactor: number,
+       *   annualParticipantFeeNetChf: number,
+       *   annualVirtualMeterShareNetChf: number,
+       *   annualFeeNetChf: number,
        *   annualFeeChf: number
        * }}
        */
       function calculateAnnualFeeBreakdown(state, producerCount, consumerCount) {
         const totalParticipants = producerCount + consumerCount;
-        const annualParticipantFeeChf = state.vzevFeeChfMonth * 12;
-        const annualVirtualMeterShareChf =
+        const annualParticipantFeeNetChf = state.vzevFeeChfMonth * 12;
+        const annualVirtualMeterShareNetChf =
           totalParticipants > 0 ? (state.virtualMeterChfMonth * 12) / totalParticipants : 0;
+        const annualFeeNetChf = annualParticipantFeeNetChf + annualVirtualMeterShareNetChf;
+        const vatFactor = 1 + (state.vatPercent / 100);
 
         return {
           totalParticipants: totalParticipants,
-          annualParticipantFeeChf: annualParticipantFeeChf,
-          annualVirtualMeterShareChf: annualVirtualMeterShareChf,
-          annualFeeChf: annualParticipantFeeChf + annualVirtualMeterShareChf
+          vatFactor: vatFactor,
+          annualParticipantFeeNetChf: annualParticipantFeeNetChf,
+          annualVirtualMeterShareNetChf: annualVirtualMeterShareNetChf,
+          annualFeeNetChf: annualFeeNetChf,
+          annualFeeChf: annualFeeNetChf * vatFactor
         };
       }
 
@@ -1308,19 +1337,25 @@
           "<strong class='simulation-calc-step-title'>" + t("results.calculation.steps.fees.title") + "</strong>" +
           "<code class='simulation-formula'>" + t("results.calculation.steps.fees.formulaParticipantFee") + "</code>" +
           "<code class='simulation-formula'>" + t("results.calculation.steps.fees.formulaVirtualMeterShare") + "</code>" +
+          "<code class='simulation-formula'>" + t("results.calculation.steps.fees.formulaVatFactor") + "</code>" +
           "<code class='simulation-formula'>" + t("results.calculation.steps.fees.formulaTotalFee") + "</code>" +
           "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.fees.valuesParticipantFee", {
             vzevFeeChfMonth: formatDetailChfMonth(state.vzevFeeChfMonth),
-            annualParticipantFeeChf: formatDetailChf(feeBreakdown.annualParticipantFeeChf)
+            annualParticipantFeeNetChf: formatDetailChf(feeBreakdown.annualParticipantFeeNetChf)
           }) + "</code>" +
           "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.fees.valuesVirtualMeterShare", {
             virtualMeterChfMonth: formatDetailChfMonth(state.virtualMeterChfMonth),
             totalParticipants: formatDetailNumber(feeBreakdown.totalParticipants),
-            annualVirtualMeterShareChf: formatDetailChf(feeBreakdown.annualVirtualMeterShareChf)
+            annualVirtualMeterShareNetChf: formatDetailChf(feeBreakdown.annualVirtualMeterShareNetChf)
+          }) + "</code>" +
+          "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.fees.valuesVatFactor", {
+            vatPercent: formatDetailPercent(state.vatPercent),
+            vatFactor: formatDetailNumber(feeBreakdown.vatFactor)
           }) + "</code>" +
           "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.fees.valuesTotalFee", {
-            annualParticipantFeeChf: formatDetailChf(feeBreakdown.annualParticipantFeeChf),
-            annualVirtualMeterShareChf: formatDetailChf(feeBreakdown.annualVirtualMeterShareChf),
+            annualParticipantFeeNetChf: formatDetailChf(feeBreakdown.annualParticipantFeeNetChf),
+            annualVirtualMeterShareNetChf: formatDetailChf(feeBreakdown.annualVirtualMeterShareNetChf),
+            vatFactor: formatDetailNumber(feeBreakdown.vatFactor),
             annualFeeChf: formatDetailChf(feeBreakdown.annualFeeChf)
           }) + "</code>" +
           "</li>" +
@@ -1866,6 +1901,14 @@
        */
       function formatDetailChfMonth(value) {
         return formatDetailNumber(value) + " " + t("units.chfPerMonth");
+      }
+
+      /**
+       * @param {number} value
+       * @returns {string}
+       */
+      function formatDetailPercent(value) {
+        return formatDetailNumber(value) + " " + t("units.percent");
       }
 
       /**

@@ -61,12 +61,17 @@
     "vzevFeeChfMonth": {
       "label": "EigenverbrauchMax-Grundgebühr pro Teilnehmer",
       "infoAria": "Info zu EigenverbrauchMax-Grundgebühr pro Teilnehmer",
-      "tooltip": "Die monatliche fixe Grundgebühr je Teilnehmer innerhalb von EigenverbrauchMax."
+      "tooltip": "Die monatliche fixe Grundgebühr je Teilnehmer innerhalb von EigenverbrauchMax vor MwSt."
     },
     "virtualMeterChfMonth": {
       "label": "Virtueller Zähler für EigenverbrauchMax",
       "infoAria": "Info zu virtuellem Zähler für EigenverbrauchMax",
-      "tooltip": "Die monatlichen Kosten des virtuellen Zählers für die gesamte Gemeinschaft. Dieser Betrag wird in der Simulation auf alle Teilnehmer verteilt."
+      "tooltip": "Die monatlichen Kosten des virtuellen Zählers für die gesamte Gemeinschaft vor MwSt. Dieser Betrag wird in der Simulation auf alle Teilnehmer verteilt."
+    },
+    "vatPercent": {
+      "label": "MwSt auf jährliche Kosten",
+      "infoAria": "Info zu MwSt auf jährliche Kosten",
+      "tooltip": "Mehrwertsteuer in Prozent, die auf die jährlichen Kosten aus Grundgebühr und virtuellem Zähler aufgeschlagen wird."
     },
     "producerMinYieldChfYear": {
       "label": "Mindest Ertrag PV Betreiber",
@@ -157,13 +162,15 @@
           "valuesShareFactor": "Berechnung: {daytimeSharePercent} / 100 = {daytimeShareFactor}"
         },
         "fees": {
-          "title": "Jährliche Kosten pro Teilnehmer",
-          "formulaParticipantFee": "Teilnehmergebühr/Jahr = EigenverbrauchMax-Grundgebühr pro Monat * 12",
-          "formulaVirtualMeterShare": "Zähleranteil/Jahr = (Virtueller Zähler pro Monat * 12) / (Produzenten + Bezüger)",
-          "formulaTotalFee": "Gesamtkosten/Jahr = Teilnehmergebühr/Jahr + Zähleranteil/Jahr",
-          "valuesParticipantFee": "Berechnung: {vzevFeeChfMonth} * 12 = {annualParticipantFeeChf}",
-          "valuesVirtualMeterShare": "Berechnung: ({virtualMeterChfMonth} * 12) / {totalParticipants} = {annualVirtualMeterShareChf}",
-          "valuesTotalFee": "Berechnung: {annualParticipantFeeChf} + {annualVirtualMeterShareChf} = {annualFeeChf}"
+          "title": "Jährliche Kosten pro Teilnehmer inkl. MwSt",
+          "formulaParticipantFee": "Teilnehmergebühr netto/Jahr = EigenverbrauchMax-Grundgebühr pro Monat * 12",
+          "formulaVirtualMeterShare": "Zähleranteil netto/Jahr = (Virtueller Zähler pro Monat * 12) / (Produzenten + Bezüger)",
+          "formulaVatFactor": "MwSt-Faktor = 1 + (MwSt / 100)",
+          "formulaTotalFee": "Gesamtkosten/Jahr = (Teilnehmergebühr netto/Jahr + Zähleranteil netto/Jahr) * MwSt-Faktor",
+          "valuesParticipantFee": "Berechnung: {vzevFeeChfMonth} * 12 = {annualParticipantFeeNetChf}",
+          "valuesVirtualMeterShare": "Berechnung: ({virtualMeterChfMonth} * 12) / {totalParticipants} = {annualVirtualMeterShareNetChf}",
+          "valuesVatFactor": "Berechnung: 1 + ({vatPercent} / 100) = {vatFactor}",
+          "valuesTotalFee": "Berechnung: ({annualParticipantFeeNetChf} + {annualVirtualMeterShareNetChf}) * {vatFactor} = {annualFeeChf}"
         },
         "pvSupply": {
           "title": "PV-Produktion und Direktverbrauch",
@@ -221,7 +228,8 @@
         "item6": "Der Mindestpreis ist der Preis, bei dem Bezüger und Produzenten pro Teilnehmer gleich viel positiven Jahresvorteil haben.",
         "item7": "Das empfohlene Preisband ist eine pragmatische Empfehlung und keine mathematische Optimierung.",
         "item8": "Die Untergrenze des empfohlenen Bands ist der berechnete Mindestpreis beziehungsweise Gleichgewichtspreis, bei dem Bezüger und Produzenten pro Teilnehmer gleich viel Jahresvorteil haben.",
-        "item9": "Die Obergrenze des empfohlenen Bands liegt bei 80 % des EVU-Preises, damit der Preis für Bezüger klar unter dem normalen Strompreis bleibt. Der empfohlene Preis ist die erste 0.1-Rp-Stufe in diesem Band, bei der der eingestellte Mindest-Ertrag pro Produzent erreicht wird."
+        "item9": "Die Obergrenze des empfohlenen Bands liegt bei 80 % des EVU-Preises, damit der Preis für Bezüger klar unter dem normalen Strompreis bleibt. Der empfohlene Preis ist die erste 0.1-Rp-Stufe in diesem Band, bei der der eingestellte Mindest-Ertrag pro Produzent erreicht wird.",
+        "item10": "Auf die jährlichen Kosten aus Grundgebühr und virtuellem Zähler wird die eingestellte MwSt angewendet."
       }
     }
   },
