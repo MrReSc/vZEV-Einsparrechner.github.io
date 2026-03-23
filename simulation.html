@@ -156,6 +156,19 @@
                 <div class="simulation-error" id="error-virtualMeterChfMonth"></div>
               </div>
 
+              <div class="simulation-field" data-field="producerMinYieldChfYear">
+                <div class="simulation-label-row">
+                  <label for="producerMinYieldChfYear" data-i18n="fields.producerMinYieldChfYear.label"></label>
+                  <button type="button" class="info-trigger" aria-describedby="tooltip-producerMinYieldChfYear" data-i18n-attr="aria-label:fields.producerMinYieldChfYear.infoAria">i</button>
+                  <div class="field-tooltip" id="tooltip-producerMinYieldChfYear" role="tooltip" data-i18n="fields.producerMinYieldChfYear.tooltip"></div>
+                </div>
+                <div class="simulation-input-with-unit">
+                  <input id="producerMinYieldChfYear" name="producerMinYieldChfYear" type="number" min="0" step="0.01" inputmode="decimal">
+                  <span class="simulation-unit simulation-unit-wide" aria-hidden="true" data-i18n="units.chfPerYear"></span>
+                </div>
+                <div class="simulation-error" id="error-producerMinYieldChfYear"></div>
+              </div>
+
               <div class="simulation-field" data-field="winterMonths">
                 <div class="simulation-label-row">
                   <label for="winterMonths" data-i18n="fields.winterMonths.label"></label>
@@ -219,15 +232,24 @@
                 <div class="label" data-i18n="results.detail.metrics.producerDelta"></div>
                 <div class="value" id="detailProducerDelta"></div>
               </div>
-              <div class="simulation-detail-metric metric-solar">
-                <div class="label" data-i18n="results.detail.metrics.localSolar"></div>
-                <div class="value" id="detailLocalSolar"></div>
+            </section>
+
+            <section class="simulation-detail-metrics simulation-detail-metrics-recommended">
+              <div class="simulation-detail-metric metric-price">
+                <div class="label" data-i18n="results.detail.metrics.recommendedPrice"></div>
+                <div class="value" id="detailRecommendedPrice"></div>
               </div>
-              <div class="simulation-detail-metric metric-solar">
-                <div class="label" data-i18n="results.detail.metrics.utilization"></div>
-                <div class="value" id="detailUtilization"></div>
+              <div class="simulation-detail-metric metric-price is-recommended">
+                <div class="label" data-i18n="results.detail.metrics.consumerDeltaRecommended"></div>
+                <div class="value" id="detailRecommendedConsumerDelta"></div>
+              </div>
+              <div class="simulation-detail-metric metric-price is-recommended">
+                <div class="label" data-i18n="results.detail.metrics.producerDeltaRecommended"></div>
+                <div class="value" id="detailRecommendedProducerDelta"></div>
               </div>
             </section>
+
+            <p id="detailMetaFacts" class="simulation-detail-facts"></p>
 
             <div id="chartNotice" class="simulation-chart-notice hidden"></div>
             <div class="simulation-chart-wrap">
@@ -267,11 +289,16 @@
               <li data-i18n="results.assumptions.items.item4"></li>
               <li data-i18n="results.assumptions.items.item5"></li>
               <li data-i18n="results.assumptions.items.item6"></li>
+              <li data-i18n="results.assumptions.items.item7"></li>
+              <li data-i18n="results.assumptions.items.item8"></li>
+              <li data-i18n="results.assumptions.items.item9"></li>
             </ul>
           </details>
         </div>
       </article>
     </section>
+
+    <p class="simulation-bottom-note" data-i18n="results.bottomNote"></p>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
@@ -289,6 +316,7 @@
        * @property {number} feedInRpKwh
        * @property {number} vzevFeeChfMonth
        * @property {number} virtualMeterChfMonth
+       * @property {number} producerMinYieldChfYear
        * @property {number} winterMonths
        */
 
@@ -320,9 +348,14 @@
         * @property {ScenarioResult[]} priceResults
         * @property {ScenarioResult | null} optimalResult
         * @property {ScenarioResult | null} closestResult
+        * @property {ScenarioResult | null} recommendedResult
+        * @property {ScenarioResult | null} detailRecommendedResult
         * @property {ScenarioResult} balanceResult
-       * @property {number | null} noLossPriceMinRpKwh
-       * @property {number | null} noLossPriceMaxRpKwh
+        * @property {number | null} minimumPriceRpKwh
+        * @property {number | null} recommendedBandMinRpKwh
+        * @property {number | null} recommendedBandMaxRpKwh
+        * @property {number | null} recommendedPriceRpKwh
+        * @property {number | null} detailRecommendedPriceRpKwh
         * @property {number} localSolarKwhYear
         * @property {number} annualPvProductionKwh
         * @property {number} solarAvailableKwhYear
@@ -425,7 +458,7 @@
 
       const STORAGE_KEY = "vzevcalc.simulation.state.v1";
       const FAIRNESS_EPSILON = 0.000001;
-      const PRICE_SWEEP_STEP_RP_KWH = 1;
+      const PRICE_SWEEP_STEP_RP_KWH = 0.1;
       /** @type {SimulationInputState} */
       const DEFAULT_STATE = Object.freeze({
         maxProducerCount: 7,
@@ -438,6 +471,7 @@
         feedInRpKwh: 8,
         vzevFeeChfMonth: 3,
         virtualMeterChfMonth: 2,
+        producerMinYieldChfYear: 100,
         winterMonths: 3
       });
 
@@ -457,6 +491,7 @@
         "feedInRpKwh",
         "vzevFeeChfMonth",
         "virtualMeterChfMonth",
+        "producerMinYieldChfYear",
         "winterMonths"
       ];
 
@@ -495,10 +530,12 @@
       const detailPanel = document.getElementById("detailPanel");
       const detailIntro = document.getElementById("detailIntro");
       const detailFocusPrice = document.getElementById("detailFocusPrice");
-      const detailLocalSolar = document.getElementById("detailLocalSolar");
       const detailConsumerDelta = document.getElementById("detailConsumerDelta");
       const detailProducerDelta = document.getElementById("detailProducerDelta");
-      const detailUtilization = document.getElementById("detailUtilization");
+      const detailRecommendedPrice = document.getElementById("detailRecommendedPrice");
+      const detailRecommendedConsumerDelta = document.getElementById("detailRecommendedConsumerDelta");
+      const detailRecommendedProducerDelta = document.getElementById("detailRecommendedProducerDelta");
+      const detailMetaFacts = document.getElementById("detailMetaFacts");
       const detailTableBody = document.getElementById("detailTableBody");
       const calculationIntro = document.getElementById("calculationIntro");
       const calculationSteps = document.getElementById("calculationSteps");
@@ -609,6 +646,7 @@
           feedInRpKwh: normalizeNumber(input.feedInRpKwh, DEFAULT_STATE.feedInRpKwh),
           vzevFeeChfMonth: normalizeNumber(input.vzevFeeChfMonth, DEFAULT_STATE.vzevFeeChfMonth),
           virtualMeterChfMonth: normalizeNumber(input.virtualMeterChfMonth, DEFAULT_STATE.virtualMeterChfMonth),
+          producerMinYieldChfYear: normalizeNumber(input.producerMinYieldChfYear, DEFAULT_STATE.producerMinYieldChfYear),
           winterMonths: normalizeNumber(input.winterMonths, DEFAULT_STATE.winterMonths)
         };
       }
@@ -637,6 +675,7 @@
         form.feedInRpKwh.value = state.feedInRpKwh;
         form.vzevFeeChfMonth.value = state.vzevFeeChfMonth;
         form.virtualMeterChfMonth.value = state.virtualMeterChfMonth;
+        form.producerMinYieldChfYear.value = state.producerMinYieldChfYear;
         form.winterMonths.value = state.winterMonths;
       }
 
@@ -655,6 +694,7 @@
           feedInRpKwh: Number(form.feedInRpKwh.value),
           vzevFeeChfMonth: Number(form.vzevFeeChfMonth.value),
           virtualMeterChfMonth: Number(form.virtualMeterChfMonth.value),
+          producerMinYieldChfYear: Number(form.producerMinYieldChfYear.value),
           winterMonths: Number(form.winterMonths.value)
         };
       }
@@ -735,10 +775,12 @@
         validationStatus.textContent = t("validation.invalidStatus");
         detailIntro.textContent = t("results.detail.empty");
         detailFocusPrice.textContent = t("results.emptyValue");
-        detailLocalSolar.textContent = t("results.emptyValue");
         detailConsumerDelta.textContent = t("results.emptyValue");
         detailProducerDelta.textContent = t("results.emptyValue");
-        detailUtilization.textContent = t("results.emptyValue");
+        detailRecommendedPrice.textContent = t("results.emptyValue");
+        detailRecommendedConsumerDelta.textContent = t("results.emptyValue");
+        detailRecommendedProducerDelta.textContent = t("results.emptyValue");
+        detailMetaFacts.textContent = "";
         matrixHeaderRow.innerHTML = "";
         matrixBody.innerHTML = "";
         detailTableBody.innerHTML = "";
@@ -776,12 +818,33 @@
             });
             const balancePriceRpKwh = calculateBalancePrice(state, producerCount, consumerCount);
             const balanceResult = calculateScenario(state, producerCount, consumerCount, balancePriceRpKwh);
-            const noLossBand = calculateNoLossPriceBand(state, producerCount, consumerCount, balanceResult.localSolarKwhYear);
+            const minimumPriceRpKwh = balanceResult.solarPriceRpKwh;
+            const recommendedBand = calculateRecommendedPriceBand(state, minimumPriceRpKwh);
             const hasFairScenario =
               balanceResult.consumerDeltaChfYear > FAIRNESS_EPSILON &&
               balanceResult.producerDeltaChfYear > FAIRNESS_EPSILON;
             const optimalResult = hasFairScenario ? balanceResult : null;
             const closestResult = getClosestResult(priceResults, balancePriceRpKwh);
+            const recommendedResult = getRecommendedResult(
+              priceResults,
+              recommendedBand.minRpKwh,
+              recommendedBand.maxRpKwh,
+              state.producerMinYieldChfYear
+            );
+            const hasRecommendedBand =
+              recommendedBand.minRpKwh !== null &&
+              recommendedBand.maxRpKwh !== null &&
+              recommendedBand.maxRpKwh > recommendedBand.minRpKwh + FAIRNESS_EPSILON;
+            const detailRecommendedResult = recommendedResult || (
+              hasFairScenario
+                ? getClosestProducerYieldResult(
+                    priceResults,
+                    state.producerMinYieldChfYear,
+                    minimumPriceRpKwh,
+                    hasRecommendedBand ? recommendedBand.maxRpKwh : null
+                  )
+                : null
+            );
             const referenceResult = priceResults[0];
 
             summaryMap[getScenarioKey(producerCount, consumerCount)] = {
@@ -789,13 +852,21 @@
               consumerCount: consumerCount,
               optimalPriceRpKwh: optimalResult ? optimalResult.solarPriceRpKwh : null,
               hasFairScenario: hasFairScenario,
-              status: getScenarioStatus(balanceResult, hasFairScenario),
+              status: getScenarioStatus(
+                recommendedResult ? recommendedResult.solarPriceRpKwh : null,
+                hasFairScenario ? minimumPriceRpKwh : null
+              ),
               priceResults: priceResults,
               optimalResult: optimalResult,
               closestResult: closestResult,
+              recommendedResult: recommendedResult,
+              detailRecommendedResult: detailRecommendedResult,
               balanceResult: balanceResult,
-              noLossPriceMinRpKwh: noLossBand.minRpKwh,
-              noLossPriceMaxRpKwh: noLossBand.maxRpKwh,
+              minimumPriceRpKwh: minimumPriceRpKwh,
+              recommendedBandMinRpKwh: recommendedBand.minRpKwh,
+              recommendedBandMaxRpKwh: recommendedBand.maxRpKwh,
+              recommendedPriceRpKwh: recommendedResult ? recommendedResult.solarPriceRpKwh : null,
+              detailRecommendedPriceRpKwh: detailRecommendedResult ? detailRecommendedResult.solarPriceRpKwh : null,
               localSolarKwhYear: referenceResult ? referenceResult.localSolarKwhYear : 0,
               annualPvProductionKwh: referenceResult ? referenceResult.annualPvProductionKwh : 0,
               solarAvailableKwhYear: referenceResult ? referenceResult.solarAvailableKwhYear : 0,
@@ -876,28 +947,81 @@
 
       /**
        * @param {SimulationInputState} state
-       * @param {number} producerCount
-       * @param {number} consumerCount
-       * @param {number} localSolarKwhYear
+       * @param {number | null} minimumPriceRpKwh
        * @returns {{ minRpKwh: number | null, maxRpKwh: number | null }}
        */
-      function calculateNoLossPriceBand(state, producerCount, consumerCount, localSolarKwhYear) {
-        if (localSolarKwhYear <= FAIRNESS_EPSILON || producerCount < 1 || consumerCount < 1) {
-          return { minRpKwh: null, maxRpKwh: null };
-        }
-
-        const feeBreakdown = calculateAnnualFeeBreakdown(state, producerCount, consumerCount);
-        const localSolarKwhPerConsumer = localSolarKwhYear / consumerCount;
-        const localSolarKwhPerProducer = localSolarKwhYear / producerCount;
-
-        if (localSolarKwhPerConsumer <= FAIRNESS_EPSILON || localSolarKwhPerProducer <= FAIRNESS_EPSILON) {
+      function calculateRecommendedPriceBand(state, minimumPriceRpKwh) {
+        if (minimumPriceRpKwh === null || !Number.isFinite(minimumPriceRpKwh)) {
           return { minRpKwh: null, maxRpKwh: null };
         }
 
         return {
-          minRpKwh: state.feedInRpKwh + (feeBreakdown.annualFeeChf * 100) / localSolarKwhPerProducer,
-          maxRpKwh: state.evuPriceRpKwh - (feeBreakdown.annualFeeChf * 100) / localSolarKwhPerConsumer
+          minRpKwh: minimumPriceRpKwh,
+          maxRpKwh: state.evuPriceRpKwh * 0.8
         };
+      }
+
+      /**
+       * @param {ScenarioResult[]} priceResults
+       * @param {number | null} minRpKwh
+       * @param {number | null} maxRpKwh
+       * @param {number} producerMinYieldChfYear
+       * @returns {ScenarioResult | null}
+       */
+      function getRecommendedResult(priceResults, minRpKwh, maxRpKwh, producerMinYieldChfYear) {
+        if (!priceResults.length || minRpKwh === null || maxRpKwh === null || maxRpKwh <= minRpKwh + FAIRNESS_EPSILON) {
+          return null;
+        }
+
+        for (let i = 0; i < priceResults.length; i += 1) {
+          const result = priceResults[i];
+          if (
+            result.solarPriceRpKwh >= minRpKwh - FAIRNESS_EPSILON &&
+            result.solarPriceRpKwh <= maxRpKwh + FAIRNESS_EPSILON &&
+            result.producerDeltaChfYear >= producerMinYieldChfYear - FAIRNESS_EPSILON
+          ) {
+            return result;
+          }
+        }
+
+        return null;
+      }
+
+      /**
+       * @param {ScenarioResult[]} priceResults
+       * @param {number} producerMinYieldChfYear
+       * @param {number | null} minRpKwh
+       * @param {number | null} maxRpKwh
+       * @returns {ScenarioResult | null}
+       */
+      function getClosestProducerYieldResult(priceResults, producerMinYieldChfYear, minRpKwh, maxRpKwh) {
+        if (!priceResults.length) {
+          return null;
+        }
+
+        let bestResult = null;
+        let bestDistance = Infinity;
+
+        for (let i = 0; i < priceResults.length; i += 1) {
+          const result = priceResults[i];
+          if (result.consumerDeltaChfYear < -FAIRNESS_EPSILON) {
+            continue;
+          }
+          if (minRpKwh !== null && result.solarPriceRpKwh < minRpKwh - FAIRNESS_EPSILON) {
+            continue;
+          }
+          if (maxRpKwh !== null && result.solarPriceRpKwh > maxRpKwh + FAIRNESS_EPSILON) {
+            continue;
+          }
+
+          const distance = Math.abs(result.producerDeltaChfYear - producerMinYieldChfYear);
+          if (distance < bestDistance - FAIRNESS_EPSILON) {
+            bestResult = result;
+            bestDistance = distance;
+          }
+        }
+
+        return bestResult;
       }
 
       /**
@@ -996,20 +1120,20 @@
       }
 
       /**
-       * @param {ScenarioResult} balanceResult
-       * @param {boolean} hasFairScenario
+       * @param {number | null} recommendedPriceRpKwh
+       * @param {number | null} minimumPriceRpKwh
        * @returns {"fair" | "critical" | "not_fair"}
        */
-      function getScenarioStatus(balanceResult, hasFairScenario) {
-        if (!hasFairScenario || balanceResult.consumerDeltaChfYear <= FAIRNESS_EPSILON) {
-          return "not_fair";
+      function getScenarioStatus(recommendedPriceRpKwh, minimumPriceRpKwh) {
+        if (recommendedPriceRpKwh !== null && Number.isFinite(recommendedPriceRpKwh)) {
+          return "fair";
         }
 
-        if (balanceResult.consumerDeltaChfYear <= 10 + FAIRNESS_EPSILON) {
+        if (minimumPriceRpKwh !== null && Number.isFinite(minimumPriceRpKwh)) {
           return "critical";
         }
 
-        return "fair";
+        return "not_fair";
       }
 
       /**
@@ -1049,12 +1173,13 @@
             const summary = summaryMap[getScenarioKey(producerCount, consumerCount)];
             const isSelected = producerCount === selectedProducerCount && consumerCount === selectedConsumerCount;
             const scenarioId = "matrix-scenario-" + producerCount + "-" + consumerCount;
-            const benefitLabel = formatSignedChfCompact(summary.balanceResult.consumerDeltaChfYear) + " " + t("results.matrix.benefitLabel");
-            const priceLabel = formatRp(summary.balanceResult.solarPriceRpKwh);
+            const matrixPriceLabel = summary.recommendedPriceRpKwh !== null
+              ? formatRpCompact(summary.recommendedPriceRpKwh) + " " + t("results.matrix.priceLabel")
+              : t("results.emptyValue");
+            const priceLabel = summary.recommendedPriceRpKwh !== null ? formatRp(summary.recommendedPriceRpKwh) : t("results.emptyValue");
             const cellLabel = t("results.matrix.cellAriaLabel", {
               producerCount: String(producerCount),
               consumerCount: String(consumerCount),
-              benefit: benefitLabel,
               price: priceLabel
             });
 
@@ -1062,7 +1187,7 @@
               "<td class='status-" + summary.status + (isSelected ? " is-selected" : "") + "'>" +
               "<label class='simulation-matrix-option' for='" + scenarioId + "'>" +
               "<input type='radio' class='simulation-matrix-radio-input' id='" + scenarioId + "' name='matrixScenario' data-producers='" + producerCount + "' data-consumers='" + consumerCount + "' aria-label='" + escapeHtml(cellLabel) + "'" + (isSelected ? " checked" : "") + ">" +
-              "<span class='simulation-matrix-benefit' aria-hidden='true'>" + benefitLabel + "</span>" +
+              "<span class='simulation-matrix-benefit' aria-hidden='true'>" + matrixPriceLabel + "</span>" +
               "</label>" +
               "</td>";
           }
@@ -1078,6 +1203,8 @@
       function renderDetail(summary, state) {
         const focusResult = summary.optimalResult || summary.closestResult || summary.priceResults[0] || null;
         const utilizationPercent = summary.solarAvailableKwhYear > 0 ? summary.localSolarKwhYear / summary.solarAvailableKwhYear : 0;
+        const minimumResult = summary.balanceResult;
+        const recommendedResult = summary.detailRecommendedResult;
         const selectionText = escapeHtml(t("results.detail.selectionText", {
           producerCount: String(summary.producerCount),
           consumerCount: String(summary.consumerCount)
@@ -1095,14 +1222,23 @@
             gap: formatChf(Math.abs(summary.balanceResult.consumerDeltaChfYear))
           });
         }
+        if (recommendedResult) {
+          introHtml += " " + t("results.detail.recommendedHtml", {
+            price: formatRpCompact(recommendedResult.solarPriceRpKwh),
+            consumerValue: formatSignedChf(recommendedResult.consumerDeltaChfYear),
+            producerValue: formatSignedChf(recommendedResult.producerDeltaChfYear)
+          });
+        }
         detailIntro.innerHTML = introHtml;
 
         if (!focusResult) {
           detailFocusPrice.textContent = t("results.emptyValue");
-          detailLocalSolar.textContent = t("results.emptyValue");
           detailConsumerDelta.textContent = t("results.emptyValue");
           detailProducerDelta.textContent = t("results.emptyValue");
-          detailUtilization.textContent = t("results.emptyValue");
+          detailRecommendedPrice.textContent = t("results.emptyValue");
+          detailRecommendedConsumerDelta.textContent = t("results.emptyValue");
+          detailRecommendedProducerDelta.textContent = t("results.emptyValue");
+          detailMetaFacts.textContent = "";
           detailTableBody.innerHTML = "";
           calculationIntro.textContent = t("results.calculation.empty");
           calculationSteps.innerHTML = "";
@@ -1112,11 +1248,20 @@
           return;
         }
 
-        detailFocusPrice.textContent = formatRp(focusResult.solarPriceRpKwh);
-        detailLocalSolar.textContent = formatKwh(summary.localSolarKwhYear);
-        detailConsumerDelta.textContent = formatSignedChf(focusResult.consumerDeltaChfYear);
-        detailProducerDelta.textContent = formatSignedChf(focusResult.producerDeltaChfYear);
-        detailUtilization.textContent = percentFormatter.format(utilizationPercent * 100) + " %";
+        detailFocusPrice.textContent = formatRp(minimumResult.solarPriceRpKwh);
+        detailConsumerDelta.textContent = formatSignedChf(minimumResult.consumerDeltaChfYear);
+        detailProducerDelta.textContent = formatSignedChf(minimumResult.producerDeltaChfYear);
+        detailRecommendedPrice.textContent = formatRp(summary.detailRecommendedPriceRpKwh);
+        detailRecommendedConsumerDelta.textContent = recommendedResult
+          ? formatSignedChf(recommendedResult.consumerDeltaChfYear)
+          : t("results.emptyValue");
+        detailRecommendedProducerDelta.textContent = recommendedResult
+          ? formatSignedChf(recommendedResult.producerDeltaChfYear)
+          : t("results.emptyValue");
+        detailMetaFacts.textContent = t("results.detail.metaFacts", {
+          localSolar: formatKwh(summary.localSolarKwhYear),
+          utilization: percentFormatter.format(utilizationPercent * 100) + " %"
+        });
 
         renderDetailTable(summary.priceResults, summary.closestResult);
         renderChart(summary.priceResults, summary.optimalResult || summary.balanceResult, summary);
@@ -1136,6 +1281,8 @@
           summary.producerCount * state.monthlyKwhPerParticipant * 12 * daytimeShareFactor;
         const localSolarKwhPerConsumer = summary.consumerCount > 0 ? focusResult.localSolarKwhYear / summary.consumerCount : 0;
         const localSolarKwhPerProducer = summary.producerCount > 0 ? focusResult.localSolarKwhYear / summary.producerCount : 0;
+        const hasRecommendedBand = hasVisibleRecommendedBand(summary);
+        const recommendedResult = summary.detailRecommendedResult;
 
         calculationIntro.innerHTML = t("results.calculation.introHtml", {
           producerCount: String(summary.producerCount),
@@ -1260,29 +1407,48 @@
           }) + "</code>" +
           "</li>" +
           "<li class='simulation-calc-step'>" +
-          "<strong class='simulation-calc-step-title'>" + t("results.calculation.steps.noLossBand.title") + "</strong>";
+          "<strong class='simulation-calc-step-title'>" + t("results.calculation.steps.recommendedBand.title") + "</strong>";
 
-        if (summary.noLossPriceMinRpKwh === null || summary.noLossPriceMaxRpKwh === null) {
+        if (summary.minimumPriceRpKwh === null || !hasRecommendedBand) {
           stepsHtml +=
             "<code class='simulation-formula simulation-formula-values'>" +
-            t("results.calculation.steps.noLossBand.noBand") +
+            t("results.calculation.steps.recommendedBand.noBand") +
             "</code>";
         } else {
           stepsHtml +=
-            "<code class='simulation-formula'>" + t("results.calculation.steps.noLossBand.formulaMin") + "</code>" +
-            "<code class='simulation-formula'>" + t("results.calculation.steps.noLossBand.formulaMax") + "</code>" +
-            "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.noLossBand.valuesMin", {
-              feedInRpKwh: formatDetailRp(state.feedInRpKwh),
-              annualFeeChf: formatDetailChf(feeBreakdown.annualFeeChf),
-              localSolarKwhPerProducer: formatDetailKwhYear(localSolarKwhPerProducer),
-              noLossPriceMinRpKwh: formatDetailRp(summary.noLossPriceMinRpKwh)
-            }) + "</code>" +
-            "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.noLossBand.valuesMax", {
+            "<code class='simulation-formula'>" + t("results.calculation.steps.recommendedBand.formulaMin") + "</code>" +
+            "<code class='simulation-formula'>" + t("results.calculation.steps.recommendedBand.formulaMax") + "</code>" +
+            "<code class='simulation-formula'>" + (
+              summary.recommendedResult
+                ? t("results.calculation.steps.recommendedBand.formulaRecommended")
+                : t("results.calculation.steps.recommendedBand.formulaRecommendedFallback")
+            ) + "</code>" +
+            "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.recommendedBand.valuesMin", {
+              producerCount: formatDetailNumber(summary.producerCount),
+              consumerCount: formatDetailNumber(summary.consumerCount),
+              totalParticipants: formatDetailNumber(feeBreakdown.totalParticipants),
               evuPriceRpKwh: formatDetailRp(state.evuPriceRpKwh),
-              annualFeeChf: formatDetailChf(feeBreakdown.annualFeeChf),
-              localSolarKwhPerConsumer: formatDetailKwhYear(localSolarKwhPerConsumer),
-              noLossPriceMaxRpKwh: formatDetailRp(summary.noLossPriceMaxRpKwh)
-            }) + "</code>";
+              feedInRpKwh: formatDetailRp(state.feedInRpKwh),
+              minimumPriceRpKwh: formatDetailRp(summary.minimumPriceRpKwh)
+            }) + "</code>" +
+            "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.recommendedBand.valuesMax", {
+              evuPriceRpKwh: formatDetailRp(state.evuPriceRpKwh),
+              recommendedBandMaxRpKwh: formatDetailRp(summary.recommendedBandMaxRpKwh)
+            }) + "</code>" +
+            "<code class='simulation-formula simulation-formula-values'>" + (
+              summary.recommendedResult
+                ? t("results.calculation.steps.recommendedBand.valuesRecommended", {
+                    producerMinYieldChfYear: formatDetailChf(state.producerMinYieldChfYear),
+                    recommendedPriceRpKwh: formatDetailRp(summary.detailRecommendedPriceRpKwh),
+                    minimumPriceRpKwh: formatDetailRp(summary.minimumPriceRpKwh),
+                    recommendedBandMaxRpKwh: formatDetailRp(summary.recommendedBandMaxRpKwh)
+                  })
+                : t("results.calculation.steps.recommendedBand.valuesRecommendedFallback", {
+                    producerMinYieldChfYear: formatDetailChf(state.producerMinYieldChfYear),
+                    recommendedPriceRpKwh: formatDetailRp(summary.detailRecommendedPriceRpKwh),
+                    producerDeltaChfYear: recommendedResult ? formatSignedChf(recommendedResult.producerDeltaChfYear) : t("results.emptyValue")
+                  })
+            ) + "</code>";
         }
 
         stepsHtml += "</li>";
@@ -1339,19 +1505,23 @@
         if (optimalResult) {
           xCandidates.push(optimalResult.solarPriceRpKwh);
         }
-        if (summary.noLossPriceMinRpKwh !== null) {
-          xCandidates.push(summary.noLossPriceMinRpKwh);
+        if (summary.recommendedBandMinRpKwh !== null) {
+          xCandidates.push(summary.recommendedBandMinRpKwh);
         }
-        if (summary.noLossPriceMaxRpKwh !== null) {
-          xCandidates.push(summary.noLossPriceMaxRpKwh);
+        if (summary.recommendedBandMaxRpKwh !== null) {
+          xCandidates.push(summary.recommendedBandMaxRpKwh);
+        }
+        if (summary.detailRecommendedPriceRpKwh !== null) {
+          xCandidates.push(summary.detailRecommendedPriceRpKwh);
         }
         const minPrice = xCandidates.length > 0 ? Math.min.apply(null, xCandidates) : 0;
         const maxPrice = xCandidates.length > 0 ? Math.max.apply(null, xCandidates) : 0;
+        const hasRecommendedBand = hasVisibleRecommendedBand(summary);
 
-        const noLossBandPlugin = {
-          id: "noLossBand",
+        const recommendedBandPlugin = {
+          id: "recommendedBand",
           beforeDatasetsDraw: function (chart, _args, pluginOptions) {
-            if (!pluginOptions || pluginOptions.min === null || pluginOptions.max === null || pluginOptions.max < pluginOptions.min) {
+            if (!pluginOptions) {
               return;
             }
 
@@ -1361,23 +1531,77 @@
               return;
             }
 
-            const left = Math.max(chartArea.left, xScale.getPixelForValue(pluginOptions.min));
-            const right = Math.min(chartArea.right, xScale.getPixelForValue(pluginOptions.max));
-            if (right <= left) {
+            const ctx = chart.ctx;
+
+            if (pluginOptions.min !== null && pluginOptions.max !== null && pluginOptions.max > pluginOptions.min) {
+              const left = Math.max(chartArea.left, xScale.getPixelForValue(pluginOptions.min));
+              const right = Math.min(chartArea.right, xScale.getPixelForValue(pluginOptions.max));
+              if (right > left) {
+                ctx.save();
+                ctx.fillStyle = "rgba(76, 145, 92, 0.18)";
+                ctx.fillRect(left, chartArea.top, right - left, chartArea.bottom - chartArea.top);
+                ctx.restore();
+              }
+            }
+          },
+          afterDatasetsDraw: function (chart, _args, pluginOptions) {
+            if (!pluginOptions || pluginOptions.recommendedPrice === null) {
+              return;
+            }
+
+            const chartArea = chart.chartArea;
+            const xScale = chart.scales.x;
+            if (!chartArea || !xScale) {
+              return;
+            }
+
+            const x = xScale.getPixelForValue(pluginOptions.recommendedPrice);
+            if (x < chartArea.left || x > chartArea.right) {
               return;
             }
 
             const ctx = chart.ctx;
             ctx.save();
-            ctx.fillStyle = "rgba(54, 117, 176, 0.16)";
-            ctx.fillRect(left, chartArea.top, right - left, chartArea.bottom - chartArea.top);
+            ctx.strokeStyle = "#2f8f3d";
+            ctx.lineWidth = 2;
+            ctx.setLineDash([8, 6]);
+            ctx.beginPath();
+            ctx.moveTo(x, chartArea.top);
+            ctx.lineTo(x, chartArea.bottom);
+            ctx.stroke();
+
+            const labelText = t("results.detail.chart.recommendedPriceLabel") + ": " + formatRpCompact(pluginOptions.recommendedPrice);
+            ctx.font = "12px Roboto, sans-serif";
+            ctx.textBaseline = "top";
+            const labelPaddingX = 6;
+            const labelPaddingY = 4;
+            const labelWidth = ctx.measureText(labelText).width + labelPaddingX * 2;
+            const labelHeight = 20;
+            let labelX = x + 8;
+
+            if (labelX + labelWidth > chartArea.right) {
+              labelX = x - labelWidth - 8;
+            }
+            if (labelX < chartArea.left) {
+              labelX = chartArea.left;
+            }
+
+            const labelY = chartArea.top + 6;
+            ctx.fillStyle = "rgba(255, 255, 255, 0.94)";
+            ctx.fillRect(labelX, labelY, labelWidth, labelHeight);
+            ctx.strokeStyle = "rgba(47, 143, 61, 0.45)";
+            ctx.lineWidth = 1;
+            ctx.setLineDash([]);
+            ctx.strokeRect(labelX, labelY, labelWidth, labelHeight);
+            ctx.fillStyle = "#255f2f";
+            ctx.fillText(labelText, labelX + labelPaddingX, labelY + labelPaddingY);
             ctx.restore();
           }
         };
 
         destroyChart();
         detailChart = new window.Chart(detailChartCanvas, {
-          plugins: [noLossBandPlugin],
+          plugins: [recommendedBandPlugin],
           type: "line",
           data: {
             datasets: [
@@ -1416,6 +1640,14 @@
                 tension: 0
               },
               {
+                label: t("results.detail.chart.recommendedBandLabel"),
+                data: [],
+                borderColor: "rgba(76, 145, 92, 0.95)",
+                backgroundColor: "rgba(76, 145, 92, 0.18)",
+                borderWidth: 6,
+                pointRadius: 0
+              },
+              {
                 type: "scatter",
                 label: t("results.detail.chart.optimalLabel"),
                 data: optimalResult
@@ -1424,8 +1656,8 @@
                       { x: optimalResult.solarPriceRpKwh, y: optimalResult.producerDeltaChfYear }
                     ]
                   : [],
-                backgroundColor: "#4f7138",
-                borderColor: "#4f7138",
+                backgroundColor: "#c43d2f",
+                borderColor: "#c43d2f",
                 pointRadius: 5,
                 pointHoverRadius: 6
               }
@@ -1439,9 +1671,10 @@
               intersect: false
             },
             plugins: {
-              noLossBand: {
-                min: summary.noLossPriceMinRpKwh,
-                max: summary.noLossPriceMaxRpKwh
+              recommendedBand: {
+                min: hasRecommendedBand ? summary.recommendedBandMinRpKwh : null,
+                max: hasRecommendedBand ? summary.recommendedBandMaxRpKwh : null,
+                recommendedPrice: summary.detailRecommendedPriceRpKwh
               },
               legend: {
                 position: "bottom"
@@ -1672,7 +1905,22 @@
        * @returns {string}
        */
       function formatDetailRp(value) {
+        if (value === null || !Number.isFinite(value)) {
+          return t("results.emptyValue");
+        }
         return detailRateFormatter.format(value) + " " + t("units.rpPerKwh");
+      }
+
+      /**
+       * @param {ScenarioSummary} summary
+       * @returns {boolean}
+       */
+      function hasVisibleRecommendedBand(summary) {
+        return (
+          summary.recommendedBandMinRpKwh !== null &&
+          summary.recommendedBandMaxRpKwh !== null &&
+          summary.recommendedBandMaxRpKwh > summary.recommendedBandMinRpKwh + FAIRNESS_EPSILON
+        );
       }
 
       /**
