@@ -156,20 +156,13 @@
         </header>
 
         <div class="cards">
-          <article class="card card-two-thirds">
+          <article class="card card-third">
             <div class="card-head">
               <h3 data-i18n="slides.slide4.cards.card1.title"></h3>
             </div>
-            <div class="card-body card-body-strompreis">
-              <div class="strompreis-card-content">
-                <div class="strompreis-card-text">
-                  <p data-i18n-html="slides.slide4.cards.card1.body1Html"></p>
-                  <p data-i18n-html="slides.slide4.cards.card1.body2Html"></p>
-                </div>
-                <div class="strompreis-card-graphic">
-                  <div id="strompreis-composition" class="strompreis-composition"></div>
-                </div>
-              </div>
+            <div class="card-body slide4-card-body">
+              <p data-i18n="slides.slide4.cards.card1.body1"></p>
+              <p data-i18n-html="slides.slide4.cards.card1.body2Html"></p>
             </div>
           </article>
 
@@ -177,9 +170,20 @@
             <div class="card-head">
               <h3 data-i18n="slides.slide4.cards.card2.title"></h3>
             </div>
-            <div class="card-body">
-              <p data-i18n="slides.slide4.cards.card2.body1"></p>
+            <div class="card-body slide4-card-body">
+              <p data-i18n-html="slides.slide4.cards.card2.body1Html"></p>
               <p data-i18n-html="slides.slide4.cards.card2.body2Html"></p>
+              <p data-i18n-html="slides.slide4.cards.card2.body3Html"></p>
+            </div>
+          </article>
+
+          <article class="card card-third">
+            <div class="card-head">
+              <h3 data-i18n="slides.slide4.cards.card3.title"></h3>
+            </div>
+            <div class="card-body slide4-card-body">
+              <p data-i18n="slides.slide4.cards.card3.body1"></p>
+              <p data-i18n-html="slides.slide4.cards.card3.body2Html"></p>
             </div>
           </article>
         </div>
@@ -300,202 +304,6 @@
       var slideIndicator = document.getElementById("slideIndicator");
       var activeIndex = 0;
       var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      var strompreisCompositionConfig = {
-        unit: t("strompreis.config.unit"),
-        leftColumn: {
-          label: t("strompreis.config.leftColumn.label"),
-          value: 28
-        },
-        segments: [
-          {
-            key: "feeTop",
-            type: "value",
-            label: t("strompreis.config.segments.feeTop.label"),
-            value: 3
-          },
-          {
-            key: "solarBand",
-            type: "range",
-            label: t("strompreis.config.segments.solarBand.label"),
-            min: 11,
-            max: 25
-          },
-          {
-            key: "feeBottom",
-            type: "value",
-            label: t("strompreis.config.segments.feeBottom.label"),
-            value: 3
-          },
-          {
-            key: "feedIn",
-            type: "value",
-            label: t("strompreis.config.segments.feedIn.label"),
-            value: 8
-          }
-        ]
-      };
-
-      function getNumericValue(value) {
-        var numericValue = Number(value);
-        if (!Number.isFinite(numericValue)) {
-          return 0;
-        }
-        return numericValue;
-      }
-
-      function formatNumber(value) {
-        var roundedValue = Math.round(value * 100) / 100;
-        if (Math.abs(roundedValue % 1) < 0.0000001) {
-          return String(Math.round(roundedValue));
-        }
-        return String(roundedValue);
-      }
-
-      function getClassSafeKey(value) {
-        return String(value || "")
-          .replace(/([a-z])([A-Z])/g, "$1-$2")
-          .replace(/[^a-zA-Z0-9-_]/g, "-")
-          .toLowerCase();
-      }
-
-      function getSegmentByKey(segments, key) {
-        for (var i = 0; i < segments.length; i += 1) {
-          if (segments[i] && segments[i].key === key) {
-            return segments[i];
-          }
-        }
-        return null;
-      }
-
-      function applyDerivedStrompreisValues(config) {
-        var segments = config.segments || [];
-        var solarBand = getSegmentByKey(segments, "solarBand");
-        var feeTop = getSegmentByKey(segments, "feeTop");
-        var feeBottom = getSegmentByKey(segments, "feeBottom");
-        var feedIn = getSegmentByKey(segments, "feedIn");
-        if (!solarBand) {
-          return;
-        }
-
-        var normalPrice = getNumericValue(config.leftColumn && config.leftColumn.value);
-        var topFee = getNumericValue(feeTop && feeTop.value);
-        var bottomFee = getNumericValue(feeBottom && feeBottom.value);
-        var feedInValue = getNumericValue(feedIn && feedIn.value);
-
-        solarBand.min = Math.max(0, feedInValue + bottomFee);
-        solarBand.max = Math.max(solarBand.min, normalPrice - topFee);
-      }
-
-      function renderStrompreisText(config) {
-        var segments = config.segments || [];
-        var solarBand = getSegmentByKey(segments, "solarBand");
-        if (!solarBand) {
-          return;
-        }
-
-        var values = {
-          normal: formatNumber(getNumericValue(config.leftColumn && config.leftColumn.value)),
-          bandMin: formatNumber(getNumericValue(solarBand.min)),
-          bandMax: formatNumber(getNumericValue(solarBand.max))
-        };
-
-        var fields = document.querySelectorAll("[data-strompreis-field]");
-        for (var i = 0; i < fields.length; i += 1) {
-          var fieldName = fields[i].getAttribute("data-strompreis-field");
-          fields[i].textContent = Object.prototype.hasOwnProperty.call(values, fieldName) ? values[fieldName] : "";
-        }
-      }
-
-      function getSegmentUnits(segment) {
-        if (segment.type === "range") {
-          return Math.max(0, getNumericValue(segment.max) - getNumericValue(segment.min));
-        }
-        return Math.max(0, getNumericValue(segment.value));
-      }
-
-      function getSegmentDetail(segment, unit) {
-        if (segment.type === "range") {
-          return (
-            formatNumber(getNumericValue(segment.min)) +
-            " " +
-            t("strompreis.rangeConnector") +
-            " " +
-            formatNumber(getNumericValue(segment.max)) +
-            " " +
-            unit
-          );
-        }
-        return formatNumber(getNumericValue(segment.value)) + " " + unit;
-      }
-
-      function buildChartAriaLabel(config) {
-        var descriptionParts = [];
-        descriptionParts.push(config.leftColumn.label + " " + formatNumber(getNumericValue(config.leftColumn.value)) + " " + config.unit);
-        for (var i = 0; i < config.segments.length; i += 1) {
-          var segment = config.segments[i];
-          descriptionParts.push(segment.label + " " + getSegmentDetail(segment, config.unit));
-        }
-        return descriptionParts.join(". ");
-      }
-
-      function renderStrompreisComposition() {
-        var container = document.getElementById("strompreis-composition");
-        if (!container) {
-          return;
-        }
-
-        var config = strompreisCompositionConfig;
-        var segments = config.segments || [];
-        if (segments.length === 0) {
-          return;
-        }
-
-        container.innerHTML = "";
-
-        var layout = document.createElement("div");
-        layout.className = "strompreis-layout";
-
-        var chart = document.createElement("div");
-        chart.className = "strompreis-chart";
-        chart.setAttribute("role", "img");
-        chart.setAttribute("aria-label", buildChartAriaLabel(config));
-
-        var left = document.createElement("div");
-        left.className = "strompreis-left";
-        var leftLabel = document.createElement("p");
-        leftLabel.className = "strompreis-left-label";
-        leftLabel.textContent = formatNumber(getNumericValue(config.leftColumn.value)) + " " + config.unit;
-        left.appendChild(leftLabel);
-
-        var stack = document.createElement("div");
-        stack.className = "strompreis-stack";
-
-        for (var j = 0; j < segments.length; j += 1) {
-          var segmentItem = segments[j];
-          var units = getSegmentUnits(segmentItem);
-          var segmentKeyClass = getClassSafeKey(segmentItem.key);
-
-          var segment = document.createElement("section");
-          segment.className = "strompreis-segment strompreis-segment-" + segmentItem.type;
-          if (segmentKeyClass) {
-            segment.className += " strompreis-segment-" + segmentKeyClass;
-          }
-          segment.style.flexGrow = String(units > 0 ? units : 0.1);
-          segment.style.flexBasis = "0";
-
-          var value = document.createElement("p");
-          value.className = "strompreis-segment-value";
-          value.textContent = getSegmentDetail(segmentItem, config.unit);
-
-          segment.appendChild(value);
-          stack.appendChild(segment);
-        }
-
-        chart.appendChild(left);
-        chart.appendChild(stack);
-        layout.appendChild(chart);
-        container.appendChild(layout);
-      }
 
       function clampIndex(index) {
         if (index < 0) {
@@ -639,9 +447,6 @@
         window.requestAnimationFrame(splitSingleLineCardTitles);
       });
 
-      applyDerivedStrompreisValues(strompreisCompositionConfig);
-      renderStrompreisText(strompreisCompositionConfig);
-      renderStrompreisComposition();
       updateUi();
     })();
   </script>

@@ -69,72 +69,55 @@
       "cards": {
         "card1": {
           "title": "Beispiel ohne eigene Solaranlage",
-          "body1": "Ein Haushalt mit 4 Personen und 250 kWh pro Monat spart rund 130 CHF pro Jahr.",
-          "body2": "Ein Haushalt mit 2 Personen und 150 kWh pro Monat spart rund 65 CHF pro Jahr.",
-          "chip": "Bis 130 CHF sparen"
+          "body1": "Ein Haushalt mit 4 Personen und 250 kWh pro Monat spart rund 115 CHF pro Jahr.",
+          "body2": "Ein Haushalt mit 2 Personen und 150 kWh pro Monat spart rund 55 CHF pro Jahr.",
+          "chip": "Bis 115 CHF sparen"
         },
         "card2": {
           "title": "Beispiel mit eigener Solaranlage",
-          "body": "Der Mehrertrag liegt bei mindestens 50 bis 75 CHF pro Jahr.",
-          "chip": "Mehrertrag ab 50 CHF"
+          "body": "Der Mehrertrag liegt bei rund 100 CHF pro Jahr.",
+          "chip": "Mehrertrag 100 CHF"
         },
         "card3": {
           "title": "Alle Kosten auf einen Blick",
-          "body1": "Einmalige Einrichtungspauschale 490 CHF pro Gemeinschaft.",
+          "body1": "Einmalige Einrichtungspauschale 490 CHF, bezahlt von den Solaranlagenbetreibern.",
           "body2": "Mutationspauschale 60 CHF pro nachträgliche Anpassung.",
           "body3": "Monatliche Kostenabrechnung Solarstrom 3 CHF pro Haushalt.",
           "chip": "Fair und transparent"
         }
       },
-      "noteHtml": "Je besser Verbrauch und Solarstrom in der Nachbarschaft zusammenpassen, desto grösser ist der Nutzen für alle. Das gelingt am besten, wenn du deinen Grossverbrauch wie Waschmaschine, Tumbler und ähnliche Geräte in die Sonnenstunden verlegen kannst.<br>Die Kostenangaben sind von Thurplus. Ersparnisse und Mehrerträge sind mit Durchschnittswerten berechnet und hängen von der Anzahl Teilnehmender und ihrem Verbrauch ab."
+      "noteHtml": "Je besser Verbrauch und Solarstrom in der Nachbarschaft zusammenpassen, desto grösser ist der Nutzen für alle. Besonders vorteilhaft ist es, wenn du häufig zuhause bist und Grossverbraucher in die Sonnenstunden verlegen kannst. Die Beispiele rechnen mit 17 Parteien und einem Solarstrompreis von 17.8 Rp/kWh. Die Kostenangaben stammen von Thurplus. Ersparnisse und Mehrerträge sind Durchschnittswerte und hängen von der Anzahl Teilnehmender sowie ihrem Verbrauch ab."
     },
     "slide4": {
       "ariaLabel": "Slide 4 von 4",
       "hero": {
-        "title": "Den Solarstrompreis bestimmst du mit",
-        "subtitle": "Alle Teilnehmenden stimmen über den Preis ab. Der Solarstrompreis ergibt sich aus dem Durchschnitt aller Stimmen."
+        "title": "Der Solarstrompreis hängt von der Situation ab",
+        "subtitle": "Da EigenverbrauchMax einige Fixkosten hat und der Stromverbrauch gut zur Produktion passen muss, bestimmen wir den Strompreis rechnerisch."
       },
       "cards": {
         "card1": {
-          "title": "So finden wir einen fairen Solarstrompreis",
-          "body1Html": "<span class='strompreis-word-red'>Rot</span> zeigt den normalen Strompreis (aktuell <span data-strompreis-field='normal'></span> Rp/kWh). <span class='strompreis-word-blue'>Blau</span> zeigt die Kosten für Bezüger. <span class='strompreis-word-yellow'>Gelb</span> zeigt die Kosten für Produzenten.",
-          "body2Html": "Den <span class='strompreis-word-green'>Solarstrompreis</span> können wir frei festlegen. Sinnvoll ist ein Bereich zwischen <span data-strompreis-field='bandMin'></span> und <span data-strompreis-field='bandMax'></span> Rp/kWh, damit beide Seiten profitieren. Unter <span data-strompreis-field='bandMin'></span> Rp/kWh lohnt es sich für Produzenten nicht. Über <span data-strompreis-field='bandMax'></span> Rp/kWh sparen Bezüger zu wenig."
+          "title": "So wird der Preis festgelegt",
+          "body1": "Um den Strompreis zu bestimmen, müssen wir einige Annahmen treffen. Der Preis hängt von mehreren Faktoren ab, zum Beispiel vom Verbrauch, von der Anzahl Teilnehmender und vom Zielertrag für die Produzenten.",
+          "body2Html": "In der <a href='simulation.html'>Simulation</a> ist die Berechnung transparent nachvollziehbar."
         },
         "card2": {
-          "title": "Freie Wahl braucht Verantwortung",
-          "body1": "Mit eurer Stimme legen wir den Preis fest. Weil jede Stimme gleich zählt, kann eine Mehrheit den Preis deutlich beeinflussen. Darum tragen alle Verantwortung und müssen die Gemeinschaft im Blick behalten.",
-          "body2Html": "Mit dem <a href='calculator.html'>Rechner</a> kann jede Person die eigene Situation prüfen. Mit der <a href='simulation.html'>Simulation</a> könnt ihr die ganze Gemeinschaft durchrechnen."
+          "title": "Mit diesen Werten wird gerechnet",
+          "body1Html": "<strong>200 kWh</strong> Durchschnittsverbrauch.<br><span class='slide4-reason'>Abgeschätzter Mittelwert auf Basis von Erfahrung und der Studie von EnergieSchweiz.</span>",
+          "body2Html": "<strong>55 %</strong> Anteil in den Solarstunden.<br><span class='slide4-reason'>Geschätzt anhand der Demografie am Dohlenweg.</span>",
+          "body3Html": "<strong>100 CHF</strong> Mehrertrag.<br><span class='slide4-reason'>Mehrertrag, da die Produzenten die Einrichtungspauschale bezahlen und die Verantwortung tragen.</span>"
+        },
+        "card3": {
+          "title": "Was heisst das für die Gemeinschaft",
+          "body1": "Der Preis steht erst fest, wenn klar ist, wie sich die Gemeinschaft tatsächlich zusammensetzt. Je mehr Personen sich beteiligen, desto tiefer fällt der Solarstrompreis wahrscheinlich aus.",
+          "body2Html": "Der <a href='calculator.html'>Rechner</a> hilft bei der persönlichen Einordnung."
         }
       },
-      "note": "Alle Zahlen sind von mir geschätzt und hängen vom Stromverbrauch innerhalb der Gemeinschaft ab. Bei Bezügern sind die Kosten die monatliche Abrechnungsgebühr. Bei Produzenten sind die Kosten die monatliche Abrechnungsgebühr und die verlorene Einspeisevergütung."
+      "note": "Kann unter diesen Annahmen kein empfohlener Preis ermittelt werden, lohnt sich EigenverbrauchMax für diese Konstellation nicht. Alle Annahmen und Berechnungen wurden nach bestem Wissen und Gewissen erstellt."
     }
   },
   "controls": {
     "ariaLabel": "Slide Navigation",
     "prev": "Zurück",
     "next": "Weiter"
-  },
-  "strompreis": {
-    "rangeConnector": "bis",
-    "config": {
-      "unit": "Rp/kWh",
-      "leftColumn": {
-        "label": "Normaler Strompreis"
-      },
-      "segments": {
-        "feeTop": {
-          "label": "Abrechnungspauschale für EigenverbrauchMax"
-        },
-        "solarBand": {
-          "label": "Spielraum Solarstrompreis"
-        },
-        "feeBottom": {
-          "label": "Abrechnungspauschale für EigenverbrauchMax"
-        },
-        "feedIn": {
-          "label": "Solarstromvergütung"
-        }
-      }
-    }
   }
 }

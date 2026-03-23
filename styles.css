@@ -1010,128 +1010,6 @@ body.page-praesentation {
       max-width: 62ch;
     }
 
-    body.page-praesentation .strompreis-composition{
-      display: flex;
-      justify-content: flex-end;
-      align-items: stretch;
-      width: 100%;
-      min-width: 0;
-      min-height: clamp(210px, 24vh, 280px);
-      padding: 0;
-    }
-
-    body.page-praesentation .strompreis-layout{
-      width: 100%;
-      display: flex;
-      justify-content: flex-end;
-      align-items: stretch;
-      gap: clamp(0.34rem, 0.75vw, 0.62rem);
-    }
-
-    body.page-praesentation .strompreis-chart{
-      display: grid;
-      grid-template-columns: clamp(40px, 20%, 52px) 1fr;
-      width: min(100%, 205px);
-      height: 100%;
-      border: 1px solid rgba(143, 137, 122, 0.32);
-      border-radius: 7px;
-      overflow: hidden;
-      background: #f5efe1;
-      box-shadow: 0 8px 16px rgba(66, 59, 44, 0.13);
-    }
-
-    body.page-praesentation .strompreis-left{
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-right: 1px solid rgba(185, 133, 127, 0.35);
-      background: #efb9b1;
-      padding: 0.6rem 0.25rem;
-    }
-
-    body.page-praesentation .strompreis-chart .strompreis-left-label{
-      margin: 0;
-      writing-mode: vertical-rl;
-      transform: rotate(180deg);
-      font-size: 1.1rem !important;
-      line-height: 1.15;
-      text-align: center;
-      color: #344031;
-      font-weight: 400;
-    }
-
-    body.page-praesentation .strompreis-stack{
-      display: flex;
-      flex-direction: column;
-      min-height: 100%;
-    }
-
-    body.page-praesentation .strompreis-segment{
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      gap: 0;
-      padding: clamp(0.16rem, 0.42vh, 0.28rem) clamp(0.24rem, 0.45vw, 0.42rem);
-      border-top: 1px solid rgba(149, 142, 126, 0.28);
-      background: #f5efe1;
-    }
-
-    body.page-praesentation .strompreis-segment:first-child{
-      border-top: 0;
-    }
-
-    body.page-praesentation .strompreis-segment-range{
-      background: #f2ebda;
-    }
-
-    body.page-praesentation .strompreis-chart .strompreis-segment-value{
-      margin: 0;
-      color: #344031;
-      text-wrap: balance;
-      font-size: 1.1rem !important;
-      line-height: 1.15;
-      font-weight: 400;
-    }
-
-    body.page-praesentation .strompreis-segment-fee-top{
-      background: #c2d9f6;
-    }
-
-    body.page-praesentation .strompreis-segment-solar-band{
-      background: #c8e7bc;
-    }
-
-    body.page-praesentation .strompreis-segment-fee-bottom,
-    body.page-praesentation .strompreis-segment-feed-in{
-      background: #f6df91;
-    }
-
-    body.page-praesentation .strompreis-word-red,
-    body.page-praesentation .strompreis-word-blue,
-    body.page-praesentation .strompreis-word-green,
-    body.page-praesentation .strompreis-word-yellow{
-      font-weight: 700;
-      letter-spacing: 0.1px;
-    }
-
-    body.page-praesentation .strompreis-word-red{
-      color: #c8857d;
-    }
-
-    body.page-praesentation .strompreis-word-blue{
-      color: #7ba7d9;
-    }
-
-    body.page-praesentation .strompreis-word-green{
-      color: #7fb27a;
-    }
-
-    body.page-praesentation .strompreis-word-yellow{
-      color: #b5963f;
-    }
-
     body.page-praesentation .cards{
       display: grid;
       gap: clamp(0.72rem, 1.2vw, 1rem);
@@ -1193,11 +1071,6 @@ body.page-praesentation {
       margin-bottom: 0.5rem;
     }
 
-    body.page-praesentation .card-body .strompreis-chart .strompreis-left-label,
-    body.page-praesentation .card-body .strompreis-chart .strompreis-segment-value{
-      margin-bottom: 0;
-    }
-
     body.page-praesentation .chip{
       display: inline-flex;
       align-self: flex-start;
@@ -1223,43 +1096,45 @@ body.page-praesentation {
       grid-column: span 8;
     }
 
-    body.page-praesentation .slide-4 .card-two-thirds{
-      grid-column: span 7;
-    }
-
-    body.page-praesentation .slide-4 .card-third{
-      grid-column: span 5;
-    }
-
-    body.page-praesentation .strompreis-card-content{
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) clamp(220px, 33%, 330px);
-      gap: clamp(0.72rem, 1vw, 1rem);
-      align-items: stretch;
-      min-width: 0;
-    }
-
-    body.page-praesentation .strompreis-card-text{
+    body.page-praesentation .slide4-card-body{
       display: flex;
       flex-direction: column;
-      min-width: 0;
+      gap: 0.7rem;
     }
 
-    body.page-praesentation .strompreis-card-graphic{
-      display: flex;
-      justify-content: flex-end;
-      align-items: stretch;
-      min-width: 0;
+    body.page-praesentation .slide4-card-body p{
+      max-width: none;
     }
 
-    body.page-praesentation .strompreis-card-graphic .strompreis-layout{
-      width: 100%;
-      height: 100%;
+    body.page-praesentation .slide4-card-body p + p{
+      margin-top: 0;
     }
 
-    body.page-praesentation .strompreis-card-graphic .strompreis-composition{
-      height: 100%;
-      min-height: clamp(220px, 22vh, 300px);
+    body.page-praesentation .slide4-card-body strong{
+      font-weight: 760;
+      color: #2f3a2c;
+    }
+
+    body.page-praesentation .slide4-card-body .slide4-reason{
+      font-size: 0.83em;
+      line-height: 1.32;
+      color: #5b6758;
+    }
+
+    body.page-praesentation .slide4-card-body a{
+      color: #305779;
+      text-decoration-thickness: 1.5px;
+      text-underline-offset: 0.15em;
+    }
+
+    body.page-praesentation .slide4-card-body a:hover{
+      color: #223f58;
+    }
+
+    body.page-praesentation .slide4-card-body a:focus-visible{
+      outline: none;
+      border-radius: 0.2rem;
+      box-shadow: 0 0 0 3px rgba(48, 87, 121, 0.2);
     }
 
     body.page-praesentation .note{
@@ -1495,11 +1370,6 @@ body.page-praesentation {
       body.page-praesentation .card-third{
         grid-column: span 6;
       }
-
-      body.page-praesentation .slide-4 .card-two-thirds,
-      body.page-praesentation .slide-4 .card-third{
-        grid-column: span 12;
-      }
     }
 
     @media (max-width: 980px){
@@ -1517,29 +1387,8 @@ body.page-praesentation {
         max-width: 100%;
       }
 
-      body.page-praesentation .strompreis-composition{
-        justify-content: flex-start;
-        min-height: clamp(200px, 34vw, 250px);
-      }
-
-      body.page-praesentation .strompreis-chart{
-        max-width: 205px;
-      }
-
       body.page-praesentation .card-third, body.page-praesentation .card-two-thirds{
         grid-column: span 12;
-      }
-
-      body.page-praesentation .strompreis-card-content{
-        grid-template-columns: 1fr;
-      }
-
-      body.page-praesentation .strompreis-card-graphic{
-        justify-content: flex-start;
-      }
-
-      body.page-praesentation .strompreis-layout{
-        justify-content: flex-start;
       }
 
     }
@@ -1572,18 +1421,6 @@ body.page-praesentation {
 
       body.page-praesentation .hero{
         padding: 0.82rem;
-      }
-
-      body.page-praesentation .strompreis-composition{
-        min-height: 185px;
-      }
-
-      body.page-praesentation .strompreis-chart{
-        max-width: 100%;
-      }
-
-      body.page-praesentation .strompreis-layout{
-        gap: 0.32rem;
       }
 
       body.page-praesentation .card-head, body.page-praesentation .card-body{
