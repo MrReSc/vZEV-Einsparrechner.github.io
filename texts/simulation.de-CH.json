@@ -102,11 +102,11 @@
       "title": "Detailauswertung",
       "empty": "Wähle oben ein Szenario in der Matrix. Die Detailauswertung erscheint direkt darunter.",
       "selectionText": "Ausgewählt ist das Szenario mit {producerCount} Produzenten und {consumerCount} Bezügern.",
-      "fairHtml": "Bei einem Preis von <strong>{optimal} Rp/kWh</strong> haben alle Teilnehmer denselben Jahresvorteil von <strong>{value}</strong> pro Jahr.",
+      "fairHtml": "Beim Mindestpreis von <strong>{optimal} Rp/kWh</strong> haben alle Teilnehmer denselben Jahresvorteil von <strong>{value}</strong> pro Jahr.",
       "noFairHtml": "Es gibt keinen Preis mit gleichem und gleichzeitig positivem Jahresvorteil für beide Seiten. Der Preis am nächsten am Gleichgewicht liegt bei <strong>{closest} Rp/kWh</strong>. Am exakten Gleichgewicht bleibt der gemeinsame Vorteil mit <strong>{gap}</strong> unter null.",
       "chartUnavailable": "Chart.js konnte nicht geladen werden. Die Tabelle unten zeigt die gleichen Werte ohne Grafik.",
       "metrics": {
-        "focusPrice": "Optimaler Preis",
+        "focusPrice": "Mindestpreis",
         "localSolar": "Lokal nutzbarer Solarstrom",
         "consumerDelta": "Ersparnis pro Bezüger/Jahr",
         "producerDelta": "Mehrerlös pro Produzent/Jahr",
@@ -116,7 +116,7 @@
         "consumerLabel": "Bezüger",
         "producerLabel": "Produzenten",
         "zeroLabel": "Break-even",
-        "optimalLabel": "Optimaler Preis",
+        "optimalLabel": "Mindestpreis",
         "xAxis": "Solarstrompreis (Rp/kWh)",
         "yAxis": "Jährliche Veränderung pro Teilnehmer"
       },
