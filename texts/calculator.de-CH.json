@@ -5,7 +5,12 @@
   "header": {
     "title": "Stromkosten mit Solarstrom",
     "subtitle": "Du siehst in kurzer Zeit was Solarstrom aus der Nachbarschaft für deine jährlichen Stromkosten bedeuten kann.",
-    "linkNoteHtml": "Zurück zur Präsentation? <a href='index.html'>Hier findest du die kurze Übersicht zu EigenverbrauchMax.</a> Oder direkt zur <a href='simulation.html'>EigenverbrauchMax-Simulation</a> wechseln."
+    "navigationAria": "Seitennavigation",
+    "navigation": {
+      "presentation": "Präsentation",
+      "calculate": "Jetzt Einsparung berechnen",
+      "simulate": "EigenverbrauchMax simulieren"
+    }
   },
   "inputs": {
     "title": "Deine Angaben",

@@ -5,7 +5,12 @@
   "header": {
     "title": "EigenverbrauchMax Simulation",
     "subtitle": "Die Simulation zeigt für verschiedene Kombinationen aus Produzenten, reinen Bezügern und Solarstrompreisen, ab wann beide Seiten im Jahresvergleich profitieren.",
-    "linkNoteHtml": "Zurück zur <a href='index.html'>Präsentation</a> oder lieber zum <a href='calculator.html'>Einzelrechner</a> wechseln."
+    "navigationAria": "Seitennavigation",
+    "navigation": {
+      "presentation": "Präsentation",
+      "calculate": "Jetzt Einsparung berechnen",
+      "simulate": "EigenverbrauchMax simulieren"
+    }
   },
   "inputs": {
     "title": "Parameter",
@@ -85,17 +90,18 @@
     "title": "Ergebnisse",
     "emptyValue": "-",
     "matrix": {
-      "title": "Auswahl Anzahl Produzenten / Bezüger",
+      "title": "Szenario wählen",
       "intro": "Bitte in der Matrix das Feld mit der gewünschten Anzahl Bezüger und Produzenten anklicken.",
       "cornerLabel": "",
       "producerLabelShort": "{count} Prod.",
       "consumerLabelShort": "{count} Bez.",
       "benefitLabel": "CHF/a",
-      "cellAriaLabel": "{producerCount} Produzenten und {consumerCount} Bezüger auswählen. Berechnete Ersparnis: {value}."
+      "cellAriaLabel": "{producerCount} Produzenten und {consumerCount} Bezüger auswählen. Ersparnis: {benefit}. Solarstrompreis: {price}."
     },
     "detail": {
-      "title": "Detailansicht",
-      "empty": "Bitte zuerst gültige Eingaben machen.",
+      "title": "Detailauswertung",
+      "empty": "Wähle oben ein Szenario in der Matrix. Die Detailauswertung erscheint direkt darunter.",
+      "selectionText": "Ausgewählt ist das Szenario mit {producerCount} Produzenten und {consumerCount} Bezügern.",
       "fairHtml": "Bei einem Preis von <strong>{optimal} Rp/kWh</strong> haben alle Teilnehmer denselben Jahresvorteil von <strong>{value}</strong> pro Jahr.",
       "noFairHtml": "Es gibt keinen Preis mit gleichem und gleichzeitig positivem Jahresvorteil für beide Seiten. Der Preis am nächsten am Gleichgewicht liegt bei <strong>{closest} Rp/kWh</strong>. Am exakten Gleichgewicht bleibt der gemeinsame Vorteil mit <strong>{gap}</strong> unter null.",
       "chartUnavailable": "Chart.js konnte nicht geladen werden. Die Tabelle unten zeigt die gleichen Werte ohne Grafik.",

@@ -11,11 +11,15 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body class="page-simulation">
+  <nav class="top-actions" data-i18n-attr="aria-label:header.navigationAria">
+    <a class="quick-link" href="index.html" data-i18n="header.navigation.presentation"></a>
+    <a class="quick-link" href="calculator.html" data-i18n="header.navigation.calculate"></a>
+  </nav>
+
   <main class="simulation-container">
     <header class="simulation-header">
       <h1 data-i18n="header.title"></h1>
       <p data-i18n="header.subtitle"></p>
-      <p class="simulation-link-note" data-i18n-html="header.linkNoteHtml"></p>
     </header>
 
     <section class="simulation-layout">
@@ -195,7 +199,7 @@
             </div>
           </section>
 
-          <section class="simulation-panel">
+          <section class="simulation-panel" id="detailPanel">
             <div class="simulation-panel-head">
               <h3 data-i18n="results.detail.title"></h3>
             </div>
@@ -488,6 +492,7 @@
       const validationStatus = document.getElementById("validationStatus");
       const matrixHeaderRow = document.getElementById("matrixHeaderRow");
       const matrixBody = document.getElementById("matrixBody");
+      const detailPanel = document.getElementById("detailPanel");
       const detailIntro = document.getElementById("detailIntro");
       const detailFocusPrice = document.getElementById("detailFocusPrice");
       const detailLocalSolar = document.getElementById("detailLocalSolar");
@@ -503,6 +508,7 @@
       var selectedProducerCount = DEFAULT_STATE.maxProducerCount;
       var selectedConsumerCount = DEFAULT_STATE.maxConsumerCount;
       var detailChart = null;
+      var detailHighlightTimeout = 0;
 
       initialize();
 
@@ -513,7 +519,7 @@
         form.addEventListener("input", renderFromForm);
         form.addEventListener("change", renderFromForm);
         resetBtn.addEventListener("click", handleReset);
-        matrixBody.addEventListener("click", handleMatrixSelection);
+        matrixBody.addEventListener("change", handleMatrixSelection);
         renderFromForm();
       }
 
@@ -1042,18 +1048,22 @@
           for (let producerCount = 1; producerCount <= state.maxProducerCount; producerCount += 1) {
             const summary = summaryMap[getScenarioKey(producerCount, consumerCount)];
             const isSelected = producerCount === selectedProducerCount && consumerCount === selectedConsumerCount;
-            const mainLabel = formatSignedChfCompact(summary.balanceResult.consumerDeltaChfYear) + " " + t("results.matrix.benefitLabel");
+            const scenarioId = "matrix-scenario-" + producerCount + "-" + consumerCount;
+            const benefitLabel = formatSignedChfCompact(summary.balanceResult.consumerDeltaChfYear) + " " + t("results.matrix.benefitLabel");
+            const priceLabel = formatRp(summary.balanceResult.solarPriceRpKwh);
             const cellLabel = t("results.matrix.cellAriaLabel", {
               producerCount: String(producerCount),
               consumerCount: String(consumerCount),
-              value: mainLabel
+              benefit: benefitLabel,
+              price: priceLabel
             });
 
             bodyHtml +=
               "<td class='status-" + summary.status + (isSelected ? " is-selected" : "") + "'>" +
-              "<button type='button' class='simulation-matrix-cell' data-producers='" + producerCount + "' data-consumers='" + consumerCount + "' aria-pressed='" + (isSelected ? "true" : "false") + "' aria-label='" + escapeHtml(cellLabel) + "' title='" + escapeHtml(cellLabel) + "'>" +
-              "<span class='main'>" + mainLabel + "</span>" +
-              "</button>" +
+              "<label class='simulation-matrix-option' for='" + scenarioId + "'>" +
+              "<input type='radio' class='simulation-matrix-radio-input' id='" + scenarioId + "' name='matrixScenario' data-producers='" + producerCount + "' data-consumers='" + consumerCount + "' aria-label='" + escapeHtml(cellLabel) + "'" + (isSelected ? " checked" : "") + ">" +
+              "<span class='simulation-matrix-benefit' aria-hidden='true'>" + benefitLabel + "</span>" +
+              "</label>" +
               "</td>";
           }
           bodyHtml += "</tr>";
@@ -1068,20 +1078,24 @@
       function renderDetail(summary, state) {
         const focusResult = summary.optimalResult || summary.closestResult || summary.priceResults[0] || null;
         const utilizationPercent = summary.solarAvailableKwhYear > 0 ? summary.localSolarKwhYear / summary.solarAvailableKwhYear : 0;
+        const selectionText = escapeHtml(t("results.detail.selectionText", {
+          producerCount: String(summary.producerCount),
+          consumerCount: String(summary.consumerCount)
+        }));
+        let introHtml = selectionText;
 
         if (summary.hasFairScenario && summary.optimalResult) {
-          detailIntro.innerHTML = t("results.detail.fairHtml", {
+          introHtml += " " + t("results.detail.fairHtml", {
             optimal: formatRpCompact(summary.optimalPriceRpKwh),
             value: formatSignedChf(summary.balanceResult.consumerDeltaChfYear)
           });
         } else if (summary.closestResult) {
-          detailIntro.innerHTML = t("results.detail.noFairHtml", {
+          introHtml += " " + t("results.detail.noFairHtml", {
             closest: formatRpCompact(summary.closestResult.solarPriceRpKwh),
             gap: formatChf(Math.abs(summary.balanceResult.consumerDeltaChfYear))
           });
-        } else {
-          detailIntro.textContent = t("results.detail.empty");
         }
+        detailIntro.innerHTML = introHtml;
 
         if (!focusResult) {
           detailFocusPrice.textContent = t("results.emptyValue");
@@ -1477,16 +1491,16 @@
       }
 
       /**
-       * @param {MouseEvent} event
+       * @param {Event} event
        */
       function handleMatrixSelection(event) {
-        const button = event.target.closest(".simulation-matrix-cell");
-        if (!(button instanceof HTMLElement)) {
+        const input = event.target;
+        if (!(input instanceof HTMLInputElement) || !input.classList.contains("simulation-matrix-radio-input")) {
           return;
         }
 
-        const producerCount = Number(button.getAttribute("data-producers"));
-        const consumerCount = Number(button.getAttribute("data-consumers"));
+        const producerCount = Number(input.getAttribute("data-producers"));
+        const consumerCount = Number(input.getAttribute("data-consumers"));
         if (!Number.isFinite(producerCount) || !Number.isFinite(consumerCount)) {
           return;
         }
@@ -1494,6 +1508,8 @@
         selectedProducerCount = producerCount;
         selectedConsumerCount = consumerCount;
         renderFromForm();
+        highlightDetailPanel();
+        scrollDetailPanelIntoView();
       }
 
       function handleReset() {
@@ -1679,6 +1695,36 @@
        */
       function roundToFiveRappen(value) {
         return Math.round((value + Number.EPSILON) * 20) / 20;
+      }
+
+      function highlightDetailPanel() {
+        if (!detailPanel) {
+          return;
+        }
+
+        if (detailHighlightTimeout) {
+          window.clearTimeout(detailHighlightTimeout);
+        }
+
+        detailPanel.classList.remove("is-highlighted");
+        void detailPanel.offsetWidth;
+        detailPanel.classList.add("is-highlighted");
+        detailHighlightTimeout = window.setTimeout(function () {
+          detailPanel.classList.remove("is-highlighted");
+          detailHighlightTimeout = 0;
+        }, 1200);
+      }
+
+      function scrollDetailPanelIntoView() {
+        if (!detailPanel) {
+          return;
+        }
+
+        const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        detailPanel.scrollIntoView({
+          behavior: reduceMotion ? "auto" : "smooth",
+          block: "start"
+        });
       }
     })();
   </script>
