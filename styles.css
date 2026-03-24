@@ -1572,6 +1572,7 @@ body.page-simulation .simulation-parameters-card > summary {
   display: flex;
   align-items: center;
   cursor: pointer;
+  border-bottom: none;
   list-style: none;
   user-select: none;
 }
@@ -1589,6 +1590,10 @@ body.page-simulation .simulation-parameters-card > summary::before {
 
 body.page-simulation .simulation-parameters-card[open] > summary::before {
   transform: rotate(90deg);
+}
+
+body.page-simulation .simulation-parameters-card[open] > summary {
+  border-bottom: 1px solid var(--border);
 }
 
 body.page-simulation .simulation-card-body {
@@ -1893,15 +1898,15 @@ body.page-simulation .simulation-summary-item,
 body.page-simulation .simulation-detail-metric {
   border: 1px solid #d8ccb5;
   border-radius: var(--radius-sm);
-  background: linear-gradient(180deg, #fffdf8 0%, #f8f2e4 100%);
+  background: #fcf8ee;
   padding: 0.74rem;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  box-shadow: none;
 }
 
 body.page-simulation .simulation-summary-item.primary {
   border-color: #9bb884;
-  background: linear-gradient(180deg, #eef7e4 0%, #e0edcf 100%);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65), 0 6px 16px rgba(95, 127, 69, 0.14);
+  background: #e7f2d9;
+  box-shadow: none;
 }
 
 body.page-simulation .simulation-summary-item .label,
@@ -2011,6 +2016,8 @@ body.page-simulation .simulation-table-wrap {
 
 body.page-simulation .simulation-matrix-wrap {
   position: relative;
+  background: #fbf6ea;
+  border-color: #d7cdb7;
 }
 
 body.page-simulation .simulation-matrix,
@@ -2063,14 +2070,18 @@ body.page-simulation .simulation-detail-table thead th {
   position: sticky;
   top: 0;
   z-index: 1;
-  background: #f6f0e2;
-  color: #3c4336;
+  background: #fffcf7;
+  color: #344036;
   font-weight: 700;
 }
 
 body.page-simulation .simulation-matrix tbody tr:hover,
 body.page-simulation .simulation-detail-table tbody tr:hover {
   background: rgba(242, 223, 179, 0.26);
+}
+
+body.page-simulation .simulation-matrix tbody tr:hover {
+  background: transparent;
 }
 
 body.page-simulation .simulation-matrix td {
@@ -2093,7 +2104,7 @@ body.page-simulation .simulation-matrix-option {
   box-sizing: border-box;
   cursor: pointer;
   color: inherit;
-  transition: background-color 150ms ease, box-shadow 150ms ease;
+  transition: background-color 150ms ease;
 }
 
 body.page-simulation .simulation-matrix-radio-input {
@@ -2113,18 +2124,20 @@ body.page-simulation .simulation-matrix-radio-input {
   vertical-align: middle;
   cursor: pointer;
   accent-color: #2b6f93;
+  transform: scale(0.92);
 }
 
 body.page-simulation .simulation-matrix-benefit {
   display: block;
   max-width: 100%;
   overflow: hidden;
-  font-size: 0.58rem;
-  line-height: 1;
-  font-weight: 600;
+  font-size: 0.62rem;
+  line-height: 1.02;
+  font-weight: 700;
   text-align: center;
   text-overflow: clip;
   white-space: nowrap;
+  letter-spacing: 0.01em;
 }
 
 body.page-simulation .simulation-matrix th,
@@ -2143,7 +2156,7 @@ body.page-simulation .simulation-matrix tbody th {
 body.page-simulation .simulation-matrix-corner,
 body.page-simulation .simulation-matrix-row-header,
 body.page-simulation .simulation-matrix-col-header {
-  background: #f6f0e2;
+  background: #fffcf7;
 }
 
 body.page-simulation .simulation-matrix-corner,
@@ -2152,15 +2165,15 @@ body.page-simulation .simulation-matrix-row-header {
 }
 
 body.page-simulation .simulation-matrix td.status-fair {
-  background: linear-gradient(180deg, #edf7e2 0%, #e1efcf 100%);
+  background: #e8f2de;
 }
 
 body.page-simulation .simulation-matrix td.status-critical {
-  background: linear-gradient(180deg, #fff8e0 0%, #f6e8bf 100%);
+  background: #f6ecc7;
 }
 
 body.page-simulation .simulation-matrix td.status-not_fair {
-  background: linear-gradient(180deg, #fcf3ee 0%, #f3e2d9 100%);
+  background: #f4e5de;
 }
 
 body.page-simulation .simulation-matrix td.is-selected {
@@ -2168,12 +2181,12 @@ body.page-simulation .simulation-matrix td.is-selected {
 }
 
 body.page-simulation .simulation-matrix td.is-selected .simulation-matrix-option {
-  background: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.18);
 }
 
 body.page-simulation .simulation-matrix-option:hover,
 body.page-simulation .simulation-matrix-option:focus-within {
-  background: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.18);
 }
 
 body.page-simulation .simulation-matrix-radio-input:checked {
@@ -2219,8 +2232,8 @@ body.page-simulation .simulation-detail-metric.metric-solar {
 
 body.page-simulation .simulation-detail-metrics-recommended .simulation-detail-metric {
   border-color: #9bb884;
-  background: linear-gradient(180deg, #eef7e4 0%, #e0edcf 100%);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65), 0 6px 16px rgba(95, 127, 69, 0.14);
+  background: #e7f2d9;
+  box-shadow: none;
 }
 
 body.page-simulation .simulation-detail-facts {
