@@ -9,7 +9,7 @@
     "navigation": {
       "presentation": "Präsentation",
       "calculate": "Jetzt Einsparung berechnen",
-      "simulate": "EigenverbrauchMax simulieren"
+      "simulate": "Solarstrompreis simulieren"
     }
   },
   "inputs": {
@@ -113,11 +113,11 @@
       "summary": "Annahmen",
       "items": {
         "item1": "Der Monatsverbrauch ist in allen 12 Monaten gleich.",
-        "item2": "Solarstrom ist von März bis November verfügbar. Von Dezember bis Februar gibt es keinen Solarstrom.",
-        "item3": "Der Solaranteil in Solar-Monaten beträgt je nach Profil: Fast immer 70 %, Durchschnittlich 50 %, Fast nie 30 %.",
-        "item4": "Die monatlichen Fixkosten wie Grundpreis, Recycling-Gebühr und Messentgelte gelten in beiden Szenarien mit und ohne Solarstrom.",
-        "item5": "Die MwSt wird auf alle Preise ausser dem lokalen Solarstrompreis angewendet.",
-        "item6": "Reststrom wird mit Normaltarif und Netznutzung berechnet."
+        "item2": "Solarstrom ist von März bis November verfügbar. Von Dezember bis Februar steht kein Solarstrom zur Verfügung.",
+        "item3": "Der Solaranteil in Monaten mit Solarstrom hängt vom Profil ab. Fast immer entspricht 70 %. Durchschnittlich entspricht 50 %. Fast nie entspricht 30 %.",
+        "item4": "Fixkosten wie Grundpreis Recycling Gebühr und Messentgelte fallen in beiden Szenarien an.",
+        "item5": "Die MwSt gilt für alle Preise ausser für den lokalen Solarstrompreis.",
+        "item6": "Reststrom wird mit dem Normaltarif und der Netznutzung berechnet."
       }
     },
     "calculation": {
@@ -160,45 +160,45 @@
       "tarifbasis": {
         "title": "Tarifbasis",
         "formulaVatFactor": "MwSt-Faktor = 1 + (MwSt / 100)",
-        "valuesVatFactor": "Berechnung: 1 + ({vatPercent} / 100) = {vatFactor}",
+        "valuesVatFactor": "MwSt-Faktor = 1 + ({vatPercent} / 100) = {vatFactor}",
         "formulaBaselineRate": "Normaltarif (CHF/kWh) = (Energiepreis + Netznutzungsgebühren) * MwSt-Faktor / 100",
-        "valuesBaselineRate": "Berechnung: ({energyRpKwh} + {gridRpKwh}) * {vatFactor} / 100 = {baselineRate}"
+        "valuesBaselineRate": "Normaltarif = ({energyRpKwh} + {gridRpKwh}) * {vatFactor} / 100 = {baselineRate}"
       },
       "solarShare": {
         "title": "Solaranteil je Monat und Profil",
         "formula": "Solaranteil = 0 im Winter, sonst Profilwert im Sommer",
-        "valuesSummer": "Berechnung Sommer (Profil {profile}): Solaranteil = {share}",
-        "valuesWinter": "Berechnung Winter (Profil {profile}): Solaranteil = 0.00 %"
+        "valuesSummer": "Solaranteil im Sommer für Profil {profile} = {share}",
+        "valuesWinter": "Solaranteil im Winter für Profil {profile} = 0.00 %"
       },
       "energyVolumes": {
         "title": "Energiemengen",
         "formulaSolar": "Solar-kWh = Monatsverbrauch * Solaranteil",
         "formulaRest": "Rest-kWh = Monatsverbrauch - Solar-kWh",
-        "valuesSummer": "Berechnung Sommer: {monthlyKwh} * {share} = {solarKwh}, Rest = {restKwh}",
-        "valuesWinter": "Berechnung Winter: {monthlyKwh} * 0.00 % = {solarKwh}, Rest = {restKwh}"
+        "valuesSummer": "Solar kWh im Sommer = {monthlyKwh} * {share} = {solarKwh}. Rest kWh im Sommer = {restKwh}",
+        "valuesWinter": "Solar kWh im Winter = {monthlyKwh} * 0.00 % = {solarKwh}. Rest kWh im Winter = {restKwh}"
       },
       "monthlyWithoutSolar": {
         "title": "Monatskosten ohne Solarstrom",
         "formula": "Ohne Solarstrom = Monatsverbrauch * Normaltarif + Grundpreis * MwSt-Faktor + Recycling-Gebühr * MwSt-Faktor + Messentgelte * MwSt-Faktor",
-        "values": "Berechnung: {monthlyKwh} * {baselineRate} + {baseFeeGross} + {recyclingFeeGross} + {meteringFeeGross} = {baselineChf}"
+        "values": "Monatskosten ohne Solarstrom = {monthlyKwh} * {baselineRate} + {baseFeeGross} + {recyclingFeeGross} + {meteringFeeGross} = {baselineChf}"
       },
       "monthlyWithSolarSummer": {
         "title": "Monatskosten mit Solarstrom (Sommer, Profil {profile})",
         "formula": "Mit Solarstrom = Solar-kWh * (lokaler Solarstrompreis / 100) + Rest-kWh * Normaltarif + Grundpreis * MwSt-Faktor + Recycling-Gebühr * MwSt-Faktor + Messentgelte * MwSt-Faktor + Abrechnungsgebühr * MwSt-Faktor",
-        "values": "Berechnung: {solarKwh} * ({vzevEnergyRpKwh} / 100) + {restKwh} * {baselineRate} + {baseFeeGross} + {recyclingFeeGross} + {meteringFeeGross} + {vzevFeeGross} = {vzevChf}"
+        "values": "Monatskosten mit Solarstrom = {solarKwh} * ({vzevEnergyRpKwh} / 100) + {restKwh} * {baselineRate} + {baseFeeGross} + {recyclingFeeGross} + {meteringFeeGross} + {vzevFeeGross} = {vzevChf}"
       },
       "monthlyWithSolarWinter": {
         "title": "Monatskosten mit Solarstrom (Winter, Profil {profile})",
         "formula": "Mit Solarstrom = Solar-kWh * (lokaler Solarstrompreis / 100) + Rest-kWh * Normaltarif + Grundpreis * MwSt-Faktor + Recycling-Gebühr * MwSt-Faktor + Messentgelte * MwSt-Faktor + Abrechnungsgebühr * MwSt-Faktor",
-        "values": "Berechnung: {solarKwh} * ({vzevEnergyRpKwh} / 100) + {restKwh} * {baselineRate} + {baseFeeGross} + {recyclingFeeGross} + {meteringFeeGross} + {vzevFeeGross} = {vzevChf}"
+        "values": "Monatskosten mit Solarstrom = {solarKwh} * ({vzevEnergyRpKwh} / 100) + {restKwh} * {baselineRate} + {baseFeeGross} + {recyclingFeeGross} + {meteringFeeGross} + {vzevFeeGross} = {vzevChf}"
       },
       "savings": {
         "title": "Einsparung",
         "formulaMonthly": "Monatsersparnis = Ohne Solarstrom - Mit Solarstrom",
         "formulaYearly": "Jahresersparnis (Profil {profile}) = (Sommerersparnis * 9) + (Winterersparnis * 3)",
-        "valuesSummer": "Berechnung Sommer: {baselineChf} - {vzevChf} = {savingChf}",
-        "valuesWinter": "Berechnung Winter: {baselineChf} - {vzevChf} = {savingChf}",
-        "valuesYear": "Berechnung Jahr (9 Sommer + 3 Winter): ({summerSavingChf} * 9) + ({winterSavingChf} * 3) = {annualSavingByProfile}"
+        "valuesSummer": "Ersparnis im Sommer = {baselineChf} - {vzevChf} = {savingChf}",
+        "valuesWinter": "Ersparnis im Winter = {baselineChf} - {vzevChf} = {savingChf}",
+        "valuesYear": "Jahresersparnis = ({summerSavingChf} * 9) + ({winterSavingChf} * 3) = {annualSavingByProfile}"
       }
     }
   }

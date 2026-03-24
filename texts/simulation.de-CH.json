@@ -1,15 +1,15 @@
 {
   "meta": {
-    "title": "EigenverbrauchMax-Simulation"
+    "title": "Solarstrompreis Simulation"
   },
   "header": {
-    "title": "EigenverbrauchMax Simulation",
+    "title": "Solarstrompreis Simulation",
     "subtitle": "Die Simulation zeigt für verschiedene Kombinationen aus Produzenten, reinen Bezügern und Solarstrompreisen, ab wann beide Seiten im Jahresvergleich profitieren.",
     "navigationAria": "Seitennavigation",
     "navigation": {
       "presentation": "Präsentation",
       "calculate": "Jetzt Einsparung berechnen",
-      "simulate": "EigenverbrauchMax simulieren"
+      "simulate": "Solarstrompreis simulieren"
     }
   },
   "inputs": {
@@ -45,10 +45,10 @@
       "infoAria": "Info zu Tagesverbrauchsanteil je Teilnehmer",
       "tooltip": "Beschreibt, welcher Anteil des Verbrauchs tagsüber in den Solarstunden anfällt und damit direkt mit lokalem Solarstrom gedeckt werden kann."
     },
-    "pvKwPerProducer": {
+    "totalPvKw": {
       "label": "Summe PV-Leistung",
       "infoAria": "Info zu Summe PV-Leistung",
-      "tooltip": "Die gesamte installierte PV-Leistung aller Produzenten zusammen in kWp."
+      "tooltip": "Die gesamte installierte PV-Leistung aller möglichen Produzenten zusammen in kWp. In jedem Szenario wird dieser Wert proportional zur gewählten Zahl der Produzenten berücksichtigt."
     },
     "pvYieldKwhPerKwYear": {
       "label": "Spezifischer PV-Ertrag",
@@ -73,7 +73,7 @@
     "virtualMeterChfMonth": {
       "label": "Virtueller Zähler für EigenverbrauchMax",
       "infoAria": "Info zu virtuellem Zähler für EigenverbrauchMax",
-      "tooltip": "Die monatlichen Kosten des virtuellen Zählers für die gesamte Gemeinschaft vor MwSt. Dieser Betrag wird in der Simulation auf alle Teilnehmer verteilt."
+      "tooltip": "Die monatlichen Kosten des virtuellen Zählers für die gesamte Gemeinschaft vor MwSt. Dieser Betrag wird in der Simulation nur auf die PV-Produzenten verteilt."
     },
     "vatPercent": {
       "label": "MwSt auf jährliche Kosten",
@@ -144,7 +144,7 @@
         "consumerDeltaRecommended": "Ersparnis pro Bezüger/Jahr",
         "producerDeltaRecommended": "Mehrerlös pro Produzent/Jahr"
       },
-      "metaFacts": "Lokal nutzbarer Solarstrom: {localSolar}. Ausnutzung des Solarstroms: {utilization}.",
+      "metaFacts": "Lokal nutzbarer Solarstrom: {localSolar}. Teilbarer Solarstrom: {sharedSolarAvailable}. Ausnutzung des Solarstroms: {utilization}.",
       "chart": {
         "consumerLabel": "Bezüger",
         "producerLabel": "Produzenten",
@@ -156,96 +156,104 @@
         "yAxis": "Jährliche Veränderung pro Teilnehmer"
       },
       "table": {
-        "summary": "Preistabelle anzeigen",
-        "headers": {
-          "price": "Solarstrompreis",
-          "localSolar": "Lokaler Solarstrom",
-          "consumer": "Bezüger/Jahr",
-          "producer": "Produzent/Jahr"
-        }
+	        "summary": "Preistabelle",
+	        "headers": {
+	          "price": "Solarstrompreis",
+	          "consumer": "Bezüger/Jahr",
+	          "producer": "Produzent/Jahr"
+	        }
       }
     },
     "calculation": {
-      "summary": "Berechnungsschritte anzeigen",
+	      "summary": "Berechnungsschritte",
       "empty": "Bitte zuerst gültige Eingaben machen.",
-      "introHtml": "Die Schritte beziehen sich auf das ausgewählte Szenario mit <strong>{producerCount} Produzenten</strong>, <strong>{consumerCount} Bezügern</strong> und dem aktuell angezeigten Preis von <strong>{price}</strong>.",
+      "introHtml": "Die Schritte beziehen sich auf das ausgewählte Szenario mit <strong>{producerCount} Produzenten</strong>, <strong>{consumerCount} Bezügern</strong> und dem Mindestpreis von <strong>{price}</strong>.",
       "steps": {
         "activeMonths": {
           "title": "Aktive Monate und Tagesanteil",
           "formulaMonths": "Aktive Monate = 12 - Wintermonate",
           "formulaShareFactor": "Tagesanteil-Faktor = Tagesverbrauchsanteil / 100",
-          "valuesMonths": "Berechnung: 12 - {winterMonths} = {activeMonths}",
-          "valuesShareFactor": "Berechnung: {daytimeSharePercent} / 100 = {daytimeShareFactor}"
+          "valuesMonths": "Aktive Monate = 12 - {winterMonths} = {activeMonths}",
+          "valuesShareFactor": "Tagesanteil-Faktor = {daytimeSharePercent} / 100 = {daytimeShareFactor}"
         },
         "fees": {
-          "title": "Jährliche Kosten pro Teilnehmer inkl. MwSt",
+          "title": "Jährliche Kosten je Rolle inkl. MwSt",
           "formulaParticipantFee": "Teilnehmergebühr netto/Jahr = EigenverbrauchMax-Grundgebühr pro Monat * 12",
-          "formulaVirtualMeterShare": "Zähleranteil netto/Jahr = (Virtueller Zähler pro Monat * 12) / (Produzenten + Bezüger)",
+          "formulaVirtualMeterShare": "Zähleranteil netto/Jahr für Produzenten = (Virtueller Zähler pro Monat * 12) / Produzenten",
           "formulaVatFactor": "MwSt-Faktor = 1 + (MwSt / 100)",
-          "formulaTotalFee": "Gesamtkosten/Jahr = (Teilnehmergebühr netto/Jahr + Zähleranteil netto/Jahr) * MwSt-Faktor",
-          "valuesParticipantFee": "Berechnung: {vzevFeeChfMonth} * 12 = {annualParticipantFeeNetChf}",
-          "valuesVirtualMeterShare": "Berechnung: ({virtualMeterChfMonth} * 12) / {totalParticipants} = {annualVirtualMeterShareNetChf}",
-          "valuesVatFactor": "Berechnung: 1 + ({vatPercent} / 100) = {vatFactor}",
-          "valuesTotalFee": "Berechnung: ({annualParticipantFeeNetChf} + {annualVirtualMeterShareNetChf}) * {vatFactor} = {annualFeeChf}"
+          "formulaConsumerTotalFee": "Gesamtkosten Bezüger/Jahr = Teilnehmergebühr netto/Jahr * MwSt-Faktor",
+          "formulaProducerTotalFee": "Gesamtkosten Produzent/Jahr = (Teilnehmergebühr netto/Jahr + Zähleranteil netto/Jahr für Produzenten) * MwSt-Faktor",
+          "valuesParticipantFee": "Teilnehmergebühr netto pro Jahr = {vzevFeeChfMonth} * 12 = {annualParticipantFeeNetChf}",
+          "valuesVirtualMeterShare": "Zähleranteil netto pro Jahr für Produzenten = ({virtualMeterChfMonth} * 12) / {producerCount} = {annualVirtualMeterShareNetChf}",
+          "valuesVatFactor": "MwSt-Faktor = 1 + ({vatPercent} / 100) = {vatFactor}",
+          "valuesConsumerTotalFee": "Gesamtkosten Bezüger pro Jahr = {annualConsumerFeeNetChf} * {vatFactor} = {annualConsumerFeeChf}",
+          "valuesProducerTotalFee": "Gesamtkosten Produzent pro Jahr = {annualProducerFeeNetChf} * {vatFactor} = {annualProducerFeeChf}"
         },
         "pvSupply": {
           "title": "PV-Produktion und Direktverbrauch",
-          "formulaProduction": "PV-Produktion/Jahr = Summe PV-Leistung * spezifischer Ertrag",
+          "formulaProduction": "PV-Produktion/Jahr = PV-Leistung im Szenario * spezifischer Ertrag",
           "formulaAvailable": "Solarangebot in aktiven Monaten = PV-Produktion/Jahr * (aktive Monate / 12)",
           "formulaDirectUse": "Direktverbrauch Produzenten = min(Solarangebot, Produzenten * Verbrauch/Monat * 12 * Tagesanteil-Faktor)",
-          "valuesProduction": "Berechnung: {totalPvKw} * {pvYieldKwhPerKwYear} = {annualPvProductionKwh}",
-          "valuesAvailable": "Berechnung: {annualPvProductionKwh} * ({activeMonths} / 12) = {solarAvailableKwhYear}",
-          "valuesDirectUse": "Berechnung: min({solarAvailableKwhYear}, {producerCount} * {monthlyKwhPerParticipant} * 12 * {daytimeShareFactor} = {producerDaytimeDemandKwhYear}) = {producerDirectUseKwhYear}"
+          "valuesProduction": "PV-Produktion pro Jahr = {totalPvKw} * {pvYieldKwhPerKwYear} = {annualPvProductionKwh}",
+          "valuesAvailable": "Solarangebot in aktiven Monaten = {annualPvProductionKwh} * ({activeMonths} / 12) = {solarAvailableKwhYear}",
+          "valuesDirectUse": "Direktverbrauch Produzenten = min({solarAvailableKwhYear}, {producerCount} * {monthlyKwhPerParticipant} * 12 * {daytimeShareFactor} = {producerDaytimeDemandKwhYear}) = {producerDirectUseKwhYear}"
         },
         "localSolar": {
           "title": "Teilbarer und lokal genutzter Solarstrom",
           "formulaShared": "Teilbarer Solarstrom = Solarangebot - Direktverbrauch Produzenten",
           "formulaDemand": "Solarfähige Nachfrage Bezüger = Bezüger * Verbrauch/Monat * aktive Monate * Tagesanteil-Faktor",
           "formulaLocal": "Lokal genutzter Solarstrom = min(teilbarer Solarstrom, solarfähige Nachfrage Bezüger)",
-          "valuesShared": "Berechnung: {solarAvailableKwhYear} - {producerDirectUseKwhYear} = {sharedSolarAvailableKwhYear}",
-          "valuesDemand": "Berechnung: {consumerCount} * {monthlyKwhPerParticipant} * {activeMonths} * {daytimeShareFactor} = {consumerDemandSolarMonthsKwhYear}",
-          "valuesLocal": "Berechnung: min({sharedSolarAvailableKwhYear}, {consumerDemandSolarMonthsKwhYear}) = {localSolarKwhYear}"
+          "valuesShared": "Teilbarer Solarstrom = {solarAvailableKwhYear} - {producerDirectUseKwhYear} = {sharedSolarAvailableKwhYear}",
+          "valuesDemand": "Solarfähige Nachfrage Bezüger = {consumerCount} * {monthlyKwhPerParticipant} * {activeMonths} * {daytimeShareFactor} = {consumerDemandSolarMonthsKwhYear}",
+          "valuesLocal": "Lokal genutzter Solarstrom = min({sharedSolarAvailableKwhYear}, {consumerDemandSolarMonthsKwhYear}) = {localSolarKwhYear}"
         },
         "balancePrice": {
-          "title": "Gleichgewichtspreis",
-          "formula": "Gleichgewichtspreis = (Produzenten * EVU-Preis + Bezüger * Einspeisevergütung) / (Produzenten + Bezüger)",
-          "valuesPrice": "Berechnung: ({producerCount} * {evuPriceRpKwh} + {consumerCount} * {feedInRpKwh}) / {totalParticipants} = {balancePriceRpKwh}",
-          "valuesBenefit": "Am exakten Gleichgewicht ergibt sich je Teilnehmer derselbe Jahresvorteil von {balanceDeltaChfYear}."
+          "title": "Theoretischer Gleichgewichtspreis (Schnittpunkt Kurven Bezüger / Produzent)",
+          "formula": "Theoretischer Gleichgewichtspreis = ((lokaler Solarstrom pro Bezüger * EVU Preis) + (lokaler Solarstrom pro Produzent * Einspeisevergütung) + 100 * (Produzentenkosten pro Jahr - Bezügerkosten pro Jahr)) / (lokaler Solarstrom pro Bezüger + lokaler Solarstrom pro Produzent)",
+          "valuesPrice": "Theoretischer Gleichgewichtspreis = (({localSolarKwhPerConsumer} * {evuPriceRpKwh}) + ({localSolarKwhPerProducer} * {feedInRpKwh}) + 100 * ({annualProducerFeeChf} - {annualConsumerFeeChf})) / ({localSolarKwhPerConsumer} + {localSolarKwhPerProducer}) = {balancePriceRpKwh}",
+          "valuesBenefit": "Am theoretischen Gleichgewicht ergibt sich je Teilnehmer derselbe Jahresvorteil von {balanceDeltaChfYear}."
         },
-        "focusImpact": {
-          "title": "Jahresvorteil beim angezeigten Preis",
-          "formulaConsumer": "Bezüger/Jahr = (lokaler Solarstrom pro Bezüger * (EVU-Preis - Solarstrompreis) / 100) - Gesamtkosten/Jahr",
-          "formulaProducer": "Produzent/Jahr = (lokaler Solarstrom pro Produzent * (Solarstrompreis - Einspeisevergütung) / 100) - Gesamtkosten/Jahr",
-          "valuesConsumer": "Berechnung: {localSolarKwhPerConsumer} * (({evuPriceRpKwh} - {focusPriceRpKwh}) / 100) - {annualFeeChf} = {consumerDeltaChfYear}",
-          "valuesProducer": "Berechnung: {localSolarKwhPerProducer} * (({focusPriceRpKwh} - {feedInRpKwh}) / 100) - {annualFeeChf} = {producerDeltaChfYear}"
+        "minimumPrice": {
+          "title": "Mindestpreis",
+          "formula": "Mindestpreis in der Tabelle = nächste Preisstufe zum theoretischen Gleichgewichtspreis",
+          "values": "Mindestpreis in der Tabelle = nächste Preisstufe zu {balancePriceRpKwh} = {minimumPriceRpKwh}",
+          "noMinimum": "Es gibt in diesem Szenario keinen Mindestpreis."
+        },
+        "minimumImpact": {
+          "title": "Angezeigte Werte beim Mindestpreis",
+          "formulaConsumer": "Ersparnis pro Bezüger pro Jahr = lokaler Solarstrom pro Bezüger * (EVU Preis - Mindestpreis) / 100 - Bezügerkosten pro Jahr",
+          "formulaProducer": "Mehrerlös pro Produzent pro Jahr = lokaler Solarstrom pro Produzent * (Mindestpreis - Einspeisevergütung) / 100 - Produzentenkosten pro Jahr",
+          "valuesConsumer": "Ersparnis pro Bezüger pro Jahr = {localSolarKwhPerConsumer} * (({evuPriceRpKwh} - {minimumPriceRpKwh}) / 100) - {annualConsumerFeeChf} = {consumerDeltaChfYear}",
+          "valuesProducer": "Mehrerlös pro Produzent pro Jahr = {localSolarKwhPerProducer} * (({minimumPriceRpKwh} - {feedInRpKwh}) / 100) - {annualProducerFeeChf} = {producerDeltaChfYear}",
+          "noMinimum": "Es gibt keine angezeigten Werte beim Mindestpreis, weil in diesem Szenario kein Mindestpreis vorhanden ist."
         },
         "recommendedBand": {
           "title": "Empfohlenes Preisband",
-          "formulaMin": "Bandbeginn = Mindestpreis = Gleichgewichtspreis",
-          "formulaMax": "Bandende = 80 % des EVU-Preises",
-          "formulaRecommended": "Empfohlener Preis = erste Preisstufe im Band, bei der der Mehrerlös pro Produzent den Mindest-Ertrag erreicht",
-          "formulaRecommendedFallback": "Empfohlener Preis in der Detailansicht = Preisstufe mit dem kleinsten Abstand zum Mindest-Ertrag des Produzenten, bei der Bezüger keinen negativen Jahresvorteil haben",
-          "valuesMin": "Berechnung: ({producerCount} * {evuPriceRpKwh} + {consumerCount} * {feedInRpKwh}) / {totalParticipants} = {minimumPriceRpKwh}",
-          "valuesMax": "Berechnung: {evuPriceRpKwh} * 0.8 = {recommendedBandMaxRpKwh}",
-          "valuesRecommended": "Im Band zwischen {minimumPriceRpKwh} und {recommendedBandMaxRpKwh} wird die erste 0.1-Rp-Stufe gesucht, bei der der Mehrerlös pro Produzent mindestens {producerMinYieldChfYear} erreicht. Ergebnis: {recommendedPriceRpKwh}",
-          "valuesRecommendedFallback": "Im empfohlenen Band wurde keine Preisstufe mit mindestens {producerMinYieldChfYear} gefunden. In der Detailansicht wird deshalb die Preisstufe mit dem kleinsten Abstand verwendet, bei der Bezüger nicht ins Minus fallen. Ergebnis: {recommendedPriceRpKwh} bei einem Mehrerlös von {producerDeltaChfYear} pro Produzent.",
-          "noBand": "Kein empfohlenes Preisband, weil der Mindestpreis bereits bei oder über 80 % des EVU-Preises liegt."
+          "formulaMin": "Untergrenze Preisband = theoretischer Gleichgewichtspreis",
+          "formulaMax": "Obergrenze Preisband = 80 % des EVU Preises",
+          "formulaRecommended": "Empfohlener Preis = erste Preisstufe im Band, bei der der Mehrerlös pro Produzent den Mindest Ertrag erreicht",
+          "formulaRecommendedFallback": "Empfohlener Preis in der Detailansicht = Preisstufe mit dem kleinsten Abstand zum Mindest Ertrag des Produzenten, bei der Bezüger keinen negativen Jahresvorteil haben",
+          "valuesMin": "Untergrenze Preisband = theoretischer Gleichgewichtspreis = {minimumPriceRpKwh}",
+          "valuesMax": "Obergrenze Preisband = {evuPriceRpKwh} * 0.8 = {recommendedBandMaxRpKwh}",
+          "valuesRecommended": "Im Band zwischen {minimumPriceRpKwh} und {recommendedBandMaxRpKwh} wird die erste 0.1 Rp Stufe gesucht, bei der der Mehrerlös pro Produzent mindestens {producerMinYieldChfYear} erreicht. Ergebnis = {recommendedPriceRpKwh}",
+          "valuesRecommendedFallback": "Im empfohlenen Band wurde keine Preisstufe mit mindestens {producerMinYieldChfYear} gefunden. In der Detailansicht wird deshalb die Preisstufe mit dem kleinsten Abstand verwendet, bei der Bezüger nicht ins Minus fallen. Ergebnis = {recommendedPriceRpKwh} bei einem Mehrerlös von {producerDeltaChfYear} pro Produzent.",
+          "noBand": "Kein empfohlenes Preisband, weil kein theoretischer Gleichgewichtspreis mit positivem Jahresvorteil für beide Seiten bestimmt werden kann oder weil dieser nicht unter 80 % des EVU Preises liegt."
         }
       }
     },
     "assumptions": {
       "summary": "Annahmen",
       "items": {
-        "item1": "Die angegebene Summe PV-Leistung beschreibt die gesamte installierte Leistung aller Produzenten zusammen.",
-        "item2": "Jeder Teilnehmer trägt die EigenverbrauchMax-Grundgebühr pro Monat nur im EigenverbrauchMax-Szenario.",
-        "item3": "Zusätzlich wird der virtuelle Zähler von ganz EigenverbrauchMax als gemeinsame Monatsgebühr auf alle Teilnehmer verteilt.",
-        "item4": "Der Eigenverbrauch der Produzenten in den Sonnenstunden wird direkt verbraucht und nicht in die Bilanz zwischen Produzenten und reinen Bezügern einbezogen.",
-        "item5": "Reine Bezüger können nur den verbleibenden teilbaren Solarstrom und nur den Anteil ihres Verbrauchs in den Sonnenstunden mit lokalem Solarstrom decken. In den Wintermonaten steht dafür kein lokal nutzbarer Solarstrom zur Verfügung.",
-        "item6": "Der Mindestpreis ist der Preis, bei dem Bezüger und Produzenten pro Teilnehmer gleich viel positiven Jahresvorteil haben.",
-        "item7": "Das empfohlene Preisband ist eine pragmatische Empfehlung und keine mathematische Optimierung.",
-        "item8": "Die Untergrenze des empfohlenen Bands ist der berechnete Mindestpreis beziehungsweise Gleichgewichtspreis, bei dem Bezüger und Produzenten pro Teilnehmer gleich viel Jahresvorteil haben.",
-        "item9": "Die Obergrenze des empfohlenen Bands liegt bei 80 % des EVU-Preises, damit der Preis für Bezüger klar unter dem normalen Strompreis bleibt. Der empfohlene Preis ist die erste 0.1-Rp-Stufe in diesem Band, bei der der eingestellte Mindest-Ertrag pro Produzent erreicht wird.",
-        "item10": "Auf die jährlichen Kosten aus Grundgebühr und virtuellem Zähler wird die eingestellte MwSt angewendet."
+        "item1": "Die PV Leistung gilt für alle möglichen Produzenten zusammen. Im gewählten Szenario wird sie proportional zur Zahl der Produzenten berücksichtigt.",
+        "item2": "Jeder Teilnehmer zahlt die monatliche Grundgebühr nur im EigenverbrauchMax Szenario.",
+        "item3": "Die Kosten für den virtuellen Zähler werden nur auf die Produzenten verteilt.",
+        "item4": "Produzenten nutzen ihren Solarstrom in den Sonnenstunden zuerst selbst.",
+        "item5": "Bezüger können nur den übrigen Solarstrom nutzen und nur in den Sonnenstunden. In den Wintermonaten steht dafür kein nutzbarer Solarstrom zur Verfügung.",
+        "item6": "Der Mindestpreis ist der Preis, bei dem Bezüger und Produzenten pro Teilnehmer den gleichen positiven Jahresvorteil haben.",
+        "item7": "Das empfohlene Preisband ist eine praktische Empfehlung.",
+        "item8": "Die Untergrenze des Preisbands ist der Mindestpreis.",
+        "item9": "Die Obergrenze des Preisbands liegt bei 80 % des EVU Preises. Der empfohlene Preis ist die erste Stufe von 0.1 Rp in diesem Bereich, bei der der gewünschte Mehrerlös pro Produzent erreicht wird.",
+        "item10": "Auf Grundgebühr und Zählerkosten wird die eingestellte MwSt angewendet."
       }
     }
   },

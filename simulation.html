@@ -101,17 +101,17 @@
               <section class="simulation-field-group" aria-labelledby="simulation-group-pv">
                 <h3 id="simulation-group-pv" class="simulation-field-group-title" data-i18n="inputs.groups.pv"></h3>
                 <div class="simulation-fields">
-                  <div class="simulation-field" data-field="pvKwPerProducer">
+                  <div class="simulation-field" data-field="totalPvKw">
                     <div class="simulation-label-row">
-                      <label for="pvKwPerProducer" data-i18n="fields.pvKwPerProducer.label"></label>
-                      <button type="button" class="info-trigger" aria-describedby="tooltip-pvKwPerProducer" data-i18n-attr="aria-label:fields.pvKwPerProducer.infoAria">i</button>
-                      <div class="field-tooltip" id="tooltip-pvKwPerProducer" role="tooltip" data-i18n="fields.pvKwPerProducer.tooltip"></div>
+                      <label for="totalPvKw" data-i18n="fields.totalPvKw.label"></label>
+                      <button type="button" class="info-trigger" aria-describedby="tooltip-totalPvKw" data-i18n-attr="aria-label:fields.totalPvKw.infoAria">i</button>
+                      <div class="field-tooltip" id="tooltip-totalPvKw" role="tooltip" data-i18n="fields.totalPvKw.tooltip"></div>
                     </div>
                     <div class="simulation-input-with-unit">
-                      <input id="pvKwPerProducer" name="pvKwPerProducer" type="number" min="0" step="0.01" inputmode="decimal">
+                      <input id="totalPvKw" name="totalPvKw" type="number" min="0" step="0.01" inputmode="decimal">
                       <span class="simulation-unit" aria-hidden="true" data-i18n="units.kwp"></span>
                     </div>
-                    <div class="simulation-error" id="error-pvKwPerProducer"></div>
+                    <div class="simulation-error" id="error-totalPvKw"></div>
                   </div>
 
                   <div class="simulation-field" data-field="pvYieldKwhPerKwYear">
@@ -309,12 +309,11 @@
             <div class="simulation-table-wrap">
               <table class="simulation-detail-table">
                 <thead>
-                  <tr>
-                    <th data-i18n="results.detail.table.headers.price"></th>
-                    <th data-i18n="results.detail.table.headers.localSolar"></th>
-                    <th data-i18n="results.detail.table.headers.consumer"></th>
-                    <th data-i18n="results.detail.table.headers.producer"></th>
-                  </tr>
+	                  <tr>
+	                    <th data-i18n="results.detail.table.headers.price"></th>
+	                    <th data-i18n="results.detail.table.headers.consumer"></th>
+	                    <th data-i18n="results.detail.table.headers.producer"></th>
+	                  </tr>
                 </thead>
                 <tbody id="detailTableBody"></tbody>
               </table>
@@ -358,7 +357,7 @@
        * @property {number} maxConsumerCount
        * @property {number} monthlyKwhPerParticipant
        * @property {number} consumerDaytimeSharePercent
-       * @property {number} pvKwPerProducer
+       * @property {number} totalPvKw
        * @property {number} pvYieldKwhPerKwYear
        * @property {number} evuPriceRpKwh
        * @property {number} feedInRpKwh
@@ -377,6 +376,8 @@
        * @property {number} localSolarKwhYear
        * @property {number} consumerDeltaChfYear
        * @property {number} producerDeltaChfYear
+       * @property {number} annualConsumerFeeChf
+       * @property {number} annualProducerFeeChf
        * @property {number} annualPvProductionKwh
        * @property {number} producerDirectUseKwhYear
        * @property {number} sharedSolarAvailableKwhYear
@@ -514,7 +515,7 @@
         maxConsumerCount: 10,
         monthlyKwhPerParticipant: 200,
         consumerDaytimeSharePercent: 55,
-        pvKwPerProducer: 63,
+        totalPvKw: 63,
         pvYieldKwhPerKwYear: 900,
         evuPriceRpKwh: 28,
         feedInRpKwh: 8,
@@ -535,7 +536,7 @@
         "maxConsumerCount",
         "monthlyKwhPerParticipant",
         "consumerDaytimeSharePercent",
-        "pvKwPerProducer",
+        "totalPvKw",
         "pvYieldKwhPerKwYear",
         "evuPriceRpKwh",
         "feedInRpKwh",
@@ -691,7 +692,10 @@
           maxConsumerCount: normalizeNumber(input.maxConsumerCount, DEFAULT_STATE.maxConsumerCount),
           monthlyKwhPerParticipant: normalizeNumber(input.monthlyKwhPerParticipant, DEFAULT_STATE.monthlyKwhPerParticipant),
           consumerDaytimeSharePercent: normalizeNumber(input.consumerDaytimeSharePercent, DEFAULT_STATE.consumerDaytimeSharePercent),
-          pvKwPerProducer: normalizeNumber(input.pvKwPerProducer, DEFAULT_STATE.pvKwPerProducer),
+          totalPvKw: normalizeNumber(
+            input.totalPvKw,
+            normalizeNumber(input.pvKwPerProducer, DEFAULT_STATE.totalPvKw)
+          ),
           pvYieldKwhPerKwYear: normalizeNumber(input.pvYieldKwhPerKwYear, DEFAULT_STATE.pvYieldKwhPerKwYear),
           evuPriceRpKwh: normalizeNumber(input.evuPriceRpKwh, DEFAULT_STATE.evuPriceRpKwh),
           feedInRpKwh: normalizeNumber(input.feedInRpKwh, DEFAULT_STATE.feedInRpKwh),
@@ -721,7 +725,7 @@
         form.maxConsumerCount.value = state.maxConsumerCount;
         form.monthlyKwhPerParticipant.value = state.monthlyKwhPerParticipant;
         form.consumerDaytimeSharePercent.value = state.consumerDaytimeSharePercent;
-        form.pvKwPerProducer.value = state.pvKwPerProducer;
+        form.totalPvKw.value = state.totalPvKw;
         form.pvYieldKwhPerKwYear.value = state.pvYieldKwhPerKwYear;
         form.evuPriceRpKwh.value = state.evuPriceRpKwh;
         form.feedInRpKwh.value = state.feedInRpKwh;
@@ -741,7 +745,7 @@
           maxConsumerCount: Number(form.maxConsumerCount.value),
           monthlyKwhPerParticipant: Number(form.monthlyKwhPerParticipant.value),
           consumerDaytimeSharePercent: Number(form.consumerDaytimeSharePercent.value),
-          pvKwPerProducer: Number(form.pvKwPerProducer.value),
+          totalPvKw: Number(form.totalPvKw.value),
           pvYieldKwhPerKwYear: Number(form.pvYieldKwhPerKwYear.value),
           evuPriceRpKwh: Number(form.evuPriceRpKwh.value),
           feedInRpKwh: Number(form.feedInRpKwh.value),
@@ -874,12 +878,14 @@
               return calculateScenario(state, producerCount, consumerCount, solarPriceRpKwh);
             });
             const balancePriceRpKwh = calculateBalancePrice(state, producerCount, consumerCount);
-            const balanceResult = calculateScenario(state, producerCount, consumerCount, balancePriceRpKwh);
-            const minimumPriceRpKwh = balanceResult.solarPriceRpKwh;
-            const recommendedBand = calculateRecommendedPriceBand(state, minimumPriceRpKwh);
+            const balanceResult = balancePriceRpKwh === null
+              ? priceResults[0]
+              : calculateScenario(state, producerCount, consumerCount, balancePriceRpKwh);
             const hasFairScenario =
-              balanceResult.consumerDeltaChfYear > FAIRNESS_EPSILON &&
-              balanceResult.producerDeltaChfYear > FAIRNESS_EPSILON;
+              balancePriceRpKwh !== null &&
+              isPositiveMinimumResult(balanceResult);
+            const minimumPriceRpKwh = hasFairScenario ? balanceResult.solarPriceRpKwh : null;
+            const recommendedBand = calculateRecommendedPriceBand(state, minimumPriceRpKwh);
             const optimalResult = hasFairScenario ? balanceResult : null;
             const closestResult = getClosestResult(priceResults, balancePriceRpKwh);
             const recommendedResult = getRecommendedResult(
@@ -923,11 +929,12 @@
               recommendedBandMinRpKwh: recommendedBand.minRpKwh,
               recommendedBandMaxRpKwh: recommendedBand.maxRpKwh,
               recommendedPriceRpKwh: recommendedResult ? recommendedResult.solarPriceRpKwh : null,
-              detailRecommendedPriceRpKwh: detailRecommendedResult ? detailRecommendedResult.solarPriceRpKwh : null,
-              localSolarKwhYear: referenceResult ? referenceResult.localSolarKwhYear : 0,
-              annualPvProductionKwh: referenceResult ? referenceResult.annualPvProductionKwh : 0,
-              solarAvailableKwhYear: referenceResult ? referenceResult.solarAvailableKwhYear : 0,
-              consumerDemandSolarMonthsKwhYear: referenceResult ? referenceResult.consumerDemandSolarMonthsKwhYear : 0
+	              detailRecommendedPriceRpKwh: detailRecommendedResult ? detailRecommendedResult.solarPriceRpKwh : null,
+	              localSolarKwhYear: referenceResult ? referenceResult.localSolarKwhYear : 0,
+	              sharedSolarAvailableKwhYear: referenceResult ? referenceResult.sharedSolarAvailableKwhYear : 0,
+	              annualPvProductionKwh: referenceResult ? referenceResult.annualPvProductionKwh : 0,
+	              solarAvailableKwhYear: referenceResult ? referenceResult.solarAvailableKwhYear : 0,
+	              consumerDemandSolarMonthsKwhYear: referenceResult ? referenceResult.consumerDemandSolarMonthsKwhYear : 0
             };
           }
         }
@@ -949,7 +956,8 @@
         const activeMonths = Math.max(0, 12 - state.winterMonths);
         const feeBreakdown = calculateAnnualFeeBreakdown(state, producerCount, consumerCount);
         const daytimeShareFactor = state.consumerDaytimeSharePercent / 100;
-        const annualPvProductionKwh = state.pvKwPerProducer * state.pvYieldKwhPerKwYear;
+        const scenarioTotalPvKw = getScenarioTotalPvKw(state, producerCount);
+        const annualPvProductionKwh = scenarioTotalPvKw * state.pvYieldKwhPerKwYear;
         const solarAvailableKwhYear = annualPvProductionKwh * (activeMonths / 12);
         const producerDirectUseKwhYear = Math.min(
           solarAvailableKwhYear,
@@ -962,9 +970,9 @@
         const localSolarKwhPerConsumer = consumerCount > 0 ? localSolarKwhYear / consumerCount : 0;
         const localSolarKwhPerProducer = producerCount > 0 ? localSolarKwhYear / producerCount : 0;
         const consumerDeltaChfYear =
-          localSolarKwhPerConsumer * ((state.evuPriceRpKwh - solarPriceRpKwh) / 100) - feeBreakdown.annualFeeChf;
+          localSolarKwhPerConsumer * ((state.evuPriceRpKwh - solarPriceRpKwh) / 100) - feeBreakdown.annualConsumerFeeChf;
         const producerDeltaChfYear =
-          localSolarKwhPerProducer * ((solarPriceRpKwh - state.feedInRpKwh) / 100) - feeBreakdown.annualFeeChf;
+          localSolarKwhPerProducer * ((solarPriceRpKwh - state.feedInRpKwh) / 100) - feeBreakdown.annualProducerFeeChf;
         const utilizationRatio = sharedSolarAvailableKwhYear > 0 ? localSolarKwhYear / sharedSolarAvailableKwhYear : 0;
         const benefitGapChfYear = consumerDeltaChfYear - producerDeltaChfYear;
 
@@ -975,6 +983,9 @@
           localSolarKwhYear: localSolarKwhYear,
           consumerDeltaChfYear: consumerDeltaChfYear,
           producerDeltaChfYear: producerDeltaChfYear,
+          annualConsumerFeeChf: feeBreakdown.annualConsumerFeeChf,
+          annualProducerFeeChf: feeBreakdown.annualProducerFeeChf,
+          scenarioTotalPvKw: scenarioTotalPvKw,
           annualPvProductionKwh: annualPvProductionKwh,
           producerDirectUseKwhYear: producerDirectUseKwhYear,
           sharedSolarAvailableKwhYear: sharedSolarAvailableKwhYear,
@@ -982,24 +993,77 @@
           consumerDemandSolarMonthsKwhYear: consumerDemandSolarMonthsKwhYear,
           utilizationRatio: utilizationRatio,
           benefitGapChfYear: benefitGapChfYear,
-          isFair:
-            Math.abs(benefitGapChfYear) <= FAIRNESS_EPSILON &&
-            consumerDeltaChfYear >= -FAIRNESS_EPSILON &&
-            producerDeltaChfYear >= -FAIRNESS_EPSILON
+          isFair: isPositiveMinimumResult({
+            benefitGapChfYear: benefitGapChfYear,
+            consumerDeltaChfYear: consumerDeltaChfYear,
+            producerDeltaChfYear: producerDeltaChfYear
+          })
         };
+      }
+
+      /**
+       * @param {{
+       *   benefitGapChfYear: number,
+       *   consumerDeltaChfYear: number,
+       *   producerDeltaChfYear: number
+       * }} result
+       * @returns {boolean}
+       */
+      function isPositiveMinimumResult(result) {
+        return (
+          Math.abs(result.benefitGapChfYear) <= FAIRNESS_EPSILON &&
+          result.consumerDeltaChfYear > FAIRNESS_EPSILON &&
+          result.producerDeltaChfYear > FAIRNESS_EPSILON
+        );
       }
 
       /**
        * @param {SimulationInputState} state
        * @param {number} producerCount
        * @param {number} consumerCount
-       * @returns {number}
+       * @returns {number | null}
        */
       function calculateBalancePrice(state, producerCount, consumerCount) {
+        const activeMonths = Math.max(0, 12 - state.winterMonths);
+        const feeBreakdown = calculateAnnualFeeBreakdown(state, producerCount, consumerCount);
+        const daytimeShareFactor = state.consumerDaytimeSharePercent / 100;
+        const scenarioTotalPvKw = getScenarioTotalPvKw(state, producerCount);
+        const annualPvProductionKwh = scenarioTotalPvKw * state.pvYieldKwhPerKwYear;
+        const solarAvailableKwhYear = annualPvProductionKwh * (activeMonths / 12);
+        const producerDirectUseKwhYear = Math.min(
+          solarAvailableKwhYear,
+          producerCount * state.monthlyKwhPerParticipant * 12 * daytimeShareFactor
+        );
+        const sharedSolarAvailableKwhYear = Math.max(0, solarAvailableKwhYear - producerDirectUseKwhYear);
+        const consumerDemandSolarMonthsKwhYear =
+          consumerCount * state.monthlyKwhPerParticipant * activeMonths * daytimeShareFactor;
+        const localSolarKwhYear = Math.min(sharedSolarAvailableKwhYear, consumerDemandSolarMonthsKwhYear);
+        const localSolarKwhPerConsumer = consumerCount > 0 ? localSolarKwhYear / consumerCount : 0;
+        const localSolarKwhPerProducer = producerCount > 0 ? localSolarKwhYear / producerCount : 0;
+        const denominator = localSolarKwhPerConsumer + localSolarKwhPerProducer;
+
+        if (denominator <= FAIRNESS_EPSILON) {
+          return null;
+        }
+
         return (
-          producerCount * state.evuPriceRpKwh +
-          consumerCount * state.feedInRpKwh
-        ) / (producerCount + consumerCount);
+          localSolarKwhPerConsumer * state.evuPriceRpKwh +
+          localSolarKwhPerProducer * state.feedInRpKwh +
+          100 * (feeBreakdown.annualProducerFeeChf - feeBreakdown.annualConsumerFeeChf)
+        ) / denominator;
+      }
+
+      /**
+       * @param {SimulationInputState} state
+       * @param {number} producerCount
+       * @returns {number}
+       */
+      function getScenarioTotalPvKw(state, producerCount) {
+        if (state.maxProducerCount <= 0) {
+          return 0;
+        }
+
+        return state.totalPvKw * (producerCount / state.maxProducerCount);
       }
 
       /**
@@ -1087,28 +1151,35 @@
        * @param {number} consumerCount
        * @returns {{
        *   totalParticipants: number,
+       *   producerCount: number,
        *   vatFactor: number,
        *   annualParticipantFeeNetChf: number,
        *   annualVirtualMeterShareNetChf: number,
-       *   annualFeeNetChf: number,
-       *   annualFeeChf: number
+       *   annualConsumerFeeNetChf: number,
+       *   annualProducerFeeNetChf: number,
+       *   annualConsumerFeeChf: number,
+       *   annualProducerFeeChf: number
        * }}
        */
       function calculateAnnualFeeBreakdown(state, producerCount, consumerCount) {
         const totalParticipants = producerCount + consumerCount;
         const annualParticipantFeeNetChf = state.vzevFeeChfMonth * 12;
         const annualVirtualMeterShareNetChf =
-          totalParticipants > 0 ? (state.virtualMeterChfMonth * 12) / totalParticipants : 0;
-        const annualFeeNetChf = annualParticipantFeeNetChf + annualVirtualMeterShareNetChf;
+          producerCount > 0 ? (state.virtualMeterChfMonth * 12) / producerCount : 0;
+        const annualConsumerFeeNetChf = annualParticipantFeeNetChf;
+        const annualProducerFeeNetChf = annualParticipantFeeNetChf + annualVirtualMeterShareNetChf;
         const vatFactor = 1 + (state.vatPercent / 100);
 
         return {
           totalParticipants: totalParticipants,
+          producerCount: producerCount,
           vatFactor: vatFactor,
           annualParticipantFeeNetChf: annualParticipantFeeNetChf,
           annualVirtualMeterShareNetChf: annualVirtualMeterShareNetChf,
-          annualFeeNetChf: annualFeeNetChf,
-          annualFeeChf: annualFeeNetChf * vatFactor
+          annualConsumerFeeNetChf: annualConsumerFeeNetChf,
+          annualProducerFeeNetChf: annualProducerFeeNetChf,
+          annualConsumerFeeChf: annualConsumerFeeNetChf * vatFactor,
+          annualProducerFeeChf: annualProducerFeeNetChf * vatFactor
         };
       }
 
@@ -1285,8 +1356,10 @@
        */
       function renderDetail(summary, state) {
         const focusResult = summary.optimalResult || summary.closestResult || summary.priceResults[0] || null;
-        const utilizationPercent = summary.solarAvailableKwhYear > 0 ? summary.localSolarKwhYear / summary.solarAvailableKwhYear : 0;
-        const minimumResult = summary.balanceResult;
+        const utilizationPercent = summary.sharedSolarAvailableKwhYear > 0
+          ? summary.localSolarKwhYear / summary.sharedSolarAvailableKwhYear
+          : 0;
+        const minimumResult = summary.minimumPriceRpKwh !== null ? summary.closestResult : null;
         const recommendedResult = summary.detailRecommendedResult;
         const selectionText = escapeHtml(t("results.detail.selectionText", {
           producerCount: String(summary.producerCount),
@@ -1331,9 +1404,15 @@
           return;
         }
 
-        detailFocusPrice.textContent = formatRp(minimumResult.solarPriceRpKwh);
-        detailConsumerDelta.textContent = formatSignedChf(minimumResult.consumerDeltaChfYear);
-        detailProducerDelta.textContent = formatSignedChf(minimumResult.producerDeltaChfYear);
+        detailFocusPrice.textContent = minimumResult
+          ? formatRp(minimumResult.solarPriceRpKwh)
+          : t("results.emptyValue");
+        detailConsumerDelta.textContent = minimumResult
+          ? formatSignedChf(minimumResult.consumerDeltaChfYear)
+          : t("results.emptyValue");
+        detailProducerDelta.textContent = minimumResult
+          ? formatSignedChf(minimumResult.producerDeltaChfYear)
+          : t("results.emptyValue");
         detailRecommendedPrice.textContent = formatRp(summary.detailRecommendedPriceRpKwh);
         detailRecommendedConsumerDelta.textContent = recommendedResult
           ? formatSignedChf(recommendedResult.consumerDeltaChfYear)
@@ -1341,13 +1420,14 @@
         detailRecommendedProducerDelta.textContent = recommendedResult
           ? formatSignedChf(recommendedResult.producerDeltaChfYear)
           : t("results.emptyValue");
-        detailMetaFacts.textContent = t("results.detail.metaFacts", {
-          localSolar: formatKwh(summary.localSolarKwhYear),
-          utilization: percentFormatter.format(utilizationPercent * 100) + " %"
-        });
+	        detailMetaFacts.textContent = t("results.detail.metaFacts", {
+	          localSolar: formatKwh(summary.localSolarKwhYear),
+	          sharedSolarAvailable: formatKwh(summary.sharedSolarAvailableKwhYear),
+	          utilization: percentFormatter.format(utilizationPercent * 100) + " %"
+	        });
 
-        renderDetailTable(summary.priceResults, summary.closestResult);
-        renderChart(summary.priceResults, summary.optimalResult || summary.balanceResult, summary);
+        renderDetailTable(summary.priceResults, summary.closestResult, summary.detailRecommendedResult);
+        renderChart(summary.priceResults, summary.optimalResult, summary);
         renderCalculationDetails(summary, state, focusResult);
       }
 
@@ -1362,15 +1442,17 @@
         const daytimeShareFactor = state.consumerDaytimeSharePercent / 100;
         const producerDaytimeDemandKwhYear =
           summary.producerCount * state.monthlyKwhPerParticipant * 12 * daytimeShareFactor;
+        const scenarioTotalPvKw = getScenarioTotalPvKw(state, summary.producerCount);
         const localSolarKwhPerConsumer = summary.consumerCount > 0 ? focusResult.localSolarKwhYear / summary.consumerCount : 0;
         const localSolarKwhPerProducer = summary.producerCount > 0 ? focusResult.localSolarKwhYear / summary.producerCount : 0;
+        const minimumDisplayResult = summary.minimumPriceRpKwh !== null ? summary.closestResult : null;
         const hasRecommendedBand = hasVisibleRecommendedBand(summary);
         const recommendedResult = summary.detailRecommendedResult;
 
         calculationIntro.innerHTML = t("results.calculation.introHtml", {
           producerCount: String(summary.producerCount),
           consumerCount: String(summary.consumerCount),
-          price: formatRp(focusResult.solarPriceRpKwh)
+          price: formatRp(summary.minimumPriceRpKwh)
         });
 
         let stepsHtml =
@@ -1392,25 +1474,31 @@
           "<code class='simulation-formula'>" + t("results.calculation.steps.fees.formulaParticipantFee") + "</code>" +
           "<code class='simulation-formula'>" + t("results.calculation.steps.fees.formulaVirtualMeterShare") + "</code>" +
           "<code class='simulation-formula'>" + t("results.calculation.steps.fees.formulaVatFactor") + "</code>" +
-          "<code class='simulation-formula'>" + t("results.calculation.steps.fees.formulaTotalFee") + "</code>" +
+          "<code class='simulation-formula'>" + t("results.calculation.steps.fees.formulaConsumerTotalFee") + "</code>" +
+          "<code class='simulation-formula'>" + t("results.calculation.steps.fees.formulaProducerTotalFee") + "</code>" +
           "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.fees.valuesParticipantFee", {
             vzevFeeChfMonth: formatDetailChfMonth(state.vzevFeeChfMonth),
             annualParticipantFeeNetChf: formatDetailChf(feeBreakdown.annualParticipantFeeNetChf)
           }) + "</code>" +
           "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.fees.valuesVirtualMeterShare", {
             virtualMeterChfMonth: formatDetailChfMonth(state.virtualMeterChfMonth),
-            totalParticipants: formatDetailNumber(feeBreakdown.totalParticipants),
+            producerCount: formatDetailNumber(feeBreakdown.producerCount),
             annualVirtualMeterShareNetChf: formatDetailChf(feeBreakdown.annualVirtualMeterShareNetChf)
           }) + "</code>" +
           "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.fees.valuesVatFactor", {
             vatPercent: formatDetailPercent(state.vatPercent),
             vatFactor: formatDetailNumber(feeBreakdown.vatFactor)
           }) + "</code>" +
-          "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.fees.valuesTotalFee", {
-            annualParticipantFeeNetChf: formatDetailChf(feeBreakdown.annualParticipantFeeNetChf),
+          "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.fees.valuesConsumerTotalFee", {
+            annualConsumerFeeNetChf: formatDetailChf(feeBreakdown.annualConsumerFeeNetChf),
+            vatFactor: formatDetailNumber(feeBreakdown.vatFactor),
+            annualConsumerFeeChf: formatDetailChf(feeBreakdown.annualConsumerFeeChf)
+          }) + "</code>" +
+          "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.fees.valuesProducerTotalFee", {
+            annualProducerFeeNetChf: formatDetailChf(feeBreakdown.annualProducerFeeNetChf),
             annualVirtualMeterShareNetChf: formatDetailChf(feeBreakdown.annualVirtualMeterShareNetChf),
             vatFactor: formatDetailNumber(feeBreakdown.vatFactor),
-            annualFeeChf: formatDetailChf(feeBreakdown.annualFeeChf)
+            annualProducerFeeChf: formatDetailChf(feeBreakdown.annualProducerFeeChf)
           }) + "</code>" +
           "</li>" +
           "<li class='simulation-calc-step'>" +
@@ -1419,7 +1507,7 @@
           "<code class='simulation-formula'>" + t("results.calculation.steps.pvSupply.formulaAvailable") + "</code>" +
           "<code class='simulation-formula'>" + t("results.calculation.steps.pvSupply.formulaDirectUse") + "</code>" +
           "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.pvSupply.valuesProduction", {
-            totalPvKw: formatDetailKwPeak(state.pvKwPerProducer),
+            totalPvKw: formatDetailKwPeak(scenarioTotalPvKw),
             pvYieldKwhPerKwYear: formatDetailYield(state.pvYieldKwhPerKwYear),
             annualPvProductionKwh: formatDetailKwhYear(focusResult.annualPvProductionKwh)
           }) + "</code>" +
@@ -1465,11 +1553,12 @@
           "<strong class='simulation-calc-step-title'>" + t("results.calculation.steps.balancePrice.title") + "</strong>" +
           "<code class='simulation-formula'>" + t("results.calculation.steps.balancePrice.formula") + "</code>" +
           "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.balancePrice.valuesPrice", {
-            producerCount: formatDetailNumber(summary.producerCount),
+            localSolarKwhPerConsumer: formatDetailKwhYear(localSolarKwhPerConsumer),
             evuPriceRpKwh: formatDetailRp(state.evuPriceRpKwh),
-            consumerCount: formatDetailNumber(summary.consumerCount),
+            localSolarKwhPerProducer: formatDetailKwhYear(localSolarKwhPerProducer),
             feedInRpKwh: formatDetailRp(state.feedInRpKwh),
-            totalParticipants: formatDetailNumber(feeBreakdown.totalParticipants),
+            annualConsumerFeeChf: formatDetailChf(feeBreakdown.annualConsumerFeeChf),
+            annualProducerFeeChf: formatDetailChf(feeBreakdown.annualProducerFeeChf),
             balancePriceRpKwh: formatDetailRp(summary.balanceResult.solarPriceRpKwh)
           }) + "</code>" +
           "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.balancePrice.valuesBenefit", {
@@ -1477,23 +1566,43 @@
           }) + "</code>" +
           "</li>" +
           "<li class='simulation-calc-step'>" +
-          "<strong class='simulation-calc-step-title'>" + t("results.calculation.steps.focusImpact.title") + "</strong>" +
-          "<code class='simulation-formula'>" + t("results.calculation.steps.focusImpact.formulaConsumer") + "</code>" +
-          "<code class='simulation-formula'>" + t("results.calculation.steps.focusImpact.formulaProducer") + "</code>" +
-          "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.focusImpact.valuesConsumer", {
-            localSolarKwhPerConsumer: formatDetailKwhYear(localSolarKwhPerConsumer),
-            evuPriceRpKwh: formatDetailRp(state.evuPriceRpKwh),
-            focusPriceRpKwh: formatDetailRp(focusResult.solarPriceRpKwh),
-            annualFeeChf: formatDetailChf(feeBreakdown.annualFeeChf),
-            consumerDeltaChfYear: formatSignedChf(focusResult.consumerDeltaChfYear)
-          }) + "</code>" +
-          "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.focusImpact.valuesProducer", {
-            localSolarKwhPerProducer: formatDetailKwhYear(localSolarKwhPerProducer),
-            focusPriceRpKwh: formatDetailRp(focusResult.solarPriceRpKwh),
-            feedInRpKwh: formatDetailRp(state.feedInRpKwh),
-            annualFeeChf: formatDetailChf(feeBreakdown.annualFeeChf),
-            producerDeltaChfYear: formatSignedChf(focusResult.producerDeltaChfYear)
-          }) + "</code>" +
+          "<strong class='simulation-calc-step-title'>" + t("results.calculation.steps.minimumPrice.title") + "</strong>" +
+          "<code class='simulation-formula'>" + t("results.calculation.steps.minimumPrice.formula") + "</code>" +
+          "<code class='simulation-formula simulation-formula-values'>" + (
+            minimumDisplayResult
+              ? t("results.calculation.steps.minimumPrice.values", {
+                  balancePriceRpKwh: formatDetailRp(summary.balanceResult.solarPriceRpKwh),
+                  minimumPriceRpKwh: formatDetailRp(minimumDisplayResult.solarPriceRpKwh)
+                })
+              : t("results.calculation.steps.minimumPrice.noMinimum")
+          ) + "</code>" +
+          "</li>" +
+          "<li class='simulation-calc-step'>" +
+          "<strong class='simulation-calc-step-title'>" + t("results.calculation.steps.minimumImpact.title") + "</strong>" +
+          "<code class='simulation-formula'>" + t("results.calculation.steps.minimumImpact.formulaConsumer") + "</code>" +
+          "<code class='simulation-formula'>" + t("results.calculation.steps.minimumImpact.formulaProducer") + "</code>" +
+          "<code class='simulation-formula simulation-formula-values'>" + (
+            minimumDisplayResult
+              ? t("results.calculation.steps.minimumImpact.valuesConsumer", {
+                  localSolarKwhPerConsumer: formatDetailKwhYear(localSolarKwhPerConsumer),
+                  evuPriceRpKwh: formatDetailRp(state.evuPriceRpKwh),
+                  minimumPriceRpKwh: formatDetailRp(minimumDisplayResult.solarPriceRpKwh),
+                  annualConsumerFeeChf: formatDetailChf(feeBreakdown.annualConsumerFeeChf),
+                  consumerDeltaChfYear: formatSignedChf(minimumDisplayResult.consumerDeltaChfYear)
+                })
+              : t("results.calculation.steps.minimumImpact.noMinimum")
+          ) + "</code>" +
+          "<code class='simulation-formula simulation-formula-values'>" + (
+            minimumDisplayResult
+              ? t("results.calculation.steps.minimumImpact.valuesProducer", {
+                  localSolarKwhPerProducer: formatDetailKwhYear(localSolarKwhPerProducer),
+                  minimumPriceRpKwh: formatDetailRp(minimumDisplayResult.solarPriceRpKwh),
+                  feedInRpKwh: formatDetailRp(state.feedInRpKwh),
+                  annualProducerFeeChf: formatDetailChf(feeBreakdown.annualProducerFeeChf),
+                  producerDeltaChfYear: formatSignedChf(minimumDisplayResult.producerDeltaChfYear)
+                })
+              : ""
+          ) + "</code>" +
           "</li>" +
           "<li class='simulation-calc-step'>" +
           "<strong class='simulation-calc-step-title'>" + t("results.calculation.steps.recommendedBand.title") + "</strong>";
@@ -1513,11 +1622,12 @@
                 : t("results.calculation.steps.recommendedBand.formulaRecommendedFallback")
             ) + "</code>" +
             "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.recommendedBand.valuesMin", {
-              producerCount: formatDetailNumber(summary.producerCount),
-              consumerCount: formatDetailNumber(summary.consumerCount),
-              totalParticipants: formatDetailNumber(feeBreakdown.totalParticipants),
+              localSolarKwhPerConsumer: formatDetailKwhYear(localSolarKwhPerConsumer),
               evuPriceRpKwh: formatDetailRp(state.evuPriceRpKwh),
+              localSolarKwhPerProducer: formatDetailKwhYear(localSolarKwhPerProducer),
               feedInRpKwh: formatDetailRp(state.feedInRpKwh),
+              annualConsumerFeeChf: formatDetailChf(feeBreakdown.annualConsumerFeeChf),
+              annualProducerFeeChf: formatDetailChf(feeBreakdown.annualProducerFeeChf),
               minimumPriceRpKwh: formatDetailRp(summary.minimumPriceRpKwh)
             }) + "</code>" +
             "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.recommendedBand.valuesMax", {
@@ -1547,18 +1657,23 @@
       /**
        * @param {ScenarioResult[]} priceResults
        * @param {ScenarioResult | null} closestResult
+       * @param {ScenarioResult | null} recommendedResult
        */
-      function renderDetailTable(priceResults, closestResult) {
+      function renderDetailTable(priceResults, closestResult, recommendedResult) {
         const rows = priceResults.map(function (result) {
           const isClosestPrice = closestResult && Math.abs(result.solarPriceRpKwh - closestResult.solarPriceRpKwh) <= FAIRNESS_EPSILON;
+          const isRecommendedPrice =
+            recommendedResult && Math.abs(result.solarPriceRpKwh - recommendedResult.solarPriceRpKwh) <= FAIRNESS_EPSILON;
+          const rowClass = result.isFair || isRecommendedPrice
+            ? "is-fair"
+            : (isClosestPrice ? "is-focus" : "is-not-fair");
 
-          return (
-            "<tr class='" + (result.isFair ? "is-fair" : (isClosestPrice ? "is-focus" : "is-not-fair")) + "'>" +
-            "<td>" + formatRp(result.solarPriceRpKwh) + "</td>" +
-            "<td>" + formatKwh(result.localSolarKwhYear) + "</td>" +
-            "<td class='" + getDeltaClass(result.consumerDeltaChfYear) + "'>" + formatSignedChf(result.consumerDeltaChfYear) + "</td>" +
-            "<td class='" + getDeltaClass(result.producerDeltaChfYear) + "'>" + formatSignedChf(result.producerDeltaChfYear) + "</td>" +
-            "</tr>"
+	          return (
+	            "<tr class='" + rowClass + "'>" +
+	            "<td>" + formatRp(result.solarPriceRpKwh) + "</td>" +
+	            "<td class='" + getDeltaClass(result.consumerDeltaChfYear) + "'>" + formatSignedChf(result.consumerDeltaChfYear) + "</td>" +
+	            "<td class='" + getDeltaClass(result.producerDeltaChfYear) + "'>" + formatSignedChf(result.producerDeltaChfYear) + "</td>" +
+	            "</tr>"
           );
         }).join("");
 
