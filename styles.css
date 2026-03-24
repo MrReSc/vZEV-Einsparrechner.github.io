@@ -1536,23 +1536,59 @@ body.page-simulation .simulation-card {
   animation: fade-rise 220ms ease both;
 }
 
+body.page-simulation .simulation-card#detailPanel {
+  scroll-margin-top: 1rem;
+  transition: border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
+}
+
+body.page-simulation .simulation-card#detailPanel.is-highlighted {
+  border-color: #b88f3b;
+  background: linear-gradient(180deg, #fffaf1 0%, #f7eed6 100%);
+  box-shadow: 0 0 0 3px rgba(184, 143, 59, 0.16), 0 12px 24px rgba(124, 101, 48, 0.12);
+}
+
 body.page-simulation .simulation-card:nth-of-type(2) {
   animation-delay: 45ms;
 }
 
-body.page-simulation .simulation-card-header {
+body.page-simulation .simulation-card-header,
+body.page-simulation .simulation-parameters-card > summary {
   padding: 0.76rem 0.84rem;
   background: linear-gradient(180deg, #faf3e2 0%, var(--card-alt) 100%);
   border-bottom: 1px solid var(--border);
 }
 
 body.page-simulation .simulation-card-header h2,
+body.page-simulation .simulation-parameters-card > summary h2,
 body.page-simulation .simulation-panel-head h3 {
   margin: 0;
   font-size: clamp(1.04rem, 0.94rem + 0.4vw, 1.18rem);
   line-height: 1.24;
   font-weight: 700;
   color: #293326;
+}
+
+body.page-simulation .simulation-parameters-card > summary {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+body.page-simulation .simulation-parameters-card > summary::-webkit-details-marker {
+  display: none;
+}
+
+body.page-simulation .simulation-parameters-card > summary::before {
+  content: "▸";
+  margin-right: 0.55rem;
+  color: var(--accent);
+  transition: transform 150ms ease;
+}
+
+body.page-simulation .simulation-parameters-card[open] > summary::before {
+  transform: rotate(90deg);
 }
 
 body.page-simulation .simulation-card-body {
@@ -1572,9 +1608,31 @@ body.page-simulation .simulation-detail-intro {
   color: #4f5a47;
 }
 
+body.page-simulation .simulation-field-groups {
+  display: grid;
+  gap: 0.84rem;
+}
+
+body.page-simulation .simulation-field-group {
+  border: 1px solid #d8ccb5;
+  border-radius: var(--radius-sm);
+  background: #fffdf8;
+  padding: 0.72rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
+}
+
+body.page-simulation .simulation-field-group-title {
+  margin: 0 0 0.62rem;
+  font-size: 0.95rem;
+  line-height: 1.25;
+  font-weight: 700;
+  color: #2f372c;
+}
+
 body.page-simulation .simulation-fields {
   display: grid;
   gap: 0.72rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 body.page-simulation .simulation-field {
@@ -1889,6 +1947,55 @@ body.page-simulation .simulation-panel-head {
   display: grid;
   gap: 0.16rem;
   margin-bottom: 0.6rem;
+}
+
+body.page-simulation .simulation-matrix-legend {
+  margin-top: 0.58rem;
+}
+
+body.page-simulation .simulation-matrix-legend-title {
+  margin: 0 0 0.2rem;
+  color: #394231;
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+body.page-simulation .simulation-matrix-legend-items {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+body.page-simulation .simulation-matrix-legend-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.34rem;
+  color: #4f5a47;
+  font-size: 0.82rem;
+  line-height: 1.38;
+}
+
+body.page-simulation .simulation-matrix-legend-swatch {
+  width: 0.92rem;
+  height: 0.92rem;
+  flex: 0 0 0.92rem;
+  margin-top: 0.16rem;
+  border: 1px solid #cdbfa5;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+}
+
+body.page-simulation .simulation-matrix-legend-swatch.status-fair {
+  background: linear-gradient(180deg, #edf7e2 0%, #e1efcf 100%);
+}
+
+body.page-simulation .simulation-matrix-legend-swatch.status-critical {
+  background: linear-gradient(180deg, #fff8e0 0%, #f6e8bf 100%);
+}
+
+body.page-simulation .simulation-matrix-legend-swatch.status-not_fair {
+  background: linear-gradient(180deg, #fcf3ee 0%, #f3e2d9 100%);
 }
 
 body.page-simulation .simulation-matrix-wrap,
@@ -2333,7 +2440,7 @@ body.page-simulation .simulation-assumptions li {
 
 @media (min-width: 980px) {
   body.page-simulation .simulation-layout {
-    grid-template-columns: 360px minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr);
     align-items: start;
   }
 
@@ -2372,6 +2479,7 @@ body.page-simulation .simulation-assumptions li {
 
   body.page-simulation .simulation-header,
   body.page-simulation .simulation-card-header,
+  body.page-simulation .simulation-parameters-card > summary,
   body.page-simulation .simulation-card-body {
     padding-left: 0.72rem;
     padding-right: 0.72rem;

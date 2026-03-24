@@ -14,7 +14,14 @@
   },
   "inputs": {
     "title": "Parameter",
-    "quickNote": "Alle Annahmen sind direkt anpassbar. Die Matrix reagiert sofort auf jede Änderung.",
+    "panelSummary": "Parameter anzeigen und anpassen",
+    "quickNote": "Alle Annahmen können bei Bedarf angepasst werden. Die Matrix und die Detailauswertung reagieren sofort auf jede Änderung. Die Standardwerte sind für unsere Siedlung bereits passend vorbelegt. Änderungen sind möglich, sollten aber nur vorgenommen werden, wenn die zugrunde liegenden Annahmen bewusst angepasst werden sollen.",
+    "groups": {
+      "participants": "Teilnehmer",
+      "consumption": "Verbrauch und Nutzung",
+      "pv": "PV-Anlage",
+      "pricing": "Preise und Gebühren"
+    },
     "metaNote": "Eingaben werden nur lokal im Browser gespeichert."
   },
   "fields": {
@@ -103,10 +110,19 @@
     "bottomNote": "Diese Berechnung ist eine Orientierung. Die tatsächlichen Kosten hängen von deinem Verbrauch und von der Anzahl Teilnehmer ab.",
     "matrix": {
       "title": "Szenario wählen",
-      "intro": "Bitte in der Matrix das Feld mit der gewünschten Anzahl Bezüger und Produzenten anklicken.",
+      "intro": "Die Matrix zeigt Kombinationen aus Produzenten und reinen Bezügern. Sie zeigt direkt an, ab welcher Teilnehmerkonstellation sich EigenverbrauchMax lohnt. Bitte das gewünschte Feld anklicken, um die Detailauswertung darunter zu sehen.",
+      "legend": {
+        "title": "Legende",
+        "ariaLabel": "Farblegende der Matrix",
+        "fair": "EigenverbrauchMax lohnt sich.",
+        "critical": "Grenzfall genau prüfen.",
+        "notFair": "Kein tragfähiges Szenario."
+      },
       "cornerLabel": "",
-      "producerLabelShort": "{count} Prod.",
-      "consumerLabelShort": "{count} Bez.",
+      "producerLabelSingle": "{count} Produzent",
+      "producerLabelPlural": "{count} Produzenten",
+      "consumerLabelSingle": "{count} Bezüger",
+      "consumerLabelPlural": "{count} Bezüger",
       "priceLabel": "Rp/kWh",
       "cellAriaLabel": "{producerCount} Produzenten und {consumerCount} Bezüger auswählen. Empfohlener Strompreis: {price}."
     },

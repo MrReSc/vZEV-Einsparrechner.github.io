@@ -23,269 +23,303 @@
     </header>
 
     <section class="simulation-layout">
-      <article class="simulation-card">
-        <div class="simulation-card-header">
+      <details class="simulation-card simulation-parameters-card">
+        <summary class="simulation-card-header">
           <h2 data-i18n="inputs.title"></h2>
-        </div>
+        </summary>
         <div class="simulation-card-body">
           <form id="simulationForm" novalidate>
             <p class="simulation-quick-note" data-i18n="inputs.quickNote"></p>
 
-            <div class="simulation-fields">
-              <div class="simulation-field" data-field="maxProducerCount">
-                <div class="simulation-label-row">
-                  <label for="maxProducerCount" data-i18n="fields.maxProducerCount.label"></label>
-                  <button type="button" class="info-trigger" aria-describedby="tooltip-maxProducerCount" data-i18n-attr="aria-label:fields.maxProducerCount.infoAria">i</button>
-                  <div class="field-tooltip" id="tooltip-maxProducerCount" role="tooltip" data-i18n="fields.maxProducerCount.tooltip"></div>
-                </div>
-                <input id="maxProducerCount" name="maxProducerCount" type="number" min="1" step="1" inputmode="numeric">
-                <div class="simulation-error" id="error-maxProducerCount"></div>
-              </div>
+            <div class="simulation-field-groups">
+              <section class="simulation-field-group" aria-labelledby="simulation-group-participants">
+                <h3 id="simulation-group-participants" class="simulation-field-group-title" data-i18n="inputs.groups.participants"></h3>
+                <div class="simulation-fields">
+                  <div class="simulation-field" data-field="maxProducerCount">
+                    <div class="simulation-label-row">
+                      <label for="maxProducerCount" data-i18n="fields.maxProducerCount.label"></label>
+                      <button type="button" class="info-trigger" aria-describedby="tooltip-maxProducerCount" data-i18n-attr="aria-label:fields.maxProducerCount.infoAria">i</button>
+                      <div class="field-tooltip" id="tooltip-maxProducerCount" role="tooltip" data-i18n="fields.maxProducerCount.tooltip"></div>
+                    </div>
+                    <input id="maxProducerCount" name="maxProducerCount" type="number" min="1" step="1" inputmode="numeric">
+                    <div class="simulation-error" id="error-maxProducerCount"></div>
+                  </div>
 
-              <div class="simulation-field" data-field="maxConsumerCount">
-                <div class="simulation-label-row">
-                  <label for="maxConsumerCount" data-i18n="fields.maxConsumerCount.label"></label>
-                  <button type="button" class="info-trigger" aria-describedby="tooltip-maxConsumerCount" data-i18n-attr="aria-label:fields.maxConsumerCount.infoAria">i</button>
-                  <div class="field-tooltip" id="tooltip-maxConsumerCount" role="tooltip" data-i18n="fields.maxConsumerCount.tooltip"></div>
+                  <div class="simulation-field" data-field="maxConsumerCount">
+                    <div class="simulation-label-row">
+                      <label for="maxConsumerCount" data-i18n="fields.maxConsumerCount.label"></label>
+                      <button type="button" class="info-trigger" aria-describedby="tooltip-maxConsumerCount" data-i18n-attr="aria-label:fields.maxConsumerCount.infoAria">i</button>
+                      <div class="field-tooltip" id="tooltip-maxConsumerCount" role="tooltip" data-i18n="fields.maxConsumerCount.tooltip"></div>
+                    </div>
+                    <input id="maxConsumerCount" name="maxConsumerCount" type="number" min="1" step="1" inputmode="numeric">
+                    <div class="simulation-error" id="error-maxConsumerCount"></div>
+                  </div>
                 </div>
-                <input id="maxConsumerCount" name="maxConsumerCount" type="number" min="1" step="1" inputmode="numeric">
-                <div class="simulation-error" id="error-maxConsumerCount"></div>
-              </div>
+              </section>
 
-              <div class="simulation-field" data-field="monthlyKwhPerParticipant">
-                <div class="simulation-label-row">
-                  <label for="monthlyKwhPerParticipant" data-i18n="fields.monthlyKwhPerParticipant.label"></label>
-                  <button type="button" class="info-trigger" aria-describedby="tooltip-monthlyKwhPerParticipant" data-i18n-attr="aria-label:fields.monthlyKwhPerParticipant.infoAria">i</button>
-                  <div class="field-tooltip" id="tooltip-monthlyKwhPerParticipant" role="tooltip" data-i18n="fields.monthlyKwhPerParticipant.tooltip"></div>
-                </div>
-                <div class="simulation-input-with-unit">
-                  <input id="monthlyKwhPerParticipant" name="monthlyKwhPerParticipant" type="number" min="0" step="0.01" inputmode="decimal">
-                  <span class="simulation-unit" aria-hidden="true" data-i18n="units.kwhPerMonth"></span>
-                </div>
-                <div class="simulation-error" id="error-monthlyKwhPerParticipant"></div>
-              </div>
+              <section class="simulation-field-group" aria-labelledby="simulation-group-consumption">
+                <h3 id="simulation-group-consumption" class="simulation-field-group-title" data-i18n="inputs.groups.consumption"></h3>
+                <div class="simulation-fields">
+                  <div class="simulation-field" data-field="monthlyKwhPerParticipant">
+                    <div class="simulation-label-row">
+                      <label for="monthlyKwhPerParticipant" data-i18n="fields.monthlyKwhPerParticipant.label"></label>
+                      <button type="button" class="info-trigger" aria-describedby="tooltip-monthlyKwhPerParticipant" data-i18n-attr="aria-label:fields.monthlyKwhPerParticipant.infoAria">i</button>
+                      <div class="field-tooltip" id="tooltip-monthlyKwhPerParticipant" role="tooltip" data-i18n="fields.monthlyKwhPerParticipant.tooltip"></div>
+                    </div>
+                    <div class="simulation-input-with-unit">
+                      <input id="monthlyKwhPerParticipant" name="monthlyKwhPerParticipant" type="number" min="0" step="0.01" inputmode="decimal">
+                      <span class="simulation-unit" aria-hidden="true" data-i18n="units.kwhPerMonth"></span>
+                    </div>
+                    <div class="simulation-error" id="error-monthlyKwhPerParticipant"></div>
+                  </div>
 
-              <div class="simulation-field" data-field="consumerDaytimeSharePercent">
-                <div class="simulation-label-row">
-                  <label for="consumerDaytimeSharePercent" data-i18n="fields.consumerDaytimeSharePercent.label"></label>
-                  <button type="button" class="info-trigger" aria-describedby="tooltip-consumerDaytimeSharePercent" data-i18n-attr="aria-label:fields.consumerDaytimeSharePercent.infoAria">i</button>
-                  <div class="field-tooltip" id="tooltip-consumerDaytimeSharePercent" role="tooltip" data-i18n="fields.consumerDaytimeSharePercent.tooltip"></div>
-                </div>
-                <div class="simulation-input-with-unit">
-                  <input id="consumerDaytimeSharePercent" name="consumerDaytimeSharePercent" type="number" min="0" max="100" step="0.01" inputmode="decimal">
-                  <span class="simulation-unit" aria-hidden="true" data-i18n="units.percent"></span>
-                </div>
-                <div class="simulation-error" id="error-consumerDaytimeSharePercent"></div>
-              </div>
+                  <div class="simulation-field" data-field="consumerDaytimeSharePercent">
+                    <div class="simulation-label-row">
+                      <label for="consumerDaytimeSharePercent" data-i18n="fields.consumerDaytimeSharePercent.label"></label>
+                      <button type="button" class="info-trigger" aria-describedby="tooltip-consumerDaytimeSharePercent" data-i18n-attr="aria-label:fields.consumerDaytimeSharePercent.infoAria">i</button>
+                      <div class="field-tooltip" id="tooltip-consumerDaytimeSharePercent" role="tooltip" data-i18n="fields.consumerDaytimeSharePercent.tooltip"></div>
+                    </div>
+                    <div class="simulation-input-with-unit">
+                      <input id="consumerDaytimeSharePercent" name="consumerDaytimeSharePercent" type="number" min="0" max="100" step="0.01" inputmode="decimal">
+                      <span class="simulation-unit" aria-hidden="true" data-i18n="units.percent"></span>
+                    </div>
+                    <div class="simulation-error" id="error-consumerDaytimeSharePercent"></div>
+                  </div>
 
-              <div class="simulation-field" data-field="pvKwPerProducer">
-                <div class="simulation-label-row">
-                  <label for="pvKwPerProducer" data-i18n="fields.pvKwPerProducer.label"></label>
-                  <button type="button" class="info-trigger" aria-describedby="tooltip-pvKwPerProducer" data-i18n-attr="aria-label:fields.pvKwPerProducer.infoAria">i</button>
-                  <div class="field-tooltip" id="tooltip-pvKwPerProducer" role="tooltip" data-i18n="fields.pvKwPerProducer.tooltip"></div>
+                  <div class="simulation-field" data-field="winterMonths">
+                    <div class="simulation-label-row">
+                      <label for="winterMonths" data-i18n="fields.winterMonths.label"></label>
+                      <button type="button" class="info-trigger" aria-describedby="tooltip-winterMonths" data-i18n-attr="aria-label:fields.winterMonths.infoAria">i</button>
+                      <div class="field-tooltip" id="tooltip-winterMonths" role="tooltip" data-i18n="fields.winterMonths.tooltip"></div>
+                    </div>
+                    <input id="winterMonths" name="winterMonths" type="number" min="0" max="12" step="1" inputmode="numeric">
+                    <div class="simulation-error" id="error-winterMonths"></div>
+                  </div>
                 </div>
-                <div class="simulation-input-with-unit">
-                  <input id="pvKwPerProducer" name="pvKwPerProducer" type="number" min="0" step="0.01" inputmode="decimal">
-                  <span class="simulation-unit" aria-hidden="true" data-i18n="units.kwp"></span>
-                </div>
-                <div class="simulation-error" id="error-pvKwPerProducer"></div>
-              </div>
+              </section>
 
-              <div class="simulation-field" data-field="pvYieldKwhPerKwYear">
-                <div class="simulation-label-row">
-                  <label for="pvYieldKwhPerKwYear" data-i18n="fields.pvYieldKwhPerKwYear.label"></label>
-                  <button type="button" class="info-trigger" aria-describedby="tooltip-pvYieldKwhPerKwYear" data-i18n-attr="aria-label:fields.pvYieldKwhPerKwYear.infoAria">i</button>
-                  <div class="field-tooltip" id="tooltip-pvYieldKwhPerKwYear" role="tooltip" data-i18n="fields.pvYieldKwhPerKwYear.tooltip"></div>
-                </div>
-                <div class="simulation-input-with-unit">
-                  <input id="pvYieldKwhPerKwYear" name="pvYieldKwhPerKwYear" type="number" min="0" step="0.01" inputmode="decimal">
-                  <span class="simulation-unit simulation-unit-wide" aria-hidden="true" data-i18n="units.kwhPerKwpYear"></span>
-                </div>
-                <div class="simulation-error" id="error-pvYieldKwhPerKwYear"></div>
-              </div>
+              <section class="simulation-field-group" aria-labelledby="simulation-group-pv">
+                <h3 id="simulation-group-pv" class="simulation-field-group-title" data-i18n="inputs.groups.pv"></h3>
+                <div class="simulation-fields">
+                  <div class="simulation-field" data-field="pvKwPerProducer">
+                    <div class="simulation-label-row">
+                      <label for="pvKwPerProducer" data-i18n="fields.pvKwPerProducer.label"></label>
+                      <button type="button" class="info-trigger" aria-describedby="tooltip-pvKwPerProducer" data-i18n-attr="aria-label:fields.pvKwPerProducer.infoAria">i</button>
+                      <div class="field-tooltip" id="tooltip-pvKwPerProducer" role="tooltip" data-i18n="fields.pvKwPerProducer.tooltip"></div>
+                    </div>
+                    <div class="simulation-input-with-unit">
+                      <input id="pvKwPerProducer" name="pvKwPerProducer" type="number" min="0" step="0.01" inputmode="decimal">
+                      <span class="simulation-unit" aria-hidden="true" data-i18n="units.kwp"></span>
+                    </div>
+                    <div class="simulation-error" id="error-pvKwPerProducer"></div>
+                  </div>
 
-              <div class="simulation-field" data-field="evuPriceRpKwh">
-                <div class="simulation-label-row">
-                  <label for="evuPriceRpKwh" data-i18n="fields.evuPriceRpKwh.label"></label>
-                  <button type="button" class="info-trigger" aria-describedby="tooltip-evuPriceRpKwh" data-i18n-attr="aria-label:fields.evuPriceRpKwh.infoAria">i</button>
-                  <div class="field-tooltip" id="tooltip-evuPriceRpKwh" role="tooltip" data-i18n="fields.evuPriceRpKwh.tooltip"></div>
+                  <div class="simulation-field" data-field="pvYieldKwhPerKwYear">
+                    <div class="simulation-label-row">
+                      <label for="pvYieldKwhPerKwYear" data-i18n="fields.pvYieldKwhPerKwYear.label"></label>
+                      <button type="button" class="info-trigger" aria-describedby="tooltip-pvYieldKwhPerKwYear" data-i18n-attr="aria-label:fields.pvYieldKwhPerKwYear.infoAria">i</button>
+                      <div class="field-tooltip" id="tooltip-pvYieldKwhPerKwYear" role="tooltip" data-i18n="fields.pvYieldKwhPerKwYear.tooltip"></div>
+                    </div>
+                    <div class="simulation-input-with-unit">
+                      <input id="pvYieldKwhPerKwYear" name="pvYieldKwhPerKwYear" type="number" min="0" step="0.01" inputmode="decimal">
+                      <span class="simulation-unit simulation-unit-wide" aria-hidden="true" data-i18n="units.kwhPerKwpYear"></span>
+                    </div>
+                    <div class="simulation-error" id="error-pvYieldKwhPerKwYear"></div>
+                  </div>
                 </div>
-                <div class="simulation-input-with-unit">
-                  <input id="evuPriceRpKwh" name="evuPriceRpKwh" type="number" min="0" step="0.01" inputmode="decimal">
-                  <span class="simulation-unit" aria-hidden="true" data-i18n="units.rpPerKwh"></span>
-                </div>
-                <div class="simulation-error" id="error-evuPriceRpKwh"></div>
-              </div>
+              </section>
 
-              <div class="simulation-field" data-field="feedInRpKwh">
-                <div class="simulation-label-row">
-                  <label for="feedInRpKwh" data-i18n="fields.feedInRpKwh.label"></label>
-                  <button type="button" class="info-trigger" aria-describedby="tooltip-feedInRpKwh" data-i18n-attr="aria-label:fields.feedInRpKwh.infoAria">i</button>
-                  <div class="field-tooltip" id="tooltip-feedInRpKwh" role="tooltip" data-i18n="fields.feedInRpKwh.tooltip"></div>
-                </div>
-                <div class="simulation-input-with-unit">
-                  <input id="feedInRpKwh" name="feedInRpKwh" type="number" min="0" step="0.01" inputmode="decimal">
-                  <span class="simulation-unit" aria-hidden="true" data-i18n="units.rpPerKwh"></span>
-                </div>
-                <div class="simulation-error" id="error-feedInRpKwh"></div>
-              </div>
+              <section class="simulation-field-group" aria-labelledby="simulation-group-pricing">
+                <h3 id="simulation-group-pricing" class="simulation-field-group-title" data-i18n="inputs.groups.pricing"></h3>
+                <div class="simulation-fields">
+                  <div class="simulation-field" data-field="evuPriceRpKwh">
+                    <div class="simulation-label-row">
+                      <label for="evuPriceRpKwh" data-i18n="fields.evuPriceRpKwh.label"></label>
+                      <button type="button" class="info-trigger" aria-describedby="tooltip-evuPriceRpKwh" data-i18n-attr="aria-label:fields.evuPriceRpKwh.infoAria">i</button>
+                      <div class="field-tooltip" id="tooltip-evuPriceRpKwh" role="tooltip" data-i18n="fields.evuPriceRpKwh.tooltip"></div>
+                    </div>
+                    <div class="simulation-input-with-unit">
+                      <input id="evuPriceRpKwh" name="evuPriceRpKwh" type="number" min="0" step="0.01" inputmode="decimal">
+                      <span class="simulation-unit" aria-hidden="true" data-i18n="units.rpPerKwh"></span>
+                    </div>
+                    <div class="simulation-error" id="error-evuPriceRpKwh"></div>
+                  </div>
 
-              <div class="simulation-field" data-field="vzevFeeChfMonth">
-                <div class="simulation-label-row">
-                  <label for="vzevFeeChfMonth" data-i18n="fields.vzevFeeChfMonth.label"></label>
-                  <button type="button" class="info-trigger" aria-describedby="tooltip-vzevFeeChfMonth" data-i18n-attr="aria-label:fields.vzevFeeChfMonth.infoAria">i</button>
-                  <div class="field-tooltip" id="tooltip-vzevFeeChfMonth" role="tooltip" data-i18n="fields.vzevFeeChfMonth.tooltip"></div>
-                </div>
-                <div class="simulation-input-with-unit">
-                  <input id="vzevFeeChfMonth" name="vzevFeeChfMonth" type="number" min="0" step="0.01" inputmode="decimal">
-                  <span class="simulation-unit simulation-unit-wide" aria-hidden="true" data-i18n="units.chfPerMonth"></span>
-                </div>
-                <div class="simulation-error" id="error-vzevFeeChfMonth"></div>
-              </div>
+                  <div class="simulation-field" data-field="feedInRpKwh">
+                    <div class="simulation-label-row">
+                      <label for="feedInRpKwh" data-i18n="fields.feedInRpKwh.label"></label>
+                      <button type="button" class="info-trigger" aria-describedby="tooltip-feedInRpKwh" data-i18n-attr="aria-label:fields.feedInRpKwh.infoAria">i</button>
+                      <div class="field-tooltip" id="tooltip-feedInRpKwh" role="tooltip" data-i18n="fields.feedInRpKwh.tooltip"></div>
+                    </div>
+                    <div class="simulation-input-with-unit">
+                      <input id="feedInRpKwh" name="feedInRpKwh" type="number" min="0" step="0.01" inputmode="decimal">
+                      <span class="simulation-unit" aria-hidden="true" data-i18n="units.rpPerKwh"></span>
+                    </div>
+                    <div class="simulation-error" id="error-feedInRpKwh"></div>
+                  </div>
 
-              <div class="simulation-field" data-field="virtualMeterChfMonth">
-                <div class="simulation-label-row">
-                  <label for="virtualMeterChfMonth" data-i18n="fields.virtualMeterChfMonth.label"></label>
-                  <button type="button" class="info-trigger" aria-describedby="tooltip-virtualMeterChfMonth" data-i18n-attr="aria-label:fields.virtualMeterChfMonth.infoAria">i</button>
-                  <div class="field-tooltip" id="tooltip-virtualMeterChfMonth" role="tooltip" data-i18n="fields.virtualMeterChfMonth.tooltip"></div>
-                </div>
-                <div class="simulation-input-with-unit">
-                  <input id="virtualMeterChfMonth" name="virtualMeterChfMonth" type="number" min="0" step="0.01" inputmode="decimal">
-                  <span class="simulation-unit simulation-unit-wide" aria-hidden="true" data-i18n="units.chfPerMonth"></span>
-                </div>
-                <div class="simulation-error" id="error-virtualMeterChfMonth"></div>
-              </div>
+                  <div class="simulation-field" data-field="vzevFeeChfMonth">
+                    <div class="simulation-label-row">
+                      <label for="vzevFeeChfMonth" data-i18n="fields.vzevFeeChfMonth.label"></label>
+                      <button type="button" class="info-trigger" aria-describedby="tooltip-vzevFeeChfMonth" data-i18n-attr="aria-label:fields.vzevFeeChfMonth.infoAria">i</button>
+                      <div class="field-tooltip" id="tooltip-vzevFeeChfMonth" role="tooltip" data-i18n="fields.vzevFeeChfMonth.tooltip"></div>
+                    </div>
+                    <div class="simulation-input-with-unit">
+                      <input id="vzevFeeChfMonth" name="vzevFeeChfMonth" type="number" min="0" step="0.01" inputmode="decimal">
+                      <span class="simulation-unit simulation-unit-wide" aria-hidden="true" data-i18n="units.chfPerMonth"></span>
+                    </div>
+                    <div class="simulation-error" id="error-vzevFeeChfMonth"></div>
+                  </div>
 
-              <div class="simulation-field" data-field="vatPercent">
-                <div class="simulation-label-row">
-                  <label for="vatPercent" data-i18n="fields.vatPercent.label"></label>
-                  <button type="button" class="info-trigger" aria-describedby="tooltip-vatPercent" data-i18n-attr="aria-label:fields.vatPercent.infoAria">i</button>
-                  <div class="field-tooltip" id="tooltip-vatPercent" role="tooltip" data-i18n="fields.vatPercent.tooltip"></div>
-                </div>
-                <div class="simulation-input-with-unit">
-                  <input id="vatPercent" name="vatPercent" type="number" min="0" max="100" step="0.01" inputmode="decimal">
-                  <span class="simulation-unit" aria-hidden="true" data-i18n="units.percent"></span>
-                </div>
-                <div class="simulation-error" id="error-vatPercent"></div>
-              </div>
+                  <div class="simulation-field" data-field="virtualMeterChfMonth">
+                    <div class="simulation-label-row">
+                      <label for="virtualMeterChfMonth" data-i18n="fields.virtualMeterChfMonth.label"></label>
+                      <button type="button" class="info-trigger" aria-describedby="tooltip-virtualMeterChfMonth" data-i18n-attr="aria-label:fields.virtualMeterChfMonth.infoAria">i</button>
+                      <div class="field-tooltip" id="tooltip-virtualMeterChfMonth" role="tooltip" data-i18n="fields.virtualMeterChfMonth.tooltip"></div>
+                    </div>
+                    <div class="simulation-input-with-unit">
+                      <input id="virtualMeterChfMonth" name="virtualMeterChfMonth" type="number" min="0" step="0.01" inputmode="decimal">
+                      <span class="simulation-unit simulation-unit-wide" aria-hidden="true" data-i18n="units.chfPerMonth"></span>
+                    </div>
+                    <div class="simulation-error" id="error-virtualMeterChfMonth"></div>
+                  </div>
 
-              <div class="simulation-field" data-field="producerMinYieldChfYear">
-                <div class="simulation-label-row">
-                  <label for="producerMinYieldChfYear" data-i18n="fields.producerMinYieldChfYear.label"></label>
-                  <button type="button" class="info-trigger" aria-describedby="tooltip-producerMinYieldChfYear" data-i18n-attr="aria-label:fields.producerMinYieldChfYear.infoAria">i</button>
-                  <div class="field-tooltip" id="tooltip-producerMinYieldChfYear" role="tooltip" data-i18n="fields.producerMinYieldChfYear.tooltip"></div>
-                </div>
-                <div class="simulation-input-with-unit">
-                  <input id="producerMinYieldChfYear" name="producerMinYieldChfYear" type="number" min="0" step="0.01" inputmode="decimal">
-                  <span class="simulation-unit simulation-unit-wide" aria-hidden="true" data-i18n="units.chfPerYear"></span>
-                </div>
-                <div class="simulation-error" id="error-producerMinYieldChfYear"></div>
-              </div>
+                  <div class="simulation-field" data-field="vatPercent">
+                    <div class="simulation-label-row">
+                      <label for="vatPercent" data-i18n="fields.vatPercent.label"></label>
+                      <button type="button" class="info-trigger" aria-describedby="tooltip-vatPercent" data-i18n-attr="aria-label:fields.vatPercent.infoAria">i</button>
+                      <div class="field-tooltip" id="tooltip-vatPercent" role="tooltip" data-i18n="fields.vatPercent.tooltip"></div>
+                    </div>
+                    <div class="simulation-input-with-unit">
+                      <input id="vatPercent" name="vatPercent" type="number" min="0" max="100" step="0.01" inputmode="decimal">
+                      <span class="simulation-unit" aria-hidden="true" data-i18n="units.percent"></span>
+                    </div>
+                    <div class="simulation-error" id="error-vatPercent"></div>
+                  </div>
 
-              <div class="simulation-field" data-field="winterMonths">
-                <div class="simulation-label-row">
-                  <label for="winterMonths" data-i18n="fields.winterMonths.label"></label>
-                  <button type="button" class="info-trigger" aria-describedby="tooltip-winterMonths" data-i18n-attr="aria-label:fields.winterMonths.infoAria">i</button>
-                  <div class="field-tooltip" id="tooltip-winterMonths" role="tooltip" data-i18n="fields.winterMonths.tooltip"></div>
+                  <div class="simulation-field" data-field="producerMinYieldChfYear">
+                    <div class="simulation-label-row">
+                      <label for="producerMinYieldChfYear" data-i18n="fields.producerMinYieldChfYear.label"></label>
+                      <button type="button" class="info-trigger" aria-describedby="tooltip-producerMinYieldChfYear" data-i18n-attr="aria-label:fields.producerMinYieldChfYear.infoAria">i</button>
+                      <div class="field-tooltip" id="tooltip-producerMinYieldChfYear" role="tooltip" data-i18n="fields.producerMinYieldChfYear.tooltip"></div>
+                    </div>
+                    <div class="simulation-input-with-unit">
+                      <input id="producerMinYieldChfYear" name="producerMinYieldChfYear" type="number" min="0" step="0.01" inputmode="decimal">
+                      <span class="simulation-unit simulation-unit-wide" aria-hidden="true" data-i18n="units.chfPerYear"></span>
+                    </div>
+                    <div class="simulation-error" id="error-producerMinYieldChfYear"></div>
+                  </div>
                 </div>
-                <input id="winterMonths" name="winterMonths" type="number" min="0" max="12" step="1" inputmode="numeric">
-                <div class="simulation-error" id="error-winterMonths"></div>
-              </div>
-
+              </section>
             </div>
 
             <div class="simulation-actions">
               <button type="button" class="simulation-ghost-btn" id="resetBtn" data-i18n="actions.reset"></button>
             </div>
 
-            <p class="simulation-meta-note" data-i18n="inputs.metaNote"></p>
+          <p class="simulation-meta-note" data-i18n="inputs.metaNote"></p>
           </form>
         </div>
-      </article>
+      </details>
 
       <article class="simulation-card">
         <div class="simulation-card-header">
-          <h2 data-i18n="results.title"></h2>
+          <h2 data-i18n="results.matrix.title"></h2>
         </div>
         <div class="simulation-card-body">
           <div id="validationStatus" class="simulation-status hidden"></div>
 
-          <section class="simulation-panel">
-            <div class="simulation-panel-head">
-              <h3 data-i18n="results.matrix.title"></h3>
-              <p data-i18n="results.matrix.intro"></p>
+          <div class="simulation-panel-head">
+            <p data-i18n="results.matrix.intro"></p>
+          </div>
+          <div class="simulation-matrix-wrap">
+            <table class="simulation-matrix">
+              <thead>
+                <tr id="matrixHeaderRow"></tr>
+              </thead>
+              <tbody id="matrixBody"></tbody>
+            </table>
+          </div>
+          <div class="simulation-matrix-legend" data-i18n-attr="aria-label:results.matrix.legend.ariaLabel">
+            <p class="simulation-matrix-legend-title" data-i18n="results.matrix.legend.title"></p>
+            <div class="simulation-matrix-legend-items">
+              <div class="simulation-matrix-legend-item">
+                <span class="simulation-matrix-legend-swatch status-fair" aria-hidden="true"></span>
+                <span data-i18n="results.matrix.legend.fair"></span>
+              </div>
+              <div class="simulation-matrix-legend-item">
+                <span class="simulation-matrix-legend-swatch status-critical" aria-hidden="true"></span>
+                <span data-i18n="results.matrix.legend.critical"></span>
+              </div>
+              <div class="simulation-matrix-legend-item">
+                <span class="simulation-matrix-legend-swatch status-not_fair" aria-hidden="true"></span>
+                <span data-i18n="results.matrix.legend.notFair"></span>
+              </div>
             </div>
-            <div class="simulation-matrix-wrap">
-              <table class="simulation-matrix">
+          </div>
+        </div>
+      </article>
+
+      <article class="simulation-card" id="detailPanel">
+        <div class="simulation-card-header">
+          <h2 data-i18n="results.detail.title"></h2>
+        </div>
+        <div class="simulation-card-body">
+          <div id="detailIntro" class="simulation-detail-intro"></div>
+
+          <section class="simulation-detail-metrics">
+            <div class="simulation-detail-metric metric-price">
+              <div class="label" data-i18n="results.detail.metrics.focusPrice"></div>
+              <div class="value" id="detailFocusPrice"></div>
+            </div>
+            <div class="simulation-detail-metric metric-price">
+              <div class="label" data-i18n="results.detail.metrics.consumerDelta"></div>
+              <div class="value" id="detailConsumerDelta"></div>
+            </div>
+            <div class="simulation-detail-metric metric-price">
+              <div class="label" data-i18n="results.detail.metrics.producerDelta"></div>
+              <div class="value" id="detailProducerDelta"></div>
+            </div>
+          </section>
+
+          <section class="simulation-detail-metrics simulation-detail-metrics-recommended">
+            <div class="simulation-detail-metric metric-price">
+              <div class="label" data-i18n="results.detail.metrics.recommendedPrice"></div>
+              <div class="value" id="detailRecommendedPrice"></div>
+            </div>
+            <div class="simulation-detail-metric metric-price is-recommended">
+              <div class="label" data-i18n="results.detail.metrics.consumerDeltaRecommended"></div>
+              <div class="value" id="detailRecommendedConsumerDelta"></div>
+            </div>
+            <div class="simulation-detail-metric metric-price is-recommended">
+              <div class="label" data-i18n="results.detail.metrics.producerDeltaRecommended"></div>
+              <div class="value" id="detailRecommendedProducerDelta"></div>
+            </div>
+          </section>
+
+          <p id="detailMetaFacts" class="simulation-detail-facts"></p>
+
+          <div id="chartNotice" class="simulation-chart-notice hidden"></div>
+          <div class="simulation-chart-wrap">
+            <canvas id="detailChartCanvas"></canvas>
+          </div>
+
+          <details class="simulation-table-details">
+            <summary data-i18n="results.detail.table.summary"></summary>
+            <div class="simulation-table-wrap">
+              <table class="simulation-detail-table">
                 <thead>
-                  <tr id="matrixHeaderRow"></tr>
+                  <tr>
+                    <th data-i18n="results.detail.table.headers.price"></th>
+                    <th data-i18n="results.detail.table.headers.localSolar"></th>
+                    <th data-i18n="results.detail.table.headers.consumer"></th>
+                    <th data-i18n="results.detail.table.headers.producer"></th>
+                  </tr>
                 </thead>
-                <tbody id="matrixBody"></tbody>
+                <tbody id="detailTableBody"></tbody>
               </table>
             </div>
-          </section>
-
-          <section class="simulation-panel" id="detailPanel">
-            <div class="simulation-panel-head">
-              <h3 data-i18n="results.detail.title"></h3>
-            </div>
-
-            <div id="detailIntro" class="simulation-detail-intro"></div>
-
-            <section class="simulation-detail-metrics">
-              <div class="simulation-detail-metric metric-price">
-                <div class="label" data-i18n="results.detail.metrics.focusPrice"></div>
-                <div class="value" id="detailFocusPrice"></div>
-              </div>
-              <div class="simulation-detail-metric metric-price">
-                <div class="label" data-i18n="results.detail.metrics.consumerDelta"></div>
-                <div class="value" id="detailConsumerDelta"></div>
-              </div>
-              <div class="simulation-detail-metric metric-price">
-                <div class="label" data-i18n="results.detail.metrics.producerDelta"></div>
-                <div class="value" id="detailProducerDelta"></div>
-              </div>
-            </section>
-
-            <section class="simulation-detail-metrics simulation-detail-metrics-recommended">
-              <div class="simulation-detail-metric metric-price">
-                <div class="label" data-i18n="results.detail.metrics.recommendedPrice"></div>
-                <div class="value" id="detailRecommendedPrice"></div>
-              </div>
-              <div class="simulation-detail-metric metric-price is-recommended">
-                <div class="label" data-i18n="results.detail.metrics.consumerDeltaRecommended"></div>
-                <div class="value" id="detailRecommendedConsumerDelta"></div>
-              </div>
-              <div class="simulation-detail-metric metric-price is-recommended">
-                <div class="label" data-i18n="results.detail.metrics.producerDeltaRecommended"></div>
-                <div class="value" id="detailRecommendedProducerDelta"></div>
-              </div>
-            </section>
-
-            <p id="detailMetaFacts" class="simulation-detail-facts"></p>
-
-            <div id="chartNotice" class="simulation-chart-notice hidden"></div>
-            <div class="simulation-chart-wrap">
-              <canvas id="detailChartCanvas"></canvas>
-            </div>
-
-            <details class="simulation-table-details">
-              <summary data-i18n="results.detail.table.summary"></summary>
-              <div class="simulation-table-wrap">
-                <table class="simulation-detail-table">
-                  <thead>
-                    <tr>
-                      <th data-i18n="results.detail.table.headers.price"></th>
-                      <th data-i18n="results.detail.table.headers.localSolar"></th>
-                      <th data-i18n="results.detail.table.headers.consumer"></th>
-                      <th data-i18n="results.detail.table.headers.producer"></th>
-                    </tr>
-                  </thead>
-                  <tbody id="detailTableBody"></tbody>
-                </table>
-              </div>
-            </details>
-          </section>
+          </details>
 
           <details class="simulation-calculation-details">
             <summary data-i18n="results.calculation.summary"></summary>
@@ -1190,14 +1224,14 @@
       function renderMatrix(summaryMap, state) {
         let headerHtml = "<th class='simulation-matrix-corner' aria-hidden='true'>" + t("results.matrix.cornerLabel") + "</th>";
         for (let producerCount = 1; producerCount <= state.maxProducerCount; producerCount += 1) {
-          headerHtml += "<th class='simulation-matrix-col-header'>" + t("results.matrix.producerLabelShort", { count: producerCount }) + "</th>";
+          headerHtml += "<th class='simulation-matrix-col-header'>" + getMatrixProducerLabel(producerCount) + "</th>";
         }
         matrixHeaderRow.innerHTML = headerHtml;
 
         let bodyHtml = "";
         for (let consumerCount = 1; consumerCount <= state.maxConsumerCount; consumerCount += 1) {
           bodyHtml += "<tr>";
-          bodyHtml += "<th scope='row' class='simulation-matrix-row-header'>" + t("results.matrix.consumerLabelShort", { count: consumerCount }) + "</th>";
+          bodyHtml += "<th scope='row' class='simulation-matrix-row-header'>" + getMatrixConsumerLabel(consumerCount) + "</th>";
           for (let producerCount = 1; producerCount <= state.maxProducerCount; producerCount += 1) {
             const summary = summaryMap[getScenarioKey(producerCount, consumerCount)];
             const isSelected = producerCount === selectedProducerCount && consumerCount === selectedConsumerCount;
@@ -1223,6 +1257,26 @@
           bodyHtml += "</tr>";
         }
         matrixBody.innerHTML = bodyHtml;
+      }
+
+      /**
+       * @param {number} count
+       * @returns {string}
+       */
+      function getMatrixProducerLabel(count) {
+        return t(count === 1 ? "results.matrix.producerLabelSingle" : "results.matrix.producerLabelPlural", {
+          count: String(count)
+        });
+      }
+
+      /**
+       * @param {number} count
+       * @returns {string}
+       */
+      function getMatrixConsumerLabel(count) {
+        return t(count === 1 ? "results.matrix.consumerLabelSingle" : "results.matrix.consumerLabelPlural", {
+          count: String(count)
+        });
       }
 
       /**

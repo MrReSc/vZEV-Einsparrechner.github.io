@@ -102,7 +102,7 @@
         },
         "card2": {
           "title": "Mit diesen Werten wird gerechnet",
-          "body1Html": "<strong>200 kWh</strong> Durchschnittsverbrauch.<br><span class='slide4-reason'>Abgeschätzter Mittelwert auf Basis von Erfahrung und der Studie von EnergieSchweiz.</span>",
+          "body1Html": "<strong>200 kWh</strong> Durchschnittsverbrauch.<br><span class='slide4-reason'>Abgeschätzter Mittelwert auf Basis von Erfahrung und der <a href='https://pubdb.bfe.admin.ch/de/publication/download/10559' target='_blank' rel='noopener noreferrer'>Studie von EnergieSchweiz</a>.</span>",
           "body2Html": "<strong>55 %</strong> Anteil in den Solarstunden.<br><span class='slide4-reason'>Geschätzt anhand der Demografie am Dohlenweg.</span>",
           "body3Html": "<strong>100 CHF</strong> Mehrertrag.<br><span class='slide4-reason'>Mehrertrag, da die Produzenten die Einrichtungspauschale bezahlen und die Verantwortung tragen.</span>"
         },
