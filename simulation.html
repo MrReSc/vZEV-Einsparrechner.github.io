@@ -1207,8 +1207,8 @@
         const totalParticipants = producerCount + consumerCount;
         const annualParticipantFeeNetChf = state.vzevFeeChfMonth * 12;
         const annualVirtualMeterShareNetChf =
-          producerCount > 0 ? (state.virtualMeterChfMonth * 12) / producerCount : 0;
-        const annualConsumerFeeNetChf = annualParticipantFeeNetChf;
+          totalParticipants > 0 ? (state.virtualMeterChfMonth * 12) / totalParticipants : 0;
+        const annualConsumerFeeNetChf = annualParticipantFeeNetChf + annualVirtualMeterShareNetChf;
         const annualProducerFeeNetChf = annualParticipantFeeNetChf + annualVirtualMeterShareNetChf;
         const vatFactor = getVatFactor(state);
 
@@ -1697,7 +1697,7 @@
           }) + "</code>" +
           "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.fees.valuesVirtualMeterShare", {
             virtualMeterChfMonth: formatDetailChfMonth(state.virtualMeterChfMonth),
-            producerCount: formatDetailNumber(feeBreakdown.producerCount),
+            totalParticipants: formatDetailNumber(feeBreakdown.totalParticipants),
             annualVirtualMeterShareNetChf: formatDetailChf(feeBreakdown.annualVirtualMeterShareNetChf)
           }) + "</code>" +
           "<code class='simulation-formula simulation-formula-values'>" + t("results.calculation.steps.fees.valuesVatFactor", {

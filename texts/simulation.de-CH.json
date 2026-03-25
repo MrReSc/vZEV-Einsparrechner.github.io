@@ -73,7 +73,7 @@
     "virtualMeterChfMonth": {
       "label": "Virtueller Zähler für EigenverbrauchMax",
       "infoAria": "Info zu virtuellem Zähler für EigenverbrauchMax",
-      "tooltip": "Die monatlichen Kosten des virtuellen Zählers für die gesamte Gemeinschaft vor MwSt. Dieser Betrag wird in der Simulation nur auf die PV-Produzenten verteilt."
+      "tooltip": "Die monatlichen Kosten des virtuellen Zählers für die gesamte Gemeinschaft vor MwSt. Dieser Betrag wird in der Simulation auf alle Teilnehmer der Gemeinschaft verteilt."
     },
     "vatPercent": {
       "label": "MwSt",
@@ -195,12 +195,12 @@
         "fees": {
           "title": "Jährliche Kosten je Rolle inkl. MwSt",
           "formulaParticipantFee": "Teilnehmergebühr netto/Jahr = EigenverbrauchMax-Grundgebühr pro Monat * 12",
-          "formulaVirtualMeterShare": "Zähleranteil netto/Jahr für Produzenten = (Virtueller Zähler pro Monat * 12) / Produzenten",
+          "formulaVirtualMeterShare": "Zähleranteil netto/Jahr pro Teilnehmer = (Virtueller Zähler pro Monat * 12) / Anzahl Teilnehmer",
           "formulaVatFactor": "MwSt-Faktor = 1 + (MwSt / 100)",
-          "formulaConsumerTotalFee": "Gesamtkosten Bezüger/Jahr = Teilnehmergebühr netto/Jahr * MwSt-Faktor",
-          "formulaProducerTotalFee": "Gesamtkosten Produzent/Jahr = (Teilnehmergebühr netto/Jahr + Zähleranteil netto/Jahr für Produzenten) * MwSt-Faktor",
+          "formulaConsumerTotalFee": "Gesamtkosten Bezüger/Jahr = (Teilnehmergebühr netto/Jahr + Zähleranteil netto/Jahr pro Teilnehmer) * MwSt-Faktor",
+          "formulaProducerTotalFee": "Gesamtkosten Produzent/Jahr = (Teilnehmergebühr netto/Jahr + Zähleranteil netto/Jahr pro Teilnehmer) * MwSt-Faktor",
           "valuesParticipantFee": "Teilnehmergebühr netto pro Jahr = {vzevFeeChfMonth} * 12 = {annualParticipantFeeNetChf}",
-          "valuesVirtualMeterShare": "Zähleranteil netto pro Jahr für Produzenten = ({virtualMeterChfMonth} * 12) / {producerCount} = {annualVirtualMeterShareNetChf}",
+          "valuesVirtualMeterShare": "Zähleranteil netto pro Jahr und Teilnehmer = ({virtualMeterChfMonth} * 12) / {totalParticipants} = {annualVirtualMeterShareNetChf}",
           "valuesVatFactor": "MwSt-Faktor = 1 + ({vatPercent} / 100) = {vatFactor}",
           "valuesConsumerTotalFee": "Gesamtkosten Bezüger pro Jahr = {annualConsumerFeeNetChf} * {vatFactor} = {annualConsumerFeeChf}",
           "valuesProducerTotalFee": "Gesamtkosten Produzent pro Jahr = {annualProducerFeeNetChf} * {vatFactor} = {annualProducerFeeChf}"
@@ -262,7 +262,7 @@
       "items": {
         "item1": "Die PV Leistung gilt für alle möglichen Produzenten zusammen. Im gewählten Szenario wird sie proportional zur Zahl der Produzenten berücksichtigt.",
         "item2": "Jeder Teilnehmer zahlt die monatliche Grundgebühr nur im EigenverbrauchMax Szenario.",
-        "item3": "Die Kosten für den virtuellen Zähler werden nur auf die Produzenten verteilt.",
+        "item3": "Die Kosten für den virtuellen Zähler werden auf alle Teilnehmer verteilt.",
         "item4": "Produzenten nutzen ihren Solarstrom in den Sonnenstunden zuerst selbst.",
         "item5": "Bezüger können nur den übrigen Solarstrom nutzen und nur in den Sonnenstunden. In den Wintermonaten steht dafür kein nutzbarer Solarstrom zur Verfügung.",
         "item6": "Der Mindestpreis ist der Preis, bei dem Bezüger und Produzenten pro Teilnehmer den gleichen positiven Jahresvorteil haben.",
