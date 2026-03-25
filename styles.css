@@ -951,16 +951,6 @@ body.page-praesentation {
       border-color: var(--accent);
     }
 
-    body.page-praesentation .quick-link.quick-link-disabled{
-      border-color: #d4c7ab;
-      background: #ece4d0;
-      color: #8a7a5b;
-      opacity: 1;
-      box-shadow: none;
-      transform: none;
-      cursor: not-allowed;
-    }
-
     body.page-praesentation .deck{
       height: 100vh;
       overflow-y: auto;
@@ -1283,15 +1273,6 @@ body.page-praesentation {
     body.page-praesentation .quick-link:focus-visible{
       border-color: var(--accent);
       box-shadow: 0 0 0 3px rgba(200, 138, 29, 0.26);
-    }
-
-    body.page-praesentation .quick-link.quick-link-disabled{
-      border-color: #d4c7ab;
-      background: #ece4d0;
-      color: #8a7a5b;
-      opacity: 1;
-      box-shadow: none;
-      cursor: not-allowed;
     }
 
     body.page-praesentation .card-body p{
@@ -1929,7 +1910,8 @@ body.page-simulation .simulation-detail-metric .value {
 
 body.page-simulation .simulation-panel,
 body.page-simulation .simulation-calculation-details,
-body.page-simulation .simulation-assumptions {
+body.page-simulation .simulation-assumptions,
+body.page-simulation .simulation-detail-parameters {
   margin-top: 0.82rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
@@ -2057,6 +2039,7 @@ body.page-simulation .simulation-detail-table tbody tr:last-child > * {
 body.page-simulation .simulation-matrix th,
 body.page-simulation .simulation-matrix td {
   text-align: center;
+  transition: background-color 150ms ease, color 150ms ease, box-shadow 150ms ease;
 }
 
 body.page-simulation .simulation-matrix th:first-child,
@@ -2073,6 +2056,11 @@ body.page-simulation .simulation-detail-table thead th {
   background: #fffcf7;
   color: #344036;
   font-weight: 700;
+}
+
+body.page-simulation .simulation-detail-table thead th {
+  background: #f2e8cf;
+  border-bottom: 1px solid #cdbf98;
 }
 
 body.page-simulation .simulation-matrix tbody tr:hover,
@@ -2164,6 +2152,11 @@ body.page-simulation .simulation-matrix-row-header {
   width: 84px;
 }
 
+body.page-simulation .simulation-matrix th.is-axis-highlight {
+  background: #f2e8cf;
+  color: #283125;
+}
+
 body.page-simulation .simulation-matrix td.status-fair {
   background: #e8f2de;
 }
@@ -2184,9 +2177,18 @@ body.page-simulation .simulation-matrix td.is-selected .simulation-matrix-option
   background: rgba(255, 255, 255, 0.18);
 }
 
+body.page-simulation .simulation-matrix td.is-axis-focus .simulation-matrix-option {
+  background: rgba(255, 255, 255, 0.4);
+}
+
 body.page-simulation .simulation-matrix-option:hover,
 body.page-simulation .simulation-matrix-option:focus-within {
   background: rgba(255, 255, 255, 0.18);
+}
+
+body.page-simulation .simulation-matrix td.is-axis-focus .simulation-matrix-option:hover,
+body.page-simulation .simulation-matrix td.is-axis-focus .simulation-matrix-option:focus-within {
+  background: rgba(255, 255, 255, 0.4);
 }
 
 body.page-simulation .simulation-matrix-radio-input:checked {
@@ -2210,8 +2212,16 @@ body.page-simulation .simulation-detail-intro {
   border: 1px solid #d6cab1;
   border-radius: var(--radius-sm);
   background: #fffaf0;
-  font-size: 0.92rem;
-  line-height: 1.42;
+  font-size: 0.98rem;
+  line-height: 1.48;
+}
+
+body.page-simulation .simulation-detail-intro p {
+  margin: 0;
+}
+
+body.page-simulation .simulation-detail-intro p + p {
+  margin-top: 0.48rem;
 }
 
 body.page-simulation .simulation-detail-intro strong {
@@ -2293,7 +2303,15 @@ body.page-simulation .simulation-calculation-details {
   padding-top: 0.12rem;
 }
 
+body.page-simulation .simulation-detail-parameters {
+  padding-top: 0.12rem;
+}
+
 body.page-simulation .simulation-calculation-details:not([open]) {
+  padding-bottom: 0.12rem;
+}
+
+body.page-simulation .simulation-detail-parameters:not([open]) {
   padding-bottom: 0.12rem;
 }
 
@@ -2302,7 +2320,8 @@ body.page-simulation .simulation-table-details:not([open]) {
 }
 
 body.page-simulation .simulation-calculation-details > summary,
-body.page-simulation .simulation-table-details > summary {
+body.page-simulation .simulation-table-details > summary,
+body.page-simulation .simulation-detail-parameters > summary {
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -2315,12 +2334,14 @@ body.page-simulation .simulation-table-details > summary {
 }
 
 body.page-simulation .simulation-calculation-details > summary::-webkit-details-marker,
-body.page-simulation .simulation-table-details > summary::-webkit-details-marker {
+body.page-simulation .simulation-table-details > summary::-webkit-details-marker,
+body.page-simulation .simulation-detail-parameters > summary::-webkit-details-marker {
   display: none;
 }
 
 body.page-simulation .simulation-calculation-details > summary::before,
-body.page-simulation .simulation-table-details > summary::before {
+body.page-simulation .simulation-table-details > summary::before,
+body.page-simulation .simulation-detail-parameters > summary::before {
   content: "▸";
   margin-right: 0.45rem;
   color: var(--accent);
@@ -2328,12 +2349,52 @@ body.page-simulation .simulation-table-details > summary::before {
 }
 
 body.page-simulation .simulation-calculation-details[open] > summary::before,
-body.page-simulation .simulation-table-details[open] > summary::before {
+body.page-simulation .simulation-table-details[open] > summary::before,
+body.page-simulation .simulation-detail-parameters[open] > summary::before {
   transform: rotate(90deg);
 }
 
 body.page-simulation .simulation-table-details .simulation-table-wrap {
   margin-top: 0.14rem;
+  max-height: 22rem;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+body.page-simulation .simulation-detail-parameters-list {
+  margin: 0.12rem 0 0;
+  display: grid;
+  gap: 0.18rem;
+}
+
+body.page-simulation .simulation-detail-parameter-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr);
+  gap: 0.6rem;
+  padding: 0.16rem 0;
+  border-top: 1px solid rgba(216, 204, 181, 0.6);
+}
+
+body.page-simulation .simulation-detail-parameter-row:first-child {
+  border-top: 0;
+}
+
+body.page-simulation .simulation-detail-parameter-row dt,
+body.page-simulation .simulation-detail-parameter-row dd {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+
+body.page-simulation .simulation-detail-parameter-row dt {
+  color: #5a6451;
+}
+
+body.page-simulation .simulation-detail-parameter-row dd {
+  color: #2f372c;
+  font-weight: 620;
+  text-align: right;
 }
 
 body.page-simulation .simulation-calc-intro {
@@ -2471,6 +2532,12 @@ body.page-simulation .simulation-assumptions li {
   }
 }
 
+@media (max-width: 720px) {
+  body.page-simulation .simulation-fields {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 540px) {
   body.page-simulation .simulation-container {
     width: min(1260px, 100% - 1rem);
@@ -2508,6 +2575,15 @@ body.page-simulation .simulation-assumptions li {
   body.page-simulation .simulation-chart-wrap {
     height: 280px;
     padding: 0.48rem;
+  }
+
+  body.page-simulation .simulation-detail-parameter-row {
+    grid-template-columns: 1fr;
+    gap: 0.08rem;
+  }
+
+  body.page-simulation .simulation-detail-parameter-row dd {
+    text-align: left;
   }
 
   body.page-simulation .simulation-matrix {

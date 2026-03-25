@@ -304,9 +304,9 @@
             <canvas id="detailChartCanvas"></canvas>
           </div>
 
-          <details class="simulation-table-details">
+          <details class="simulation-table-details" id="detailTableDetails">
             <summary data-i18n="results.detail.table.summary"></summary>
-            <div class="simulation-table-wrap">
+            <div class="simulation-table-wrap" id="detailTableWrap">
               <table class="simulation-detail-table">
                 <thead>
 	                  <tr>
@@ -318,6 +318,11 @@
                 <tbody id="detailTableBody"></tbody>
               </table>
             </div>
+          </details>
+
+          <details class="simulation-detail-parameters">
+            <summary data-i18n="results.detail.parameters.summary"></summary>
+            <dl id="detailParameterList" class="simulation-detail-parameters-list"></dl>
           </details>
 
           <details class="simulation-calculation-details">
@@ -574,9 +579,17 @@
         maximumFractionDigits: 0
       });
 
+      function getDefaultMatrixSelection(state) {
+        return {
+          producerCount: Math.max(1, Math.ceil(state.maxProducerCount / 2)),
+          consumerCount: Math.max(1, Math.ceil(state.maxConsumerCount / 2))
+        };
+      }
+
       const form = document.getElementById("simulationForm");
       const resetBtn = document.getElementById("resetBtn");
       const validationStatus = document.getElementById("validationStatus");
+      const matrixTable = document.querySelector(".simulation-matrix");
       const matrixHeaderRow = document.getElementById("matrixHeaderRow");
       const matrixBody = document.getElementById("matrixBody");
       const detailPanel = document.getElementById("detailPanel");
@@ -588,14 +601,18 @@
       const detailRecommendedConsumerDelta = document.getElementById("detailRecommendedConsumerDelta");
       const detailRecommendedProducerDelta = document.getElementById("detailRecommendedProducerDelta");
       const detailMetaFacts = document.getElementById("detailMetaFacts");
+      const detailParameterList = document.getElementById("detailParameterList");
+      const detailTableDetails = document.getElementById("detailTableDetails");
+      const detailTableWrap = document.getElementById("detailTableWrap");
       const detailTableBody = document.getElementById("detailTableBody");
       const calculationIntro = document.getElementById("calculationIntro");
       const calculationSteps = document.getElementById("calculationSteps");
       const chartNotice = document.getElementById("chartNotice");
       const detailChartCanvas = document.getElementById("detailChartCanvas");
 
-      var selectedProducerCount = DEFAULT_STATE.maxProducerCount;
-      var selectedConsumerCount = DEFAULT_STATE.maxConsumerCount;
+      const defaultMatrixSelection = getDefaultMatrixSelection(DEFAULT_STATE);
+      var selectedProducerCount = defaultMatrixSelection.producerCount;
+      var selectedConsumerCount = defaultMatrixSelection.consumerCount;
       var detailChart = null;
       var detailHighlightTimeout = 0;
 
@@ -609,6 +626,11 @@
         form.addEventListener("change", renderFromForm);
         resetBtn.addEventListener("click", handleReset);
         matrixBody.addEventListener("change", handleMatrixSelection);
+        matrixBody.addEventListener("mouseover", handleMatrixHover);
+        matrixBody.addEventListener("focusin", handleMatrixHover);
+        matrixTable.addEventListener("mouseleave", restoreSelectedMatrixAxisHighlight);
+        matrixTable.addEventListener("focusout", handleMatrixFocusOut);
+        detailTableDetails.addEventListener("toggle", handleDetailTableToggle);
         renderFromForm();
       }
 
@@ -842,6 +864,7 @@
         detailRecommendedConsumerDelta.textContent = t("results.emptyValue");
         detailRecommendedProducerDelta.textContent = t("results.emptyValue");
         detailMetaFacts.textContent = "";
+        detailParameterList.innerHTML = "";
         matrixHeaderRow.innerHTML = "";
         matrixBody.innerHTML = "";
         detailTableBody.innerHTML = "";
@@ -856,11 +879,12 @@
        * @param {SimulationInputState} state
        */
       function syncSelection(state) {
+        const defaultSelection = getDefaultMatrixSelection(state);
         if (selectedProducerCount > state.maxProducerCount || selectedProducerCount < 1) {
-          selectedProducerCount = state.maxProducerCount;
+          selectedProducerCount = defaultSelection.producerCount;
         }
         if (selectedConsumerCount > state.maxConsumerCount || selectedConsumerCount < 1) {
-          selectedConsumerCount = state.maxConsumerCount;
+          selectedConsumerCount = defaultSelection.consumerCount;
         }
       }
 
@@ -1295,14 +1319,14 @@
       function renderMatrix(summaryMap, state) {
         let headerHtml = "<th class='simulation-matrix-corner' aria-hidden='true'>" + t("results.matrix.cornerLabel") + "</th>";
         for (let producerCount = 1; producerCount <= state.maxProducerCount; producerCount += 1) {
-          headerHtml += "<th class='simulation-matrix-col-header'>" + getMatrixProducerLabel(producerCount) + "</th>";
+          headerHtml += "<th scope='col' class='simulation-matrix-col-header' data-producers='" + producerCount + "'>" + getMatrixProducerLabel(producerCount) + "</th>";
         }
         matrixHeaderRow.innerHTML = headerHtml;
 
         let bodyHtml = "";
         for (let consumerCount = 1; consumerCount <= state.maxConsumerCount; consumerCount += 1) {
-          bodyHtml += "<tr>";
-          bodyHtml += "<th scope='row' class='simulation-matrix-row-header'>" + getMatrixConsumerLabel(consumerCount) + "</th>";
+          bodyHtml += "<tr data-consumers='" + consumerCount + "'>";
+          bodyHtml += "<th scope='row' class='simulation-matrix-row-header' data-consumers='" + consumerCount + "'>" + getMatrixConsumerLabel(consumerCount) + "</th>";
           for (let producerCount = 1; producerCount <= state.maxProducerCount; producerCount += 1) {
             const summary = summaryMap[getScenarioKey(producerCount, consumerCount)];
             const isSelected = producerCount === selectedProducerCount && consumerCount === selectedConsumerCount;
@@ -1318,7 +1342,7 @@
             });
 
             bodyHtml +=
-              "<td class='status-" + summary.status + (isSelected ? " is-selected" : "") + "'>" +
+              "<td class='status-" + summary.status + (isSelected ? " is-selected" : "") + "' data-producers='" + producerCount + "' data-consumers='" + consumerCount + "'>" +
               "<label class='simulation-matrix-option' for='" + scenarioId + "'>" +
               "<input type='radio' class='simulation-matrix-radio-input' id='" + scenarioId + "' name='matrixScenario' data-producers='" + producerCount + "' data-consumers='" + consumerCount + "' aria-label='" + escapeHtml(cellLabel) + "'" + (isSelected ? " checked" : "") + ">" +
               "<span class='simulation-matrix-benefit' aria-hidden='true'>" + matrixPriceLabel + "</span>" +
@@ -1328,6 +1352,87 @@
           bodyHtml += "</tr>";
         }
         matrixBody.innerHTML = bodyHtml;
+        restoreSelectedMatrixAxisHighlight();
+      }
+
+      /**
+       * @param {MouseEvent | FocusEvent} event
+       */
+      function handleMatrixHover(event) {
+        const cell = getMatrixCellFromTarget(event.target);
+        if (!cell) {
+          return;
+        }
+
+        const producerCount = Number(cell.getAttribute("data-producers"));
+        const consumerCount = Number(cell.getAttribute("data-consumers"));
+        if (!Number.isFinite(producerCount) || !Number.isFinite(consumerCount)) {
+          return;
+        }
+
+        applyMatrixAxisHighlight(producerCount, consumerCount, true);
+      }
+
+      /**
+       * @param {FocusEvent} event
+       */
+      function handleMatrixFocusOut(event) {
+        const nextTarget = event.relatedTarget;
+        if (nextTarget instanceof Node && matrixTable.contains(nextTarget)) {
+          return;
+        }
+
+        restoreSelectedMatrixAxisHighlight();
+      }
+
+      /**
+       * @param {EventTarget | null} target
+       * @returns {HTMLTableCellElement | null}
+       */
+      function getMatrixCellFromTarget(target) {
+        if (!(target instanceof Element)) {
+          return null;
+        }
+
+        const cell = target.closest("td[data-producers][data-consumers]");
+        return cell instanceof HTMLTableCellElement ? cell : null;
+      }
+
+      /**
+       * @param {number} producerCount
+       * @param {number} consumerCount
+       */
+      function applyMatrixAxisHighlight(producerCount, consumerCount, emphasizeCell) {
+        clearMatrixAxisHighlight();
+
+        const rowHeader = matrixBody.querySelector(".simulation-matrix-row-header[data-consumers='" + consumerCount + "']");
+        if (rowHeader) {
+          rowHeader.classList.add("is-axis-highlight");
+        }
+
+        const columnHeader = matrixHeaderRow.querySelector(".simulation-matrix-col-header[data-producers='" + producerCount + "']");
+        if (columnHeader) {
+          columnHeader.classList.add("is-axis-highlight");
+        }
+
+        const activeCell = matrixBody.querySelector("td[data-producers='" + producerCount + "'][data-consumers='" + consumerCount + "']");
+        if (emphasizeCell && activeCell) {
+          activeCell.classList.add("is-axis-focus");
+        }
+      }
+
+      function restoreSelectedMatrixAxisHighlight() {
+        applyMatrixAxisHighlight(selectedProducerCount, selectedConsumerCount, false);
+      }
+
+      function clearMatrixAxisHighlight() {
+        if (!matrixTable) {
+          return;
+        }
+
+        matrixTable.querySelectorAll(".is-axis-highlight, .is-axis-focus").forEach(function (element) {
+          element.classList.remove("is-axis-highlight", "is-axis-focus");
+        });
       }
 
       /**
@@ -1365,25 +1470,31 @@
           producerCount: String(summary.producerCount),
           consumerCount: String(summary.consumerCount)
         }));
-        let introHtml = selectionText;
+        let assessmentHtml = "";
 
-        if (summary.hasFairScenario && summary.optimalResult) {
-          introHtml += " " + t("results.detail.fairHtml", {
-            optimal: formatRpCompact(summary.optimalPriceRpKwh),
-            value: formatSignedChf(summary.balanceResult.consumerDeltaChfYear)
+        if (summary.hasFairScenario && minimumResult) {
+          assessmentHtml += t("results.detail.fairHtml", {
+            minimum: formatRpCompact(minimumResult.solarPriceRpKwh)
           });
         } else if (summary.closestResult) {
-          introHtml += " " + t("results.detail.noFairHtml", {
+          assessmentHtml += t("results.detail.noFairHtml", {
             closest: formatRpCompact(summary.closestResult.solarPriceRpKwh),
             gap: formatChf(Math.abs(summary.balanceResult.consumerDeltaChfYear))
           });
         }
         if (recommendedResult) {
-          introHtml += " " + t("results.detail.recommendedHtml", {
+          if (assessmentHtml) {
+            assessmentHtml += " ";
+          }
+          assessmentHtml += t("results.detail.recommendedHtml", {
             price: formatRpCompact(recommendedResult.solarPriceRpKwh),
             consumerValue: formatSignedChf(recommendedResult.consumerDeltaChfYear),
             producerValue: formatSignedChf(recommendedResult.producerDeltaChfYear)
           });
+        }
+        let introHtml = "<p>" + selectionText + "</p>";
+        if (assessmentHtml) {
+          introHtml += "<p>" + assessmentHtml + "</p>";
         }
         detailIntro.innerHTML = introHtml;
 
@@ -1395,6 +1506,7 @@
           detailRecommendedConsumerDelta.textContent = t("results.emptyValue");
           detailRecommendedProducerDelta.textContent = t("results.emptyValue");
           detailMetaFacts.textContent = "";
+          detailParameterList.innerHTML = "";
           detailTableBody.innerHTML = "";
           calculationIntro.textContent = t("results.calculation.empty");
           calculationSteps.innerHTML = "";
@@ -1426,9 +1538,91 @@
 	          utilization: percentFormatter.format(utilizationPercent * 100) + " %"
 	        });
 
-        renderDetailTable(summary.priceResults, summary.closestResult, summary.detailRecommendedResult);
+        renderDetailParameters(summary, state, focusResult);
+        renderDetailTable(summary.priceResults, minimumResult, summary.detailRecommendedResult);
         renderChart(summary.priceResults, summary.optimalResult, summary);
         renderCalculationDetails(summary, state, focusResult);
+      }
+
+      /**
+       * @param {ScenarioSummary} summary
+       * @param {SimulationInputState} state
+       * @param {ScenarioResult} focusResult
+       */
+      function renderDetailParameters(summary, state, focusResult) {
+        const vatFactor = 1 + state.vatPercent / 100;
+        const averagePvPowerPerProducer = summary.producerCount > 0
+          ? focusResult.scenarioTotalPvKw / summary.producerCount
+          : 0;
+        const averagePvYieldPerProducer = summary.producerCount > 0
+          ? focusResult.annualPvProductionKwh / summary.producerCount
+          : 0;
+        const pvSelfConsumptionPerProducer = summary.producerCount > 0
+          ? focusResult.producerDirectUseKwhYear / summary.producerCount
+          : 0;
+        const averageLocalSolarPerConsumer = summary.consumerCount > 0
+          ? focusResult.localSolarKwhYear / summary.consumerCount
+          : 0;
+
+        const items = [
+          {
+            label: t("fields.evuPriceRpKwh.label"),
+            value: formatDetailRp(state.evuPriceRpKwh)
+          },
+          {
+            label: t("fields.feedInRpKwh.label"),
+            value: formatDetailRp(state.feedInRpKwh)
+          },
+          {
+            label: t("results.detail.parameters.items.producerCount"),
+            value: formatDetailNumber(summary.producerCount)
+          },
+          {
+            label: t("results.detail.parameters.items.consumerCount"),
+            value: formatDetailNumber(summary.consumerCount)
+          },
+          {
+            label: t("results.detail.parameters.items.avgPvPowerPerProducer"),
+            value: formatDetailKwPeak(averagePvPowerPerProducer)
+          },
+          {
+            label: t("results.detail.parameters.items.recommendedPrice"),
+            value: formatDetailRp(summary.detailRecommendedPriceRpKwh)
+          },
+          {
+            label: t("results.detail.parameters.items.avgPvYieldPerProducer"),
+            value: formatDetailKwhYear(averagePvYieldPerProducer)
+          },
+          {
+            label: t("results.detail.parameters.items.pvSelfConsumptionPerProducer"),
+            value: formatDetailKwhYear(pvSelfConsumptionPerProducer)
+          },
+          {
+            label: t("results.detail.parameters.items.avgLocalSolarPerConsumer"),
+            value: formatDetailKwhYear(averageLocalSolarPerConsumer)
+          },
+          {
+            label: t("results.detail.parameters.items.avgConsumptionPerParticipant"),
+            value: formatDetailKwhYear(state.monthlyKwhPerParticipant * 12)
+          },
+          {
+            label: t("results.detail.parameters.items.participantFeeInclVat"),
+            value: formatDetailChf((state.vzevFeeChfMonth * vatFactor) * 12)
+          },
+          {
+            label: t("results.detail.parameters.items.virtualMeterInclVat"),
+            value: formatDetailChf((state.virtualMeterChfMonth * vatFactor) * 12)
+          }
+        ];
+
+        detailParameterList.innerHTML = items.map(function (item) {
+          return (
+            "<div class='simulation-detail-parameter-row'>" +
+            "<dt>" + escapeHtml(item.label) + "</dt>" +
+            "<dd>" + escapeHtml(item.value) + "</dd>" +
+            "</div>"
+          );
+        }).join("");
       }
 
       /**
@@ -1656,20 +1850,25 @@
 
       /**
        * @param {ScenarioResult[]} priceResults
-       * @param {ScenarioResult | null} closestResult
+       * @param {ScenarioResult | null} minimumResult
        * @param {ScenarioResult | null} recommendedResult
        */
-      function renderDetailTable(priceResults, closestResult, recommendedResult) {
-        const rows = priceResults.map(function (result) {
-          const isClosestPrice = closestResult && Math.abs(result.solarPriceRpKwh - closestResult.solarPriceRpKwh) <= FAIRNESS_EPSILON;
+      function renderDetailTable(priceResults, minimumResult, recommendedResult) {
+        const middleIndex = priceResults.length > 0 ? Math.floor(priceResults.length / 2) : -1;
+        const rows = priceResults.map(function (result, index) {
+          const isMinimumPrice = minimumResult && Math.abs(result.solarPriceRpKwh - minimumResult.solarPriceRpKwh) <= FAIRNESS_EPSILON;
           const isRecommendedPrice =
             recommendedResult && Math.abs(result.solarPriceRpKwh - recommendedResult.solarPriceRpKwh) <= FAIRNESS_EPSILON;
           const rowClass = result.isFair || isRecommendedPrice
             ? "is-fair"
-            : (isClosestPrice ? "is-focus" : "is-not-fair");
+            : (isMinimumPrice ? "is-focus" : "is-not-fair");
+          const isScrollTarget =
+            isRecommendedPrice ||
+            (!recommendedResult && isMinimumPrice) ||
+            (!recommendedResult && !minimumResult && index === middleIndex);
 
 	          return (
-	            "<tr class='" + rowClass + "'>" +
+	            "<tr class='" + rowClass + "'" + (isScrollTarget ? " data-scroll-target='true'" : "") + ">" +
 	            "<td>" + formatRp(result.solarPriceRpKwh) + "</td>" +
 	            "<td class='" + getDeltaClass(result.consumerDeltaChfYear) + "'>" + formatSignedChf(result.consumerDeltaChfYear) + "</td>" +
 	            "<td class='" + getDeltaClass(result.producerDeltaChfYear) + "'>" + formatSignedChf(result.producerDeltaChfYear) + "</td>" +
@@ -1678,6 +1877,36 @@
         }).join("");
 
         detailTableBody.innerHTML = rows;
+        if (detailTableDetails.open) {
+          scrollDetailTableToTarget();
+        }
+      }
+
+      function handleDetailTableToggle() {
+        if (!detailTableDetails.open) {
+          return;
+        }
+
+        scrollDetailTableToTarget();
+      }
+
+      function scrollDetailTableToTarget() {
+        if (!detailTableWrap) {
+          return;
+        }
+
+        const targetRow = detailTableBody.querySelector("tr[data-scroll-target='true']");
+        if (!(targetRow instanceof HTMLElement)) {
+          detailTableWrap.scrollTop = 0;
+          return;
+        }
+
+        window.requestAnimationFrame(function () {
+          detailTableWrap.scrollTop = Math.max(
+            0,
+            targetRow.offsetTop - (detailTableWrap.clientHeight - targetRow.offsetHeight) / 2
+          );
+        });
       }
 
       /**
@@ -1956,8 +2185,9 @@
           // Ignore localStorage errors.
         }
 
-        selectedProducerCount = DEFAULT_STATE.maxProducerCount;
-        selectedConsumerCount = DEFAULT_STATE.maxConsumerCount;
+        const defaultSelection = getDefaultMatrixSelection(DEFAULT_STATE);
+        selectedProducerCount = defaultSelection.producerCount;
+        selectedConsumerCount = defaultSelection.consumerCount;
         writeStateToForm({ ...DEFAULT_STATE });
         renderFromForm();
       }
