@@ -56,9 +56,9 @@
       "tooltip": "Der erwartete Jahresertrag pro installiertem kWp in kWh. Damit wird aus der Anlagengrösse die jährliche PV-Produktion berechnet."
     },
     "evuPriceRpKwh": {
-      "label": "EVU-Strompreis",
-      "infoAria": "Info zu EVU-Strompreis",
-      "tooltip": "Der normale Strompreis des Energieversorgers in Rp/kWh. Daran misst sich die Ersparnis der reinen Bezüger."
+      "label": "Netto Strompreis",
+      "infoAria": "Info zu Netto Strompreis",
+      "tooltip": "Der Nettostrompreis des Energieversorgers in Rp/kWh. In der Simulation wird für den Vergleich mit den Bezügern zusätzlich die eingestellte MwSt berücksichtigt."
     },
     "feedInRpKwh": {
       "label": "Einspeisevergütung",
@@ -76,9 +76,9 @@
       "tooltip": "Die monatlichen Kosten des virtuellen Zählers für die gesamte Gemeinschaft vor MwSt. Dieser Betrag wird in der Simulation nur auf die PV-Produzenten verteilt."
     },
     "vatPercent": {
-      "label": "MwSt auf jährliche Kosten",
-      "infoAria": "Info zu MwSt auf jährliche Kosten",
-      "tooltip": "Mehrwertsteuer in Prozent, die auf die jährlichen Kosten aus Grundgebühr und virtuellem Zähler aufgeschlagen wird."
+      "label": "MwSt",
+      "infoAria": "Info zu MwSt",
+      "tooltip": "Mehrwertsteuer in Prozent. In der Simulation wird sie auf den Netto Strompreis sowie auf die jährlichen Kosten aus Grundgebühr und virtuellem Zähler angewendet."
     },
     "producerMinYieldChfYear": {
       "label": "Mindest Ertrag PV Betreiber",
@@ -137,6 +137,7 @@
       "parameters": {
         "summary": "Verwendete Werte dieses Szenarios",
         "items": {
+          "grossEvuPrice": "Brutto Strompreis",
           "producerCount": "Anzahl Produzenten",
           "consumerCount": "Anzahl reine Bezüger",
           "avgPvPowerPerProducer": "Durchschnittliche PV-Leistung pro Produzent",
@@ -224,8 +225,8 @@
         },
         "balancePrice": {
           "title": "Theoretischer Gleichgewichtspreis (Schnittpunkt Kurven Bezüger / Produzent)",
-          "formula": "Theoretischer Gleichgewichtspreis = ((lokaler Solarstrom pro Bezüger * EVU Preis) + (lokaler Solarstrom pro Produzent * Einspeisevergütung) + 100 * (Produzentenkosten pro Jahr - Bezügerkosten pro Jahr)) / (lokaler Solarstrom pro Bezüger + lokaler Solarstrom pro Produzent)",
-          "valuesPrice": "Theoretischer Gleichgewichtspreis = (({localSolarKwhPerConsumer} * {evuPriceRpKwh}) + ({localSolarKwhPerProducer} * {feedInRpKwh}) + 100 * ({annualProducerFeeChf} - {annualConsumerFeeChf})) / ({localSolarKwhPerConsumer} + {localSolarKwhPerProducer}) = {balancePriceRpKwh}",
+          "formula": "Theoretischer Gleichgewichtspreis = ((lokaler Solarstrom pro Bezüger * Strompreis inkl. MwSt) + (lokaler Solarstrom pro Produzent * Einspeisevergütung) + 100 * (Produzentenkosten pro Jahr - Bezügerkosten pro Jahr)) / (lokaler Solarstrom pro Bezüger + lokaler Solarstrom pro Produzent)",
+          "valuesPrice": "Strompreis inkl. MwSt = {netEvuPriceRpKwh} * {vatFactor} = {grossEvuPriceRpKwh}. Theoretischer Gleichgewichtspreis = (({localSolarKwhPerConsumer} * {grossEvuPriceRpKwh}) + ({localSolarKwhPerProducer} * {feedInRpKwh}) + 100 * ({annualProducerFeeChf} - {annualConsumerFeeChf})) / ({localSolarKwhPerConsumer} + {localSolarKwhPerProducer}) = {balancePriceRpKwh}",
           "valuesBenefit": "Am theoretischen Gleichgewicht ergibt sich je Teilnehmer derselbe Jahresvorteil von {balanceDeltaChfYear}."
         },
         "minimumPrice": {
@@ -236,23 +237,23 @@
         },
         "minimumImpact": {
           "title": "Angezeigte Werte beim Mindestpreis",
-          "formulaConsumer": "Ersparnis pro Bezüger pro Jahr = lokaler Solarstrom pro Bezüger * (EVU Preis - Mindestpreis) / 100 - Bezügerkosten pro Jahr",
+          "formulaConsumer": "Ersparnis pro Bezüger pro Jahr = lokaler Solarstrom pro Bezüger * (Strompreis inkl. MwSt - Mindestpreis) / 100 - Bezügerkosten pro Jahr",
           "formulaProducer": "Mehrerlös pro Produzent pro Jahr = lokaler Solarstrom pro Produzent * (Mindestpreis - Einspeisevergütung) / 100 - Produzentenkosten pro Jahr",
-          "valuesConsumer": "Ersparnis pro Bezüger pro Jahr = {localSolarKwhPerConsumer} * (({evuPriceRpKwh} - {minimumPriceRpKwh}) / 100) - {annualConsumerFeeChf} = {consumerDeltaChfYear}",
+          "valuesConsumer": "Strompreis inkl. MwSt = {netEvuPriceRpKwh} * {vatFactor} = {grossEvuPriceRpKwh}. Ersparnis pro Bezüger pro Jahr = {localSolarKwhPerConsumer} * (({grossEvuPriceRpKwh} - {minimumPriceRpKwh}) / 100) - {annualConsumerFeeChf} = {consumerDeltaChfYear}",
           "valuesProducer": "Mehrerlös pro Produzent pro Jahr = {localSolarKwhPerProducer} * (({minimumPriceRpKwh} - {feedInRpKwh}) / 100) - {annualProducerFeeChf} = {producerDeltaChfYear}",
           "noMinimum": "Es gibt keine angezeigten Werte beim Mindestpreis, weil in diesem Szenario kein Mindestpreis vorhanden ist."
         },
         "recommendedBand": {
           "title": "Empfohlenes Preisband",
           "formulaMin": "Untergrenze Preisband = theoretischer Gleichgewichtspreis",
-          "formulaMax": "Obergrenze Preisband = 80 % des EVU Preises",
+          "formulaMax": "Obergrenze Preisband = 80 % des Strompreises inkl. MwSt",
           "formulaRecommended": "Empfohlener Preis = erste Preisstufe im Band, bei der der Mehrerlös pro Produzent den Mindest Ertrag erreicht",
           "formulaRecommendedFallback": "Empfohlener Preis in der Detailansicht = Preisstufe mit dem kleinsten Abstand zum Mindest Ertrag des Produzenten, bei der Bezüger keinen negativen Jahresvorteil haben",
           "valuesMin": "Untergrenze Preisband = theoretischer Gleichgewichtspreis = {minimumPriceRpKwh}",
-          "valuesMax": "Obergrenze Preisband = {evuPriceRpKwh} * 0.8 = {recommendedBandMaxRpKwh}",
+          "valuesMax": "Strompreis inkl. MwSt = {netEvuPriceRpKwh} * {vatFactor} = {grossEvuPriceRpKwh}. Obergrenze Preisband = {grossEvuPriceRpKwh} * 0.8 = {recommendedBandMaxRpKwh}",
           "valuesRecommended": "Im Band zwischen {minimumPriceRpKwh} und {recommendedBandMaxRpKwh} wird die erste 0.1 Rp Stufe gesucht, bei der der Mehrerlös pro Produzent mindestens {producerMinYieldChfYear} erreicht. Ergebnis = {recommendedPriceRpKwh}",
           "valuesRecommendedFallback": "Im empfohlenen Band wurde keine Preisstufe mit mindestens {producerMinYieldChfYear} gefunden. In der Detailansicht wird deshalb die Preisstufe mit dem kleinsten Abstand verwendet, bei der Bezüger nicht ins Minus fallen. Ergebnis = {recommendedPriceRpKwh} bei einem Mehrerlös von {producerDeltaChfYear} pro Produzent.",
-          "noBand": "Kein empfohlenes Preisband, weil kein theoretischer Gleichgewichtspreis mit positivem Jahresvorteil für beide Seiten bestimmt werden kann oder weil dieser nicht unter 80 % des EVU Preises liegt."
+          "noBand": "Kein empfohlenes Preisband, weil kein theoretischer Gleichgewichtspreis mit positivem Jahresvorteil für beide Seiten bestimmt werden kann oder weil dieser nicht unter 80 % des Strompreises inkl. MwSt liegt."
         }
       }
     },
@@ -267,8 +268,8 @@
         "item6": "Der Mindestpreis ist der Preis, bei dem Bezüger und Produzenten pro Teilnehmer den gleichen positiven Jahresvorteil haben.",
         "item7": "Das empfohlene Preisband ist eine praktische Empfehlung.",
         "item8": "Die Untergrenze des Preisbands ist der Mindestpreis.",
-        "item9": "Die Obergrenze des Preisbands liegt bei 80 % des EVU Preises. Der empfohlene Preis ist die erste Stufe von 0.1 Rp in diesem Bereich, bei der der gewünschte Mehrerlös pro Produzent erreicht wird.",
-        "item10": "Auf Grundgebühr und Zählerkosten wird die eingestellte MwSt angewendet."
+        "item9": "Die Obergrenze des Preisbands liegt bei 80 % des Strompreises inkl. MwSt. Der empfohlene Preis ist die erste Stufe von 0.1 Rp in diesem Bereich, bei der der gewünschte Mehrerlös pro Produzent erreicht wird.",
+        "item10": "Auf den Netto Strompreis sowie auf Grundgebühr und Zählerkosten wird die eingestellte MwSt angewendet."
       }
     }
   },
