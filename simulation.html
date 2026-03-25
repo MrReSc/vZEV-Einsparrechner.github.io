@@ -353,6 +353,7 @@
     <p class="simulation-bottom-note" data-i18n="results.bottomNote"></p>
   </main>
 
+  <script src="simulation-core.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
   <script>
     (async function () {
@@ -511,25 +512,23 @@
       await loadI18n("texts/simulation.de-CH.json");
       applyI18n();
 
+      const SimulationCore = window.VzevSimulationCore;
+      if (!SimulationCore) {
+        throw new Error("simulation-core.js could not be loaded.");
+      }
+
       const STORAGE_KEY = "vzevcalc.simulation.state.v1";
-      const FAIRNESS_EPSILON = 0.000001;
-      const PRICE_SWEEP_STEP_RP_KWH = 0.1;
-      /** @type {SimulationInputState} */
-      const DEFAULT_STATE = Object.freeze({
-        maxProducerCount: 7,
-        maxConsumerCount: 10,
-        monthlyKwhPerParticipant: 200,
-        consumerDaytimeSharePercent: 55,
-        totalPvKw: 63,
-        pvYieldKwhPerKwYear: 900,
-        evuPriceRpKwh: 25.76,
-        feedInRpKwh: 8,
-        vzevFeeChfMonth: 3,
-        virtualMeterChfMonth: 2,
-        vatPercent: 8.1,
-        producerMinYieldChfYear: 100,
-        winterMonths: 3
-      });
+      const {
+        DEFAULT_STATE,
+        FAIRNESS_EPSILON,
+        calculateAnnualFeeBreakdown,
+        calculateSimulation,
+        getDefaultMatrixSelection,
+        getGrossEvuPriceRpKwh,
+        getScenarioKey,
+        getScenarioTotalPvKw,
+        sanitizeState
+      } = SimulationCore;
 
       const integerFieldIds = [
         "maxProducerCount",
@@ -578,29 +577,6 @@
         minimumFractionDigits: 0,
         maximumFractionDigits: 0
       });
-
-      function getDefaultMatrixSelection(state) {
-        return {
-          producerCount: Math.max(1, Math.ceil(state.maxProducerCount / 2)),
-          consumerCount: Math.max(1, Math.ceil(state.maxConsumerCount / 2))
-        };
-      }
-
-      /**
-       * @param {SimulationInputState} state
-       * @returns {number}
-       */
-      function getVatFactor(state) {
-        return 1 + (state.vatPercent / 100);
-      }
-
-      /**
-       * @param {SimulationInputState} state
-       * @returns {number}
-       */
-      function getGrossEvuPriceRpKwh(state) {
-        return state.evuPriceRpKwh * getVatFactor(state);
-      }
 
       const form = document.getElementById("simulationForm");
       const resetBtn = document.getElementById("resetBtn");
@@ -717,42 +693,6 @@
         } catch (_error) {
           // Ignore localStorage errors.
         }
-      }
-
-      /**
-       * @param {unknown} candidate
-       * @returns {SimulationInputState}
-       */
-      function sanitizeState(candidate) {
-        const input = candidate && typeof candidate === "object" ? candidate : {};
-        return {
-          maxProducerCount: normalizeNumber(input.maxProducerCount, DEFAULT_STATE.maxProducerCount),
-          maxConsumerCount: normalizeNumber(input.maxConsumerCount, DEFAULT_STATE.maxConsumerCount),
-          monthlyKwhPerParticipant: normalizeNumber(input.monthlyKwhPerParticipant, DEFAULT_STATE.monthlyKwhPerParticipant),
-          consumerDaytimeSharePercent: normalizeNumber(input.consumerDaytimeSharePercent, DEFAULT_STATE.consumerDaytimeSharePercent),
-          totalPvKw: normalizeNumber(
-            input.totalPvKw,
-            normalizeNumber(input.pvKwPerProducer, DEFAULT_STATE.totalPvKw)
-          ),
-          pvYieldKwhPerKwYear: normalizeNumber(input.pvYieldKwhPerKwYear, DEFAULT_STATE.pvYieldKwhPerKwYear),
-          evuPriceRpKwh: normalizeNumber(input.evuPriceRpKwh, DEFAULT_STATE.evuPriceRpKwh),
-          feedInRpKwh: normalizeNumber(input.feedInRpKwh, DEFAULT_STATE.feedInRpKwh),
-          vzevFeeChfMonth: normalizeNumber(input.vzevFeeChfMonth, DEFAULT_STATE.vzevFeeChfMonth),
-          virtualMeterChfMonth: normalizeNumber(input.virtualMeterChfMonth, DEFAULT_STATE.virtualMeterChfMonth),
-          vatPercent: normalizeNumber(input.vatPercent, DEFAULT_STATE.vatPercent),
-          producerMinYieldChfYear: normalizeNumber(input.producerMinYieldChfYear, DEFAULT_STATE.producerMinYieldChfYear),
-          winterMonths: normalizeNumber(input.winterMonths, DEFAULT_STATE.winterMonths)
-        };
-      }
-
-      /**
-       * @param {unknown} value
-       * @param {number} fallback
-       * @returns {number}
-       */
-      function normalizeNumber(value, fallback) {
-        const numeric = Number(value);
-        return Number.isFinite(numeric) && numeric >= 0 ? numeric : fallback;
       }
 
       /**
@@ -902,415 +842,6 @@
         if (selectedConsumerCount > state.maxConsumerCount || selectedConsumerCount < 1) {
           selectedConsumerCount = defaultSelection.consumerCount;
         }
-      }
-
-      /**
-       * @param {SimulationInputState} state
-       */
-      function calculateSimulation(state) {
-        const sweepBounds = getPriceSweepBounds(state);
-        const pricePoints = createPriceSweep(sweepBounds.minRpKwh, sweepBounds.maxRpKwh, PRICE_SWEEP_STEP_RP_KWH);
-        const summaryMap = {};
-
-        for (let consumerCount = 1; consumerCount <= state.maxConsumerCount; consumerCount += 1) {
-          for (let producerCount = 1; producerCount <= state.maxProducerCount; producerCount += 1) {
-            const priceResults = pricePoints.map(function (solarPriceRpKwh) {
-              return calculateScenario(state, producerCount, consumerCount, solarPriceRpKwh);
-            });
-            const balancePriceRpKwh = calculateBalancePrice(state, producerCount, consumerCount);
-            const balanceResult = balancePriceRpKwh === null
-              ? priceResults[0]
-              : calculateScenario(state, producerCount, consumerCount, balancePriceRpKwh);
-            const hasFairScenario =
-              balancePriceRpKwh !== null &&
-              isPositiveMinimumResult(balanceResult);
-            const minimumPriceRpKwh = hasFairScenario ? balanceResult.solarPriceRpKwh : null;
-            const recommendedBand = calculateRecommendedPriceBand(state, minimumPriceRpKwh);
-            const optimalResult = hasFairScenario ? balanceResult : null;
-            const closestResult = getClosestResult(priceResults, balancePriceRpKwh);
-            const recommendedResult = getRecommendedResult(
-              priceResults,
-              recommendedBand.minRpKwh,
-              recommendedBand.maxRpKwh,
-              state.producerMinYieldChfYear
-            );
-            const hasRecommendedBand =
-              recommendedBand.minRpKwh !== null &&
-              recommendedBand.maxRpKwh !== null &&
-              recommendedBand.maxRpKwh > recommendedBand.minRpKwh + FAIRNESS_EPSILON;
-            const detailRecommendedResult = recommendedResult || (
-              hasFairScenario
-                ? getClosestProducerYieldResult(
-                    priceResults,
-                    state.producerMinYieldChfYear,
-                    minimumPriceRpKwh,
-                    hasRecommendedBand ? recommendedBand.maxRpKwh : null
-                  )
-                : null
-            );
-            const referenceResult = priceResults[0];
-
-            summaryMap[getScenarioKey(producerCount, consumerCount)] = {
-              producerCount: producerCount,
-              consumerCount: consumerCount,
-              optimalPriceRpKwh: optimalResult ? optimalResult.solarPriceRpKwh : null,
-              hasFairScenario: hasFairScenario,
-              status: getScenarioStatus(
-                recommendedResult ? recommendedResult.solarPriceRpKwh : null,
-                hasFairScenario ? minimumPriceRpKwh : null
-              ),
-              priceResults: priceResults,
-              optimalResult: optimalResult,
-              closestResult: closestResult,
-              recommendedResult: recommendedResult,
-              detailRecommendedResult: detailRecommendedResult,
-              balanceResult: balanceResult,
-              minimumPriceRpKwh: minimumPriceRpKwh,
-              recommendedBandMinRpKwh: recommendedBand.minRpKwh,
-              recommendedBandMaxRpKwh: recommendedBand.maxRpKwh,
-              recommendedPriceRpKwh: recommendedResult ? recommendedResult.solarPriceRpKwh : null,
-	              detailRecommendedPriceRpKwh: detailRecommendedResult ? detailRecommendedResult.solarPriceRpKwh : null,
-	              localSolarKwhYear: referenceResult ? referenceResult.localSolarKwhYear : 0,
-	              sharedSolarAvailableKwhYear: referenceResult ? referenceResult.sharedSolarAvailableKwhYear : 0,
-	              annualPvProductionKwh: referenceResult ? referenceResult.annualPvProductionKwh : 0,
-	              solarAvailableKwhYear: referenceResult ? referenceResult.solarAvailableKwhYear : 0,
-	              consumerDemandSolarMonthsKwhYear: referenceResult ? referenceResult.consumerDemandSolarMonthsKwhYear : 0
-            };
-          }
-        }
-
-        return {
-          pricePoints: pricePoints,
-          summaryMap: summaryMap
-        };
-      }
-
-      /**
-       * @param {SimulationInputState} state
-       * @param {number} producerCount
-       * @param {number} consumerCount
-       * @param {number} solarPriceRpKwh
-       * @returns {ScenarioResult}
-       */
-      function calculateScenario(state, producerCount, consumerCount, solarPriceRpKwh) {
-        const activeMonths = Math.max(0, 12 - state.winterMonths);
-        const feeBreakdown = calculateAnnualFeeBreakdown(state, producerCount, consumerCount);
-        const grossEvuPriceRpKwh = getGrossEvuPriceRpKwh(state);
-        const daytimeShareFactor = state.consumerDaytimeSharePercent / 100;
-        const scenarioTotalPvKw = getScenarioTotalPvKw(state, producerCount);
-        const annualPvProductionKwh = scenarioTotalPvKw * state.pvYieldKwhPerKwYear;
-        const solarAvailableKwhYear = annualPvProductionKwh * (activeMonths / 12);
-        const producerDirectUseKwhYear = Math.min(
-          solarAvailableKwhYear,
-          producerCount * state.monthlyKwhPerParticipant * 12 * daytimeShareFactor
-        );
-        const sharedSolarAvailableKwhYear = Math.max(0, solarAvailableKwhYear - producerDirectUseKwhYear);
-        const consumerDemandSolarMonthsKwhYear =
-          consumerCount * state.monthlyKwhPerParticipant * activeMonths * daytimeShareFactor;
-        const localSolarKwhYear = Math.min(sharedSolarAvailableKwhYear, consumerDemandSolarMonthsKwhYear);
-        const localSolarKwhPerConsumer = consumerCount > 0 ? localSolarKwhYear / consumerCount : 0;
-        const localSolarKwhPerProducer = producerCount > 0 ? localSolarKwhYear / producerCount : 0;
-        const consumerDeltaChfYear =
-          localSolarKwhPerConsumer * ((grossEvuPriceRpKwh - solarPriceRpKwh) / 100) - feeBreakdown.annualConsumerFeeChf;
-        const producerDeltaChfYear =
-          localSolarKwhPerProducer * ((solarPriceRpKwh - state.feedInRpKwh) / 100) - feeBreakdown.annualProducerFeeChf;
-        const utilizationRatio = sharedSolarAvailableKwhYear > 0 ? localSolarKwhYear / sharedSolarAvailableKwhYear : 0;
-        const benefitGapChfYear = consumerDeltaChfYear - producerDeltaChfYear;
-
-        return {
-          producerCount: producerCount,
-          consumerCount: consumerCount,
-          solarPriceRpKwh: solarPriceRpKwh,
-          localSolarKwhYear: localSolarKwhYear,
-          consumerDeltaChfYear: consumerDeltaChfYear,
-          producerDeltaChfYear: producerDeltaChfYear,
-          annualConsumerFeeChf: feeBreakdown.annualConsumerFeeChf,
-          annualProducerFeeChf: feeBreakdown.annualProducerFeeChf,
-          scenarioTotalPvKw: scenarioTotalPvKw,
-          annualPvProductionKwh: annualPvProductionKwh,
-          producerDirectUseKwhYear: producerDirectUseKwhYear,
-          sharedSolarAvailableKwhYear: sharedSolarAvailableKwhYear,
-          solarAvailableKwhYear: solarAvailableKwhYear,
-          consumerDemandSolarMonthsKwhYear: consumerDemandSolarMonthsKwhYear,
-          utilizationRatio: utilizationRatio,
-          benefitGapChfYear: benefitGapChfYear,
-          isFair: isPositiveMinimumResult({
-            benefitGapChfYear: benefitGapChfYear,
-            consumerDeltaChfYear: consumerDeltaChfYear,
-            producerDeltaChfYear: producerDeltaChfYear
-          })
-        };
-      }
-
-      /**
-       * @param {{
-       *   benefitGapChfYear: number,
-       *   consumerDeltaChfYear: number,
-       *   producerDeltaChfYear: number
-       * }} result
-       * @returns {boolean}
-       */
-      function isPositiveMinimumResult(result) {
-        return (
-          Math.abs(result.benefitGapChfYear) <= FAIRNESS_EPSILON &&
-          result.consumerDeltaChfYear > FAIRNESS_EPSILON &&
-          result.producerDeltaChfYear > FAIRNESS_EPSILON
-        );
-      }
-
-      /**
-       * @param {SimulationInputState} state
-       * @param {number} producerCount
-       * @param {number} consumerCount
-       * @returns {number | null}
-       */
-      function calculateBalancePrice(state, producerCount, consumerCount) {
-        const activeMonths = Math.max(0, 12 - state.winterMonths);
-        const feeBreakdown = calculateAnnualFeeBreakdown(state, producerCount, consumerCount);
-        const grossEvuPriceRpKwh = getGrossEvuPriceRpKwh(state);
-        const daytimeShareFactor = state.consumerDaytimeSharePercent / 100;
-        const scenarioTotalPvKw = getScenarioTotalPvKw(state, producerCount);
-        const annualPvProductionKwh = scenarioTotalPvKw * state.pvYieldKwhPerKwYear;
-        const solarAvailableKwhYear = annualPvProductionKwh * (activeMonths / 12);
-        const producerDirectUseKwhYear = Math.min(
-          solarAvailableKwhYear,
-          producerCount * state.monthlyKwhPerParticipant * 12 * daytimeShareFactor
-        );
-        const sharedSolarAvailableKwhYear = Math.max(0, solarAvailableKwhYear - producerDirectUseKwhYear);
-        const consumerDemandSolarMonthsKwhYear =
-          consumerCount * state.monthlyKwhPerParticipant * activeMonths * daytimeShareFactor;
-        const localSolarKwhYear = Math.min(sharedSolarAvailableKwhYear, consumerDemandSolarMonthsKwhYear);
-        const localSolarKwhPerConsumer = consumerCount > 0 ? localSolarKwhYear / consumerCount : 0;
-        const localSolarKwhPerProducer = producerCount > 0 ? localSolarKwhYear / producerCount : 0;
-        const denominator = localSolarKwhPerConsumer + localSolarKwhPerProducer;
-
-        if (denominator <= FAIRNESS_EPSILON) {
-          return null;
-        }
-
-        return (
-          localSolarKwhPerConsumer * grossEvuPriceRpKwh +
-          localSolarKwhPerProducer * state.feedInRpKwh +
-          100 * (feeBreakdown.annualProducerFeeChf - feeBreakdown.annualConsumerFeeChf)
-        ) / denominator;
-      }
-
-      /**
-       * @param {SimulationInputState} state
-       * @param {number} producerCount
-       * @returns {number}
-       */
-      function getScenarioTotalPvKw(state, producerCount) {
-        if (state.maxProducerCount <= 0) {
-          return 0;
-        }
-
-        return state.totalPvKw * (producerCount / state.maxProducerCount);
-      }
-
-      /**
-       * @param {SimulationInputState} state
-       * @param {number | null} minimumPriceRpKwh
-       * @returns {{ minRpKwh: number | null, maxRpKwh: number | null }}
-       */
-      function calculateRecommendedPriceBand(state, minimumPriceRpKwh) {
-        if (minimumPriceRpKwh === null || !Number.isFinite(minimumPriceRpKwh)) {
-          return { minRpKwh: null, maxRpKwh: null };
-        }
-
-        return {
-          minRpKwh: minimumPriceRpKwh,
-          maxRpKwh: getGrossEvuPriceRpKwh(state) * 0.8
-        };
-      }
-
-      /**
-       * @param {ScenarioResult[]} priceResults
-       * @param {number | null} minRpKwh
-       * @param {number | null} maxRpKwh
-       * @param {number} producerMinYieldChfYear
-       * @returns {ScenarioResult | null}
-       */
-      function getRecommendedResult(priceResults, minRpKwh, maxRpKwh, producerMinYieldChfYear) {
-        if (!priceResults.length || minRpKwh === null || maxRpKwh === null || maxRpKwh <= minRpKwh + FAIRNESS_EPSILON) {
-          return null;
-        }
-
-        for (let i = 0; i < priceResults.length; i += 1) {
-          const result = priceResults[i];
-          if (
-            result.solarPriceRpKwh >= minRpKwh - FAIRNESS_EPSILON &&
-            result.solarPriceRpKwh <= maxRpKwh + FAIRNESS_EPSILON &&
-            result.producerDeltaChfYear >= producerMinYieldChfYear - FAIRNESS_EPSILON
-          ) {
-            return result;
-          }
-        }
-
-        return null;
-      }
-
-      /**
-       * @param {ScenarioResult[]} priceResults
-       * @param {number} producerMinYieldChfYear
-       * @param {number | null} minRpKwh
-       * @param {number | null} maxRpKwh
-       * @returns {ScenarioResult | null}
-       */
-      function getClosestProducerYieldResult(priceResults, producerMinYieldChfYear, minRpKwh, maxRpKwh) {
-        if (!priceResults.length) {
-          return null;
-        }
-
-        let bestResult = null;
-        let bestDistance = Infinity;
-
-        for (let i = 0; i < priceResults.length; i += 1) {
-          const result = priceResults[i];
-          if (result.consumerDeltaChfYear < -FAIRNESS_EPSILON) {
-            continue;
-          }
-          if (minRpKwh !== null && result.solarPriceRpKwh < minRpKwh - FAIRNESS_EPSILON) {
-            continue;
-          }
-          if (maxRpKwh !== null && result.solarPriceRpKwh > maxRpKwh + FAIRNESS_EPSILON) {
-            continue;
-          }
-
-          const distance = Math.abs(result.producerDeltaChfYear - producerMinYieldChfYear);
-          if (distance < bestDistance - FAIRNESS_EPSILON) {
-            bestResult = result;
-            bestDistance = distance;
-          }
-        }
-
-        return bestResult;
-      }
-
-      /**
-       * @param {SimulationInputState} state
-       * @param {number} producerCount
-       * @param {number} consumerCount
-       * @returns {{
-       *   totalParticipants: number,
-       *   producerCount: number,
-       *   vatFactor: number,
-       *   annualParticipantFeeNetChf: number,
-       *   annualVirtualMeterShareNetChf: number,
-       *   annualConsumerFeeNetChf: number,
-       *   annualProducerFeeNetChf: number,
-       *   annualConsumerFeeChf: number,
-       *   annualProducerFeeChf: number
-       * }}
-       */
-      function calculateAnnualFeeBreakdown(state, producerCount, consumerCount) {
-        const totalParticipants = producerCount + consumerCount;
-        const annualParticipantFeeNetChf = state.vzevFeeChfMonth * 12;
-        const annualVirtualMeterShareNetChf =
-          totalParticipants > 0 ? (state.virtualMeterChfMonth * 12) / totalParticipants : 0;
-        const annualConsumerFeeNetChf = annualParticipantFeeNetChf + annualVirtualMeterShareNetChf;
-        const annualProducerFeeNetChf = annualParticipantFeeNetChf + annualVirtualMeterShareNetChf;
-        const vatFactor = getVatFactor(state);
-
-        return {
-          totalParticipants: totalParticipants,
-          producerCount: producerCount,
-          vatFactor: vatFactor,
-          annualParticipantFeeNetChf: annualParticipantFeeNetChf,
-          annualVirtualMeterShareNetChf: annualVirtualMeterShareNetChf,
-          annualConsumerFeeNetChf: annualConsumerFeeNetChf,
-          annualProducerFeeNetChf: annualProducerFeeNetChf,
-          annualConsumerFeeChf: annualConsumerFeeNetChf * vatFactor,
-          annualProducerFeeChf: annualProducerFeeNetChf * vatFactor
-        };
-      }
-
-      /**
-       * @param {number} minValue
-       * @param {number} maxValue
-       * @param {number} stepValue
-       * @returns {number[]}
-       */
-      function createPriceSweep(minValue, maxValue, stepValue) {
-        const scale = Math.pow(10, Math.max(getDecimalPlaces(minValue), getDecimalPlaces(maxValue), getDecimalPlaces(stepValue)));
-        const minUnits = Math.round(minValue * scale);
-        const maxUnits = Math.round(maxValue * scale);
-        const stepUnits = Math.max(1, Math.round(stepValue * scale));
-        const values = [];
-
-        for (let current = minUnits; current <= maxUnits; current += stepUnits) {
-          values.push(current / scale);
-        }
-
-        if (values.length === 0 || Math.abs(values[values.length - 1] - maxValue) > (1 / scale) / 2) {
-          values.push(maxValue);
-        }
-
-        return values;
-      }
-
-      /**
-       * @param {SimulationInputState} state
-       * @returns {{ minRpKwh: number, maxRpKwh: number }}
-       */
-      function getPriceSweepBounds(state) {
-        const grossEvuPriceRpKwh = getGrossEvuPriceRpKwh(state);
-        return {
-          minRpKwh: Math.min(state.feedInRpKwh, grossEvuPriceRpKwh),
-          maxRpKwh: Math.max(state.feedInRpKwh, grossEvuPriceRpKwh)
-        };
-      }
-
-      /**
-       * @param {number} value
-       * @returns {number}
-       */
-      function getDecimalPlaces(value) {
-        const valueString = String(value);
-        const separatorIndex = valueString.indexOf(".");
-        return separatorIndex === -1 ? 0 : valueString.length - separatorIndex - 1;
-      }
-
-      /**
-       * @param {ScenarioResult[]} priceResults
-       * @param {number} targetPriceRpKwh
-       * @returns {ScenarioResult | null}
-       */
-      function getClosestResult(priceResults, targetPriceRpKwh) {
-        if (!priceResults.length) {
-          return null;
-        }
-
-        let bestResult = priceResults[0];
-        let bestDistance = Math.abs(priceResults[0].solarPriceRpKwh - targetPriceRpKwh);
-
-        for (let i = 1; i < priceResults.length; i += 1) {
-          const result = priceResults[i];
-          const distance = Math.abs(result.solarPriceRpKwh - targetPriceRpKwh);
-          if (distance < bestDistance - FAIRNESS_EPSILON) {
-            bestResult = result;
-            bestDistance = distance;
-          }
-        }
-
-        return bestResult;
-      }
-
-      /**
-       * @param {number | null} recommendedPriceRpKwh
-       * @param {number | null} minimumPriceRpKwh
-       * @returns {"fair" | "critical" | "not_fair"}
-       */
-      function getScenarioStatus(recommendedPriceRpKwh, minimumPriceRpKwh) {
-        if (recommendedPriceRpKwh !== null && Number.isFinite(recommendedPriceRpKwh)) {
-          return "fair";
-        }
-
-        if (minimumPriceRpKwh !== null && Number.isFinite(minimumPriceRpKwh)) {
-          return "critical";
-        }
-
-        return "not_fair";
       }
 
       /**
@@ -2219,15 +1750,6 @@
         selectedConsumerCount = defaultSelection.consumerCount;
         writeStateToForm({ ...DEFAULT_STATE });
         renderFromForm();
-      }
-
-      /**
-       * @param {number} producerCount
-       * @param {number} consumerCount
-       * @returns {string}
-       */
-      function getScenarioKey(producerCount, consumerCount) {
-        return String(producerCount) + ":" + String(consumerCount);
       }
 
       /**

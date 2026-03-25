@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Referenzvergleich | vZEV Einsparrechner</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="shortcut icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.bunny.net">
+  <link href="https://fonts.bunny.net/css?family=roboto:400,500,700,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="page-reference-test">
+  <main class="reference-test-container">
+    <header class="reference-test-header">
+      <p class="reference-test-kicker">Lokale Entwicklerpruefung</p>
+      <h1>Referenzvergleich gegen die Simulationslogik</h1>
+      <p>Diese Seite laedt <code>fixtures/vzev_reference.json</code> lokal, berechnet jedes Szenario mit derselben Rechenlogik wie die Simulation und vergleicht die Resultate beim Referenzpreis mit einer Toleranz von <strong>+/- 5 CHF/Jahr</strong>.</p>
+    </header>
+
+    <section class="reference-test-layout">
+      <article class="reference-test-card">
+        <div class="reference-test-card-header">
+          <h2>Zusammenfassung</h2>
+        </div>
+        <div class="reference-test-card-body">
+          <div id="referenceStatus" class="reference-test-status">Referenzdaten werden geladen...</div>
+          <div id="referenceSummary" class="reference-test-summary"></div>
+          <p id="referenceMeta" class="reference-test-meta"></p>
+        </div>
+      </article>
+
+      <article class="reference-test-card">
+        <div class="reference-test-card-header reference-test-card-header-actions">
+          <h2>Vergleichstabelle</h2>
+          <div id="referenceFilters" class="reference-test-filters" role="group" aria-label="Filter">
+            <button type="button" class="reference-filter-btn is-active" data-filter="all">Alle</button>
+            <button type="button" class="reference-filter-btn" data-filter="fail">Nur Fehler</button>
+            <button type="button" class="reference-filter-btn" data-filter="skipped">Nur uebersprungen</button>
+          </div>
+        </div>
+        <div class="reference-test-card-body">
+          <div class="reference-test-table-wrap">
+            <table class="reference-test-table">
+              <thead>
+                <tr>
+                  <th>Szenario</th>
+                  <th>P</th>
+                  <th>B</th>
+                  <th>Simulation empfohlen</th>
+                  <th>Simulation Konsument gerundet</th>
+                  <th>Simulation Produzent gerundet</th>
+                  <th>Referenz Konsument</th>
+                  <th>Referenz Produzent</th>
+                  <th>Abw. Konsument</th>
+                  <th>Abw. Produzent</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="referenceResultsBody">
+                <tr>
+                  <td colspan="11">Referenzdaten werden geladen...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script src="simulation-core.js"></script>
+  <script>
+    (async function () {
+      const core = window.VzevSimulationCore;
+      if (!core) {
+        throw new Error("simulation-core.js could not be loaded.");
+      }
+
+      const FIXTURE_URL = "fixtures/vzev_reference.json";
+      const TOLERANCE_CHF_YEAR = 5;
+      const statusEl = document.getElementById("referenceStatus");
+      const summaryEl = document.getElementById("referenceSummary");
+      const metaEl = document.getElementById("referenceMeta");
+      const resultsBody = document.getElementById("referenceResultsBody");
+      const filterContainer = document.getElementById("referenceFilters");
+      const formatterChf = new Intl.NumberFormat("de-CH", {
+        style: "currency",
+        currency: "CHF",
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+      });
+      const formatterRawChf = new Intl.NumberFormat("de-CH", {
+        style: "currency",
+        currency: "CHF",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+      const formatterRp = new Intl.NumberFormat("de-CH", {
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 1
+      });
+
+      const {
+        DEFAULT_STATE,
+        calculateScenario,
+        calculateSimulation,
+        getScenarioKey,
+        sanitizeState
+      } = core;
+
+      let activeFilter = "all";
+      let comparisonRows = [];
+      const simulationCache = new Map();
+
+      filterContainer.addEventListener("click", function (event) {
+        const button = event.target;
+        if (!(button instanceof HTMLButtonElement)) {
+          return;
+        }
+
+        activeFilter = button.getAttribute("data-filter") || "all";
+        filterContainer.querySelectorAll(".reference-filter-btn").forEach(function (item) {
+          item.classList.toggle("is-active", item === button);
+        });
+        renderRows();
+      });
+
+      try {
+        const fixture = await loadFixture(FIXTURE_URL);
+        comparisonRows = fixture.scenarios.map(compareScenario).sort(compareRowsByPriority);
+        renderSummary(fixture, comparisonRows);
+        renderRows();
+        setStatus("ready", "Referenzdaten geladen. " + comparisonRows.length + " Szenarien ausgewertet.");
+      } catch (error) {
+        console.error("[reference-test] Failed to load fixture:", error);
+        renderError(error);
+      }
+
+      async function loadFixture(url) {
+        const response = await fetch(url, { cache: "no-store" });
+        if (!response.ok) {
+          throw new Error("HTTP " + response.status);
+        }
+        return response.json();
+      }
+
+      function compareScenario(scenario) {
+        const isComparable =
+          Boolean(scenario && scenario.comparisonEligible) &&
+          scenario.selectedPriceRpKwh !== null &&
+          Number.isFinite(Number(scenario.selectedPriceRpKwh)) &&
+          scenario.externalResults &&
+          Number.isFinite(Number(scenario.externalResults.consumerNetSavingsChfYear)) &&
+          Number.isFinite(Number(scenario.externalResults.producerNetYieldChfYear));
+
+        if (!isComparable) {
+          return {
+            key: String(scenario.scenarioKey || ""),
+            producerCount: Number(scenario.producerCount) || 0,
+            consumerCount: Number(scenario.consumerCount) || 0,
+            status: "skipped",
+            note: scenario.skipReason || "Nicht fuer den lokalen Vergleich freigegeben.",
+            fixturePrice: null,
+            recommendedPrice: null,
+            localConsumerRaw: null,
+            localProducerRaw: null,
+            localConsumerRounded: null,
+            localProducerRounded: null,
+            fixtureConsumer: null,
+            fixtureProducer: null,
+            consumerDiff: null,
+            producerDiff: null
+          };
+        }
+
+        const producerCount = Number(scenario.producerCount);
+        const consumerCount = Number(scenario.consumerCount);
+        const state = sanitizeState(scenario.localInputs || DEFAULT_STATE);
+        const fixturePrice = Number(scenario.selectedPriceRpKwh);
+        const scenarioResult = calculateScenario(state, producerCount, consumerCount, fixturePrice);
+        const simulation = getSimulationForState(state);
+        const summary = simulation.summaryMap[getScenarioKey(producerCount, consumerCount)] || null;
+        const localConsumerRounded = Math.round(scenarioResult.consumerDeltaChfYear);
+        const localProducerRounded = Math.round(scenarioResult.producerDeltaChfYear);
+        const fixtureConsumer = Number(scenario.externalResults.consumerNetSavingsChfYear);
+        const fixtureProducer = Number(scenario.externalResults.producerNetYieldChfYear);
+        const consumerDiff = Math.abs(localConsumerRounded - fixtureConsumer);
+        const producerDiff = Math.abs(localProducerRounded - fixtureProducer);
+        const passed = consumerDiff <= TOLERANCE_CHF_YEAR && producerDiff <= TOLERANCE_CHF_YEAR;
+
+        return {
+          key: String(scenario.scenarioKey || ""),
+          producerCount: producerCount,
+          consumerCount: consumerCount,
+          status: passed ? "pass" : "fail",
+          note: passed ? "Innerhalb Toleranz" : "Ausserhalb Toleranz",
+          fixturePrice: fixturePrice,
+          recommendedPrice: summary ? summary.detailRecommendedPriceRpKwh : null,
+          localConsumerRaw: scenarioResult.consumerDeltaChfYear,
+          localProducerRaw: scenarioResult.producerDeltaChfYear,
+          localConsumerRounded: localConsumerRounded,
+          localProducerRounded: localProducerRounded,
+          fixtureConsumer: fixtureConsumer,
+          fixtureProducer: fixtureProducer,
+          consumerDiff: consumerDiff,
+          producerDiff: producerDiff
+        };
+      }
+
+      function compareRowsByPriority(left, right) {
+        const priority = {
+          fail: 0,
+          pass: 1,
+          skipped: 2
+        };
+        const leftPriority = Object.prototype.hasOwnProperty.call(priority, left.status) ? priority[left.status] : 3;
+        const rightPriority = Object.prototype.hasOwnProperty.call(priority, right.status) ? priority[right.status] : 3;
+        if (leftPriority !== rightPriority) {
+          return leftPriority - rightPriority;
+        }
+        if (left.consumerDiff !== null && right.consumerDiff !== null && left.consumerDiff !== right.consumerDiff) {
+          return right.consumerDiff - left.consumerDiff;
+        }
+        if (left.producerDiff !== null && right.producerDiff !== null && left.producerDiff !== right.producerDiff) {
+          return right.producerDiff - left.producerDiff;
+        }
+        return left.key.localeCompare(right.key, "de-CH", { numeric: true });
+      }
+
+      function renderSummary(fixture, rows) {
+        const total = rows.length;
+        const checked = rows.filter(function (row) {
+          return row.status !== "skipped";
+        }).length;
+        const passed = rows.filter(function (row) {
+          return row.status === "pass";
+        }).length;
+        const failed = rows.filter(function (row) {
+          return row.status === "fail";
+        }).length;
+        const skipped = rows.filter(function (row) {
+          return row.status === "skipped";
+        }).length;
+
+        summaryEl.innerHTML = [
+          createSummaryItem("Gesamt", String(total)),
+          createSummaryItem("Geprueft", String(checked)),
+          createSummaryItem("Bestanden", String(passed)),
+          createSummaryItem("Fehlgeschlagen", String(failed)),
+          createSummaryItem("Uebersprungen", String(skipped)),
+          createSummaryItem("Toleranz", "+/- " + TOLERANCE_CHF_YEAR + " CHF/Jahr")
+        ].join("");
+
+        const generatedAt = fixture && fixture.metadata && fixture.metadata.generatedAtUtc
+          ? fixture.metadata.generatedAtUtc
+          : "unbekannt";
+        metaEl.textContent =
+          "Referenzversion: " + String(fixture.metadata && fixture.metadata.fixtureVersion ? fixture.metadata.fixtureVersion : "n/a") +
+          " | generiert: " + generatedAt +
+          " | Quelle: " + String(fixture.metadata && fixture.metadata.externalSourceUrl ? fixture.metadata.externalSourceUrl : "n/a");
+      }
+
+      function createSummaryItem(label, value) {
+        return (
+          "<div class='reference-test-summary-item'>" +
+          "<span class='label'>" + escapeHtml(label) + "</span>" +
+          "<strong class='value'>" + escapeHtml(value) + "</strong>" +
+          "</div>"
+        );
+      }
+
+      function renderRows() {
+        const visibleRows = comparisonRows.filter(function (row) {
+          return activeFilter === "all" || row.status === activeFilter;
+        });
+
+        if (visibleRows.length === 0) {
+          resultsBody.innerHTML = "<tr><td colspan='11'>Keine Szenarien fuer den aktuellen Filter.</td></tr>";
+          return;
+        }
+
+        resultsBody.innerHTML = visibleRows.map(function (row) {
+          return (
+            "<tr class='reference-row status-" + row.status + "'>" +
+            "<td>" + escapeHtml(row.key) + "</td>" +
+            "<td>" + escapeHtml(String(row.producerCount)) + "</td>" +
+            "<td>" + escapeHtml(String(row.consumerCount)) + "</td>" +
+            "<td>" + formatRp(row.recommendedPrice) + "</td>" +
+            "<td>" + formatWholeChf(row.localConsumerRounded) + "</td>" +
+            "<td>" + formatWholeChf(row.localProducerRounded) + "</td>" +
+            "<td>" + formatWholeChf(row.fixtureConsumer) + "</td>" +
+            "<td>" + formatWholeChf(row.fixtureProducer) + "</td>" +
+            "<td>" + formatDiff(row.consumerDiff) + "</td>" +
+            "<td>" + formatDiff(row.producerDiff) + "</td>" +
+            "<td><span class='reference-status-pill status-" + row.status + "'>" + escapeHtml(row.status.toUpperCase()) + "</span></td>" +
+            "</tr>"
+          );
+        }).join("");
+      }
+
+      function renderError(error) {
+        const isFileProtocol = window.location.protocol === "file:";
+        const message = isFileProtocol
+          ? "Referenzdaten konnten via file:// nicht geladen werden. Starte im Projektordner `python3 -m http.server 8000` und oeffne anschliessend http://localhost:8000/reference-test.html."
+          : "Referenzdaten konnten nicht geladen werden: " + error.message;
+
+        setStatus("error", message);
+        summaryEl.innerHTML = "";
+        metaEl.textContent = "";
+        resultsBody.innerHTML = "<tr><td colspan='11'>" + escapeHtml(message) + "</td></tr>";
+      }
+
+      function setStatus(kind, message) {
+        statusEl.className = "reference-test-status status-" + kind;
+        statusEl.textContent = message;
+      }
+
+      function getSimulationForState(state) {
+        const cacheKey = JSON.stringify(state);
+        if (!simulationCache.has(cacheKey)) {
+          simulationCache.set(cacheKey, calculateSimulation(state));
+        }
+        return simulationCache.get(cacheKey);
+      }
+
+      function formatWholeChf(value) {
+        if (value === null || !Number.isFinite(value)) {
+          return "-";
+        }
+        return formatterChf.format(value);
+      }
+
+      function formatRawChf(value) {
+        if (value === null || !Number.isFinite(value)) {
+          return "-";
+        }
+        return formatterRawChf.format(value);
+      }
+
+      function formatRp(value) {
+        if (value === null || !Number.isFinite(value)) {
+          return "-";
+        }
+        return formatterRp.format(value) + " Rp/kWh";
+      }
+
+      function formatDiff(value) {
+        if (value === null || !Number.isFinite(value)) {
+          return "-";
+        }
+        return formatterChf.format(value);
+      }
+
+      function escapeHtml(value) {
+        return String(value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/\"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+    })();
+  </script>
+</body>
+</html>
