@@ -102,7 +102,7 @@
           "title": "Mit diesen Werten wird gerechnet",
           "body1Html": "<strong>200 kWh</strong> Durchschnittsverbrauch<br><span class='slide4-reason'>Abgeschätzter Mittelwert.</span>",
           "body2Html": "<strong>55 %</strong> Anteil in den Solarstunden<br><span class='slide4-reason'>Geschätzt anhand der Demografie am Dohlenweg.</span>",
-          "body3Html": "<strong>100 CHF</strong> Mehrertrag<br><span class='slide4-reason'>Der Mehrertrag berücksichtigt, dass die Produzenten die Einrichtungspauschale und die Zählerkosten tragen und die Verantwortung übernehmen.</span>"
+          "body3Html": "<strong>100 CHF</strong> Mehrertrag<br><span class='slide4-reason'>Der Mehrertrag berücksichtigt, dass die Produzenten die Einrichtungspauschale tragen und die Verantwortung übernehmen.</span>"
         },
         "card3": {
           "title": "Was heisst das für die Gemeinschaft",
