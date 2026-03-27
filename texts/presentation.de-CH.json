@@ -14,7 +14,7 @@
       "ariaLabel": "Slide 1 von 4",
       "hero": {
         "title": "Solarstrom aus deiner Nachbarschaft",
-        "subtitle": "Mit EigenverbrauchMax von Thurplus erhältst du lokalen Solarstrom und senkst so deine Stromkosten."
+        "subtitleHtml": "Mit <a href='https://www.thurplus.ch/fuer-private/produkte/strom/eigenverbrauchmax.html/215' target='_blank' rel='noopener noreferrer'>EigenverbrauchMax von Thurplus</a> erhältst du lokalen Solarstrom und senkst so deine Stromkosten."
       },
       "cards": {
         "card1": {

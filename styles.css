@@ -1014,6 +1014,22 @@ body.page-praesentation {
       max-width: 62ch;
     }
 
+    body.page-praesentation .hero a{
+      color: #305779;
+      text-decoration-thickness: 1.5px;
+      text-underline-offset: 0.15em;
+    }
+
+    body.page-praesentation .hero a:hover{
+      color: #223f58;
+    }
+
+    body.page-praesentation .hero a:focus-visible{
+      outline: none;
+      border-radius: 0.2rem;
+      box-shadow: 0 0 0 3px rgba(48, 87, 121, 0.2);
+    }
+
     body.page-praesentation .cards{
       display: grid;
       gap: clamp(0.72rem, 1.2vw, 1rem);
