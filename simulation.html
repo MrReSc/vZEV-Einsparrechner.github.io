@@ -518,6 +518,7 @@
       }
 
       const STORAGE_KEY = "vzevcalc.simulation.state.v1";
+      const REFERENCE_TEST_URL = "reference-test.html";
       const {
         DEFAULT_STATE,
         FAIRNESS_EPSILON,
@@ -584,6 +585,7 @@
       const matrixTable = document.querySelector(".simulation-matrix");
       const matrixHeaderRow = document.getElementById("matrixHeaderRow");
       const matrixBody = document.getElementById("matrixBody");
+      const simulationHeaderTitle = document.querySelector(".simulation-header h1");
       const detailPanel = document.getElementById("detailPanel");
       const detailIntro = document.getElementById("detailIntro");
       const detailFocusPrice = document.getElementById("detailFocusPrice");
@@ -592,6 +594,11 @@
       const detailRecommendedPrice = document.getElementById("detailRecommendedPrice");
       const detailRecommendedConsumerDelta = document.getElementById("detailRecommendedConsumerDelta");
       const detailRecommendedProducerDelta = document.getElementById("detailRecommendedProducerDelta");
+      const detailRecommendedMetricCards = [
+        detailRecommendedPrice ? detailRecommendedPrice.closest(".simulation-detail-metric") : null,
+        detailRecommendedConsumerDelta ? detailRecommendedConsumerDelta.closest(".simulation-detail-metric") : null,
+        detailRecommendedProducerDelta ? detailRecommendedProducerDelta.closest(".simulation-detail-metric") : null
+      ].filter(Boolean);
       const detailMetaFacts = document.getElementById("detailMetaFacts");
       const detailParameterList = document.getElementById("detailParameterList");
       const detailTableDetails = document.getElementById("detailTableDetails");
@@ -607,6 +614,8 @@
       var selectedConsumerCount = defaultMatrixSelection.consumerCount;
       var detailChart = null;
       var detailHighlightTimeout = 0;
+      var developerTapCount = 0;
+      var developerTapTimeout = 0;
 
       initialize();
 
@@ -623,6 +632,9 @@
         matrixTable.addEventListener("mouseleave", restoreSelectedMatrixAxisHighlight);
         matrixTable.addEventListener("focusout", handleMatrixFocusOut);
         detailTableDetails.addEventListener("toggle", handleDetailTableToggle);
+        if (simulationHeaderTitle) {
+          simulationHeaderTitle.addEventListener("click", handleDeveloperTitleClick);
+        }
         renderFromForm();
       }
 
@@ -812,6 +824,7 @@
       function renderInvalid() {
         validationStatus.classList.remove("hidden");
         validationStatus.textContent = t("validation.invalidStatus");
+        applyRecommendedMetricStatus(null);
         detailIntro.textContent = t("results.detail.empty");
         detailFocusPrice.textContent = t("results.emptyValue");
         detailConsumerDelta.textContent = t("results.emptyValue");
@@ -1049,6 +1062,7 @@
         detailIntro.innerHTML = introHtml;
 
         if (!focusResult) {
+          applyRecommendedMetricStatus(null);
           detailFocusPrice.textContent = t("results.emptyValue");
           detailConsumerDelta.textContent = t("results.emptyValue");
           detailProducerDelta.textContent = t("results.emptyValue");
@@ -1066,6 +1080,7 @@
           return;
         }
 
+        applyRecommendedMetricStatus(summary.status);
         detailFocusPrice.textContent = minimumResult
           ? formatRp(minimumResult.solarPriceRpKwh)
           : t("results.emptyValue");
@@ -1752,6 +1767,29 @@
         renderFromForm();
       }
 
+      function handleDeveloperTitleClick() {
+        if (developerTapTimeout) {
+          window.clearTimeout(developerTapTimeout);
+        }
+
+        developerTapCount += 1;
+        if (developerTapCount >= 5) {
+          developerTapCount = 0;
+          developerTapTimeout = 0;
+          openReferenceTestPage();
+          return;
+        }
+
+        developerTapTimeout = window.setTimeout(function () {
+          developerTapCount = 0;
+          developerTapTimeout = 0;
+        }, 1600);
+      }
+
+      function openReferenceTestPage() {
+        window.open(REFERENCE_TEST_URL, "_blank");
+      }
+
       /**
        * @param {number} value
        * @returns {string}
@@ -1928,6 +1966,18 @@
           return "delta-negative";
         }
         return "delta-neutral";
+      }
+
+      /**
+       * @param {string | null | undefined} status
+       */
+      function applyRecommendedMetricStatus(status) {
+        detailRecommendedMetricCards.forEach(function (card) {
+          card.classList.remove("status-fair", "status-critical", "status-not_fair");
+          if (status === "fair" || status === "critical" || status === "not_fair") {
+            card.classList.add("status-" + status);
+          }
+        });
       }
 
       /**
