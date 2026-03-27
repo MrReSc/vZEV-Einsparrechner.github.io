@@ -582,6 +582,7 @@
       const form = document.getElementById("simulationForm");
       const resetBtn = document.getElementById("resetBtn");
       const validationStatus = document.getElementById("validationStatus");
+      const topActions = document.querySelector(".top-actions");
       const matrixTable = document.querySelector(".simulation-matrix");
       const matrixHeaderRow = document.getElementById("matrixHeaderRow");
       const matrixBody = document.getElementById("matrixBody");
@@ -616,6 +617,7 @@
       var detailHighlightTimeout = 0;
       var developerTapCount = 0;
       var developerTapTimeout = 0;
+      var lastScrollY = window.scrollY || 0;
 
       initialize();
 
@@ -623,6 +625,7 @@
         const initialState = loadState();
         writeStateToForm(initialState);
         setupTooltipPlacement();
+        setupTopActionsVisibility();
         form.addEventListener("input", renderFromForm);
         form.addEventListener("change", renderFromForm);
         resetBtn.addEventListener("click", handleReset);
@@ -636,6 +639,38 @@
           simulationHeaderTitle.addEventListener("click", handleDeveloperTitleClick);
         }
         renderFromForm();
+      }
+
+      function setupTopActionsVisibility() {
+        if (!topActions) {
+          return;
+        }
+
+        updateTopActionsVisibility();
+        window.addEventListener("scroll", handleWindowScroll, { passive: true });
+      }
+
+      function handleWindowScroll() {
+        updateTopActionsVisibility();
+      }
+
+      function updateTopActionsVisibility() {
+        if (!topActions) {
+          return;
+        }
+
+        const currentScrollY = Math.max(window.scrollY || 0, 0);
+        const isNearTop = currentScrollY < 28;
+        const isScrollingDown = currentScrollY > lastScrollY + 6;
+        const isScrollingUp = currentScrollY < lastScrollY - 6;
+
+        if (isNearTop || isScrollingUp) {
+          topActions.classList.remove("is-hidden");
+        } else if (isScrollingDown) {
+          topActions.classList.add("is-hidden");
+        }
+
+        lastScrollY = currentScrollY;
       }
 
       function setupTooltipPlacement() {

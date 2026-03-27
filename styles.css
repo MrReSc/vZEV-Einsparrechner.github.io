@@ -1471,6 +1471,13 @@ body.page-simulation .top-actions {
   flex-wrap: wrap;
   gap: 0.5rem;
   max-width: calc(100% - 2rem);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+body.page-simulation .top-actions.is-hidden {
+  opacity: 0;
+  transform: translateY(-0.7rem);
+  pointer-events: none;
 }
 
 body.page-simulation .quick-link {
