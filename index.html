@@ -301,8 +301,10 @@
       var prevBtn = document.getElementById("prevBtn");
       var nextBtn = document.getElementById("nextBtn");
       var slideIndicator = document.getElementById("slideIndicator");
+      var topActions = document.querySelector(".top-actions");
       var activeIndex = 0;
       var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var lastDeckScrollTop = deck.scrollTop || 0;
 
       function clampIndex(index) {
         if (index < 0) {
@@ -318,6 +320,25 @@
         slideIndicator.textContent = (activeIndex + 1) + " / " + slides.length;
         prevBtn.disabled = activeIndex === 0;
         nextBtn.disabled = activeIndex === slides.length - 1;
+      }
+
+      function updateTopActionsVisibility() {
+        if (!topActions) {
+          return;
+        }
+
+        var currentScrollTop = Math.max(deck.scrollTop || 0, 0);
+        var isNearTop = currentScrollTop < 28;
+        var isScrollingDown = currentScrollTop > lastDeckScrollTop + 6;
+        var isScrollingUp = currentScrollTop < lastDeckScrollTop - 6;
+
+        if (isNearTop || isScrollingUp) {
+          topActions.classList.remove("is-hidden");
+        } else if (isScrollingDown) {
+          topActions.classList.add("is-hidden");
+        }
+
+        lastDeckScrollTop = currentScrollTop;
       }
 
       function goToSlide(index) {
@@ -437,6 +458,7 @@
       });
 
       deck.addEventListener("scroll", function () {
+        updateTopActionsVisibility();
         window.requestAnimationFrame(syncActiveSlideFromViewport);
       }, { passive: true });
 
@@ -446,6 +468,7 @@
         window.requestAnimationFrame(splitSingleLineCardTitles);
       });
 
+      updateTopActionsVisibility();
       updateUi();
     })();
   </script>

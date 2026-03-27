@@ -433,6 +433,8 @@
       const validationStatus = document.getElementById("validationStatus");
       const advancedInputs = document.getElementById("advancedInputs");
       const calcSteps = document.getElementById("calcSteps");
+      const topActions = document.querySelector(".top-actions");
+      let lastScrollY = window.scrollY || 0;
 
       const numericFieldIds = [
         "energyRpKwh",
@@ -467,11 +469,44 @@
         writeStateToForm(initialState);
         renderFromForm();
         setupTooltipPlacement();
+        setupTopActionsVisibility();
 
         form.addEventListener("input", renderFromForm);
         form.addEventListener("change", renderFromForm);
 
         resetBtn.addEventListener("click", handleReset);
+      }
+
+      function setupTopActionsVisibility() {
+        if (!topActions) {
+          return;
+        }
+
+        updateTopActionsVisibility();
+        window.addEventListener("scroll", handleWindowScroll, { passive: true });
+      }
+
+      function handleWindowScroll() {
+        updateTopActionsVisibility();
+      }
+
+      function updateTopActionsVisibility() {
+        if (!topActions) {
+          return;
+        }
+
+        const currentScrollY = Math.max(window.scrollY || 0, 0);
+        const isNearTop = currentScrollY < 28;
+        const isScrollingDown = currentScrollY > lastScrollY + 6;
+        const isScrollingUp = currentScrollY < lastScrollY - 6;
+
+        if (isNearTop || isScrollingUp) {
+          topActions.classList.remove("is-hidden");
+        } else if (isScrollingDown) {
+          topActions.classList.add("is-hidden");
+        }
+
+        lastScrollY = currentScrollY;
       }
 
       function setupTooltipPlacement() {
