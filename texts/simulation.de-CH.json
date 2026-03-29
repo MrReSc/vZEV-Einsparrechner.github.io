@@ -15,7 +15,7 @@
   "inputs": {
     "title": "Parameter",
     "panelSummary": "Parameter anzeigen und anpassen",
-    "quickNote": "Alle Annahmen können bei Bedarf angepasst werden. Die Matrix und die Detailauswertung reagieren sofort auf jede Änderung. Die Standardwerte sind für unsere Siedlung bereits passend vorbelegt. Änderungen sind möglich, sollten aber nur vorgenommen werden, wenn die zugrunde liegenden Annahmen bewusst angepasst werden sollen.",
+    "quickNote": "Alle Annahmen können bei Bedarf angepasst werden. Die Kombinations-Tabelle und die Detailauswertung reagieren sofort auf jede Änderung. Die Standardwerte sind für unsere Siedlung bereits passend vorbelegt. Änderungen sind möglich, sollten aber nur vorgenommen werden, wenn die zugrunde liegenden Annahmen bewusst angepasst werden sollen.",
     "groups": {
       "participants": "Teilnehmer",
       "consumption": "Verbrauch und Nutzung",
@@ -33,7 +33,7 @@
     "maxConsumerCount": {
       "label": "Anzahl reine Bezüger",
       "infoAria": "Info zu Anzahl reine Bezüger",
-      "tooltip": "Gibt an, wie viele reine Strombezüger ohne eigene PV-Anlage im Szenario teilnehmen."
+      "tooltip": "Gibt an, wie viele reine Strombezüger ohne eigene PV-Anlage in dieser Kombination teilnehmen."
     },
     "monthlyKwhPerParticipant": {
       "label": "Durchschnittlicher Verbrauch pro Teilnehmer",
@@ -48,7 +48,7 @@
     "totalPvKw": {
       "label": "Summe PV-Leistung",
       "infoAria": "Info zu Summe PV-Leistung",
-      "tooltip": "Die gesamte installierte PV-Leistung aller möglichen Produzenten zusammen in kWp. In jedem Szenario wird dieser Wert proportional zur gewählten Zahl der Produzenten berücksichtigt."
+      "tooltip": "Die gesamte installierte PV-Leistung aller möglichen Produzenten zusammen in kWp. Bei jeder Kombination wird dieser Wert proportional zur gewählten Zahl der Produzenten berücksichtigt."
     },
     "pvYieldKwhPerKwYear": {
       "label": "Spezifischer PV-Ertrag",
@@ -109,14 +109,14 @@
     "emptyValue": "-",
     "bottomNote": "Diese Berechnung ist eine Orientierung. Die tatsächlichen Kosten hängen von deinem Verbrauch und von der Anzahl Teilnehmer ab.",
     "matrix": {
-      "title": "Szenario wählen",
-      "intro": "Die Matrix zeigt Kombinationen aus Produzenten und reinen Bezügern. Sie zeigt direkt an, ab welcher Teilnehmerkonstellation sich EigenverbrauchMax lohnt. Bitte das gewünschte Feld anklicken, um die Detailauswertung darunter zu sehen.",
+      "title": "Kombination wählen",
+      "intro": "Die Kombinations-Tabelle zeigt Kombinationen aus Produzenten und reinen Bezügern. Sie zeigt direkt an, ab welcher Teilnehmerkonstellation sich EigenverbrauchMax lohnt. Bitte das gewünschte Feld anklicken, um die Detailauswertung darunter zu sehen.",
       "legend": {
         "title": "Legende",
-        "ariaLabel": "Farblegende der Matrix",
+        "ariaLabel": "Farblegende der Kombinations-Tabelle",
         "fair": "EigenverbrauchMax lohnt sich.",
         "critical": "Grenzfall genau prüfen.",
-        "notFair": "Kein tragfähiges Szenario."
+        "notFair": "Keine tragfähige Kombination."
       },
       "cornerLabel": "",
       "producerLabelSingle": "{count} Produzent",
@@ -128,14 +128,14 @@
     },
     "detail": {
       "title": "Detailauswertung",
-      "empty": "Wähle oben ein Szenario in der Matrix. Die Detailauswertung erscheint direkt darunter.",
-      "selectionText": "Ausgewählt ist das Szenario mit {producerCount} Produzenten und {consumerCount} Bezügern.",
+      "empty": "Wähle oben eine Kombination in der Kombinations-Tabelle. Die Detailauswertung erscheint direkt darunter.",
+      "selectionText": "Ausgewählt ist die Kombination mit {producerCount} Produzenten und {consumerCount} Bezügern.",
       "fairHtml": "Beim Mindestpreis von <strong>{minimum} Rp/kWh</strong> hätten alle Teilnehmenden ungefähr denselben Jahresvorteil.",
       "recommendedHtml": "Beim empfohlenen Preis von <strong>{price} Rp/kWh</strong> ergibt sich eine Ersparnis von <strong>{consumerValue}</strong> pro Bezüger und ein Mehrerlös von <strong>{producerValue}</strong> pro Produzent.",
       "noFairHtml": "Es gibt keinen Preis mit gleichem und gleichzeitig positivem Jahresvorteil für beide Seiten. Der Preis am nächsten am Gleichgewicht liegt bei <strong>{closest} Rp/kWh</strong>. Am exakten Gleichgewicht bleibt der gemeinsame Vorteil mit <strong>{gap}</strong> unter null.",
       "chartUnavailable": "Chart.js konnte nicht geladen werden. Die Tabelle unten zeigt die gleichen Werte ohne Grafik.",
       "parameters": {
-        "summary": "Verwendete Werte dieses Szenarios",
+        "summary": "Verwendete Werte dieser Kombination",
         "items": {
           "grossEvuPrice": "Brutto Strompreis",
           "producerCount": "Anzahl Produzenten",
@@ -183,7 +183,7 @@
     "calculation": {
 	      "summary": "Berechnungsschritte",
       "empty": "Bitte zuerst gültige Eingaben machen.",
-      "introHtml": "Die Schritte beziehen sich auf das ausgewählte Szenario mit <strong>{producerCount} Produzenten</strong>, <strong>{consumerCount} Bezügern</strong> und dem Mindestpreis von <strong>{price}</strong>.",
+      "introHtml": "Die Schritte beziehen sich auf die ausgewählte Kombination mit <strong>{producerCount} Produzenten</strong>, <strong>{consumerCount} Bezügern</strong> und dem Mindestpreis von <strong>{price}</strong>.",
       "steps": {
         "activeMonths": {
           "title": "Aktive Monate und Tagesanteil",
@@ -207,7 +207,7 @@
         },
         "pvSupply": {
           "title": "PV-Produktion und Direktverbrauch",
-          "formulaProduction": "PV-Produktion/Jahr = PV-Leistung im Szenario * spezifischer Ertrag",
+          "formulaProduction": "PV-Produktion/Jahr = PV-Leistung in der Kombination * spezifischer Ertrag",
           "formulaAvailable": "Solarangebot in aktiven Monaten = PV-Produktion/Jahr * (aktive Monate / 12)",
           "formulaDirectUse": "Direktverbrauch Produzenten = min(Solarangebot, Produzenten * Verbrauch/Monat * 12 * Tagesanteil-Faktor)",
           "valuesProduction": "PV-Produktion pro Jahr = {totalPvKw} * {pvYieldKwhPerKwYear} = {annualPvProductionKwh}",
@@ -233,7 +233,7 @@
           "title": "Mindestpreis",
           "formula": "Mindestpreis in der Tabelle = nächste Preisstufe zum theoretischen Gleichgewichtspreis",
           "values": "Mindestpreis in der Tabelle = nächste Preisstufe zu {balancePriceRpKwh} = {minimumPriceRpKwh}",
-          "noMinimum": "Es gibt in diesem Szenario keinen Mindestpreis."
+          "noMinimum": "Es gibt für diese Kombination keinen Mindestpreis."
         },
         "minimumImpact": {
           "title": "Angezeigte Werte beim Mindestpreis",
@@ -241,7 +241,7 @@
           "formulaProducer": "Mehrerlös pro Produzent pro Jahr = lokaler Solarstrom pro Produzent * (Mindestpreis - Einspeisevergütung) / 100 - Produzentenkosten pro Jahr",
           "valuesConsumer": "Strompreis inkl. MwSt = {netEvuPriceRpKwh} * {vatFactor} = {grossEvuPriceRpKwh}. Ersparnis pro Bezüger pro Jahr = {localSolarKwhPerConsumer} * (({grossEvuPriceRpKwh} - {minimumPriceRpKwh}) / 100) - {annualConsumerFeeChf} = {consumerDeltaChfYear}",
           "valuesProducer": "Mehrerlös pro Produzent pro Jahr = {localSolarKwhPerProducer} * (({minimumPriceRpKwh} - {feedInRpKwh}) / 100) - {annualProducerFeeChf} = {producerDeltaChfYear}",
-          "noMinimum": "Es gibt keine angezeigten Werte beim Mindestpreis, weil in diesem Szenario kein Mindestpreis vorhanden ist."
+          "noMinimum": "Es gibt keine angezeigten Werte beim Mindestpreis, weil für diese Kombination kein Mindestpreis vorhanden ist."
         },
         "recommendedBand": {
           "title": "Empfohlenes Preisband",
@@ -260,8 +260,8 @@
     "assumptions": {
       "summary": "Annahmen",
       "items": {
-        "item1": "Die PV Leistung gilt für alle möglichen Produzenten zusammen. Im gewählten Szenario wird sie proportional zur Zahl der Produzenten berücksichtigt.",
-        "item2": "Jeder Teilnehmer zahlt die monatliche Grundgebühr nur im EigenverbrauchMax Szenario.",
+        "item1": "Die PV Leistung gilt für alle möglichen Produzenten zusammen. In der gewählten Kombination wird sie proportional zur Zahl der Produzenten berücksichtigt.",
+        "item2": "Jeder Teilnehmer zahlt die monatliche Grundgebühr nur in der EigenverbrauchMax-Kombination.",
         "item3": "Die Kosten für den virtuellen Zähler werden auf alle Teilnehmer verteilt.",
         "item4": "Produzenten nutzen ihren Solarstrom in den Sonnenstunden zuerst selbst.",
         "item5": "Bezüger können nur den übrigen Solarstrom nutzen und nur in den Sonnenstunden. In den Wintermonaten steht dafür kein nutzbarer Solarstrom zur Verfügung.",

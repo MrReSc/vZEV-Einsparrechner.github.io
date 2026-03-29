@@ -614,7 +614,6 @@
       var selectedProducerCount = defaultMatrixSelection.producerCount;
       var selectedConsumerCount = defaultMatrixSelection.consumerCount;
       var detailChart = null;
-      var detailHighlightTimeout = 0;
       var developerTapCount = 0;
       var developerTapTimeout = 0;
       var lastScrollY = window.scrollY || 0;
@@ -1000,17 +999,23 @@
        * @param {number} producerCount
        * @param {number} consumerCount
        */
-      function applyMatrixAxisHighlight(producerCount, consumerCount, emphasizeCell) {
+      function applyMatrixAxisHighlight(producerCount, consumerCount, emphasizeCell, preserveSelection) {
         clearMatrixAxisHighlight();
 
         const rowHeader = matrixBody.querySelector(".simulation-matrix-row-header[data-consumers='" + consumerCount + "']");
         if (rowHeader) {
           rowHeader.classList.add("is-axis-highlight");
+          if (preserveSelection) {
+            rowHeader.classList.add("is-axis-selected");
+          }
         }
 
         const columnHeader = matrixHeaderRow.querySelector(".simulation-matrix-col-header[data-producers='" + producerCount + "']");
         if (columnHeader) {
           columnHeader.classList.add("is-axis-highlight");
+          if (preserveSelection) {
+            columnHeader.classList.add("is-axis-selected");
+          }
         }
 
         const activeCell = matrixBody.querySelector("td[data-producers='" + producerCount + "'][data-consumers='" + consumerCount + "']");
@@ -1020,7 +1025,7 @@
       }
 
       function restoreSelectedMatrixAxisHighlight() {
-        applyMatrixAxisHighlight(selectedProducerCount, selectedConsumerCount, false);
+        applyMatrixAxisHighlight(selectedProducerCount, selectedConsumerCount, false, true);
       }
 
       function clearMatrixAxisHighlight() {
@@ -1028,8 +1033,8 @@
           return;
         }
 
-        matrixTable.querySelectorAll(".is-axis-highlight, .is-axis-focus").forEach(function (element) {
-          element.classList.remove("is-axis-highlight", "is-axis-focus");
+        matrixTable.querySelectorAll(".is-axis-highlight, .is-axis-focus, .is-axis-selected").forEach(function (element) {
+          element.classList.remove("is-axis-highlight", "is-axis-focus", "is-axis-selected");
         });
       }
 
@@ -1784,7 +1789,6 @@
         selectedProducerCount = producerCount;
         selectedConsumerCount = consumerCount;
         renderFromForm();
-        highlightDetailPanel();
         scrollDetailPanelIntoView();
       }
 
@@ -2021,24 +2025,6 @@
        */
       function roundToFiveRappen(value) {
         return Math.round((value + Number.EPSILON) * 20) / 20;
-      }
-
-      function highlightDetailPanel() {
-        if (!detailPanel) {
-          return;
-        }
-
-        if (detailHighlightTimeout) {
-          window.clearTimeout(detailHighlightTimeout);
-        }
-
-        detailPanel.classList.remove("is-highlighted");
-        void detailPanel.offsetWidth;
-        detailPanel.classList.add("is-highlighted");
-        detailHighlightTimeout = window.setTimeout(function () {
-          detailPanel.classList.remove("is-highlighted");
-          detailHighlightTimeout = 0;
-        }, 1200);
       }
 
       function scrollDetailPanelIntoView() {
