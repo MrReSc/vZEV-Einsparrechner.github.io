@@ -78,7 +78,7 @@
         },
         "card3": {
           "title": "Alle Kosten auf einen Blick",
-          "body1": "Einmalige Einrichtungspauschale 490 CHF, bezahlt von den Solaranlagenbetreibern.",
+          "body1": "Die einmalige Einrichtungspauschale beträgt 490 CHF und wird von den Solaranlagenbetreibern übernommen.",
           "body2": "Mutationspauschale 60 CHF pro nachträgliche Anpassung.",
           "body3": "Monatliche Kostenabrechnung Solarstrom 3 CHF pro Haushalt.",
           "chip": "Fair und transparent"
@@ -89,7 +89,7 @@
     "slide4": {
       "ariaLabel": "Slide 4 von 4",
       "hero": {
-        "title": "Der Solarstrompreis hängt von der Situation ab",
+        "title": "Was den Solarstrompreis bestimmt",
         "subtitle": "Da EigenverbrauchMax einige Fixkosten hat und der Stromverbrauch gut zur Produktion passen muss, bestimmen wir den Strompreis rechnerisch."
       },
       "cards": {
